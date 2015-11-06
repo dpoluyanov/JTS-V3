@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/jts-v3.iml" filepath="$PROJECT_DIR$/jts-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/loginserver/loginserver.iml" filepath="$PROJECT_DIR$/loginserver/loginserver.iml" />
+    </modules>
+  </component>
+</project>

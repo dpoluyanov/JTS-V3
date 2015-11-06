@@ -1,0 +1,50 @@
+apply plugin: 'scala'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/scala']
+        }
+    }
+    test {
+        scala {
+            srcDirs = ['src/test/scala']
+        }
+    }
+}
+
+dependencies {
+    // scala
+    compile("org.scala-lang:scala-library:${scalaVersion}")
+    compile("org.scala-lang:scala-compiler:${scalaVersion}")
+
+    // akka
+    compile("com.typesafe.akka:akka-actor_2.11:${akkaVersion}")
+    compile("com.typesafe.akka:akka-slf4j_2.11:${akkaVersion}")
+    compile("com.typesafe.akka:akka-remote_2.11:${akkaVersion}")
+
+    // Spring
+    compile('org.psnively:spring_scala_4-2-0_2.11:+')
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    compile('org.springframework.boot:spring-boot-starter-remote-shell')
+}
+
+dependencies {
+    testRuntime('org.hsqldb:hsqldb')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+jar {
+    baseName = 'photoserver'
+}
+
+compileScala {
+    scalaCompileOptions.useCompileDaemon = true
+
+    scalaCompileOptions.daemonServer = "localhost:4243"
+    scalaCompileOptions.useAnt = false
+}
