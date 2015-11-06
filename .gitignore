@@ -35,9 +35,13 @@ project/plugins/project/
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
+.idea/misc.xml.xml
+.idea/modules.xml.xml
 .idea/workspace.xml
+.idea/vcs.xml.xml
 .idea/tasks.xml
 .idea/dictionaries
+.idea/copyright
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
