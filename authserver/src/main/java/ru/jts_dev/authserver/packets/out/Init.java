@@ -1,10 +1,12 @@
-package ru.jts_dev.authserver.packets;
+package ru.jts_dev.authserver.packets.out;
+
+import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
 
 /**
  * @author Camelion
  * @since 30.11.15
  */
-public class Init extends MessageWrapper {
+public class Init extends OutgoingMessageWrapper {
     private int sessionId;
     private byte[] scrambledRSAKey;
     private byte[] blowfishKey;

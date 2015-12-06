@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.authserver.model.SessionKeys;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.security.KeyPairGenerator;
 import java.util.Map;
 import java.util.Random;
@@ -47,9 +48,33 @@ public class Encoder {
 
     private Map<String, SessionKeys> connectionKeys = new ConcurrentHashMap<>();
 
+    public ByteBuf validateChecksum(ByteBuf buf) {
+        if (buf.readableBytes() % 4 != 0 || buf.readableBytes() <= 4) {
+            throw new IndexOutOfBoundsException("ByteBuf size must be multiply of 4 and more, that 4");
+        }
+
+        long checksum = 0;
+        long check;
+        int i;
+
+        for (i = 0; i < buf.readableBytes() - 4; i += 4) {
+            check = buf.getInt(i);
+
+            checksum ^= check;
+        }
+
+        check = buf.getInt(i);
+
+        if (check != checksum) {
+            throw new InvalidParameterException("Wrong checksum");
+        }
+
+        return buf.copy(0, buf.readableBytes() - 4);
+    }
+
     public ByteBuf appendChecksum(ByteBuf buf) {
         if (buf.readableBytes() % 4 != 0) {
-            throw new IndexOutOfBoundsException("ByteBuf size must be multiply by 4");
+            throw new IndexOutOfBoundsException("ByteBuf size must be multiply of 4");
         }
         int checksum = 0;
         for (int i = 0; i < buf.readableBytes(); i += 4) {
@@ -63,12 +88,12 @@ public class Encoder {
 
     public ByteBuf encWithXor(ByteBuf buf) {
         if (buf.readableBytes() % 4 != 0) {
-            throw new IndexOutOfBoundsException("ByteBuf size must be multiply by 4");
+            throw new IndexOutOfBoundsException("ByteBuf size must be multiply of 4");
         }
         int edx;
         int ecx = 0; // Initial xor key
 
-        for (int pos = 0; pos < buf.readableBytes(); pos += 4) {
+        for (int pos = 4; pos < buf.readableBytes(); pos += 4) {
             edx = buf.getInt(pos);
 
             ecx += edx;
@@ -76,6 +101,7 @@ public class Encoder {
 
             buf.setInt(pos, edx);
         }
+        buf.writeInt(ecx);
         return buf;
     }
 
@@ -111,7 +137,7 @@ public class Encoder {
     }
 
     @Transformer
-    public byte[] encrypt(byte[] data, @Header(STATIC_KEY_HEADER) boolean static_key) throws IOException {
+    public byte[] encrypt(byte[] data, @Header(IpHeaders.CONNECTION_ID) String connectionId, @Header(STATIC_KEY_HEADER) boolean static_key) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
             throw new IndexOutOfBoundsException("data.length must be myltiply of 8");
 
@@ -119,7 +145,12 @@ public class Encoder {
         if (static_key) {
             blowfishEngine.init(true, STATIC_BLOWFISH_KEY);
         } else {
-            blowfishEngine.init(true, STATIC_BLOWFISH_KEY);
+            SessionKeys sessionKeys = getKeysFor(connectionId);
+
+            if (sessionKeys == null)
+                throw new NullPointerException("sessionKeys is null for " + connectionId);
+
+            blowfishEngine.init(true, sessionKeys.getBlowfishKey());
         }
 
         for (int i = 0; i < data.length; i += BLOWFISH_BLOCK_SIZE) {

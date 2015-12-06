@@ -20,12 +20,16 @@ import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionF
 import org.springframework.messaging.MessageChannel;
 import ru.jts_dev.authserver.config.tcp.ProtocolByteArrayLengthHeaderSerializer;
 import ru.jts_dev.authserver.model.SessionKeys;
-import ru.jts_dev.authserver.packets.Init;
-import ru.jts_dev.authserver.packets.MessageWrapper;
+import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
+import ru.jts_dev.authserver.packets.LoginClientPacketHandler;
+import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
+import ru.jts_dev.authserver.packets.out.Init;
 import ru.jts_dev.authserver.util.Encoder;
 
+import java.nio.ByteOrder;
 import java.security.interfaces.RSAPublicKey;
 
+import static io.netty.buffer.Unpooled.wrappedBuffer;
 import static java.util.Collections.singletonMap;
 import static ru.jts_dev.authserver.config.KeyGenerationConfig.scrambleModulus;
 import static ru.jts_dev.authserver.util.Encoder.STATIC_KEY_HEADER;
@@ -41,6 +45,8 @@ public class IntegrationConfig {
 
     @Autowired
     private Encoder encoder;
+    @Autowired
+    private LoginClientPacketHandler clientPacketHandler;
 
     /**
      * Server connection factory, for game client connections.
@@ -108,6 +114,11 @@ public class IntegrationConfig {
         return new PublishSubscribeChannel();
     }
 
+    @Bean
+    public MessageChannel incomingPacketExecutorChannel() {
+        return new PublishSubscribeChannel();
+    }
+
     /**
      * Event listener for {@link TcpConnectionEvent}.
      * Event receives when new connection accepted.
@@ -123,7 +134,7 @@ public class IntegrationConfig {
         byte[] blowfishKey = sessionKeys.getBlowfishKey();
 
         // TODO: 04.12.15 sessionId++ is possible Integer overflow bug
-        MessageWrapper msg = new Init(sessionId++, scrambledModulus, blowfishKey);
+        OutgoingMessageWrapper msg = new Init(++sessionId, scrambledModulus, blowfishKey);
         msg.getHeaders().put(IpHeaders.CONNECTION_ID, event.getConnectionId());
 
         messageOutputChannel().send(msg);
@@ -138,23 +149,25 @@ public class IntegrationConfig {
     public IntegrationFlow sendFlow() {
         return IntegrationFlows
                 .from(messageOutputChannel())
-                .transform(MessageWrapper.class, msg -> {
+                .transform(OutgoingMessageWrapper.class, msg -> {
                     msg.write();
                     return msg;
                 })
-                .transform(MessageWrapper.class, msg -> {
+                .transform(OutgoingMessageWrapper.class, msg -> {
                     encoder.appendPadding(msg.getPayload());
                     return msg;
                 })
-                .route(MessageWrapper.class, msg -> msg instanceof Init,
+                .route(OutgoingMessageWrapper.class, msg -> msg instanceof Init,
                         invoker -> invoker
                                 .subFlowMapping("true",
                                         sf -> sf.transform(Init.class,
                                                 i -> encoder.encWithXor(i.getPayload()))
                                                 .enrichHeaders(singletonMap(STATIC_KEY_HEADER, true)))
                                 .subFlowMapping("false",
-                                        sf -> sf.transform(MessageWrapper.class,
-                                                msg -> encoder.appendChecksum(msg.getPayload()))))
+                                        sf -> sf.transform(OutgoingMessageWrapper.class,
+                                                OutgoingMessageWrapper::getPayload)))
+                .transform(ByteBuf.class, buf -> encoder.appendChecksum(buf))
+                .transform(ByteBuf.class, buf -> encoder.appendPadding(buf))
                 .transform(ByteBuf.class, buf -> {
                     byte[] data = new byte[buf.readableBytes()];
                     buf.readBytes(data);
@@ -166,13 +179,26 @@ public class IntegrationConfig {
                 .get();
     }
 
+    /**
+     * Ingoing message flow
+     *
+     * @return - complete message transformation flow
+     */
     @Bean
     public IntegrationFlow recvFlow() {
         return IntegrationFlows
                 .from(tcpInputChannel())
-                // uncrypt
-                // handle
                 .transform(encoder, "decrypt")
+                .transform(byte[].class, b -> wrappedBuffer(b).order(ByteOrder.LITTLE_ENDIAN))
+                .transform(ByteBuf.class, b -> encoder.validateChecksum(b))
+                .<ByteBuf, IncomingMessageWrapper>transform(t -> clientPacketHandler.handle(t))
+                .channel(incomingPacketExecutorChannel())
                 .get();
+    }
+
+    @ServiceActivator(inputChannel = "incomingPacketExecutorChannel")
+    public void executePacket(IncomingMessageWrapper msg) {
+        msg.prepare();
+        msg.run();
     }
 }
