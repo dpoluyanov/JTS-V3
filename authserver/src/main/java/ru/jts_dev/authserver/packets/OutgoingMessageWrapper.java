@@ -14,12 +14,12 @@ import static io.netty.buffer.Unpooled.buffer;
  * @since 30.11.15
  */
 public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
-    private final MessageHeaders headers;
     private final ByteBuf buffer;
+    private final MessageHeaders headers;
 
     public OutgoingMessageWrapper() {
-        headers = new MutableMessageHeaders(null);
         buffer = buffer().order(ByteOrder.LITTLE_ENDIAN);
+        headers = new MutableMessageHeaders(null);
     }
 
     @Override

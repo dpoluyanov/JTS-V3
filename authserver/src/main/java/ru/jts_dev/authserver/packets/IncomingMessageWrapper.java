@@ -1,20 +1,15 @@
 package ru.jts_dev.authserver.packets;
 
 import io.netty.buffer.ByteBuf;
-import org.springframework.context.annotation.Scope;
+import org.springframework.integration.ip.IpHeaders;
 import org.springframework.integration.support.MutableMessageHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.stereotype.Component;
-
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 /**
  * @author Camelion
  * @since 06.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
-@Component
 public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnable {
     private final MessageHeaders headers;
     private ByteBuf buffer;
@@ -42,10 +37,35 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
      */
     public abstract void prepare();
 
+
+    public int readByte() {
+        if (buffer.readableBytes() < Byte.BYTES)
+            throw new IndexOutOfBoundsException("At least 1 byte1 must be readable in buffer");
+
+        return buffer.readByte();
+    }
+
     public int readInt() {
-        if (buffer.readableBytes() < 4)
-            throw new IndexOutOfBoundsException("At lesat 4 bytes must be readble in buffer");
+        if (buffer.readableBytes() < Integer.BYTES)
+            throw new IndexOutOfBoundsException("At least 4 bytes must be readable in buffer");
 
         return buffer.readInt();
+    }
+
+
+    public byte[] readBytes(int length) {
+        if (buffer.readableBytes() < length)
+            throw new IndexOutOfBoundsException("At least 4 bytes must be readable in buffer");
+
+        byte[] data = new byte[length];
+        buffer.readBytes(data);
+
+        return data;
+    }
+
+    public String getConnectionId() {
+        if (!getHeaders().containsKey(IpHeaders.CONNECTION_ID))
+            throw new RuntimeException("connectionId header not present in headers");
+        return (String) getHeaders().get(IpHeaders.CONNECTION_ID);
     }
 }
