@@ -2,27 +2,15 @@ package ru.jts_dev.authserver.util;
 
 import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.event.EventListener;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.ip.IpHeaders;
-import org.springframework.integration.ip.tcp.connection.TcpConnectionCloseEvent;
-import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.model.SessionKeys;
+import ru.jts_dev.authserver.controller.SessionService;
+import ru.jts_dev.authserver.model.GameSession;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.security.KeyPairGenerator;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 /**
  * @author Camelion
@@ -37,16 +25,11 @@ public class Encoder {
             (byte) 0x6c, (byte) 0x6c, (byte) 0x6c, (byte) 0x6c
     };
     public static final String STATIC_KEY_HEADER = "static_key";
+    public static final int BLOWFISH_KEY_SIZE = 16;
     private static final int BLOWFISH_BLOCK_SIZE = 8;
-    private static final int BLOWFISH_KEY_SIZE = 16;
 
     @Autowired
-    private Random random;
-
-    @Autowired
-    private KeyPairGenerator keyPairGenerator;
-
-    private Map<String, SessionKeys> connectionKeys = new ConcurrentHashMap<>();
+    private SessionService sessionService;
 
     public ByteBuf validateChecksum(ByteBuf buf) {
         if (buf.readableBytes() % 4 != 0 || buf.readableBytes() <= 4) {
@@ -113,44 +96,23 @@ public class Encoder {
         return buf;
     }
 
-    public SessionKeys getKeysFor(String connectionId) {
-        return connectionKeys.get(connectionId);
-    }
-
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    @EventListener
-    public void tcpConnectionEventListener(TcpConnectionEvent event) {
-        connectionKeys.put(event.getConnectionId(), sessionKeys());
-    }
-
-    @EventListener
-    public void tcpConnectionEventListener(TcpConnectionCloseEvent event) {
-        connectionKeys.remove(event.getConnectionId());
-    }
-
-    @Scope(SCOPE_PROTOTYPE)
-    @Bean
-    public SessionKeys sessionKeys() {
-        byte[] key = new byte[BLOWFISH_KEY_SIZE];
-        random.nextBytes(key);
-        return new SessionKeys(keyPairGenerator.generateKeyPair(), key);
-    }
-
     @Transformer
-    public byte[] encrypt(byte[] data, @Header(IpHeaders.CONNECTION_ID) String connectionId, @Header(STATIC_KEY_HEADER) boolean static_key) throws IOException {
+    public byte[] encrypt(byte[] data, @Header(IpHeaders.CONNECTION_ID) String connectionId,
+                          // TODO: 08.12.15 spring integration bug with ingoring defaultValue in header
+                          @Header(value = STATIC_KEY_HEADER, required = false) String static_key) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
-            throw new IndexOutOfBoundsException("data.length must be myltiply of 8");
+            throw new IndexOutOfBoundsException("data.length must be multiply of 8");
 
         BlowfishEngine blowfishEngine = new BlowfishEngine();
-        if (static_key) {
+        if (static_key != null && static_key.equals("true")) {
             blowfishEngine.init(true, STATIC_BLOWFISH_KEY);
         } else {
-            SessionKeys sessionKeys = getKeysFor(connectionId);
+            GameSession gameSession = sessionService.getSessionBy(connectionId);
 
-            if (sessionKeys == null)
-                throw new NullPointerException("sessionKeys is null for " + connectionId);
+            if (gameSession == null)
+                throw new NullPointerException("gameSession is null for " + connectionId);
 
-            blowfishEngine.init(true, sessionKeys.getBlowfishKey());
+            blowfishEngine.init(true, gameSession.getBlowfishKey());
         }
 
         for (int i = 0; i < data.length; i += BLOWFISH_BLOCK_SIZE) {
@@ -165,13 +127,10 @@ public class Encoder {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
             throw new IndexOutOfBoundsException("data.length must be myltiply of 8");
 
-        SessionKeys sessionKeys = getKeysFor(connectionId);
-
-        if (sessionKeys == null)
-            throw new NullPointerException("sessionKeys is null for " + connectionId);
+        GameSession gameSession = sessionService.getSessionBy(connectionId);
 
         BlowfishEngine blowfishEngine = new BlowfishEngine();
-        blowfishEngine.init(false, sessionKeys.getBlowfishKey());
+        blowfishEngine.init(false, gameSession.getBlowfishKey());
 
         for (int i = 0; i < data.length; i += BLOWFISH_BLOCK_SIZE) {
             blowfishEngine.processBlock(data, i, data, i);

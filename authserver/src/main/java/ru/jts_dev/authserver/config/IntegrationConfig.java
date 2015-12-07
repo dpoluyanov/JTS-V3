@@ -1,6 +1,8 @@
 package ru.jts_dev.authserver.config;
 
 import io.netty.buffer.ByteBuf;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +10,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.ExecutorChannel;
 import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
@@ -19,7 +22,8 @@ import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionFactory;
 import org.springframework.messaging.MessageChannel;
 import ru.jts_dev.authserver.config.tcp.ProtocolByteArrayLengthHeaderSerializer;
-import ru.jts_dev.authserver.model.SessionKeys;
+import ru.jts_dev.authserver.controller.SessionService;
+import ru.jts_dev.authserver.model.GameSession;
 import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.LoginClientPacketHandler;
 import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
@@ -28,6 +32,7 @@ import ru.jts_dev.authserver.util.Encoder;
 
 import java.nio.ByteOrder;
 import java.security.interfaces.RSAPublicKey;
+import java.util.concurrent.Executors;
 
 import static io.netty.buffer.Unpooled.wrappedBuffer;
 import static java.util.Collections.singletonMap;
@@ -41,12 +46,13 @@ import static ru.jts_dev.authserver.util.Encoder.STATIC_KEY_HEADER;
 @Configuration
 @IntegrationComponentScan
 public class IntegrationConfig {
-    private volatile int sessionId = 0;
-
+    private static final Logger log = LoggerFactory.getLogger(IntegrationConfig.class);
     @Autowired
     private Encoder encoder;
     @Autowired
     private LoginClientPacketHandler clientPacketHandler;
+    @Autowired
+    private SessionService sessionService;
 
     /**
      * Server connection factory, for game client connections.
@@ -100,7 +106,7 @@ public class IntegrationConfig {
      * @return - channel
      */
     @Bean
-    public MessageChannel messageOutputChannel() {
+    public MessageChannel packetChannel() {
         return new DirectChannel();
     }
 
@@ -116,7 +122,8 @@ public class IntegrationConfig {
 
     @Bean
     public MessageChannel incomingPacketExecutorChannel() {
-        return new PublishSubscribeChannel();
+        // TODO: 07.12.15 investigate, may be should replace with spring TaskExecutor
+        return new ExecutorChannel(Executors.newCachedThreadPool());
     }
 
     /**
@@ -129,15 +136,14 @@ public class IntegrationConfig {
     public void tcpConnectionEventListener(TcpConnectionEvent event) {
         String connectionId = event.getConnectionId();
 
-        SessionKeys sessionKeys = encoder.getKeysFor(connectionId);
-        byte[] scrambledModulus = scrambleModulus(((RSAPublicKey) sessionKeys.getRSAKeyPair().getPublic()).getModulus());
-        byte[] blowfishKey = sessionKeys.getBlowfishKey();
+        GameSession gameSession = sessionService.getSessionBy(connectionId);
+        byte[] scrambledModulus = scrambleModulus(((RSAPublicKey) gameSession.getRSAKeyPair().getPublic()).getModulus());
+        byte[] blowfishKey = gameSession.getBlowfishKey();
 
-        // TODO: 04.12.15 sessionId++ is possible Integer overflow bug
-        OutgoingMessageWrapper msg = new Init(++sessionId, scrambledModulus, blowfishKey);
+        OutgoingMessageWrapper msg = new Init(gameSession.getSessionId(), scrambledModulus, blowfishKey);
         msg.getHeaders().put(IpHeaders.CONNECTION_ID, event.getConnectionId());
 
-        messageOutputChannel().send(msg);
+        packetChannel().send(msg);
     }
 
     /**
@@ -148,7 +154,7 @@ public class IntegrationConfig {
     @Bean
     public IntegrationFlow sendFlow() {
         return IntegrationFlows
-                .from(messageOutputChannel())
+                .from(packetChannel())
                 .transform(OutgoingMessageWrapper.class, msg -> {
                     msg.write();
                     return msg;
@@ -191,7 +197,7 @@ public class IntegrationConfig {
                 .transform(encoder, "decrypt")
                 .transform(byte[].class, b -> wrappedBuffer(b).order(ByteOrder.LITTLE_ENDIAN))
                 .transform(ByteBuf.class, b -> encoder.validateChecksum(b))
-                .<ByteBuf, IncomingMessageWrapper>transform(t -> clientPacketHandler.handle(t))
+                .transform(clientPacketHandler, "handle")
                 .channel(incomingPacketExecutorChannel())
                 .get();
     }
@@ -200,5 +206,22 @@ public class IntegrationConfig {
     public void executePacket(IncomingMessageWrapper msg) {
         msg.prepare();
         msg.run();
+
+        if (msg.getPayload().readableBytes() > 0) {
+            final StringBuilder leftStr = new StringBuilder("[");
+            msg.getPayload().forEachByte(
+                    msg.getPayload().readerIndex(),
+                    msg.getPayload().readableBytes(),
+                    b -> {
+                        leftStr.append(" ");
+                        leftStr.append(String.format("%02X", b));
+                        return true;
+                    });
+            leftStr.append(" ]");
+
+            log.debug(msg.getPayload().readableBytes() + " byte(s) left in "
+                    + msg.getClass().getSimpleName() + " buffer: "
+                    + leftStr.toString());
+        }
     }
 }
