@@ -9,10 +9,12 @@ import ru.jts_dev.authserver.controller.SessionService;
 import ru.jts_dev.authserver.model.Account;
 import ru.jts_dev.authserver.model.GameSession;
 import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
+import ru.jts_dev.authserver.packets.out.LoginOk;
 import ru.jts_dev.authserver.repositories.AccountRepository;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
@@ -31,6 +33,9 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
 
     @Autowired
     private AccountRepository repository;
+
+    @Autowired
+    private Random random;
 
     @Value("${authserver.accounts.autocreate}")
     private boolean accountsAutocreate;
@@ -62,11 +67,14 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
         if (!repository.exists(login)) {
             if (accountsAutocreate)
                 repository.save(new Account(login, passwordEncoder.encode(password)));
-            throw new RuntimeException("Account with login '" + login + "' not found in database");
+            else
+                throw new RuntimeException("Account with login '" + login + "' not found in database");
         }
         Account account = repository.findOne(login);
 
         if (!passwordEncoder.matches(password, account.getPasswordHash()))
             throw new RuntimeException("Password don't match for account '" + login + "'");
+
+        session.send(new LoginOk(random.nextInt(), random.nextInt()));
     }
 }
