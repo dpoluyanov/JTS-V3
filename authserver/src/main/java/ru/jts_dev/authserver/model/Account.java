@@ -3,7 +3,6 @@ package ru.jts_dev.authserver.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * @author Camelion
@@ -20,6 +19,9 @@ public class Account {
     public Account(String login, String passwordHash) {
         this.login = login;
         this.passwordHash = passwordHash;
+    }
+
+    private Account() {
     }
 
     public String getLogin() {
