@@ -1,4 +1,4 @@
-package ru.jts_dev.authserver.controller;
+package ru.jts_dev.authserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -46,7 +46,8 @@ public class SessionService {
         byte[] key = new byte[Encoder.BLOWFISH_KEY_SIZE];
         random.nextBytes(key);
         // TODO: 04.12.15 ++sessionId is possible Integer overflow bug
-        return context.getBean(GameSession.class, connectionId, ++sessionId, keyPairGenerator.generateKeyPair(), key);
+        return context.getBean(GameSession.class, connectionId, ++sessionId, keyPairGenerator.generateKeyPair(), key,
+                random.nextInt(), random.nextInt());
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)

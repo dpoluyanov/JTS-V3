@@ -22,7 +22,7 @@ import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionFactory;
 import org.springframework.messaging.MessageChannel;
 import ru.jts_dev.authserver.config.tcp.ProtocolByteArrayLengthHeaderSerializer;
-import ru.jts_dev.authserver.controller.SessionService;
+import ru.jts_dev.authserver.service.SessionService;
 import ru.jts_dev.authserver.model.GameSession;
 import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.LoginClientPacketHandler;

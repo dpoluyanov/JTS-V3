@@ -3,7 +3,7 @@ package ru.jts_dev.authserver.packets.in;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.controller.SessionService;
+import ru.jts_dev.authserver.service.SessionService;
 import ru.jts_dev.authserver.model.GameSession;
 import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.out.GGAuth;

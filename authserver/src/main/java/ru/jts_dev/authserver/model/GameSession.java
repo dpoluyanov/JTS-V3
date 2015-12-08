@@ -21,16 +21,20 @@ public class GameSession {
     public final KeyPair RSAKeyPair;
     private final byte[] blowfishKey;
     private final int sessionId;
+    private final int loginKey1;
+    private final int loginKey2;
     private String connectionId;
-
     @Autowired
     private MessageChannel packetChannel;
 
-    public GameSession(String connectionId, int sessionId, KeyPair RSAKeyPair, byte[] blowfishKey) {
+    public GameSession(String connectionId, int sessionId, KeyPair RSAKeyPair, byte[] blowfishKey,
+                       int loginKey1, int loginKey2) {
         this.connectionId = connectionId;
         this.sessionId = sessionId;
         this.RSAKeyPair = RSAKeyPair;
         this.blowfishKey = blowfishKey;
+        this.loginKey1 = loginKey1;
+        this.loginKey2 = loginKey2;
     }
 
     public KeyPair getRSAKeyPair() {
@@ -48,5 +52,13 @@ public class GameSession {
     public void send(OutgoingMessageWrapper msg) {
         msg.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
         packetChannel.send(msg);
+    }
+
+    public int getLoginKey2() {
+        return loginKey2;
+    }
+
+    public int getLoginKey1() {
+        return loginKey1;
     }
 }

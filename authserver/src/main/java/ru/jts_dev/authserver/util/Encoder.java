@@ -6,7 +6,7 @@ import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.ip.IpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.controller.SessionService;
+import ru.jts_dev.authserver.service.SessionService;
 import ru.jts_dev.authserver.model.GameSession;
 
 import java.io.IOException;
