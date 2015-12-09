@@ -14,7 +14,7 @@ import org.springframework.jms.core.JmsTemplate;
  */
 @EnableJms
 @SpringBootApplication
-public class GameServerApplication implements ApplicationRunner{
+public class GameServerApplication implements ApplicationRunner {
 
     @Autowired
     private JmsTemplate jmsTemplate;
@@ -25,6 +25,6 @@ public class GameServerApplication implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        jmsTemplate.convertAndSend("gameserversQueue", "Hello!");
+        jmsTemplate.convertAndSend("gameServersQueue", "Hello!");
     }
 }

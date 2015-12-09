@@ -1,29 +1,36 @@
 package ru.jts_dev.authserver.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
-import ru.jts_dev.authserver.model.GameServerSession;
+import ru.jts_dev.common.messaging.GameServerInfo;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Camelion
  * @since 09.12.15
  */
+@Lazy
 @Service
 public class GameServerService {
-    private List<GameServerSession> gameServers = new ArrayList<>();
+    private static final Logger log = LoggerFactory.getLogger(GameServerService.class);
+    private Set<GameServerInfo> gameServers = new HashSet<>();
 
-    public List<GameServerSession> getGameServers() {
-        return Collections.unmodifiableList(gameServers);
+    public Set<GameServerInfo> getGameServers() {
+        return Collections.unmodifiableSet(gameServers);
     }
 
-    @JmsListener(destination = "gameserversQueue")
-    public void processHello(String message) {
-        System.out.println(message);
+    @JmsListener(destination = "gameServersQueue")
+    public void processGameServerInfo(GameServerInfo gameServerInfo) {
+        if (!gameServers.contains(gameServerInfo))
+            log.info("Connected new GameServer with id: "
+                    + gameServerInfo.getServerId() + " from: " + gameServerInfo.getAddress());
+
+        gameServers.add(gameServerInfo);
     }
 }

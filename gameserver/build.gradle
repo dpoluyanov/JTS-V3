@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    compile project(":common")
+
     // Spring
     //compile('org.springframework.boot:spring-boot-starter-actuator')
     //compile('org.springframework.boot:spring-boot-actuator-docs')

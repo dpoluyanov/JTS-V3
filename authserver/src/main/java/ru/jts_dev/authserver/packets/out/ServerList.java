@@ -1,18 +1,19 @@
 package ru.jts_dev.authserver.packets.out;
 
-import ru.jts_dev.authserver.model.GameServerSession;
 import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
+import ru.jts_dev.common.messaging.GameServerInfo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Camelion
  * @since 09.12.15
  */
 public class ServerList extends OutgoingMessageWrapper {
-    private final List<GameServerSession> gameServers;
+    private final Set<GameServerInfo> gameServers;
 
-    public ServerList(List<GameServerSession> gameServers) {
+    public ServerList(Set<GameServerInfo> gameServers) {
         this.gameServers = gameServers;
     }
 
@@ -22,12 +23,12 @@ public class ServerList extends OutgoingMessageWrapper {
         putByte(gameServers.size() % Byte.MAX_VALUE);
         putByte(0x00); // TODO: 09.12.15 Last Server
 
-        for (GameServerSession server : gameServers) {
+        for (GameServerInfo server : gameServers) {
             putByte(server.getServerId());
             putBytes(server.getAddress().getAddress());
             putInt(server.getPort());
             putByte(server.isAgeLimit());
-            putByte(server.isPvP());
+            putByte(server.isPvp());
             putShort(server.getOnlinePlayers());
             putShort(server.getMaxPlayers());
             putByte(server.isEnabled());
