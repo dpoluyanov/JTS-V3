@@ -10,7 +10,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 jar {
-    baseName = 'authserver'
+    baseName = 'gameserver'
     version = "${version}"
 }
 
@@ -21,7 +21,7 @@ repositories {
 dependencies {
     // Spring
     //compile('org.springframework.boot:spring-boot-starter-actuator')
-    // compile('org.springframework.boot:spring-boot-actuator-docs')
+    //compile('org.springframework.boot:spring-boot-actuator-docs')
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -34,9 +34,9 @@ dependencies {
     //compile('org.springframework.boot:spring-boot-starter-validation')
 
     compile('org.springframework.boot:spring-boot-starter-artemis')
-    compile('org.apache.activemq:artemis-jms-server:1.1.0')
 
     runtime('org.hsqldb:hsqldb')
+
     runtime('mysql:mysql-connector-java')
 
     optional("org.springframework.boot:spring-boot-configuration-processor")
