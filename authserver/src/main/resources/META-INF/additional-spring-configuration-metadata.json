@@ -5,6 +5,12 @@
       "type": "java.lang.Boolean",
       "description": "Description for authserver.accounts.autocreate.",
       "defaultValue": "false"
+    },
+    {
+      "name": "authserver.gameserver.embedded",
+      "type": "java.lang.Boolean",
+      "description": "Description for authserver.gameserver.embedded.",
+      "defaultValue": "true"
     }
   ]
 }

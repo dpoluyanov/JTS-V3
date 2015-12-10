@@ -1,4 +1,4 @@
-package ru.jts_dev.common.messaging;
+package ru.jts_dev.gameserver.messaging;
 
 import java.net.InetAddress;
 import java.util.Objects;

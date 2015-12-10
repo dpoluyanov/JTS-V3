@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
-import ru.jts_dev.common.messaging.GameServerInfo;
+import ru.jts_dev.gameserver.messaging.GameServerInfo;
 
 import java.util.Collections;
 import java.util.HashSet;
