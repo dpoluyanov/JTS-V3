@@ -1,7 +1,7 @@
 package ru.jts_dev.authserver.packets.out;
 
 import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
-import ru.jts_dev.gameserver.messaging.GameServerInfo;
+import ru.jts_dev.common.messaging.GameServerInfo;
 
 import java.util.Set;
 

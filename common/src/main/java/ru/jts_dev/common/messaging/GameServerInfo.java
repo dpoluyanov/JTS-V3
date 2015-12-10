@@ -1,5 +1,6 @@
-package ru.jts_dev.gameserver.messaging;
+package ru.jts_dev.common.messaging;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
  * @since 09.12.15
  */
 // TODO: 09.12.15 move to Spring Configuration and send from game server
-public class GameServerInfo {
+public class GameServerInfo implements Serializable {
     private final int serverId;
     private final InetAddress address;
     private final int port;

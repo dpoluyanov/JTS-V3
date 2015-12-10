@@ -1,10 +1,9 @@
 {
   "properties": [
     {
-      "name": "authserver.accounts.autocreate",
-      "type": "java.lang.Boolean",
-      "description": "Description for authserver.accounts.autocreate.",
-      "defaultValue": "false"
+      "name": "gameserver.id",
+      "type": "java.lang.Byte",
+      "description": "Description for gameserver.id."
     }
   ]
 }

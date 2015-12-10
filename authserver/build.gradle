@@ -19,7 +19,8 @@ repositories {
 }
 
 dependencies {
-    compile project(":gameserver")
+    compile project(":common")
+    runtime project(":gameserver")
 
     // Spring
     //compile('org.springframework.boot:spring-boot-starter-actuator')
