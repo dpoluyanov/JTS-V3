@@ -5,13 +5,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.jts_dev.authserver.service.SessionService;
 import ru.jts_dev.authserver.util.Encoder;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import static io.netty.buffer.Unpooled.buffer;
@@ -23,7 +21,12 @@ import static org.hamcrest.Matchers.not;
  * @author Camelion
  * @since 02.12.15
  */
-@ContextConfiguration(classes = {Encoder.class, UtilsConfig.class})
+@ContextConfiguration(classes = {
+        Encoder.class,
+        UtilsConfig.class,
+        SessionService.class,
+        KeyGenerationConfig.class
+})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class EncoderTest extends Assert {
 
@@ -37,13 +40,14 @@ public class EncoderTest extends Assert {
     public void testEncWithXor() throws Exception {
         byte[] data = new byte[32];
         random.nextBytes(data);
-        ByteBuf buf = wrappedBuffer(data);
+        ByteBuf buf = buffer(32, 36);
 
         ByteBuf raw = buf.copy(); // create copy of buf, because encoder due direct write to buf
 
         ByteBuf encoded = encoder.encWithXor(buf);
 
-        assertFalse(Arrays.equals(raw.array(), encoded.array()));
+        // encoded array must be longer for 4 bytes
+        assertTrue(raw.writerIndex() + 4 == encoded.writerIndex());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
