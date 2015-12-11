@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JTS-V3.iml" filepath="$PROJECT_DIR$/JTS-V3.iml" />
       <module fileurl="file://$PROJECT_DIR$/authserver/authserver.iml" filepath="$PROJECT_DIR$/authserver/authserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/gameserver/gameserver.iml" filepath="$PROJECT_DIR$/gameserver/gameserver.iml" />
     </modules>
   </component>

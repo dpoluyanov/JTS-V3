@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.authserver.packets.in.AuthGameGuard;
 import ru.jts_dev.authserver.packets.in.RequestAuthLogin;
 import ru.jts_dev.authserver.packets.in.RequestServerList;
+import ru.jts_dev.authserver.packets.in.RequestServerLogin;
 
 import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 
@@ -33,6 +34,9 @@ public class LoginClientPacketHandler {
         switch (opcode) {
             case 0x00:
                 msg = context.getBean(RequestAuthLogin.class);
+                break;
+            case 0x02:
+                msg = context.getBean(RequestServerLogin.class);
                 break;
             case 0x05:
                 msg = context.getBean(RequestServerList.class);

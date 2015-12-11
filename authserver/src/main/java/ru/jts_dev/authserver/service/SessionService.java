@@ -47,7 +47,7 @@ public class SessionService {
         random.nextBytes(key);
         // TODO: 04.12.15 ++sessionId is possible Integer overflow bug
         return context.getBean(GameSession.class, connectionId, ++sessionId, keyPairGenerator.generateKeyPair(), key,
-                random.nextInt(), random.nextInt());
+                random.nextInt(), random.nextInt(), random.nextInt(), random.nextInt());
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)

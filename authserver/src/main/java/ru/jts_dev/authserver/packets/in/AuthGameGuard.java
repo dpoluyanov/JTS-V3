@@ -2,13 +2,16 @@ package ru.jts_dev.authserver.packets.in;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.integration.ip.tcp.connection.AbstractConnectionFactory;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.service.SessionService;
 import ru.jts_dev.authserver.model.GameSession;
 import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.out.GGAuth;
+import ru.jts_dev.authserver.packets.out.LoginFail;
+import ru.jts_dev.authserver.service.SessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+import static ru.jts_dev.authserver.packets.out.LoginFail.REASON_ACCESS_FAILED;
 
 /**
  * @author Camelion
@@ -21,6 +24,9 @@ public class AuthGameGuard extends IncomingMessageWrapper {
     @Autowired
     private SessionService sessionService;
 
+    @Autowired
+    private AbstractConnectionFactory connectionFactory;
+
     private int sessionId;
 
     @Override
@@ -32,9 +38,11 @@ public class AuthGameGuard extends IncomingMessageWrapper {
     public void run() {
         GameSession session = sessionService.getSessionBy(getConnectionId());
 
-        if (sessionId == session.getSessionId())
+        if (sessionId == session.getSessionId()) {
             session.send(new GGAuth(sessionId));
-        else
-            session.send(null);
+        } else {// TODO: 11.12.15 send login fail packet
+            session.send(new LoginFail(REASON_ACCESS_FAILED));
+            connectionFactory.closeConnection(getConnectionId());
+        }
     }
 }
