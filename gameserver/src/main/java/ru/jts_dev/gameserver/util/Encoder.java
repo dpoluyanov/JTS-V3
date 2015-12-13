@@ -38,4 +38,23 @@ public class Encoder {
 
         return data;
     }
+
+    @Transformer
+    public ByteBuf encrypt(ByteBuf data, @Header(CONNECTION_ID) String connectionId) {
+        GameSession gameSession = sessionService.getSessionBy(connectionId);
+        ByteBuf key = gameSession.getEncryptKey();
+
+        int temp = 0;
+        for (int i = 0; i < data.readableBytes(); i++) {
+            int temp2 = data.getByte(i) & 0xFF;
+            data.setByte(i, (byte) temp2 ^ key.getByte(i & 15) ^ temp);
+        }
+
+        int old = key.getInt(8);
+        old += data.readableBytes();
+
+        key.setInt(8, old);
+
+        return data;
+    }
 }

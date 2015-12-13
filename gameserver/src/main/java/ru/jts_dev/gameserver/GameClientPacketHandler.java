@@ -36,8 +36,16 @@ public class GameClientPacketHandler {
             case 0x2B:
                 msg = context.getBean(AuthLogin.class);
                 break;
+            // second level opcodes
+            case 0xD0:
+                opcode = buf.readShort();
+                switch (opcode) {
+                    default:
+                        throw new RuntimeException("Invalid second packet opcode: " + String.format("0x%02X", (byte) opcode));
+                }
+                //break;
             default:
-                throw new RuntimeException("Invalid packet opcode: " + String.format("0x%02X", (byte) opcode));
+                throw new RuntimeException("Invalid first packet opcode: " + String.format("0x%02X", (byte) opcode));
         }
 
         ByteBuf data = buf.slice();

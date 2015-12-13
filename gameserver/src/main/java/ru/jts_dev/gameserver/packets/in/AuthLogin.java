@@ -1,8 +1,14 @@
 package ru.jts_dev.gameserver.packets.in;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.model.GameSession;
+import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
+import ru.jts_dev.gameserver.service.GameSessionService;
+
+import java.util.Collections;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
@@ -20,6 +26,9 @@ public class AuthLogin extends IncomingMessageWrapper {
     private int loginKey2;
     private int languageType;
 
+    @Autowired
+    private GameSessionService sessionService;
+
     @Override
     public void prepare() {
         login = readString();
@@ -32,6 +41,9 @@ public class AuthLogin extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        // TODO: 13.12.15 send character selection info
+        GameSession session = sessionService.getSessionBy(getConnectionId());
+
+        // TODO: 13.12.15 additional playkey check with authserver session keys
+        session.send(new CharacterSelectionInfo(Collections.emptyList(), playKey1));
     }
 }

@@ -21,10 +21,11 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
+        putByte(0x09);
         putInt(characters.size());
 
         putInt(MAX_CHARACTERS_CREATE_SIZE);
-        putByte(0x00); //разрешает или запрещает создание игроков
+        putByte(0x01); //разрешает или запрещает создание игроков
         for (GameCharacter character : characters) {
             putString(character.getName()); // Name
             putInt(character.getObjectId()); // Char ID(objectID)

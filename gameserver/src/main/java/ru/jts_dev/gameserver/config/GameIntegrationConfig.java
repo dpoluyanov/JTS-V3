@@ -24,6 +24,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.tcp.ProtocolByteArrayLengthHeaderSerializer;
 import ru.jts_dev.gameserver.GameClientPacketHandler;
+import ru.jts_dev.gameserver.packets.out.VersionCheck;
 import ru.jts_dev.gameserver.util.Encoder;
 
 import java.nio.ByteOrder;
@@ -173,7 +174,14 @@ public class GameIntegrationConfig {
                     msg.write();
                     return msg;
                 })
-                .transform(OutgoingMessageWrapper.class, OutgoingMessageWrapper::getPayload)
+                .route(OutgoingMessageWrapper.class, msg -> msg instanceof VersionCheck, // TODO: 14.12.15 unencrypted LoginFail
+                        invoker -> invoker
+                                .subFlowMapping("true",
+                                        sf -> sf.transform(OutgoingMessageWrapper.class, OutgoingMessageWrapper::getPayload))
+                                .subFlowMapping("false",
+                                        sf -> sf
+                                                .transform(OutgoingMessageWrapper.class, OutgoingMessageWrapper::getPayload)
+                                                .transform(encoder, "encrypt")))
                 .transform(ByteBuf.class, buf -> {
                     byte[] data = new byte[buf.readableBytes()];
                     buf.readBytes(data);
