@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.integration.ip.tcp.connection.AbstractConnectionFactory;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.model.GameSession;
-import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
+import ru.jts_dev.authserver.model.AuthSession;
+import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.out.LoginFail;
 import ru.jts_dev.authserver.packets.out.ServerList;
 import ru.jts_dev.authserver.service.GameServerService;
-import ru.jts_dev.authserver.service.SessionService;
+import ru.jts_dev.authserver.service.AuthSessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 import static ru.jts_dev.authserver.packets.out.LoginFail.REASON_ACCESS_FAILED;
@@ -24,7 +24,7 @@ public class RequestServerList extends IncomingMessageWrapper {
     private int loginKey1, loginKey2;
 
     @Autowired
-    private SessionService sessionService;
+    private AuthSessionService authSessionService;
 
     @Autowired
     private GameServerService gameServerService;
@@ -40,7 +40,7 @@ public class RequestServerList extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        GameSession session = sessionService.getSessionBy(getConnectionId());
+        AuthSession session = authSessionService.getSessionBy(getConnectionId());
 
         if (session.getLoginKey1() == loginKey1 && session.getLoginKey2() == loginKey2) {
             session.send(new ServerList(gameServerService.getGameServers()));

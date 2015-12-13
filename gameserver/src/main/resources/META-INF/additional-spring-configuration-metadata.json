@@ -4,6 +4,11 @@
       "name": "gameserver.id",
       "type": "java.lang.Byte",
       "description": "Description for gameserver.id."
+    },
+    {
+      "name": "gameserver.port",
+      "type": "java.lang.Integer",
+      "description": "Description for gameserver.port."
     }
   ]
 }

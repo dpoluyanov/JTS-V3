@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.integration.ip.IpHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
+import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 
 import java.security.KeyPair;
 
@@ -17,7 +17,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  */
 @Scope(SCOPE_PROTOTYPE)
 @Component
-public class GameSession {
+public class AuthSession {
     public final KeyPair RSAKeyPair;
     private final byte[] blowfishKey;
     private final int sessionId;
@@ -29,7 +29,7 @@ public class GameSession {
     @Autowired
     private MessageChannel packetChannel;
 
-    public GameSession(String connectionId, int sessionId, KeyPair RSAKeyPair, byte[] blowfishKey,
+    public AuthSession(String connectionId, int sessionId, KeyPair RSAKeyPair, byte[] blowfishKey,
                        int loginKey1, int loginKey2, int gameKey1, int gameKey2) {
         this.connectionId = connectionId;
         this.sessionId = sessionId;

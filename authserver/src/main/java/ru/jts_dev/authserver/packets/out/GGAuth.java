@@ -1,6 +1,6 @@
 package ru.jts_dev.authserver.packets.out;
 
-import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
+import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 
 /**
  * @author Camelion

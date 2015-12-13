@@ -1,4 +1,4 @@
-package ru.jts_dev.authserver.packets;
+package ru.jts_dev.common.packets;
 
 import io.netty.buffer.ByteBuf;
 import org.springframework.integration.ip.IpHeaders;
@@ -52,6 +52,14 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
         return buffer.readInt();
     }
 
+    public String readString() {
+        final StringBuilder sb = new StringBuilder();
+        char ch;
+        while ((ch = buffer.readChar()) != '\0') {
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
 
     public byte[] readBytes(int length) {
         if (buffer.readableBytes() < length)

@@ -7,8 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.jts_dev.authserver.service.SessionService;
+import ru.jts_dev.authserver.service.AuthSessionService;
 import ru.jts_dev.authserver.util.Encoder;
+import ru.jts_dev.common.config.UtilsConfig;
 
 import java.util.Random;
 
@@ -24,7 +25,7 @@ import static org.hamcrest.Matchers.not;
 @ContextConfiguration(classes = {
         Encoder.class,
         UtilsConfig.class,
-        SessionService.class,
+        AuthSessionService.class,
         KeyGenerationConfig.class
 })
 @RunWith(SpringJUnit4ClassRunner.class)

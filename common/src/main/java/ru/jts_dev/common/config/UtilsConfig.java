@@ -1,4 +1,4 @@
-package ru.jts_dev.authserver.config;
+package ru.jts_dev.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

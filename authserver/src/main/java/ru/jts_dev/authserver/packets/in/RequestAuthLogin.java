@@ -9,12 +9,12 @@ import org.springframework.integration.ip.tcp.connection.AbstractConnectionFacto
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.authserver.model.Account;
-import ru.jts_dev.authserver.model.GameSession;
-import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
+import ru.jts_dev.authserver.model.AuthSession;
+import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.out.LoginFail;
 import ru.jts_dev.authserver.packets.out.LoginOk;
 import ru.jts_dev.authserver.repositories.AccountRepository;
-import ru.jts_dev.authserver.service.SessionService;
+import ru.jts_dev.authserver.service.AuthSessionService;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +32,7 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
     private static final Logger log = LoggerFactory.getLogger(RequestAuthLogin.class);
 
     @Autowired
-    private SessionService sessionService;
+    private AuthSessionService authSessionService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,7 +55,7 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        GameSession session = sessionService.getSessionBy(getConnectionId());
+        AuthSession session = authSessionService.getSessionBy(getConnectionId());
 
         byte[] decrypted;
         try {

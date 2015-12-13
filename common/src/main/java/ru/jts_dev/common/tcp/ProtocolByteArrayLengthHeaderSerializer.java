@@ -1,4 +1,4 @@
-package ru.jts_dev.authserver.config.tcp;
+package ru.jts_dev.common.tcp;
 
 import org.springframework.integration.ip.tcp.serializer.ByteArrayLengthHeaderSerializer;
 import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamException;

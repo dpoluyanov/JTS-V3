@@ -21,14 +21,14 @@ import org.springframework.integration.ip.tcp.connection.AbstractServerConnectio
 import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionFactory;
 import org.springframework.messaging.MessageChannel;
-import ru.jts_dev.authserver.config.tcp.ProtocolByteArrayLengthHeaderSerializer;
-import ru.jts_dev.authserver.model.GameSession;
-import ru.jts_dev.authserver.packets.IncomingMessageWrapper;
+import ru.jts_dev.authserver.model.AuthSession;
+import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.LoginClientPacketHandler;
-import ru.jts_dev.authserver.packets.OutgoingMessageWrapper;
+import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.authserver.packets.out.Init;
-import ru.jts_dev.authserver.service.SessionService;
+import ru.jts_dev.authserver.service.AuthSessionService;
 import ru.jts_dev.authserver.util.Encoder;
+import ru.jts_dev.common.tcp.ProtocolByteArrayLengthHeaderSerializer;
 
 import java.nio.ByteOrder;
 import java.security.interfaces.RSAPublicKey;
@@ -45,14 +45,14 @@ import static ru.jts_dev.authserver.util.Encoder.STATIC_KEY_HEADER;
  */
 @Configuration
 @IntegrationComponentScan
-public class IntegrationConfig {
-    private static final Logger log = LoggerFactory.getLogger(IntegrationConfig.class);
+public class AuthIntegrationConfig {
+    private static final Logger log = LoggerFactory.getLogger(AuthIntegrationConfig.class);
     @Autowired
     private Encoder encoder;
     @Autowired
     private LoginClientPacketHandler clientPacketHandler;
     @Autowired
-    private SessionService sessionService;
+    private AuthSessionService authSessionService;
 
     /**
      * Server connection factory, for game client connections.
@@ -61,7 +61,7 @@ public class IntegrationConfig {
      * @return - server factory bean
      */
     @Bean
-    public TcpNioServerConnectionFactory serverConnectionFactory() {
+    public TcpNioServerConnectionFactory connectionFactory() {
         TcpNioServerConnectionFactory serverConnectionFactory = new TcpNioServerConnectionFactory(2106);
 
         serverConnectionFactory.setDeserializer(new ProtocolByteArrayLengthHeaderSerializer());
@@ -71,9 +71,9 @@ public class IntegrationConfig {
     }
 
     @Bean
-    public TcpReceivingChannelAdapter tcpIn(AbstractServerConnectionFactory serverConnectionFactory) {
+    public TcpReceivingChannelAdapter tcpIn(AbstractServerConnectionFactory connectionFactory) {
         TcpReceivingChannelAdapter gateway = new TcpReceivingChannelAdapter();
-        gateway.setConnectionFactory(serverConnectionFactory);
+        gateway.setConnectionFactory(connectionFactory);
         gateway.setOutputChannel(tcpInputChannel());
 
         return gateway;
@@ -88,14 +88,14 @@ public class IntegrationConfig {
      * Endpoint for output messages.
      * Receives message from tcpOutputChannel, and send it to client with corresponding {@link IpHeaders#CONNECTION_ID}
      *
-     * @param serverConnectionFactory - server factory bean
+     * @param connectionFactory - server factory bean
      * @return - tcp message handler bean
      */
     @Bean
-    @ServiceActivator(inputChannel = "tcpOutputChannel")
-    public TcpSendingMessageHandler tcpOut(AbstractServerConnectionFactory serverConnectionFactory) {
+    @ServiceActivator(inputChannel = "tcpOutChannel")
+    public TcpSendingMessageHandler tcpOut(AbstractServerConnectionFactory connectionFactory) {
         TcpSendingMessageHandler gateway = new TcpSendingMessageHandler();
-        gateway.setConnectionFactory(serverConnectionFactory);
+        gateway.setConnectionFactory(connectionFactory);
 
         return gateway;
     }
@@ -116,14 +116,8 @@ public class IntegrationConfig {
      * @return - channel
      */
     @Bean
-    public MessageChannel tcpOutputChannel() {
+    public MessageChannel tcpOutChannel() {
         return new PublishSubscribeChannel();
-    }
-
-    @Bean
-    public MessageChannel incomingPacketExecutorChannel() {
-        // TODO: 07.12.15 investigate, may be should replace with spring TaskExecutor
-        return new ExecutorChannel(Executors.newCachedThreadPool());
     }
 
     /**
@@ -133,10 +127,10 @@ public class IntegrationConfig {
      * @param event - event instance
      */
     @EventListener
-    public void tcpConnectionEventListener(TcpConnectionEvent event) {
+    public void authTcpConnectionEventListener(TcpConnectionEvent event) {
         String connectionId = event.getConnectionId();
 
-        GameSession gameSession = sessionService.getSessionBy(connectionId);
+        AuthSession gameSession = authSessionService.getSessionBy(connectionId);
         byte[] scrambledModulus = scrambleModulus(((RSAPublicKey) gameSession.getRSAKeyPair().getPublic()).getModulus());
         byte[] blowfishKey = gameSession.getBlowfishKey();
 
@@ -181,7 +175,7 @@ public class IntegrationConfig {
                 })
                 .transform(encoder, "encrypt")
                 .headerFilter(STATIC_KEY_HEADER)
-                .channel(tcpOutputChannel())
+                .channel(tcpOutChannel())
                 .get();
     }
 
@@ -200,6 +194,12 @@ public class IntegrationConfig {
                 .transform(clientPacketHandler, "handle")
                 .channel(incomingPacketExecutorChannel())
                 .get();
+    }
+
+    @Bean
+    public MessageChannel incomingPacketExecutorChannel() {
+        // TODO: 07.12.15 investigate, may be should replace with spring TaskExecutor
+        return new ExecutorChannel(Executors.newCachedThreadPool());
     }
 
     @ServiceActivator(inputChannel = "incomingPacketExecutorChannel")

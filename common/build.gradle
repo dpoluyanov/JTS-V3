@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -6,4 +7,11 @@ targetCompatibility = 1.8
 jar {
     baseName = 'common'
     version = "${version}"
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-integration')
+    compile("io.netty:netty-buffer:${nettyVersion}")
 }

@@ -1,4 +1,4 @@
-package ru.jts_dev.authserver.packets;
+package ru.jts_dev.gameserver;
 
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
@@ -7,22 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.packets.in.AuthGameGuard;
-import ru.jts_dev.authserver.packets.in.RequestAuthLogin;
-import ru.jts_dev.authserver.packets.in.RequestServerList;
-import ru.jts_dev.authserver.packets.in.RequestServerLogin;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.packets.in.AuthLogin;
+import ru.jts_dev.gameserver.packets.in.RequestProtocolVersion;
 
 import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 
 /**
  * @author Camelion
- * @since 06.12.15
+ * @since 12.12.15
  */
 @Component
-public class LoginClientPacketHandler {
-    private static final Logger log = LoggerFactory.getLogger(LoginClientPacketHandler.class);
-
+public class GameClientPacketHandler {
+    private static final Logger log = LoggerFactory.getLogger(GameClientPacketHandler.class);
     @Autowired
     private ApplicationContext context;
 
@@ -33,17 +30,11 @@ public class LoginClientPacketHandler {
         int opcode = buf.readByte();
         IncomingMessageWrapper msg;
         switch (opcode) {
-            case 0x00:
-                msg = context.getBean(RequestAuthLogin.class);
+            case 0x0E:
+                msg = context.getBean(RequestProtocolVersion.class);
                 break;
-            case 0x02:
-                msg = context.getBean(RequestServerLogin.class);
-                break;
-            case 0x05:
-                msg = context.getBean(RequestServerList.class);
-                break;
-            case 0x07:
-                msg = context.getBean(AuthGameGuard.class);
+            case 0x2b:
+                msg = context.getBean(AuthLogin.class);
                 break;
             default:
                 throw new RuntimeException("Invalid packet opcode: " + Integer.toHexString(opcode));

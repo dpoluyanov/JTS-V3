@@ -1,4 +1,4 @@
-package ru.jts_dev.authserver.packets;
+package ru.jts_dev.common.packets;
 
 import io.netty.buffer.ByteBuf;
 import org.springframework.integration.support.MutableMessageHeaders;
@@ -56,6 +56,14 @@ public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
 
     protected void putInt(int i) {
         buffer.writeInt(i);
+    }
+
+    protected void putLong(long l) {
+        buffer.writeLong(l);
+    }
+
+    protected void putDouble(double d) {
+        buffer.writeDouble(d);
     }
 
     protected void putBytes(byte[] data) {

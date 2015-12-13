@@ -6,8 +6,8 @@ import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.ip.IpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.authserver.service.SessionService;
-import ru.jts_dev.authserver.model.GameSession;
+import ru.jts_dev.authserver.model.AuthSession;
+import ru.jts_dev.authserver.service.AuthSessionService;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -29,7 +29,7 @@ public class Encoder {
     private static final int BLOWFISH_BLOCK_SIZE = 8;
 
     @Autowired
-    private SessionService sessionService;
+    private AuthSessionService authSessionService;
 
     public ByteBuf validateChecksum(ByteBuf buf) {
         if (buf.readableBytes() % 4 != 0 || buf.readableBytes() <= 4) {
@@ -107,7 +107,7 @@ public class Encoder {
         if (static_key != null && static_key.equals("true")) {
             blowfishEngine.init(true, STATIC_BLOWFISH_KEY);
         } else {
-            GameSession gameSession = sessionService.getSessionBy(connectionId);
+            AuthSession gameSession = authSessionService.getSessionBy(connectionId);
 
             if (gameSession == null)
                 throw new NullPointerException("gameSession is null for " + connectionId);
@@ -125,9 +125,9 @@ public class Encoder {
     @Transformer
     public byte[] decrypt(byte[] data, @Header(IpHeaders.CONNECTION_ID) String connectionId) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
-            throw new IndexOutOfBoundsException("data.length must be myltiply of 8");
+            throw new IndexOutOfBoundsException("data.length must be multiply of 8");
 
-        GameSession gameSession = sessionService.getSessionBy(connectionId);
+        AuthSession gameSession = authSessionService.getSessionBy(connectionId);
 
         BlowfishEngine blowfishEngine = new BlowfishEngine();
         blowfishEngine.init(false, gameSession.getBlowfishKey());
