@@ -1,10 +1,13 @@
 package ru.jts_dev.gameserver.model;
 
+import ru.jts_dev.gameserver.ai.AiObject;
+import ru.jts_dev.gameserver.ai.AiVariablesHolder;
+
 /**
  * @author Camelion
  * @since 13.12.15
  */
-public class GameCharacter {
+public class GameCharacter implements AiVariablesHolder {
     private String name;
     private int objectId;
     private String accountName;
@@ -23,6 +26,8 @@ public class GameCharacter {
     private int hairColor;
     private int face;
     private double maxHP;
+
+    private AiObject aiObject = new AiObject(this);
 
     public String getName() {
         return name;
