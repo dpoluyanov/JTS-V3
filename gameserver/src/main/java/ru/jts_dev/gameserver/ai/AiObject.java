@@ -1,12 +1,17 @@
 package ru.jts_dev.gameserver.ai;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.ai.tasks.Task;
 
 /**
  * @author Java-man
  * @since 13.12.2015
  */
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Component
 public class AiObject {
     private final AiVariablesHolder aiVariablesHolder;
 
@@ -17,7 +22,7 @@ public class AiObject {
     }
 
     @Scheduled(fixedRate = 1000)
-    public void aiTaskExecute() {
+    private void aiTaskExecute() {
         if (task == null) {
             return;
         }
