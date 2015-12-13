@@ -33,11 +33,11 @@ public class GameClientPacketHandler {
             case 0x0E:
                 msg = context.getBean(RequestProtocolVersion.class);
                 break;
-            case 0x2b:
+            case 0x2B:
                 msg = context.getBean(AuthLogin.class);
                 break;
             default:
-                throw new RuntimeException("Invalid packet opcode: " + Integer.toHexString(opcode));
+                throw new RuntimeException("Invalid packet opcode: " + String.format("0x%02X", (byte) opcode));
         }
 
         ByteBuf data = buf.slice();

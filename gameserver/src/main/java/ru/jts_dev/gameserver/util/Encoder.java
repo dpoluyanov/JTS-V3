@@ -1,10 +1,14 @@
 package ru.jts_dev.gameserver.util;
 
+import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
+import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.service.GameSessionService;
+
+import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 
 /**
  * @author Camelion
@@ -16,7 +20,22 @@ public class Encoder {
     private GameSessionService sessionService;
 
     @Transformer
-    public void encode(byte[] data, @Header String conenctionId) {
+    public ByteBuf decrypt(ByteBuf data, @Header(CONNECTION_ID) String connectionId) {
+        GameSession gameSession = sessionService.getSessionBy(connectionId);
+        ByteBuf key = gameSession.getDecryptKey();
 
+        int temp = 0;
+        for (int i = 0; i < data.readableBytes(); i++) {
+            final int temp2 = data.getByte(i) & 0xFF;
+            data.setByte(i, (byte) (temp2 ^ key.getByte(i & 15) ^ temp));
+            temp = temp2;
+        }
+
+        int old = key.getInt(8);
+        old += data.readableBytes();
+
+        key.setInt(8, old);
+
+        return data;
     }
 }

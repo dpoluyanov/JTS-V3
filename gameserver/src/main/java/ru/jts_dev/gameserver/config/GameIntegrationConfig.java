@@ -24,6 +24,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.tcp.ProtocolByteArrayLengthHeaderSerializer;
 import ru.jts_dev.gameserver.GameClientPacketHandler;
+import ru.jts_dev.gameserver.util.Encoder;
 
 import java.nio.ByteOrder;
 import java.util.concurrent.Executors;
@@ -44,6 +45,9 @@ public class GameIntegrationConfig {
 
     @Autowired
     private GameClientPacketHandler clientPacketHandler;
+
+    @Autowired
+    private Encoder encoder;
 
     @Bean
     public TcpNioServerConnectionFactory gameConnectionFactory() {
@@ -79,6 +83,13 @@ public class GameIntegrationConfig {
         return IntegrationFlows
                 .from(tcpInputChannel())
                 .transform(byte[].class, b -> wrappedBuffer(b).order(ByteOrder.LITTLE_ENDIAN))
+                // no crypt for RequestProtocolVersion
+                .route(ByteBuf.class, b -> b.readableBytes() > 0 && b.getByte(0) == 0x0E,
+                        invoker -> invoker
+                                .subFlowMapping("true",
+                                        sf -> sf.transform(b -> b))
+                                .subFlowMapping("false",
+                                        sf -> sf.transform(encoder, "decrypt")))
                 .transform(clientPacketHandler, "handle")
                 .channel(incomingPacketExecutorChannel())
                 .get();

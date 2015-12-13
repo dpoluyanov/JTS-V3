@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.model;
 
+import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.integration.ip.IpHeaders;
@@ -17,20 +18,33 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Component
 public class GameSession {
     private final String connectionId;
-    private final byte[] key;
+    private final ByteBuf encryptKey;
+    private final ByteBuf decryptKey;
+
     @Autowired
     private MessageChannel packetChannel;
 
-    public GameSession(String connectionId, byte[] key) {
-        if (key.length != 16)
-            throw new RuntimeException("key must be multiply by 16");
+    public GameSession(String connectionId, ByteBuf encryptKey, ByteBuf decryptKey) {
+        if (encryptKey.readableBytes() != 16)
+            throw new RuntimeException("encryptKey must be 16 bytes");
+        if (decryptKey.readableBytes() != 16)
+            throw new RuntimeException("decryptKey must be 16 bytes");
 
         this.connectionId = connectionId;
-        this.key = key;
+        this.encryptKey = encryptKey;
+        this.decryptKey = decryptKey;
     }
 
     public void send(OutgoingMessageWrapper msg) {
         msg.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
         packetChannel.send(msg);
+    }
+
+    public ByteBuf getEncryptKey() {
+        return encryptKey;
+    }
+
+    public ByteBuf getDecryptKey() {
+        return decryptKey;
     }
 }

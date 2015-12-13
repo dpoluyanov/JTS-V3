@@ -21,7 +21,8 @@ public class AuthServerApplication implements CommandLineRunner {
         if (context.containsBean("gameserverAppBuilder")) {
             context.getBean("gameserverAppBuilder", SpringApplicationBuilder.class)
                     //.parent(context)
-                    .build().run(args);
+                    .build()
+                    .run(args);
         }
     }
 }

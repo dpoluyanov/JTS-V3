@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.service;
 
+import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
@@ -7,12 +8,16 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionCloseEvent;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameSession;
 
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static io.netty.buffer.Unpooled.buffer;
+import static io.netty.buffer.Unpooled.copiedBuffer;
 
 /**
  * @author Camelion
@@ -39,13 +44,19 @@ public class GameSessionService {
     }
 
     private GameSession createSession(String connectionId) {
-        byte[] key = new byte[16];
-        // randomize key
-        random.nextBytes(key);
-        // and replace last 8 byte with static key part
-        System.arraycopy(STATIC_KEY_PART, 0, key, 8, STATIC_KEY_PART.length);
+        ByteBuf encryptKey = buffer(16, 16);
+        // randomize first 8 bytes of key
+        random.nextBytes(encryptKey.array());
+        encryptKey.writerIndex(8);
 
-        return context.getBean(GameSession.class, connectionId, key);
+        // and add 8 byte as static key part
+        encryptKey.writeBytes(STATIC_KEY_PART);
+
+        // then copy encrypt key to decrypt key
+        ByteBuf decryptKey = copiedBuffer(encryptKey);
+
+        // and pass keys to a game session object
+        return context.getBean(GameSession.class, connectionId, encryptKey, decryptKey);
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
