@@ -3,7 +3,6 @@ package ru.jts_dev.authserver.util;
 import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.Transformer;
-import org.springframework.integration.ip.IpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.authserver.model.AuthSession;
@@ -11,6 +10,8 @@ import ru.jts_dev.authserver.service.AuthSessionService;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+
+import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 
 /**
  * @author Camelion
@@ -97,7 +98,7 @@ public class Encoder {
     }
 
     @Transformer
-    public byte[] encrypt(byte[] data, @Header(IpHeaders.CONNECTION_ID) String connectionId,
+    public byte[] encrypt(byte[] data, @Header(CONNECTION_ID) String connectionId,
                           // TODO: 08.12.15 spring integration bug with ingoring defaultValue in header
                           @Header(value = STATIC_KEY_HEADER, required = false) String static_key) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
@@ -123,7 +124,7 @@ public class Encoder {
     }
 
     @Transformer
-    public byte[] decrypt(byte[] data, @Header(IpHeaders.CONNECTION_ID) String connectionId) throws IOException {
+    public byte[] decrypt(byte[] data, @Header(CONNECTION_ID) String connectionId) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
             throw new IndexOutOfBoundsException("data.length must be multiply of 8");
 
