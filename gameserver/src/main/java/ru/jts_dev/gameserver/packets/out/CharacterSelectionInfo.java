@@ -40,9 +40,9 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
 
             putInt(0x01); // activate char? (0x00 not active)
 
-            putInt(character.getX()); // x
-            putInt(character.getY()); // y
-            putInt(character.getZ()); // z
+            putInt((int) character.getVector3D().getX()); // x
+            putInt((int) character.getVector3D().getY()); // y
+            putInt((int) character.getVector3D().getZ()); // z
 
             putDouble(character.getHp()); // hp cur
             putDouble(character.getMp()); // mp cur

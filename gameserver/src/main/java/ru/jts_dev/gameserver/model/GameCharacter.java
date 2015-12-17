@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.model;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import ru.jts_dev.gameserver.ai.AiObject;
 import ru.jts_dev.gameserver.ai.AiVariablesHolder;
 
@@ -14,9 +15,6 @@ public class GameCharacter implements AiVariablesHolder {
     private int sex;
     private int raceId;
     private int classId;
-    private int x;
-    private int y;
-    private int z;
     private double hp;
     private double mp;
     private int sp;
@@ -26,6 +24,9 @@ public class GameCharacter implements AiVariablesHolder {
     private int hairColor;
     private int face;
     private double maxHP;
+
+    private Vector3D vector3D;
+    private boolean moving;
 
     private AiObject aiObject = new AiObject(this);
 
@@ -51,18 +52,6 @@ public class GameCharacter implements AiVariablesHolder {
 
     public int getClassId() {
         return classId;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getZ() {
-        return z;
     }
 
     public double getHp() {
@@ -99,5 +88,21 @@ public class GameCharacter implements AiVariablesHolder {
 
     public double getMaxHP() {
         return maxHP;
+    }
+
+    public Vector3D getVector3D() {
+        return vector3D;
+    }
+
+    public void setVector3D(Vector3D vector3D) {
+        this.vector3D = vector3D;
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 }

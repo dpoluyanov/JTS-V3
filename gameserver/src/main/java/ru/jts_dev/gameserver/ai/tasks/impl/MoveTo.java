@@ -18,9 +18,9 @@ public class MoveTo extends Task {
     @Override
     public void act(final AiObject aiObject, AiVariablesHolder aiVariablesHolder) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int x = aiVariablesHolder.getX() + random.nextInt(100);
-        int y = aiVariablesHolder.getX() + random.nextInt(100);
-        int z = aiVariablesHolder.getX() + random.nextInt(100);
+        double x = aiVariablesHolder.getVector3D().getX() + random.nextInt(100);
+        double y = aiVariablesHolder.getVector3D().getY() + random.nextInt(100);
+        double z = aiVariablesHolder.getVector3D().getZ() + random.nextInt(100);
         // TODO
         //aiObject.moveToLocation(x, y, z, 0, true);
 		succeed();
