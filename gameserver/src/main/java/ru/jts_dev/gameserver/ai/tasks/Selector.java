@@ -1,7 +1,7 @@
 package ru.jts_dev.gameserver.ai.tasks;
 
 import ru.jts_dev.gameserver.ai.AiObject;
-import ru.jts_dev.gameserver.ai.AiVariablesHolder;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -40,8 +40,8 @@ public class Selector extends Task {
     }
 
     @Override
-    public void act(final AiObject aiObject, AiVariablesHolder aiVariablesHolder) {
-        currentTask.act(aiObject, aiVariablesHolder);
+    public void act(final AiObject aiObject, GameCharacter gameCharacter) {
+        currentTask.act(aiObject, gameCharacter);
         // if is still running, then carry on
         if (currentTask.isRunning()) {
             return;

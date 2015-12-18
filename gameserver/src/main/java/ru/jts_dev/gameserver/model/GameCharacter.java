@@ -2,13 +2,12 @@ package ru.jts_dev.gameserver.model;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import ru.jts_dev.gameserver.ai.AiObject;
-import ru.jts_dev.gameserver.ai.AiVariablesHolder;
 
 /**
  * @author Camelion
  * @since 13.12.15
  */
-public class GameCharacter implements AiVariablesHolder {
+public class GameCharacter {
     private String name;
     private int objectId;
     private String accountName;

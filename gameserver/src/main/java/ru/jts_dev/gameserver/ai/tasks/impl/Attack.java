@@ -2,8 +2,8 @@ package ru.jts_dev.gameserver.ai.tasks.impl;
 
 
 import ru.jts_dev.gameserver.ai.AiObject;
-import ru.jts_dev.gameserver.ai.AiVariablesHolder;
 import ru.jts_dev.gameserver.ai.tasks.Task;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 /**
  * @author Java-man
@@ -15,9 +15,9 @@ public class Attack extends Task {
     }
 
     @Override
-    public void act(final AiObject aiObject, AiVariablesHolder aiVariablesHolder) {
+    public void act(final AiObject aiObject, GameCharacter gameCharacter) {
         /*final Optional<? extends Creature> target = holder.getTarget();
-		aiObject.doAttack(target.get());
+        aiObject.doAttack(target.get());
 		succeed();*/
     }
 

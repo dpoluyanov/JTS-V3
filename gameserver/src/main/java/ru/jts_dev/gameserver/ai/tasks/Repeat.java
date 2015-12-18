@@ -1,7 +1,7 @@
 package ru.jts_dev.gameserver.ai.tasks;
 
 import ru.jts_dev.gameserver.ai.AiObject;
-import ru.jts_dev.gameserver.ai.AiVariablesHolder;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 /**
  * @author Java-man
@@ -39,7 +39,7 @@ public class Repeat extends Task {
     }
 
     @Override
-    public void act(final AiObject aiObject, AiVariablesHolder aiVariablesHolder) {
+    public void act(final AiObject aiObject, GameCharacter gameCharacter) {
         if (task.isFailure()) {
             fail();
         } else if (task.isSuccess()) {
@@ -54,7 +54,7 @@ public class Repeat extends Task {
             }
         }
         if (task.isRunning()) {
-            task.act(aiObject, aiVariablesHolder);
+            task.act(aiObject, gameCharacter);
         }
     }
 }

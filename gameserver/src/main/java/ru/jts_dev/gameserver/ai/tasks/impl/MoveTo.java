@@ -1,8 +1,8 @@
 package ru.jts_dev.gameserver.ai.tasks.impl;
 
 import ru.jts_dev.gameserver.ai.AiObject;
-import ru.jts_dev.gameserver.ai.AiVariablesHolder;
 import ru.jts_dev.gameserver.ai.tasks.Task;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -16,14 +16,14 @@ public class MoveTo extends Task {
     }
 
     @Override
-    public void act(final AiObject aiObject, AiVariablesHolder aiVariablesHolder) {
+    public void act(final AiObject aiObject, GameCharacter gameCharacter) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        double x = aiVariablesHolder.getVector3D().getX() + random.nextInt(100);
-        double y = aiVariablesHolder.getVector3D().getY() + random.nextInt(100);
-        double z = aiVariablesHolder.getVector3D().getZ() + random.nextInt(100);
+        double x = gameCharacter.getVector3D().getX() + random.nextInt(100);
+        double y = gameCharacter.getVector3D().getY() + random.nextInt(100);
+        double z = gameCharacter.getVector3D().getZ() + random.nextInt(100);
         // TODO
         //aiObject.moveToLocation(x, y, z, 0, true);
-		succeed();
+        succeed();
     }
 
     @Override

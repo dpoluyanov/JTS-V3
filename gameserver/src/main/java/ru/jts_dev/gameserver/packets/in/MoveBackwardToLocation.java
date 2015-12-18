@@ -45,13 +45,13 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
         else {
             // Bot
         }
-
-        if (movementType == 1)
-            targetZ += 27;
     }
 
     @Override
     public void run() {
+        if (movementType == 1)
+            targetZ += 27;
+
         // TODO
         GameCharacter character = null;
         Vector3D end = new Vector3D(targetX, targetY, targetZ);

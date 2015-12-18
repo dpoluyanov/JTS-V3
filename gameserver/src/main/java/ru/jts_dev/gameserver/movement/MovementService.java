@@ -27,11 +27,9 @@ public class MovementService {
         character.setMoving(true);
 
         scheduler.schedule((Runnable) () -> {
-            if(character.isMoving())
-            {
+            if (character.isMoving()) {
                 character.setVector3D(character.getVector3D().add(speed, direction));
-                if(start.distance(character.getVector3D()) >= distance)
-                {
+                if (start.distance(character.getVector3D()) >= distance) {
                     character.setVector3D(end);
                     character.setMoving(false);
                 }

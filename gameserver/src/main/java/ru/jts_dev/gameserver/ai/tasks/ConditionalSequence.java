@@ -1,7 +1,7 @@
 package ru.jts_dev.gameserver.ai.tasks;
 
 import ru.jts_dev.gameserver.ai.AiObject;
-import ru.jts_dev.gameserver.ai.AiVariablesHolder;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 import java.util.*;
 
@@ -37,12 +37,12 @@ public class ConditionalSequence extends Task {
     }
 
     @Override
-    public void act(final AiObject aiObject, AiVariablesHolder aiVariablesHolder) {
+    public void act(final AiObject aiObject, GameCharacter gameCharacter) {
         final Optional<Task> taskOptional = taskQueue.stream().filter(task -> task.isMeetRequirements(aiObject)).findFirst();
         if (taskOptional.isPresent()) {
             currentTask = taskOptional.get();
             currentTask.start();
-            currentTask.act(aiObject, aiVariablesHolder);
+            currentTask.act(aiObject, gameCharacter);
 
             succeed();
         } else

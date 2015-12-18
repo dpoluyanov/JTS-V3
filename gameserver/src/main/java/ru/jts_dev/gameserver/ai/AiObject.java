@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.ai.tasks.Task;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 /**
  * @author Java-man
@@ -13,12 +14,12 @@ import ru.jts_dev.gameserver.ai.tasks.Task;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Component
 public class AiObject {
-    private final AiVariablesHolder aiVariablesHolder;
+    private final GameCharacter gameCharacter;
 
     private Task task;
 
-    public AiObject(AiVariablesHolder aiVariablesHolder) {
-        this.aiVariablesHolder = aiVariablesHolder;
+    public AiObject(GameCharacter gameCharacter) {
+        this.gameCharacter = gameCharacter;
     }
 
     @Scheduled(fixedRate = 1000)
@@ -32,7 +33,7 @@ public class AiObject {
             task.start();
         }
 
-        task.act(this, aiVariablesHolder);
+        task.act(this, gameCharacter);
     }
 
     public void setTask(Task task) {

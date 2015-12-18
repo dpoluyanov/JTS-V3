@@ -1,8 +1,8 @@
 package ru.jts_dev.gameserver.ai.tasks;
 
 import ru.jts_dev.gameserver.ai.AiObject;
-import ru.jts_dev.gameserver.ai.AiVariablesHolder;
 import ru.jts_dev.gameserver.ai.Weights;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 /**
  * @author Java-man
@@ -20,7 +20,7 @@ public abstract class Task {
 
     public abstract void reset();
 
-    public abstract void act(AiObject aiObject, AiVariablesHolder aiVariablesHolder);
+    public abstract void act(AiObject aiObject, GameCharacter gameCharacter);
 
     protected void succeed() {
         System.out.println(">>> Task: " + this.getClass().getSimpleName() + " SUCCEEDED");
