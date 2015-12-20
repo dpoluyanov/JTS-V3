@@ -1,0 +1,4650 @@
+//------------------------------------------------
+//게임의 여러 가지 환경 변수들을 지정하는 스크립트
+//------------------------------------------------
+
+
+//플레이어가 처음 시작할 때 가지고 시작하는 장비 리스트
+initial_equipment_begin
+	human_fighter={{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	human_magician={{[apprentice's_wand];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	elf_fighter={{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	elf_magician={{[apprentice's_wand];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	darkelf_fighter={{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	darkelf_magician={{[apprentice's_wand];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	orc_fighter={{[training_gloves];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	orc_shaman={{[training_gloves];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	dwarf_apprentice={{[dagger];1};{[union_member's_club];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	kamael_m_soldier={{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	kamael_f_soldier={{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+initial_equipment_end
+
+//중국 초보자 지원
+initial_custom_equipment_begin
+	human_fighter={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_cheer];1};{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	human_magician={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_magician];1};{[br_box_newbie_cheer];1};{[apprentice's_wand];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	elf_fighter={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_cheer];1};{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	elf_magician={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_magician];1};{[br_box_newbie_cheer];1};{[apprentice's_wand];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	darkelf_fighter={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_cheer];1};{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	darkelf_magician={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_magician];1};{[br_box_newbie_cheer];1};{[apprentice's_wand];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	orc_fighter={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_cheer];1};{[training_gloves];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	orc_shaman={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_magician];1};{[br_box_newbie_cheer];1};{[training_gloves];1};{[apprentice's_tunic];1};{[apprentice's_hose];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	dwarf_apprentice={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_cheer];1};{[dagger];1};{[union_member's_club];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	kamael_m_soldier={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_cheer];1};{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+	kamael_f_soldier={{[br_box_newbie_base];1};{[br_box_newbie_warrior];1};{[br_box_newbie_cheer];1};{[dagger];1};{[squire's_sword];1};{[squire's_shirt];1};{[squire's_pants];1};{[tutorial_guide];1};{[scroll_of_escape_newbie];5};{[scroll_of_move_to_kamael_cave];10}}
+initial_custom_equipment_end
+
+//캐릭터 레이스/클래스 별 처음 시작하는 장소
+initial_start_point_begin
+	point_begin
+		point={-71338;258271;-3104}
+		point={-71417;258270;-3104}
+		point={-71453;258305;-3104}
+		point={-71467;258378;-3104}
+		//세드릭의 도장(17_25)
+		class={human_fighter}
+	point_end
+
+	point_begin
+		point={-90875;248162;-3570}
+		point={-90954;248118;-3570}
+		point={-90918;248070;-3570}
+		point={-90890;248027;-3570}
+		//아인호반트 마법학교(17_25)
+		class={human_magician}
+	point_end
+
+	point_begin
+		point={46045;41251;-3440}
+		point={46117;41247;-3440}
+		point={46182;41198;-3440}
+		point={46115;41141;-3440}
+		point={46048;41141;-3440}
+		point={45978;41196;-3440}
+		//세계수의 그늘(21_19)
+		class={elf_fighter; elf_magician}
+	point_end
+
+	point_begin
+		point={28295;11063;-4224}
+		point={28302;11008;-4224}
+		point={28377;10916;-4224}
+		point={28456;10997;-4224}
+		point={28461;11044;-4224}
+		point={28395;11127;-4224}
+		//실렌의 신전(20_18)
+		class={darkelf_fighter; darkelf_magician}
+	point_end
+
+	point_begin
+		point={108644;-173947;-400}
+		point={108678;-174002;-400}
+		point={108505;-173964;-400}
+		point={108512;-174026;-400}
+		point={108549;-174075;-400}
+		point={108576;-174122;-400}
+		//채굴장(23_12)
+		class={dwarf_apprentice}
+	point_end
+
+	point_begin
+		point={-56733;-113459;-690}
+		point={-56686;-113470;-690}
+		point={-56728;-113610;-690}
+		point={-56693;-113610;-690}
+		point={-56743;-113757;-690}
+		point={-56682;-113730;-690}
+		//파아그리오 신전(18_14)
+		class={orc_fighter; orc_shaman}
+	point_end
+
+	point_begin
+		point={-125607;38452;1152}
+		point={-125472;38450;1152}
+		point={-125615;37771;1152}
+		point={-125464;37776;1152}
+		point={-125517;38267;1155}
+		point={-125531;37944;1155}
+		//영혼의 종유동(16_19)
+		class={kamael_m_soldier; kamael_f_soldier}
+	point_end
+
+initial_start_point_end
+
+//캐릭터가 죽으면 다시 시작하는 장소
+restart_point_begin
+
+	//테리토리 체크, 몬스터레이스_0(레인)
+	area_begin
+		range = {{11712;181566;-3596;-3396};{14407;181566;-3596;-3396};{14407;182676;-3596;-3396};{11712;182676;-3596;-3396}}
+		race={human;[monster_race]}
+		race={darkelf;[monster_race]}
+		race={orc;[monster_race]}
+		race={dwarf;[monster_race]}
+		race={elf;[monster_race]}
+		race={kamael;[monster_race]}
+	area_end
+
+	//테리토리 체크, 몬스터레이스_1(북쪽Booth)
+	area_begin
+		range = {{13308;181324;-3615;-3415};{14058;181324;-3615;-3415};{14059;181567;-3615;-3415};{13308;181567;-3615;-3415}}
+		race={human;[monster_race]}
+		race={darkelf;[monster_race]}
+		race={orc;[monster_race]}
+		race={dwarf;[monster_race]}
+		race={elf;[monster_race]}
+		race={kamael;[monster_race]}
+	area_end
+
+	//테리토리 체크, 몬스터레이스_2(남쪽Booth)
+	area_begin
+		range = {{13560;182677;-3610;-3410};{14071;182677;-3610;-3410};{14071;182918;-3610;-3410};{13561;182917;-3610;-3410}}
+		race={human;[monster_race]}
+		race={darkelf;[monster_race]}
+		race={orc;[monster_race]}
+		race={dwarf;[monster_race]}
+		race={elf;[monster_race]}
+		race={kamael;[monster_race]}
+	area_end
+
+	//테리토리 체크, 몬스터레이스_PVP
+	area_begin
+		range = {{11699;182677;-3612;-3412};{13197;182677;-3612;-3412};{13197;184265;-3612;-3412};{11694;184265;-3612;-3412}}
+		race={human;[monster_race_PVP]}
+		race={darkelf;[monster_race_PVP]}
+		race={orc;[monster_race_PVP]}
+		race={dwarf;[monster_race_PVP]}
+		race={elf;[monster_race_PVP]}
+		race={kamael;[monster_race_PVP]}
+	area_end
+
+	//테리토리 체크, 여명 신탁소
+	area_begin
+		range = {{-80523;108356;-5709;-4009};{-72583;108389;-5709;-4009};{-72539;115049;-5709;-4009};{-80511;114878;-5709;-4009}}
+		race={human;[oracle_of_dawn]}
+		race={darkelf;[oracle_of_dawn]}
+		race={orc;[oracle_of_dawn]}
+		race={dwarf;[oracle_of_dawn]}
+		race={elf;[oracle_of_dawn]}
+		race={kamael;[oracle_of_dawn]}
+	area_end
+
+	//테리토리 체크, 황혼 신탁소
+	area_begin
+		range = {{-81548;83569;-5835;-4135};{-73649;83619;-5835;-4135};{-73685;90050;-5835;-4135};{-81556;90016;-5835;-4135}}
+		race={human;[oracle_of_dusk]}
+		race={darkelf;[oracle_of_dusk]}
+		race={orc;[oracle_of_dusk]}
+		race={dwarf;[oracle_of_dusk]}
+		race={elf;[oracle_of_dusk]}
+		race={kamael;[oracle_of_dusk]}
+	area_end
+
+	//테리토리 체크, GM상담소 독방1
+	area_begin
+		range = {{-116299;-251426;-3049;-2849};{-115745;-251426;-3049;-2849};{-115745;-250840;-3049;-2849};{-116296;-250840;-3049;-2849}}
+		race={human;[gm_room_solo1]}
+		race={darkelf;[gm_room_solo1]}
+		race={orc;[gm_room_solo1]}
+		race={dwarf;[gm_room_solo1]}
+		race={elf;[gm_room_solo1]}
+		race={kamael;[gm_room_solo1]}
+	area_end
+
+	//테리토리 체크, GM상담소 독방2
+	area_begin
+		range = {{-113350;-251408;-3053;-2853};{-112797;-251407;-3053;-2853};{-112798;-250855;-3053;-2853};{-113353;-250857;-3053;-2853}}
+		race={human;[gm_room_solo2]}
+		race={darkelf;[gm_room_solo2]}
+		race={orc;[gm_room_solo2]}
+		race={dwarf;[gm_room_solo2]}
+		race={elf;[gm_room_solo2]}
+		race={kamael;[gm_room_solo2]}
+	area_end
+
+	//테리토리 체크, GM상담소
+	area_begin
+		range = {{-115727;-251652;-3050;-2850};{-113365;-251655;-3050;-2850};{-113365;-248191;-3050;-2850};{-115727;-248194;-3050;-2850}}
+		race={human;[gm_room]}
+		race={darkelf;[gm_room]}
+		race={orc;[gm_room]}
+		race={dwarf;[gm_room]}
+		race={elf;[gm_room]}
+		race={kamael;[gm_room]}
+	area_end
+
+	//테리토리 체크, add_23_17 아덴(과거의전장)
+	area_begin
+		range = {{116830;-12269;-4500;-597};{131272;-19475;-4500;-597};{131238;195;-4500;-597};{104496;195;-4500;-597};{106432;-2933;-4500;-597}}
+		race={human;[aden_town]}
+		race={darkelf;[aden_town]}
+		race={orc;[aden_town]}
+		race={dwarf;[aden_town]}
+		race={elf;[aden_town]}
+		race={kamael;[aden_town]}
+	area_end
+
+	//테리토리 체크, add_23_18_2 오렌2
+	area_begin
+		range = {{98126;18787;-3908;-2408};{102283;18620;-3908;-2408};{105152;24613;-3908;-2408};{104326;30622;-3908;-2408};{98088;30664;-3908;-2408}}
+		race={human;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={elf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, add_23_18_1 오렌1
+	area_begin
+		range = {{98122;-125;-4099;-2599};{104157;-125;-4099;-2599};{104780;5964;-4099;-2599};{104829;14388;-4099;-2599};{102556;19146;-4099;-2599};{98122;19207;-4099;-2599}}
+		race={human;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={elf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, add_22_20_4 기란4
+	area_begin
+		range = {{65560;72724;-3966;-2466};{66998;75856;-3966;-2466};{67000;91140;-3966;-2466};{65546;91138;-3966;-2466}}
+		race={human;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={elf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, add_22_20_3 기란3
+	area_begin
+		range = {{65541;89966;-3979;-2479};{72218;92923;-3979;-2479};{81223;98341;-3979;-2479};{65537;98341;-3979;-2479}}
+		race={human;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={elf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, add_22_20_2 기란2
+	area_begin
+		range = {{73291;96517;-3953;-2453};{81049;95737;-3953;-2453};{90505;98448;-3953;-2453};{73307;98389;-3953;-2453}}
+		race={human;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={elf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, add_22_20_1 기란1
+	area_begin
+		range = {{91486;94741;-3976;-2476};{98321;96310;-3976;-2476};{98342;98409;-3976;-2476};{83284;98399;-3976;-2476}}
+		race={human;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={elf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, add_23_19_3 아덴3
+	area_begin
+		range = {{127915;59088;-3671;3829};{128711;55378;-3671;3829};{131199;51613;-3671;3829};{131220;64225;-3671;3829};{128354;62776;-3671;3829}}
+		race={human;[aden_town]}
+		race={darkelf;[aden_town]}
+		race={orc;[aden_town]}
+		race={dwarf;[aden_town]}
+		race={elf;[aden_town]}
+		race={kamael;[aden_town]}
+	area_end
+
+	//테리토리 체크, add_23_19_2 아덴2
+	area_begin
+		range = {{127605;32531;-3826;-1326};{131035;32562;-3826;-1326};{131199;54562;-3826;-1326};{129347;49354;-3826;-1326}}
+		race={human;[aden_town]}
+		race={darkelf;[aden_town]}
+		race={orc;[aden_town]}
+		race={dwarf;[aden_town]}
+		race={elf;[aden_town]}
+		race={kamael;[aden_town]}
+	area_end
+
+	//테리토리 체크, add_23_19_1 아덴1
+	area_begin
+		range = {{98303;32680;-4089;-1589};{130873;32701;-4089;-1589};{130135;34492;-4089;-1589};{98304;34726;-4089;-1589}}
+		race={human;[aden_town]}
+		race={darkelf;[aden_town]}
+		race={orc;[aden_town]}
+		race={dwarf;[aden_town]}
+		race={elf;[aden_town]}
+		race={kamael;[aden_town]}
+	area_end
+
+	//테리토리 체크, add_23_20_4 오렌2
+	area_begin
+		range = {{98169;65360;-3758;1242};{104540;74468;-3758;1242};{100546;88083;-3758;1242};{98164;88355;-3758;1242}}
+		race={human;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={elf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, add_23_20_3 오렌1
+	area_begin
+		range = {{101128;88045;-3744;1256};{103560;91109;-3744;1256};{104597;95332;-3744;1256};{98191;96184;-3744;1256};{98183;86478;-3744;1256}}
+		race={human;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={elf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, add_23_20_2 기란2
+	area_begin
+		range = {{115811;95756;-4053;1947};{119344;97057;-4053;1947};{119684;98434;-4053;1947};{98172;98417;-4053;1947};{98178;96262;-4053;1947};{108757;95049;-4053;1947}}
+		race={human;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={elf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, add_23_20_1 기란1 - 요새 추가로 지워버림
+//	area_begin
+//		range = {{119393;97040;-2972;28};{131160;94553;-2972;28};{131170;98399;-2972;28};{117188;98403;-2972;28}}
+//		race={human;[giran_castle_town]}
+//		race={darkelf;[giran_castle_town]}
+//		race={orc;[giran_castle_town]}
+//		race={dwarf;[giran_castle_town]}
+//		race={elf;[giran_castle_town]}
+//		race={kamael;[giran_castle_town]}
+//	area_end
+
+	//테리토리 체크, add_23_22_2 인나드릴2
+	area_begin
+		range = {{123367;145103;-4572;-2072};{131151;141459;-4572;-2072};{131237;164129;-4572;-2072};{119229;164122;-4572;-2072};{119264;151714;-4572;-2072}}
+		race={human;[heiness_town]}
+		race={darkelf;[heiness_town]}
+		race={orc;[heiness_town]}
+		race={dwarf;[heiness_town]}
+		race={elf;[heiness_town]}
+		race={kamael;[heiness_town]}
+	area_end
+
+	//테리토리 체크, add_23_22_1 인나드릴1
+	area_begin
+		range = {{108429;151108;-4578;-2078};{119577;151332;-4578;-2078};{119582;164120;-4578;-2078};{98099;164101;-4578;-2078};{98071;157216;-4578;-2078};{100683;154025;-4578;-2078}}
+		race={human;[heiness_town]}
+		race={darkelf;[heiness_town]}
+		race={orc;[heiness_town]}
+		race={dwarf;[heiness_town]}
+		race={elf;[heiness_town]}
+		race={kamael;[heiness_town]}
+	area_end
+
+	//테리토리 체크, add_22_22 인나드릴
+	area_begin
+		range = {{93549;155049;-4331;-1831};{98410;156923;-4331;-1831};{98436;163903;-4331;-1831};{82360;163905;-4331;-1831};{82360;160215;-4331;-1831}}
+		race={human;[heiness_town]}
+		race={darkelf;[heiness_town]}
+		race={orc;[heiness_town]}
+		race={dwarf;[heiness_town]}
+		race={elf;[heiness_town]}
+		race={kamael;[heiness_town]}
+	area_end
+
+	//테리토리 체크, add_21_24 악마섬
+	area_begin
+		range = {{56950;199547;-5068;2932};{60975;202588;-5068;2932};{62108;216922;-5068;2932};{60328;223350;-5068;2932};{54144;226379;-5068;2932};{54144;226379;-5068;2932};{38239;225325;-5068;2932};{35730;217296;-5068;2932};{37613;199255;-5068;2932};{42442;196987;-5068;2932}}
+		race={human;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={elf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, add_21_23_3 디온3
+	area_begin
+		range = {{43888;163713;-3779;-1279};{59933;163750;-3779;-1279};{46300;169538;-3779;-1279};{43883;167601;-3779;-1279}}
+		race={human;[dion_castle_town]}
+		race={darkelf;[dion_castle_town]}
+		race={orc;[dion_castle_town]}
+		race={dwarf;[dion_castle_town]}
+		race={elf;[dion_castle_town]}
+		race={kamael;[dion_castle_town]}
+	area_end
+
+	//테리토리 체크, add_21_23_2 디온2
+	area_begin
+		range = {{32568;171064;-3807;-1807};{32537;163466;-3807;-1807};{37814;167482;-3807;-1807}}
+		race={human;[dion_castle_town]}
+		race={darkelf;[dion_castle_town]}
+		race={orc;[dion_castle_town]}
+		race={dwarf;[dion_castle_town]}
+		race={elf;[dion_castle_town]}
+		race={kamael;[dion_castle_town]}
+	area_end
+
+	//테리토리 체크, add_21_23_1 디온1
+	area_begin
+		range = {{32803;163712;-3774;-1274};{43975;163696;-3774;-1274};{43957;167583;-3774;-1274};{36639;167546;-3774;-1274}}
+		race={human;[dion_castle_town]}
+		race={darkelf;[dion_castle_town]}
+		race={orc;[dion_castle_town]}
+		race={dwarf;[dion_castle_town]}
+		race={elf;[dion_castle_town]}
+		race={kamael;[dion_castle_town]}
+	area_end
+
+	//테리토리 체크, add_20_22_2 글루디오2
+	area_begin
+		range = {{-65;158365;-4656;-2656};{2775;158666;-4656;-2656};{5097;163843;-4656;-2656};{-76;163842;-4656;-2656}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_20_22_1 글루디오1
+	area_begin
+		range = {{-232;159206;-5924;-924};{-214;129294;-5924;-924};{2312;130658;-5924;-924};{4612;138037;-5924;-924};{4754;145375;-5924;-924};{4754;145375;-5924;-924};{3137;146195;-5924;-924};{3154;160227;-5924;-924}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_19_21 디온
+	area_begin
+		range = {{-3165;119934;-4255;-2755};{-14;116025;-4255;-2755};{-32;129912;-4255;-2755};{-5069;126852;-4255;-2755}}
+		race={human;[dion_castle_town]}
+		race={darkelf;[dion_castle_town]}
+		race={orc;[dion_castle_town]}
+		race={dwarf;[dion_castle_town]}
+		race={elf;[dion_castle_town]}
+		race={kamael;[dion_castle_town]}
+	area_end
+
+
+	//테리토리 체크, add_20_20 디온
+	area_begin
+		range = {{2167;97060;-4782;218};{32848;96719;-4782;218};{32854;98489;-4782;218};{2161;98395;-4782;218}}
+		race={human;[dion_castle_town]}
+		race={darkelf;[dion_castle_town]}
+		race={orc;[dion_castle_town]}
+		race={dwarf;[dion_castle_town]}
+		race={elf;[dion_castle_town]}
+		race={kamael;[dion_castle_town]}
+	area_end
+
+	//테리토리 체크, add_19_24 글루디오
+	area_begin
+		range = {{-17049;204942;-4677;-3077};{-5035;196530;-4677;-3077};{-31401;196507;-4677;-3077};{-26564;204707;-4677;-3077}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_18_23_2_2 글루디오2_2
+	area_begin
+		range = {{-41226;187772;-4399;-2899};{-32594;182909;-4399;-2899};{-32931;194798;-4399;-2899};{-38750;192188;-4399;-2899}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_18_23_2_1 글루디오2_1
+	area_begin
+		range = {{-40885;176647;-4458;-2958};{-32588;179213;-4458;-2958};{-32722;183489;-4458;-2958};{-43651;189094;-4458;-2958};{-46942;180696;-4458;-2958}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_18_23_1_2 글루디오1_2
+	area_begin
+		range = {{-38529;173004;-4570;-3070};{-32775;176283;-4570;-3070};{-32819;179383;-4570;-3070};{-40960;176773;-4570;-3070}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_18_23_1_1 글루디오1_1
+	area_begin
+		range = {{-38501;173045;-4566;-3066};{-37525;168739;-4566;-3066};{-32679;166859;-4566;-3066};{-32794;176644;-4566;-3066}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_18_22  글루디오
+	area_begin
+		range = {{-42492;158681;-5552;-552};{-37596;130952;-5552;-552};{-32467;130795;-5552;-552};{-32467;164210;-5552;-552}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, add_18_21_3 글루딘3
+	area_begin
+		range = {{-41822;125676;-3376;-576};{-37841;127845;-3376;-576};{-38261;131102;-3376;-576};{-47575;131097;-3376;-576};{-47581;129088;-3376;-576};{-44709;126972;-3376;-576}}
+		race={human;[gludin_town]}
+		race={darkelf;[gludin_town]}
+		race={orc;[gludin_town]}
+		race={dwarf;[gludin_town]}
+		race={elf;[gludin_town]}
+		race={kamael;[gludin_town]}
+	area_end
+
+	//테리토리 체크, add_18_21_2 글루딘2
+	area_begin
+		range = {{-49822;129200;-3253;-1753};{-47530;129044;-3253;-1753};{-47537;131070;-3253;-1753};{-51845;131056;-3253;-1753};{-51562;130324;-3253;-1753};{-50890;129719;-3253;-1753}}
+		race={human;[gludin_town]}
+		race={darkelf;[gludin_town]}
+		race={orc;[gludin_town]}
+		race={dwarf;[gludin_town]}
+		race={elf;[gludin_town]}
+		race={kamael;[gludin_town]}
+	area_end
+
+	//테리토리 체크, add_18_21_1 글루딘1
+	area_begin
+		range = {{-65686;115819;-4184;-1184};{-62217;116733;-4184;-1184};{-57806;131186;-4184;-1184};{-65721;131145;-4184;-1184}}
+		race={human;[gludin_town]}
+		race={darkelf;[gludin_town]}
+		race={orc;[gludin_town]}
+		race={dwarf;[gludin_town]}
+		race={elf;[gludin_town]}
+		race={kamael;[gludin_town]}
+	area_end
+
+	//테리토리 체크, add_ 다크엘프의 숲4-중립지대
+	area_begin
+		range = {{-33804;86223;-3777;-1277};{-26832;88453;-3777;-1277};{-32248;88884;-3777;-1277}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, add_18_20 글루디오2
+	area_begin
+		range = {{-66100;96130;-3772;-1272};{-65743;93025;-3772;-1272};{-61912;93677;-3772;-1272}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, 20_19_안개산맥 서쪽 다크엘프 영지
+	area_begin
+		range = {{-200;32455;-3680;1320};{7581;32533;-3680;1320};{5808;44237;-3680;1320};{-326;53864;-3680;1320}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 21_18_엘프의 숲
+	area_begin
+		range = {{34867;29737;-3698;302};{49579;29983;-3698;302};{51919;32784;-3698;302};{32566;32799;-3698;302};{32568;31367;-3698;302}}
+		race={elf;[elf_town]}
+		race={human;[elf_town]}
+		race={orc;[elf_town]}
+		race={dwarf;[elf_town]}
+		race={kamael;[elf_town]}
+		race={darkelf;[darkelf_town]}
+	area_end
+
+	//테리토리 체크, 21_18_다크엘프의 숲1
+	area_begin
+		range = {{35073;22896;-4871;129};{42560;12837;-4871;129};{45060;6876;-4871;129};{46205;165;-4871;129};{32511;42;-4871;129};{31632;23982;-4871;129}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 21_18_다크엘프의 숲2
+	area_begin
+		range = {{45334;-134;-4866;134};{65470;-112;-4866;134};{62362;5017;-4866;134};{53921;10445;-4866;134};{42419;13662;-4866;134}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 21_20, 디온
+	area_begin
+		range = {{32716;96377;-5137;-137};{63495;96374;-5137;-137};{63469;98620;-5137;-137};{32690;98678;-5137;-137}}
+		race={elf;[dion_castle_town]}
+		race={darkelf;[dion_castle_town]}
+		race={human;[dion_castle_town]}
+		race={orc;[dion_castle_town]}
+		race={dwarf;[dion_castle_town]}
+		race={kamael;[dion_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_19_오렌1
+	area_begin
+		range = {{49993;31658;-4376;124};{66788;31695;-4376;124};{66820;36162;-4376;124};{59411;36539;-4376;124}}
+		race={elf;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={human;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_19_오렌2
+	area_begin
+		range = {{62307;35180;-4384;116};{66552;35203;-4384;116};{66663;52754;-4384;116};{63106;52710;-4384;116};{59696;47037;-4384;116}}
+		race={elf;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={human;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_19_오렌3
+	area_begin
+		range = {{61496;52325;-4325;175};{66528;52406;-4325;175};{66707;65500;-4325;175};{60825;65468;-4325;175}}
+		race={elf;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={human;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_20_오렌
+	area_begin
+		range = {{63480;64066;-4000;-2000};{66572;64059;-4000;-2000};{66572;74028;-4000;-2000};{63480;74028;-4000;-2000}}
+		race={elf;[oren_castle_town]}
+		race={darkelf;[oren_castle_town]}
+		race={human;[oren_castle_town]}
+		race={orc;[oren_castle_town]}
+		race={dwarf;[oren_castle_town]}
+		race={kamael;[oren_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_20_기란
+	area_begin
+		range = {{63480;74029;-4000;-2000};{66572;74029;-4000;-2000};{66572;98294;-4000;-2000};{63480;98294;-4000;-2000}}
+		race={elf;[giran_castle_town]}
+		race={human;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_21, 기란1
+	area_begin
+		range = {{63477;98288;-3931;-1931};{66559;98305;-3931;-1931};{66558;101836;-3931;-1931};{63478;101088;-3931;-1931}}
+		race={elf;[giran_castle_town]}
+		race={human;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_21, 기란2
+	area_begin
+		range = {{62610;100826;-4188;-1588};{66262;101390;-4188;-1588};{66577;131029;-4188;-1588};{63717;131034;-4188;-1588};{59876;103714;-4188;-1588}}
+		race={elf;[giran_castle_town]}
+		race={human;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, 21_23, 기란항구 바다 부분
+	area_begin
+		range = {{42947;190296;-4735;-3235};{59746;181026;-4735;-3235};{65984;186045;-4735;-3235};{65968;196973;-4735;-3235};{32484;197014;-4735;-3235}}
+		race={elf;[giran_habor]}
+		race={darkelf;[giran_habor]}
+		race={human;[giran_habor]}
+		race={orc;[giran_habor]}
+		race={dwarf;[giran_habor]}
+		race={kamael;[giran_habor]}
+	area_end
+
+	//테리토리 체크, 콜로세움 배틀존(24_19)
+	area_begin
+		range = {{151252;45918;-3498;-3298};{151253;47550;-3498;-3298};{150767;48129;-3498;-3298};{148252;48132;-3498;-3298};{147751;47545;-3498;-3298};{147744;45916;-3498;-3298};{148238;45301;-3498;-3298};{150781;45307;-3498;-3298}}
+		race={elf;[colosseum]}
+		race={darkelf;[colosseum]}
+		race={human;[colosseum]}
+		race={orc;[colosseum]}
+		race={dwarf;[colosseum]}
+		race={kamael;[colosseum]}
+	area_end
+
+	//테리토리 체크, 콜로세움 피스존1(24_19)
+	area_begin
+		range = {{147779;46196;-3468;-3268};{148045;46481;-3468;-3268};{148047;46958;-3468;-3268};{147772;47256;-3468;-3268};{147078;47258;-3468;-3268};{147095;46203;-3468;-3268}}
+		race={elf;[colosseum]}
+		race={darkelf;[colosseum]}
+		race={human;[colosseum]}
+		race={orc;[colosseum]}
+		race={dwarf;[colosseum]}
+		race={kamael;[colosseum]}
+	area_end
+
+	//테리토리 체크, 콜로세움 피스존2(24_19)
+	area_begin
+		range = {{151221;46184;-3472;-3272};{151928;46183;-3472;-3272};{151925;47248;-3472;-3272};{151222;47262;-3472;-3272};{150952;46956;-3472;-3272};{150954;46486;-3472;-3272}}
+		race={elf;[colosseum]}
+		race={darkelf;[colosseum]}
+		race={human;[colosseum]}
+		race={orc;[colosseum]}
+		race={dwarf;[colosseum]}
+		race={kamael;[colosseum]}
+	area_end
+
+	//테리토리 체크, 다크엘프의 숲1(17_20)
+	area_begin
+		range = {{-71038;69341;-4088;-2088};{-64952;69392;-4088;-2088};{-64988;88249;-4088;-2088};{-77802;87398;-4088;-2088};{-80067;79054;-4088;-2088}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 다크엘프의 숲2(17_20)
+	area_begin
+		range = {{-72378;87505;-3992;-1992};{-65145;87772;-3992;-1992};{-65156;93195;-3992;-1992};{-67987;92410;-3992;-1992}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 다크엘프의 숲3(17_20)
+	area_begin
+		range = {{-76789;65422;-3968;-1968};{-64977;65400;-3968;-1968};{-64998;73322;-3968;-1968};{-76668;75810;-3968;-1968}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 글루디오1(18_20)
+	area_begin
+		range = {{-38557;94125;-4079;921};{-32413;88346;-4079;921};{-32414;98751;-4079;921};{-66106;98654;-4079;921};{-66101;96123;-4079;921};{-62724;94343;-4079;921}}
+		race={human;[gludio_castle_town]}
+		race={darkelf;[gludio_castle_town]}
+		race={orc;[gludio_castle_town]}
+		race={dwarf;[gludio_castle_town]}
+		race={elf;[gludio_castle_town]}
+		race={kamael;[gludio_castle_town]}
+	area_end
+
+	//테리토리 체크, 다크엘프의 숲1-중립지대(19_20)
+	area_begin
+		range = {{-33765;83315;-4100;-3100};{-21239;78502;-4100;-3100};{-21864;90121;-4100;-3100};{-33788;86463;-4100;-3100}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 다크엘프의 숲2-중립지대(19_20)
+	area_begin
+		range = {{-33767;72902;-4235;-3235};{-17495;73285;-4235;-3235};{-22631;81481;-4235;-3235};{-33788;83737;-4235;-3235}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 다크엘프의 숲3-중립지대(19_20)
+	area_begin
+		range = {{-33367;73183;-3932;-2932};{-12563;70545;-3932;-2932};{-19250;74975;-3932;-2932}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 다크엘프의 숲4-중립지대(19_20)
+	area_begin
+		range = {{-33647;65118;-4017;-3017};{-10654;65187;-4017;-3017};{-10651;70698;-4017;-3017};{-33667;73395;-4017;-3017}}
+		race={human;[darkelf_town]}
+		race={darkelf;[darkelf_town]}
+		race={orc;[darkelf_town]}
+		race={dwarf;[darkelf_town]}
+		race={kamael;[darkelf_town]}
+		race={elf;[elf_town]}
+	area_end
+
+	//테리토리 체크, 엘프의 숲1-중립지대(19_20)
+	area_begin
+		range = {{-10631;65484;-4281;-3281};{147;65487;-4281;-3281};{153;75746;-4281;-3281};{-10630;70580;-4281;-3281}}
+		race={elf;[elf_town]}
+		race={human;[elf_town]}
+		race={orc;[elf_town]}
+		race={dwarf;[elf_town]}
+		race={kamael;[elf_town]}
+		race={darkelf;[darkelf_town]}
+	area_end
+
+	//테리토리 체크, 엘프의 숲2-중립지대(19_20)
+	area_begin
+		range = {{-6043;72650;-4215;-3215};{172;73048;-4215;-3215};{153;79538;-4215;-3215}}
+		race={elf;[elf_town]}
+		race={human;[elf_town]}
+		race={orc;[elf_town]}
+		race={dwarf;[elf_town]}
+		race={kamael;[elf_town]}
+		race={darkelf;[darkelf_town]}
+	area_end
+
+	//테리토리 체크, 중립지대(20_20)
+	area_begin
+		range = {{1367;79808;-4245;-3245};{2153;88057;-4245;-3245};{2111;98621;-4245;-3245};{-453;98621;-4245;-3245};{-458;78212;-4245;-3245}}
+		race={elf;[DMZ]}
+		race={human;[DMZ]}
+		race={orc;[DMZ]}
+		race={dwarf;[DMZ]}
+		race={darkelf;[DMZ]}
+		race={kamael;[DMZ]}
+	area_end
+
+	//테리토리 체크, 기란1-인나드릴(22_23)
+	area_begin
+		range = {{65089;177671;-4483;-2483};{72528;175700;-4483;-2483};{69292;181077;-4483;-2483};{66188;185068;-4483;-2483};{65085;185040;-4483;-2483}}
+		race={elf;[giran_castle_town]}
+		race={human;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, 기란2-인나드릴(22_23)
+	area_begin
+		range = {{65066;163463;-4390;-2000};{80879;163501;-4390;-2000};{76230;172053;-4390;-2000};{70568;177842;-4390;-2000};{65088;177785;-4390;-2000}}
+		race={elf;[giran_castle_town]}
+		race={human;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테리토리 체크, 말하는 섬 던전(21_25)
+	area_begin
+		range = {{41090;242210;-6874;-4874};{49934;242210;-6874;-4874};{49985;250489;-6874;-4874};{41141;250489;-6874;-4874}}
+		race={elf;[talking_island_town]}
+		race={human;[talking_island_town]}
+		race={orc;[talking_island_town]}
+		race={dwarf;[talking_island_town]}
+		race={darkelf;[talking_island_town]}
+		race={kamael;[talking_island_town]}
+	area_end
+
+	//테리토리 체크, 말섬전사스타팅존(17_25)
+	area_begin
+		range = {{-71944;258332;-3148;-2948};{-71316;257772;-3148;-2948};{-70728;258468;-3148;-2948};{-71364;259000;-3148;-2948}}
+		race={human;[Cedric's_Training_Hall]}
+		race={darkelf;[Cedric's_Training_Hall]}
+		race={orc;[Cedric's_Training_Hall]}
+		race={dwarf;[Cedric's_Training_Hall]}
+		race={elf;[Cedric's_Training_Hall]}
+		race={kamael;[Cedric's_Training_Hall]}
+	area_end
+
+	//테리토리 체크, 말섬마법사스타팅존(17_25)
+	area_begin
+		range = {{-90831;247813;-3606;-3406};{-90011;248306;-3606;-3406};{-90341;248870;-3606;-3406};{-91170;248248;-3606;-3406}}
+		race={human;[Einhovant's_School_of_Magic]}
+		race={darkelf;[Einhovant's_School_of_Magic]}
+		race={orc;[Einhovant's_School_of_Magic]}
+		race={dwarf;[Einhovant's_School_of_Magic]}
+		race={elf;[Einhovant's_School_of_Magic]}
+		race={kamael;[Einhovant's_School_of_Magic]}
+	area_end
+
+	//테리토리 체크, 엘프마을스타팅존(21_19)
+	area_begin
+		range = {{44096;40595;-3555;-3355};{47903;41035;-3555;-3355};{46459;42066;-3555;-3355};{45948;42089;-3555;-3355}}
+		race={human;[Mothertree_Glade]}
+		race={darkelf;[Temple_of_Shilen]}
+		race={orc;[Mothertree_Glade]}
+		race={dwarf;[Mothertree_Glade]}
+		race={elf;[Mothertree_Glade]}
+		race={kamael;[Mothertree_Glade]}
+	area_end
+
+
+	//테리토리 체크, 다크엘프마을스타팅존(20_18)
+	area_begin
+		range = {{27704;10253;-4276;-4076};{29165;10298;-4276;-4076};{29165;11811;-4276;-4076};{27748;11837;-4276;-4076}}
+		race={human;[Temple_of_Shilen]}
+		race={darkelf;[Temple_of_Shilen]}
+		race={orc;[Temple_of_Shilen]}
+		race={dwarf;[Temple_of_Shilen]}
+		race={kamael;[Temple_of_Shilen]}
+		race={elf;[Mothertree_Glade]}
+	area_end
+
+
+	//테리토리 체크, 오크마을스타팅존(18_14)
+	area_begin
+		range = {{-56890;-114033;-718;-518};{-55620;-114048;-718;-518};{-55632;-113165;-718;-518};{-56882;-113175;-718;-518}}
+		race={human;[Temple_of_Paagrio]}
+		race={darkelf;[Temple_of_Paagrio]}
+		race={orc;[Temple_of_Paagrio]}
+		race={dwarf;[Temple_of_Paagrio]}
+		race={elf;[Temple_of_Paagrio]}
+		race={kamael;[Temple_of_Paagrio]}
+	area_end
+
+
+	//테리토리 체크, 드워프마을스타팅존(23_12)
+	area_begin
+		range = {{108734;-175480;-623;-423};{109960;-174283;-623;-423};{108767;-172526;-623;-423};{107348;-173244;-623;-423}}
+		race={human;[Quarry]}
+		race={darkelf;[Quarry]}
+		race={orc;[Quarry]}
+		race={dwarf;[Quarry]}
+		race={elf;[Quarry]}
+		race={kamael;[Quarry]}
+	area_end
+
+	//테리토리 체크, 카마엘마을스타팅존(16_19)
+	area_begin
+		range = {{-126634;36733;-552;5448};{-114999;36218;-552;5448};{-115417;39345;-552;5448};{-121430;41980;-552;5448};{-123839;47818;-552;5448};{-126097;46563;-552;5448};{-127017;43453;-552;5448}}
+		race={human;[spirit_cave]}
+		race={darkelf;[spirit_cave]}
+		race={orc;[spirit_cave]}
+		race={dwarf;[spirit_cave]}
+		race={elf;[spirit_cave]}
+		race={kamael;[spirit_cave]}
+	area_end
+
+	//테리토리 체크, 고다드 마을1(23_17)
+	area_begin
+		range = {{97820;-33007;-6540;3460};{130940;-33101;-6540;3460};{131029;-19205;-6540;3460};{114978;-17466;-6540;3460};{107239;-17497;-6540;3460};{106786;-20636;-6540;3460};{98021;-24647;-6540;3460}}
+		race={human;[godard_town]}
+		race={darkelf;[godard_town]}
+		race={orc;[godard_town]}
+		race={dwarf;[godard_town]}
+		race={elf;[godard_town]}
+		race={kamael;[godard_town]}
+	area_end
+
+
+	//테리토리 체크, 고다드 마을2(24_17)
+	area_begin
+		range = {{152215;-33320;-3272;2272};{164125;-33133;-3272;2272};{163975;-26899;-3272;2272};{154963;-24228;-3272;2272}}
+		race={human;[godard_town]}
+		race={darkelf;[godard_town]}
+		race={orc;[godard_town]}
+		race={dwarf;[godard_town]}
+		race={elf;[godard_town]}
+		race={kamael;[godard_town]}
+	area_end
+
+
+	//테리토리 체크, 고다드 마을3(23_15)
+	area_begin
+		range = {{126132;-77416;-3600;1900};{131337;-73320;-3600;1900};{131831;-64941;-3600;1900};{116047;-64957;-3600;1900};{116275;-72919;-3600;1900};{119114;-77974;-3600;1900}}
+		race={human;[godard_town]}
+		race={darkelf;[godard_town]}
+		race={orc;[godard_town]}
+		race={dwarf;[godard_town]}
+		race={elf;[godard_town]}
+		race={kamael;[godard_town]}
+	area_end
+
+	//테리토리 체크, 고다드 마을4(23_15)
+	area_begin
+		range = {{103811;-71203;-3500;2508};{116328;-72794;-3500;2508};{116273;-64852;-3500;2508};{97888;-65039;-3500;2508};{97992;-72803;-3500;2508}}
+		race={human;[godard_town]}
+		race={darkelf;[godard_town]}
+		race={orc;[godard_town]}
+		race={dwarf;[godard_town]}
+		race={elf;[godard_town]}
+		race={kamael;[godard_town]}
+	area_end
+
+	//테리토리 체크, 제국의 무덤1(25_15)
+	area_begin
+		range = {{181198;-86516;-7263;-7063};{192394;-86521;-7263;-7063};{192391;-84626;-7263;-7063};{181193;-84622;-7263;-7063}}
+		race={human;[the_royal_family's_catacomb]}
+		race={darkelf;[the_royal_family's_catacomb]}
+		race={orc;[the_royal_family's_catacomb]}
+		race={dwarf;[the_royal_family's_catacomb]}
+		race={elf;[the_royal_family's_catacomb]}
+		race={kamael;[the_royal_family's_catacomb]}
+	area_end
+
+	//테리토리 체크, 제국의 무덤2(25_15)
+	area_begin
+		range = {{179511;-89903;-7263;-7063};{190707;-89908;-7263;-7063};{190704;-88013;-7263;-7063};{179506;-88009;-7263;-7063}}
+		race={human;[the_royal_family's_catacomb]}
+		race={darkelf;[the_royal_family's_catacomb]}
+		race={orc;[the_royal_family's_catacomb]}
+		race={dwarf;[the_royal_family's_catacomb]}
+		race={elf;[the_royal_family's_catacomb]}
+		race={kamael;[the_royal_family's_catacomb]}
+	area_end
+
+	//테리토리 체크, 제국의 무덤3(25_15)
+	area_begin
+		range = {{174498;-82751;-7263;-7063};{176622;-82751;-7263;-7063};{176616;-71304;-7263;-7063};{174489;-71303;-7263;-7063}}
+		race={human;[the_royal_family's_catacomb]}
+		race={darkelf;[the_royal_family's_catacomb]}
+		race={orc;[the_royal_family's_catacomb]}
+		race={dwarf;[the_royal_family's_catacomb]}
+		race={elf;[the_royal_family's_catacomb]}
+		race={kamael;[the_royal_family's_catacomb]}
+	area_end
+
+	//테리토리 체크, 제국의 무덤4(25_15)
+	area_begin
+		range = {{172183;-86660;-7263;-7063};{174307;-86661;-7263;-7063};{174301;-75214;-7263;-7063};{172174;-75213;-7263;-7063}}
+		race={human;[the_royal_family's_catacomb]}
+		race={darkelf;[the_royal_family's_catacomb]}
+		race={orc;[the_royal_family's_catacomb]}
+		race={dwarf;[the_royal_family's_catacomb]}
+		race={elf;[the_royal_family's_catacomb]}
+		race={kamael;[the_royal_family's_catacomb]}
+	area_end
+
+	//테리토리 체크, 슈트가르트성마을(23_12)
+	area_begin
+		range = {{122877;-169906;-5008;7992};{131127;-168425;-5008;7992};{131152;-164018;-5008;7992};{97964;-164012;-5008;7992};{98250;-176523;-5008;7992};{109847;-167607;-5008;7992}}
+		race={human;[town_of_schuttgart]}
+		race={darkelf;[town_of_schuttgart]}
+		race={orc;[town_of_schuttgart]}
+		race={dwarf;[town_of_schuttgart]}
+		race={elf;[town_of_schuttgart]}
+		race={kamael;[town_of_schuttgart]}
+	area_end
+
+	//테러토리 체크, 루운성 마을 (20_17)
+	area_begin
+		range = {{-215;-33011;-7776;2224};{32869;-33040;-7776;2224};{32799;-28250;-7776;2224};{-74;-28250;-7776;2224}}
+		race={human;[rune_town]}
+		race={darkelf;[rune_town]}
+		race={orc;[rune_town]}
+		race={dwarf;[rune_town]}
+		race={elf;[rune_town]}
+		race={kamael;[rune_town]}
+	area_end
+
+	//테러토리 체크, 신탁의 섬 북부 (24_22)
+	area_begin
+		range = {{135252;147334;-23970;36029};{148970;141187;-23970;36029};{163230;148425;-23970;36029};{163566;164342;-23970;36029};{131584;164349;-23970;36029}}
+		race={human;[heiness_town]}
+		race={darkelf;[heiness_town]}
+		race={orc;[heiness_town]}
+		race={dwarf;[heiness_town]}
+		race={elf;[heiness_town]}
+		race={kamael;[heiness_town]}
+	area_end
+
+	//테러토리 체크, 시가지 및 마물 제작소 (20_25)
+	area_begin
+		range = {{28066;258031;-30000;30000};{26122;258764;-30000;30000};{23369;257219;-30000;30000};{21379;257982;-30000;30000};{13514;257522;-30000;30000};{13514;257522;-30000;30000};{11847;254675;-30000;30000};{12678;250563;-30000;30000};{16062;248161;-30000;30000};{21804;247918;-30000;30000};{27185;240706;-30000;30000};{30457;241223;-30000;30000};{30878;247473;-30000;30000};{27032;251619;-30000;30000};{28267;256418;-30000;30000}}
+		race={human;[ironcastle_inner_oasis]}
+		race={darkelf;[ironcastle_inner_oasis]}
+		race={orc;[ironcastle_inner_oasis]}
+		race={dwarf;[ironcastle_inner_oasis]}
+		race={elf;[ironcastle_inner_oasis]}
+		race={kamael;[ironcastle_inner_oasis]}
+	area_end
+
+	//테러토리 체크, 강철의 성 베이스 (20_26)
+	area_begin
+		range = {{12080;274633;-10736;-5736};{20523;274633;-10736;-5736};{20553;284567;-10736;-5736};{11947;284600;-10736;-5736}}
+		race={human;[ironcastle_inner_oasis]}
+		race={darkelf;[ironcastle_inner_oasis]}
+		race={orc;[ironcastle_inner_oasis]}
+		race={dwarf;[ironcastle_inner_oasis]}
+		race={elf;[ironcastle_inner_oasis]}
+		race={kamael;[ironcastle_inner_oasis]}
+	area_end
+
+	//테러토리 체크, 강철의 성 공간의 탑 (19_26)
+	area_begin
+		range = {{-23324;276243;-15364;-6864};{-17912;276243;-15364;-6864};{-17912;280871;-15364;-6864};{-23324;280871;-15364;-6864}}
+		race={human;[ironcastle_inner_oasis]}
+		race={darkelf;[ironcastle_inner_oasis]}
+		race={orc;[ironcastle_inner_oasis]}
+		race={dwarf;[ironcastle_inner_oasis]}
+		race={elf;[ironcastle_inner_oasis]}
+		race={kamael;[ironcastle_inner_oasis]}
+	area_end
+
+	//테러토리 체크, 강철의 성 톨레스의 공작소 (19_26)
+	area_begin
+		range = {{-15081;271397;-15504;-7904};{-9858;271401;-15504;-7904};{-9809;282115;-15504;-7904};{-15085;282131;-15504;-7904}}
+		race={human;[ironcastle_inner_oasis]}
+		race={darkelf;[ironcastle_inner_oasis]}
+		race={orc;[ironcastle_inner_oasis]}
+		race={dwarf;[ironcastle_inner_oasis]}
+		race={elf;[ironcastle_inner_oasis]}
+		race={kamael;[ironcastle_inner_oasis]}
+	area_end
+
+	//테러토리 체크, 강철의 성 나이아의 탑 (18_25)
+	area_begin
+		range = {{-58700;238125;-16148;-5000};{-39128;238125;-16148;-5000};{-39128;253515;-16148;-5000};{-58700;253515;-16148;-5000}}
+		race={human;[ironcastle_inner_oasis]}
+		race={darkelf;[ironcastle_inner_oasis]}
+		race={orc;[ironcastle_inner_oasis]}
+		race={dwarf;[ironcastle_inner_oasis]}
+		race={elf;[ironcastle_inner_oasis]}
+		race={kamael;[ironcastle_inner_oasis]}
+	area_end
+
+	//테러토리 체크, 강철의 성 베레스 전 (20_24)
+	area_begin
+		range = {{11214;205578;-10412;-5112};{20607;205578;-10412;-5112};{20648;220271;-10412;-5112};{11172;220271;-10412;-5112}}
+		race={human;[southern_wasteland]}
+		race={darkelf;[southern_wasteland]}
+		race={orc;[southern_wasteland]}
+		race={dwarf;[southern_wasteland]}
+		race={elf;[southern_wasteland]}
+		race={kamael;[southern_wasteland]}
+	area_end
+
+	//테러토리 체크, 강철의 성 타워 옥상 (20_25)
+	area_begin
+		range = {{14989;234586;9500;13000};{13398;247981;9500;13000};{26587;245429;9500;13000}}
+		race={human;[ironcastle_inner_oasis]}
+		race={darkelf;[ironcastle_inner_oasis]}
+		race={orc;[ironcastle_inner_oasis]}
+		race={dwarf;[ironcastle_inner_oasis]}
+		race={elf;[ironcastle_inner_oasis]}
+		race={kamael;[ironcastle_inner_oasis]}
+	area_end
+	//테러토리 체크, 카마로카_23
+	area_begin
+		range = {{-90004;-221088;-7913;-7713};{-87991;-221088;-7913;-7713};{-87992;-219072;-7913;-7713};{-90005;-219072;-7913;-7713}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_26
+	area_begin
+		range = {{-82900;-221087;-7945;-7745};{-80887;-221087;-7945;-7745};{-80888;-219071;-7945;-7745};{-82901;-219071;-7945;-7745}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_33
+	area_begin
+		range = {{-90063;-214409;-8165;-7965};{-88315;-214409;-8165;-7965};{-88313;-212697;-8165;-7965};{-90063;-212697;-8165;-7965}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_36
+	area_begin
+		range = {{-82814;-214410;-8165;-7965};{-81066;-214410;-8165;-7965};{-81064;-212698;-8165;-7965};{-82814;-212698;-8165;-7965}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_43
+	area_begin
+		range = {{-90046;-207400;-8157;-7957};{-88038;-207395;-8157;-7957};{-88040;-204852;-8157;-7957};{-90052;-204849;-8157;-7957}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_46
+	area_begin
+		range = {{-82817;-206918;-8157;-7957};{-81069;-206918;-8157;-7957};{-81067;-205206;-8157;-7957};{-82817;-205206;-8157;-7957}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_53
+	area_begin
+		range = {{-57226;-220991;-8128;-7928};{-55331;-220987;-8128;-7928};{-55311;-218665;-8128;-7928};{-57229;-218660;-8128;-7928}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_56
+	area_begin
+		range = {{-50165;-221075;-8131;-7931};{-48517;-221072;-8131;-7931};{-48513;-219443;-8131;-7931};{-50162;-219449;-8131;-7931}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_63_1
+	area_begin
+		range = {{-57250;-213751;-8099;-7899};{-55602;-213748;-8099;-7899};{-55599;-212119;-8099;-7899};{-57248;-212125;-8099;-7899}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_63_2
+	area_begin
+		range = {{-50167;-213759;-8121;-7921};{-48519;-213756;-8121;-7921};{-48515;-212128;-8121;-7921};{-50164;-212133;-8121;-7921}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_66_1
+	area_begin
+		range = {{-42960;-214310;-8179;-7979};{-41064;-214305;-8179;-7979};{-41045;-211983;-8179;-7979};{-42962;-211978;-8179;-7979}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_66_2
+	area_begin
+		range = {{-57224;-207301;-8192;-7992};{-55328;-207297;-8192;-7992};{-55309;-204975;-8192;-7992};{-57227;-204970;-8192;-7992}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_73_1
+	area_begin
+		range = {{-42971;-207297;-8165;-7965};{-41075;-207293;-8165;-7965};{-41056;-204971;-8165;-7965};{-42974;-204966;-8165;-7965}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카_73_2
+	area_begin
+		range = {{-24429;-221005;-8120;-7920};{-22539;-221005;-8120;-7920};{-22539;-218711;-8120;-7920};{-24427;-218711;-8120;-7920}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 니어 카마로카_26
+	area_begin
+		range = {{-75846;-221087;-7917;-7717};{-73833;-221087;-7917;-7717};{-73834;-219071;-7917;-7717};{-75847;-219071;-7917;-7717}}
+		race={human;[near_kamaroka]}
+		race={darkelf;[near_kamaroka]}
+		race={orc;[near_kamaroka]}
+		race={dwarf;[near_kamaroka]}
+		race={elf;[near_kamaroka]}
+		race={kamael;[near_kamaroka]}
+	area_end
+
+	//테러토리 체크, 니어 카마로카_36
+	area_begin
+		range = {{-75845;-214539;-7965;-7765};{-73832;-214539;-7965;-7765};{-73832;-212523;-7965;-7765};{-75845;-212523;-7965;-7765}}
+		race={human;[near_kamaroka]}
+		race={darkelf;[near_kamaroka]}
+		race={orc;[near_kamaroka]}
+		race={dwarf;[near_kamaroka]}
+		race={elf;[near_kamaroka]}
+		race={kamael;[near_kamaroka]}
+	area_end
+
+	//테러토리 체크, 니어 카마로카_46
+	area_begin
+		range = {{-75540;-206923;-8165;-7965};{-73792;-206923;-8165;-7965};{-73790;-205211;-8165;-7965};{-75540;-205211;-8165;-7965}}
+		race={human;[near_kamaroka]}
+		race={darkelf;[near_kamaroka]}
+		race={orc;[near_kamaroka]}
+		race={dwarf;[near_kamaroka]}
+		race={elf;[near_kamaroka]}
+		race={kamael;[near_kamaroka]}
+	area_end
+
+	//테러토리 체크, 니어 카마로카_56
+	area_begin
+		range = {{-42970;-221013;-8179;-7979};{-41074;-221008;-8179;-7979};{-41055;-218686;-8179;-7979};{-42972;-218681;-8179;-7979}}
+		race={human;[near_kamaroka]}
+		race={darkelf;[near_kamaroka]}
+		race={orc;[near_kamaroka]}
+		race={dwarf;[near_kamaroka]}
+		race={elf;[near_kamaroka]}
+		race={kamael;[near_kamaroka]}
+	area_end
+
+	//테러토리 체크, 니어 카마로카_66
+	area_begin
+		range = {{-50022;-207305;-8182;-7982};{-48126;-207300;-8182;-7982};{-48107;-204978;-8182;-7982};{-50024;-204973;-8182;-7982}}
+		race={human;[near_kamaroka]}
+		race={darkelf;[near_kamaroka]}
+		race={orc;[near_kamaroka]}
+		race={dwarf;[near_kamaroka]}
+		race={elf;[near_kamaroka]}
+		race={kamael;[near_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_25
+	area_begin
+		range = {{8308;-221019;-8068;-6868};{10237;-221027;-8068;-6868};{10204;-218664;-8068;-6868};{8300;-218664;-8068;-6868}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_30
+	area_begin
+		range = {{15509;-220979;-8072;-6872};{17385;-220989;-8072;-6872};{17369;-218644;-8072;-6872};{15479;-218667;-8072;-6872}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_35
+	area_begin
+		range = {{22437;-221137;-7968;-6568};{24530;-221137;-7968;-6568};{24523;-219029;-7968;-6568};{22430;-219029;-7968;-6568}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_40
+	area_begin
+		range = {{8254;-214031;-7848;-6448};{10351;-214036;-7848;-6448};{10337;-211945;-7848;-6448};{8247;-211945;-7848;-6448}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_45
+	area_begin
+		range = {{15555;-214044;-7844;-6444};{17646;-214052;-7844;-6444};{17622;-211947;-7844;-6444};{15540;-211939;-7844;-6444}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_50
+	area_begin
+		range = {{22837;-213868;-8049;-6649};{24474;-213861;-8049;-6649};{24474;-212231;-8049;-6649};{22837;-212231;-8049;-6649}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_55
+	area_begin
+		range = {{8324;-206546;-8048;-6648};{9948;-206546;-8048;-6648};{9954;-204909;-8048;-6648};{8317;-204909;-8048;-6648}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_60
+	area_begin
+		range = {{15702;-206549;-8052;-6652};{17331;-206548;-8052;-6652};{17338;-204939;-8052;-6652};{15702;-204913;-8052;-6652}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_65
+	area_begin
+	range = {{22082;-207504;-8044;-6644};{24400;-207535;-8044;-6644};{24377;-205047;-8044;-6644};{22082;-205039;-8044;-6644}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_70
+	area_begin
+	range = {{41268;-220980;-8792;-8292};{43568;-220980;-8792;-8292};{43568;-218517;-8792;-8292};{41268;-218506;-8792;-8292}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 림 카마로카_75
+	area_begin
+	range = {{47897;-221000;-8812;-8612};{50197;-221000;-8812;-8612};{50197;-218536;-8812;-8612};{47897;-218526;-8812;-8612}}
+		race={human;[rim_kamaroka]}
+		race={darkelf;[rim_kamaroka]}
+		race={orc;[rim_kamaroka]}
+		race={dwarf;[rim_kamaroka]}
+		race={elf;[rim_kamaroka]}
+		race={kamael;[rim_kamaroka]}
+	area_end
+
+	//테러토리 체크, 크라테의 큐브 귀환 포인트 (17_17)
+	area_begin
+	range = {{-86726;-21076;-8375;-8095};{-77193;-21079;-8375;-8095};{-77321;-11710;-8375;-8095};{-86670;-11714;-8375;-8095}}
+		race={human;[crate01]}
+		race={darkelf;[crate01]}
+		race={orc;[crate01]}
+		race={dwarf;[crate01]}
+		race={elf;[crate01]}
+		race={kamael;[crate01]}
+	area_end
+
+	//테러토리 체크, 크라테의 큐브 귀환 포인트(17_15)
+	area_begin
+	range = {{-86608;-86506;-8483;-8233};{-77222;-86479;-8483;-8233};{-77064;-76900;-8483;-8233};{-86576;-76829;-8483;-8233}}
+		race={human;[crate02]}
+		race={darkelf;[crate02]}
+		race={orc;[crate02]}
+		race={dwarf;[crate02]}
+		race={elf;[crate02]}
+		race={kamael;[crate02]}
+	area_end
+
+	//테러토리 체크, 크라테의 큐브 귀환 포인트(18_15)
+	area_begin
+	range =  {{-53365;-87679;-8471;-8221};{-43940;-87683;-8471;-8221};{-43926;-78026;-8471;-8221};{-53311;-77966;-8471;-8221}}
+		race={human;[crate03]}
+		race={darkelf;[crate03]}
+		race={orc;[crate03]}
+		race={dwarf;[crate03]}
+		race={elf;[crate03]}
+		race={kamael;[crate03]}
+	area_end
+
+	//파이라카, 악마섬 귀환 포인트(22_11)
+	area_begin
+	range =  {{65788;-229302;-5152;3848};{98153;-229274;-5152;3848};{98153;-196678;-5152;3848};{65758;-196655;-5152;3848}}
+		race={human;[giran_castle_town]}
+		race={darkelf;[giran_castle_town]}
+		race={orc;[giran_castle_town]}
+		race={dwarf;[giran_castle_town]}
+		race={elf;[giran_castle_town]}
+		race={kamael;[giran_castle_town]}
+	area_end
+
+	//테러토리 체크, 카마로카, 심연의 미궁 17_12
+	area_begin
+	range =  {{-90385;-188637;-15788;-5288};{-73551;-188638;-15788;-5288};{-73535;-172014;-15788;-5288};{-90409;-172002;-15788;-5288}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카, 심연의 미궁 18_12
+	area_begin
+	range =  {{-57520;-188639;-15784;-5284};{-40787;-188652;-15784;-5284};{-40781;-171824;-15784;-5284};{-57534;-171808;-15784;-5284}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카, 심연의 미궁 19_12
+	area_begin
+	range =  {{-24701;-188524;-15720;-5220};{-7960;-188519;-15720;-5220};{-7960;-171933;-15720;-5220};{-24678;-171867;-15720;-5220}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 카마로카, 심연의 미궁 20_12
+	area_begin
+	range =  {{7991;-188661;-15688;-5188};{24694;-188661;-15688;-5188};{24688;-171910;-15688;-5188};{8044;-171895;-15688;-5188}}
+		race={human;[kamaroka]}
+		race={darkelf;[kamaroka]}
+		race={orc;[kamaroka]}
+		race={dwarf;[kamaroka]}
+		race={elf;[kamaroka]}
+		race={kamael;[kamaroka]}
+	area_end
+
+	//테러토리 체크, 불멸의 씨앗 내부
+	area_begin
+	range =	{{-182265;204880;-16233;-6233};{-171874;204865;-16233;-6233};{-171884;220348;-16233;-6233};{-188714;220333;-16233;-6233};{-188581;204678;-16233;-6233};{-184537;204665;-16233;-6233};{-184536;206967;-16233;-6233};{-182259;206962;-16233;-6233}}
+		race={human;[inner_undying01]}
+		race={darkelf;[inner_undying01]}
+		race={orc;[inner_undying01]}
+		race={dwarf;[inner_undying01]}
+		race={elf;[inner_undying01]}
+		race={kamael;[inner_undying01]}
+	area_end
+
+	//테러토리 체크, 파멸의 씨앗 내부
+	area_begin
+	range =  {{-253983;204764;-13600;-5600};{-237481;204721;-13600;-5600};{-237521;221261;-13600;-5600};{-253986;221221;-13600;-5600}}
+		race={human;[inner_destruction01]}
+		race={darkelf;[inner_destruction01]}
+		race={orc;[inner_destruction01]}
+		race={dwarf;[inner_destruction01]}
+		race={elf;[inner_destruction01]}
+		race={kamael;[inner_destruction01]}
+	area_end
+
+	//테러토리 체크, 클레프트
+	area_begin	
+	range = {{-217859;235707;-4274;16336};{-210156;235711;-4274;16336};{-204861;241147;-4274;16336};{-204813;248783;-4274;16336};{-210251;254208;-4274;16336};{-218100;254098;-4274;16336};{-223303;248801;-4274;16336};{-223298;241116;-4274;16336}}
+		race={human;[cleft]}
+		race={darkelf;[cleft]}
+		race={orc;[cleft]}
+		race={dwarf;[cleft]}
+		race={elf;[cleft]}
+		race={kamael;[cleft]}
+	area_end
+
+	//테러토리 체크, 몽환의 결계 16;11
+	area_begin	
+	range = {{-123207;-221278;-6963;-5963};{-106397;-221284;-6963;-5963};{-106380;-204496;-6963;-5963};{-123215;-204520;-6963;-5963}}
+		race={human;[border_of_nightmare]}
+		race={darkelf;[border_of_nightmare]}
+		race={orc;[border_of_nightmare]}
+		race={dwarf;[border_of_nightmare]}
+		race={elf;[border_of_nightmare]}
+		race={kamael;[border_of_nightmare]}
+	area_end
+
+	//테러토리 체크, 몽환의 결계 16;13
+	area_begin	
+	range = {{-123102;-155752;-6869;-5869};{-106354;-155752;-6869;-5869};{-106354;-149923;-6869;-5869};{-123102;-149919;-6869;-5869}}
+		race={human;[border_of_nightmare]}
+		race={darkelf;[border_of_nightmare]}
+		race={orc;[border_of_nightmare]}
+		race={dwarf;[border_of_nightmare]}
+		race={elf;[border_of_nightmare]}
+		race={kamael;[border_of_nightmare]}
+	area_end
+
+	//테리토리, 진멸의 씨앗 (비스타콘/렙틸리콘/중간지역)
+	area_begin	
+	range = {{-189927;170995;-17000;-7000};{-169927;170995;-17000;-7000};{-169927;190995;-17000;-7000};{-189927;190995;-17000;-7000}}
+		race={human;[inner_annihilation01]}
+		race={darkelf;[inner_annihilation01]}
+		race={orc;[inner_annihilation01]}
+		race={dwarf;[inner_annihilation01]}
+		race={elf;[inner_annihilation01]}
+		race={kamael;[inner_annihilation01]}
+	area_end
+
+	//테리토리, 진멸의 씨앗 (코크라콘)
+	area_begin	
+	range = {{-220965;172057;-15000;-7000};{-204965;172057;-15000;-7000};{-204965;188057;-15000;-7000};{-220965;188057;-15000;-7000}}
+		race={human;[inner_annihilation02]}
+		race={darkelf;[inner_annihilation02]}
+		race={orc;[inner_annihilation02]}
+		race={dwarf;[inner_annihilation02]}
+		race={elf;[inner_annihilation02]}
+		race={kamael;[inner_annihilation02]}
+	area_end
+
+	//테리토리, 올림피아드 경기장 (15_10)
+	area_begin	
+	range = {{-155585;-253925;-5000;32767};{-139294;-253916;-5000;32767};{-139298;-237620;-5000;32767};{-155615;-237611;-5000;32767}}
+		race={human;[olympiad_stadium02]}
+		race={darkelf;[olympiad_stadium02]}
+		race={orc;[olympiad_stadium02]}
+		race={dwarf;[olympiad_stadium02]}
+		race={elf;[olympiad_stadium02]}
+		race={kamael;[olympiad_stadium02]}
+	area_end
+
+	//테리토리, 올림피아드 경기장 (15_11)
+	area_begin	
+	range = {{-155584;-221153;-4968;32767};{-139293;-221144;-4968;32767};{-139297;-204849;-4968;32767};{-155614;-204839;-4968;32767}}
+		race={human;[olympiad_stadium03]}
+		race={darkelf;[olympiad_stadium03]}
+		race={orc;[olympiad_stadium03]}
+		race={dwarf;[olympiad_stadium03]}
+		race={elf;[olympiad_stadium03]}
+		race={kamael;[olympiad_stadium03]}
+	area_end
+
+	//테리토리, 올림피아드 경기장 (15_12)
+	area_begin	
+	range = {{-155577;-188340;-4936;32767};{-139287;-188331;-4936;32767};{-139291;-172035;-4936;32767};{-155608;-172026;-4936;32767}}
+		race={human;[olympiad_stadium04]}
+		race={darkelf;[olympiad_stadium04]}
+		race={orc;[olympiad_stadium04]}
+		race={dwarf;[olympiad_stadium04]}
+		race={elf;[olympiad_stadium04]}
+		race={kamael;[olympiad_stadium04]}
+	area_end
+
+	//말하는 섬 마을
+	point_begin
+		point_name=[talking_island_town]
+		point={-83990;243336;-3700}
+		point={-83964;242680;-3700}
+		point={-84512;242679;-3700}
+		point={-84623;243193;-3700}
+		point={-83742;242214;-3700}
+		point={-83537;242537;-3700}
+		point={-83700;242896;-3700}
+		point={-83646;243397;-3700}
+		point={-83808;243637;-3700}
+		point={-84903;243489;-3700}
+		point={-84852;243174;-3700}
+		point={-84892;242479;-3700}
+		point={-84756;242155;-3700}
+		point={-83761;243620;-3700}
+		chao_point={-79411;240677;-3450}
+		chao_point={-80480;242640;-3690}
+		chao_point={-80336;244656;-3680}
+		chao_point={-82464;247248;-3570}
+		chao_point={-89522;241696;-3530}
+		chao_point={-87056;237952;-3580}
+		chao_point={-89536;240336;-3560}
+		chao_point={-88208;241360;-3560}
+		chao_point={-85328;238080;-3660}
+		chao_point={-89760;237408;-3660}
+		chao_point={-92976;240560;-3380}
+		chao_point={-94448;240944;-3300}
+		chao_point={-93552;245296;-3530}
+		chao_point={-91584;238480;-3650}
+		chao_point={-88720;238976;-3650}
+		chao_point={-91760;243664;-3440}
+		chao_point={-81680;249696;-3630}
+		chao_point={-83808;251264;-3630}
+		chao_point={-83328;238304;-3700}
+		chao_point={-91296;236272;-3690}
+		map={15;23}
+		map={15;24}
+		map={15;25}
+		map={16;23}
+		map={16;24}
+		map={16;25}
+		map={17;24}
+		map={17;25}
+		map={18;25}
+		banned_race={}
+		bbs=1
+		loc_name=910
+	point_end
+
+	//글루딘 마을
+	point_begin
+		point_name=[gludin_town]
+		point={-83520;150560;-3000}
+		point={-82464;150848;-3000}
+		point={-84064;150864;-3000}
+		point={-83408;151376;-3000}
+		point={-82195;150489;-3000}
+		point={-81787;150780;-3000}
+		point={-81721;151202;-3000}
+		point={-82241;151163;-3000}
+		point={-82575;151025;-3000}
+		point={-82909;150357;-3000}
+		point={-83584;150512;-3000}
+		point={-83529;151205;-3000}
+		point={-82035;152647;-3000}
+		point={-80053;154348;-3000}
+		chao_point={-81616;157104;-3150}
+		chao_point={-80688;157216;-3150}
+		chao_point={-79568;156960;-3150}
+		chao_point={-78800;157744;-3150}
+		chao_point={-80448;157968;-3130}
+		chao_point={-81712;159536;-3230}
+		chao_point={-79744;160592;-3330}
+		chao_point={-79584;159408;-3180}
+		chao_point={-74016;150656;-2800}
+		chao_point={-72720;149632;-2780}
+		chao_point={-75904;162000;-3300}
+		chao_point={-75488;161472;-3250}
+		chao_point={-74688;160736;-3200}
+		chao_point={-74352;161488;-3250}
+		chao_point={-76656;160768;-3280}
+		chao_point={-77472;160960;-3470}
+		chao_point={-77776;158752;-3270}
+		chao_point={-80448;161488;-3420}
+		chao_point={-75440;162672;-3350}
+		chao_point={-81760;161248;-3200}
+		map={16;20}
+		map={16;21}
+		map={16;22}
+		map={17;20}
+		map={17;21}
+		map={17;22}
+		map={17;23}
+		map={18;22}
+		map={18;23}
+		map={18;24}
+		map={19;24}
+		banned_race={}
+		bbs=2
+		loc_name=911
+	point_end
+
+	//글루디오성 마을
+	point_begin
+		point_name=[gludio_castle_town]
+		point={-14288;122752;-3000}
+		point={-14592;123232;-3000}
+		point={-14704;122032;-3000}
+		point={-13904;123456;-3000}
+		point={-15314;124131;-3000}
+		point={-15564;123896;-3000}
+		point={-14279;124446;-3000}
+		point={-14465;124434;-3000}
+		point={-13709;123563;-3000}
+		point={-13513;123752;-3000}
+		point={-14683;121945;-3000}
+		point={-14491;121915;-3000}
+		chao_point={-17280;125392;-3120}
+		chao_point={-16128;126944;-3120}
+		chao_point={-14464;128288;-3250}
+		chao_point={-13040;128768;-3350}
+		chao_point={-15600;127904;-3150}
+		chao_point={-16128;128592;-3230}
+		chao_point={-15632;129456;-3400}
+		chao_point={-16960;127696;-3200}
+		chao_point={-17632;126320;-3150}
+		chao_point={-18704;124960;-3100}
+		chao_point={-17760;121888;-3140}
+		chao_point={-17472;122752;-3100}
+		chao_point={-18720;124080;-3130}
+		chao_point={-19008;122432;-3200}
+		chao_point={-20048;122432;-3280}
+		chao_point={-19008;126160;-3250}
+		chao_point={-18480;127184;-3300}
+		chao_point={-19664;125440;-3180}
+		chao_point={-20176;124512;-3350}
+		chao_point={-19040;121632;-3200}
+		map={18;21}
+		map={19;21}
+		map={19;22}
+		map={19;23}
+		map={19;26}
+		map={20;26}
+		banned_race={}
+		bbs=2
+		loc_name=912
+	point_end
+
+	//중립지대 - 실제 리스타트 포인트는 글루디오성 마을, 지역 게시판 구분을 위해 별도로 분리한 것뿐
+	point_begin
+		point_name=[DMZ]
+		point={-14288;122752;-3000}
+		point={-14592;123232;-3000}
+		point={-14704;122032;-3000}
+		point={-13904;123456;-3000}
+		point={-15314;124131;-3000}
+		point={-15564;123896;-3000}
+		point={-14279;124446;-3000}
+		point={-14465;124434;-3000}
+		point={-13709;123563;-3000}
+		point={-13513;123752;-3000}
+		point={-14683;121945;-3000}
+		point={-14491;121915;-3000}
+		chao_point={-17280;125392;-3120}
+		chao_point={-16128;126944;-3120}
+		chao_point={-14464;128288;-3250}
+		chao_point={-13040;128768;-3350}
+		chao_point={-15600;127904;-3150}
+		chao_point={-16128;128592;-3230}
+		chao_point={-15632;129456;-3400}
+		chao_point={-16960;127696;-3200}
+		chao_point={-17632;126320;-3150}
+		chao_point={-18704;124960;-3100}
+		chao_point={-17760;121888;-3140}
+		chao_point={-17472;122752;-3100}
+		chao_point={-18720;124080;-3130}
+		chao_point={-19008;122432;-3200}
+		chao_point={-20048;122432;-3280}
+		chao_point={-19008;126160;-3250}
+		chao_point={-18480;127184;-3300}
+		chao_point={-19664;125440;-3180}
+		chao_point={-20176;124512;-3350}
+		chao_point={-19040;121632;-3200}
+		map={19;20}
+		banned_race={}
+		bbs=7
+		loc_name=913
+	point_end
+
+	//엘프 마을. 엘프만 리스타트 가능
+	point_begin
+		point_name=[elf_town]
+		point={45487;49767;-2950}
+		point={45080;49614;-2950}
+		point={45284;49309;-2950}
+		point={45576;49412;-2950}
+		point={45896;49831;-2950}
+		point={45463;50097;-2950}
+		point={44935;49798;-2950}
+		point={44798;49475;-2950}
+		point={45100;49025;-2950}
+		point={45912;49363;-2950}
+		point={45788;49861;-2950}
+		point={45325;50067;-2950}
+		chao_point={40720;56064;-3580}
+		chao_point={39760;55040;-3410}
+		chao_point={43152;55920;-3620}
+		chao_point={44192;56960;-3580}
+		chao_point={39328;56256;-3580}
+		chao_point={40448;57744;-3600}
+		chao_point={38080;52048;-3500}
+		chao_point={38784;51824;-3470}
+		chao_point={37088;51248;-3400}
+		chao_point={37952;49680;-3480}
+		chao_point={38848;47072;-3580}
+		chao_point={36688;49856;-3440}
+		chao_point={36096;46544;-3680}
+		chao_point={37200;45232;-3600}
+		chao_point={50128;55472;-3410}
+		chao_point={51856;54432;-3320}
+		chao_point={53136;54592;-3420}
+		chao_point={51824;58624;-3400}
+		chao_point={51232;59216;-3320}
+		chao_point={49808;56240;-3430}
+		map={21;19}
+		map={21;20}
+		map={20;19}
+		map={20;20}
+		banned_race={darkelf;[darkelf_town]}
+		bbs=4
+		loc_name=914
+	point_end
+
+	//다크엘프 마을. 다크엘프만 리스타트 가능
+	point_begin
+		point_name=[darkelf_town]
+		point={11632;16812;-4500}
+		point={11217;16837;-4500}
+		point={11498;16979;-4500}
+		point={11404;16699;-4500}
+		point={12501;16768;-4500}
+		point={12104;17385;-4500}
+		point={11603;17770;-4500}
+		point={12519;16376;-4500}
+		point={10355;17270;-4500}
+		point={10146;16965;-4500}
+		point={10691;16343;-4500}
+		point={11193;15963;-4500}
+		chao_point={3040;24240;-3700}
+		chao_point={1184;21856;-3240}
+		chao_point={3760;25136;-3700}
+		chao_point={672;20096;-3350}
+		chao_point={1248;14512;-3180}
+		chao_point={-8176;23120;-3450}
+		chao_point={-10208;25408;-3560}
+		chao_point={-11456;23936;-3700}
+		chao_point={-9632;22624;-3650}
+		chao_point={-5776;22080;-3510}
+		chao_point={2224;11936;-3050}
+		chao_point={1744;8640;-3250}
+		chao_point={2784;7872;-3110}
+		chao_point={3216;10128;-2980}
+		chao_point={3584;6976;-3020}
+		chao_point={-10768;21952;-3600}
+		chao_point={-11360;22688;-3600}
+		chao_point={-12784;23232;-3630}
+		chao_point={-13632;21872;-3620}
+		chao_point={-11984;21232;-3600}
+		map={20;18}
+		map={19;18}
+		map={19;19}
+		map={18;19}
+		map={18;18}
+		map={18;20}
+		map={17;19}
+		banned_race={elf;[elf_town]}
+		bbs=3
+		loc_name=915
+	point_end
+
+	//디온성 마을. 이 군에서 죽은 카오는 무조건 플로란 마을서 리스
+	point_begin
+		point_name=[dion_castle_town]
+		point={19025;145245;-3107}
+		point={18576;145136;-3104}
+		point={18717;145711;-3097}
+		point={18512;145536;-3100}
+		point={18954;144428;-3000}
+		point={19150;143941;-3020}
+		point={19134;144847;-3020}
+		point={19613;145607;-3020}
+		point={18078;145925;-3020}
+		point={17398;145456;-3000}
+		point={17144;145055;-3000}
+		point={19012;145140;-3020}
+		chao_point={17555;170393;-3400}
+		chao_point={17699;170153;-3400}
+		chao_point={17315;170041;-3400}
+		chao_point={17283;170329;-3400}
+		chao_point={17536;170505;-3400}
+		chao_point={17299;170341;-3400}
+		chao_point={17085;170170;-3400}
+		chao_point={17421;169993;-3400}
+		chao_point={17820;170054;-3400}
+		chao_point={18054;170263;-3400}
+		chao_point={17931;170381;-3400}
+		map={18;10}
+		map={20;21}
+		map={20;22}
+		map={21;21}
+		map={21;22}
+		banned_race={}
+		bbs=5
+		loc_name=916
+	point_end
+
+	//플로란 마을. 카오만 플로란 마을 안에서 리스. 일반PC는 디온 마을에서 리스
+	point_begin
+		point_name=[floran_town]
+		point={19025;145245;-3107}
+		point={18576;145136;-3104}
+		point={18717;145711;-3097}
+		point={18512;145536;-3100}
+		point={18954;144428;-3000}
+		point={19150;143941;-3020}
+		point={19134;144847;-3020}
+		point={19613;145607;-3020}
+		point={18078;145925;-3020}
+		point={17398;145456;-3000}
+		point={17144;145055;-3000}
+		point={19012;145140;-3020}
+		chao_point={17555;170393;-3451}
+		chao_point={17699;170153;-3451}
+		chao_point={17315;170041;-3451}
+		chao_point={17283;170329;-3451}
+		chao_point={17536;170505;-3451}
+		chao_point={17299;170341;-3451}
+		chao_point={17085;170170;-3451}
+		chao_point={17421;169993;-3451}
+		chao_point={17820;170054;-3451}
+		chao_point={18054;170263;-3451}
+		chao_point={17931;170381;-3451}
+		map={20;23}
+		banned_race={}
+		bbs=5
+		loc_name=917
+	point_end
+
+	//기란성 마을.
+	point_begin
+		point_name=[giran_castle_town]
+		point={82480;149087;-3350}
+		point={81440;149119;-3350}
+		point={81376;148095;-3350}
+		point={82496;148095;-3350}
+		point={83473;149223;-3300}
+		point={83426;148835;-3300}
+		point={83409;148578;-3300}
+		point={83415;148235;-3300}
+		point={82272;147801;-3350}
+		point={81562;147782;-3350}
+		point={81062;148144;-3350}
+		point={81033;148883;-3350}
+		point={81637;149427;-3350}
+		point={82292;149450;-3350}
+		chao_point={74450;144238; -3730}
+		chao_point={74209;142395; -3730}
+		chao_point={77279;145045; -3630}
+		chao_point={74809;146119; -3600}
+		chao_point={75006;143520; -3700}
+		chao_point={81347;140579; -3520}
+		chao_point={79543;142050; -3500}
+		chao_point={86223;140993; -3400}
+		chao_point={78692;154573; -3450}
+		chao_point={77870;156209; -3430}
+		chao_point={79832;154009; -3500}
+		chao_point={75501;147178; -3530}
+		map={21;23}
+		map={22;21}
+		map={22;22}
+		map={23;21}
+		map={23;22}
+		map={24;21}
+		map={25;21}
+		banned_race={}
+		bbs=6
+		loc_name=918
+	point_end
+
+	//기란항구, 카오도 같은 자리에서 리스, 항구가 있는 맵(21_23)은 기란성 마을서 리스
+	point_begin
+		point_name=[giran_habor]
+		point={46763;187041;-3451}
+		point={46471;186666;-3451}
+		point={47290;186842;-3451}
+		point={47038;186506;-3451}
+		point={47684;186682;-3451}
+		point={47450;186347;-3451}
+		point={48715;185873;-3451}
+		point={48363;185518;-3451}
+		point={48757;185124;-3451}
+		point={49034;185512;-3451}
+		point={49033;184647;-3451}
+		point={49372;185076;-3451}
+		chao_point={46763;187041;-3451}
+		chao_point={46471;186666;-3451}
+		chao_point={47290;186842;-3451}
+		chao_point={47038;186506;-3451}
+		chao_point={47684;186682;-3451}
+		chao_point={47450;186347;-3451}
+		chao_point={48715;185873;-3451}
+		chao_point={48363;185518;-3451}
+		chao_point={48757;185124;-3451}
+		chao_point={49034;185512;-3451}
+		chao_point={49033;184647;-3451}
+		chao_point={49372;185076;-3451}
+		map={20;24}
+		map={21;24}
+		map={21;25}
+		banned_race={}
+		bbs=6
+		loc_name=919
+	point_end
+
+	//오크 마을 (슈트가르트 영지)
+	point_begin
+		point_name=[orc_town]
+		point={-44316;-113136;-80}
+		point={-44296;-114048;-80}
+		point={-44704;-112896;-80}
+		point={-44720;-114304;-80}
+		point={-44206;-113392;-80}
+		point={-43970;-114150;-80}
+		point={-44328;-114625;-80}
+		point={-44884;-115063;-80}
+		point={-44923;-114659;-80}
+		point={-44232;-113701;-80}
+		point={-44596;-112956;-80}
+		point={-44987;-112394;-80}
+		point={-45498;-111800;-80}
+		point={-44637;-112373;-80}
+		point={-44189;-113065;-80}
+		point={-44048;-113463;-80}
+		chao_point={-43552;-121488;-233}
+		chao_point={-42560;-121344;-188}
+		chao_point={-41536;-122960;-308}
+		chao_point={-40464;-122752;-364}
+		chao_point={-45568;-107296;-516}
+		chao_point={-46512;-106032;-700}
+		chao_point={-44304;-105888;-1156}
+		chao_point={-43728;-106688;-1304}
+		chao_point={-40000;-109200;-1736}
+		chao_point={-39792;-110832;-1860}
+		chao_point={-39136;-112688;-1844}
+		chao_point={-37888;-112608;-1772}
+		map={18;14}
+		map={19;13}
+		map={19;14}
+		map={19;15}
+		map={19;16}
+		map={20;13}
+		map={20;14}
+		map={20;15}
+		banned_race={}
+		bbs=9
+		loc_name=920
+	point_end
+
+	//드워프 마을.
+	point_begin
+		point_name=[dwarf_town]
+		point={116176;-182448;-1400}
+		point={116476;-182904;-1500}
+		point={115248;-178816;-850}
+		point={116352;-179264;-1000}
+		point={115271;-178561;-820}
+		point={115249;-177859;-820}
+		point={115485;-178077;-820}
+		point={115790;-179146;-890}
+		point={116507;-179597;-1000}
+		point={116725;-180147;-1000}
+		point={116738;-181494;-1300}
+		point={116775;-182367;-1400}
+		point={116587;-183032;-1400}
+		point={116321;-182734;-1400}
+		chao_point={118160;-179328;-1578}
+		chao_point={119024;-180208;-2180}
+		chao_point={119728;-180912;-2649}
+		chao_point={119776;-181968;-2948}
+		chao_point={119392;-183968;-3125}
+		chao_point={119520;-184928;-3196}
+		chao_point={119568;-186016;-3220}
+		chao_point={119984;-187312;-3260}
+		chao_point={119632;-188352;-3260}
+		chao_point={119264;-188736;-3203}
+		chao_point={118656;-187760;-2828}
+		map={23;10}
+		map={23;11}
+		map={23;12}
+		map={24;10}
+		map={24;11}
+		map={24;12}
+		map={25;10}
+		map={25;11}
+		map={25;12}
+		banned_race={}
+		bbs=9
+		loc_name=921
+	point_end
+
+	//오렌성 마을
+	point_begin
+		point_name=[oren_castle_town]
+		point={80304;56241;-1500}
+		point={80594;55837;-1500}
+		point={79933;55752;-1500}
+		point={80267;55497;-1500}
+		point={80334;54400;-1500}
+		point={82445;56012;-1480}
+		point={82323;55466;-1480}
+		point={82880;55390;-1480}
+		point={82638;53885;-1440}
+		point={82552;53447;-1440}
+		point={82213;53964;-1440}
+		point={80054;53209;-1500}
+		point={79706;52986;-1500}
+		point={82123;53535;-1440}
+		chao_point={76576;50151;-3200}
+		chao_point={77310;50317;-3160}
+		chao_point={77250;51285;-3160}
+		chao_point={78811;51106;-3160}
+		chao_point={75755;51372;-3250}
+		chao_point={75613;52504;-3200}
+		chao_point={74459;52441;-3260}
+		chao_point={74467;53354;-3200}
+		chao_point={73600;53918;-3170}
+		chao_point={71102;57875;-3330}
+		chao_point={70052;59300;-3580}
+		chao_point={70420;57480;-3480}
+		chao_point={75474;60125;-2730}
+		chao_point={74880;60818;-2820}
+		chao_point={88011;56589;-3560}
+		chao_point={91239;53120;-3430}
+		chao_point={81785;46306;-3160}
+		chao_point={80708;44609;-3120}
+		chao_point={70139;55885;-3550}
+		chao_point={80236;45675;-3150}
+		map={19;10}
+		map={21;18}
+		map={22;20}
+		map={22;19}
+		map={22;18}
+		map={22;17}
+		map={23;17}
+		banned_race={}
+		bbs=10
+		loc_name=922
+	point_end
+
+	//사냥꾼의 마을
+	point_begin
+		point_name=[hunter_town]
+		point={116127;76015;-2729}
+		point={115683;77610;-2650}
+		point={117304;76318;-2670}
+		point={119862;76603;-2220}
+		point={117671;78998;-2210}
+		point={117189;78952;-2210}
+		point={115861;75200;-2550}
+		point={118275;74859;-2557}
+		point={118229;74677;-2450}
+		point={115685;75072;-2550}
+		point={116704;75695;-2680}
+		point={116737;76738;-2650}
+		point={115193;77594;-2670}
+		point={116158;77443;-2660}
+		chao_point={122098;70373;-2864}
+		chao_point={118674;71218;-2743}
+		chao_point={118040;67175;-2905}
+		chao_point={119300;70660;-2850}
+		chao_point={118851;70566;-2800}
+		chao_point={112655;70976;-3122}
+		chao_point={119712;66376;-2960}
+		chao_point={107511;82890;-2515}
+		chao_point={105702;82773;-2803}
+		chao_point={104257;82194;-2581}
+		chao_point={104474;81109;-2651}
+		map={20;10}
+		map={23;20}
+		map={23;19}
+		map={24;20}
+		map={25;20}
+		banned_race={}
+		bbs=11
+		loc_name=923
+	point_end
+
+	//아덴성 마을
+	point_begin
+		point_name=[aden_town]
+		point={146494;30584;-2420}
+		point={146038;30519;-2420}
+		point={148112;30439;-2420}
+		point={148565;30463;-2420}
+		point={150227;29104;-2420}
+		point={144626;29145;-2420}
+		point={144635;26664;-2220}
+		point={144526;24661;-2100}
+		point={144559;22835;-2100}
+		point={145686;21114;-2100}
+		point={148946;21121;-2070}
+		point={148010;27996;-2256}
+		point={147970;27040;-2191}
+		point={146814;27108;-2189}
+		point={146819;28063;-2252}
+		chao_point={136398;28901;-3582}
+		chao_point={137292;28485;-3290}
+		chao_point={155925;28554;-3164}
+		chao_point={157608;23866;-3760}
+		chao_point={157463;28770;-3371}
+		chao_point={159348;28561;-3400}
+		chao_point={160236;14119;-3892}
+		chao_point={156764;13774;-3960}
+		chao_point={161426;23055;-3670}
+		chao_point={136380;21899;-3647}
+		chao_point={137708;15640;-3800}
+		chao_point={136629;28127;-3258}
+		map={23;18}
+		map={24;17}
+		map={24;18}
+		map={24;19}
+		map={25;17}
+		map={25;18}
+		map={25;19}
+		banned_race={}
+		bbs=13
+		loc_name=924
+	point_end
+
+	//콜로세움(24_19), 콜로세움만을 위한 가라 리스타트군
+	point_begin
+		point_name=[colosseum]
+		point={147420;46378;-3350}
+		point={147696;46416;-3350}
+		point={147248;47048;-3350}
+		point={147449;47051;-3350}
+		point={147680;47040;-3350}
+		point={147232;46352;-3350}
+		point={147696;46928;-3350}
+		point={147456;46928;-3350}
+		point={147232;46928;-3350}
+		point={147232;46464;-3350}
+		point={147424;46464;-3350}
+		point={147696;46512;-3350}
+		point={151294;46378;-3350}
+		point={151535;46353;-3350}
+		point={151712;46368;-3350}
+		point={151753;46500;-3405}
+		point={151760;46928;-3350}
+		point={151760;47104;-3350}
+		point={151536;46960;-3350}
+		point={151536;47104;-3350}
+		point={151264;47136;-3350}
+		point={151264;47008;-3350}
+		point={151536;46482;-3350}
+		point={151296;46480;-3350}
+		chao_point={147420;46378;-3350}
+		chao_point={147696;46416;-3350}
+		chao_point={147248;47048;-3350}
+		chao_point={147449;47051;-3350}
+		chao_point={147680;47040;-3350}
+		chao_point={147232;46352;-3350}
+		chao_point={147696;46928;-3350}
+		chao_point={147456;46928;-3350}
+		chao_point={147232;46928;-3350}
+		chao_point={147232;46464;-3350}
+		chao_point={147424;46464;-3350}
+		chao_point={147696;46512;-3350}
+		chao_point={151294;46378;-3350}
+		chao_point={151535;46353;-3350}
+		chao_point={151712;46368;-3350}
+		chao_point={151753;46500;-3405}
+		chao_point={151760;46928;-3350}
+		chao_point={151760;47104;-3350}
+		chao_point={151536;46960;-3350}
+		chao_point={151536;47104;-3350}
+		chao_point={151264;47136;-3350}
+		chao_point={151264;47008;-3350}
+		chao_point={151536;46482;-3350}
+		chao_point={151296;46480;-3350}
+		map={}
+		banned_race={}
+		bbs=13
+		loc_name=925
+	point_end
+
+	//수상도시 하이네스
+	point_begin
+		point_name=[heiness_town]
+		point={107568;218256;-3624}
+		point={107920;218240;-3624}
+		point={107808;217856;-3624}
+		point={108032;218048;-3624}
+		point={107552;218000;-3624}
+		point={110912;219584;-3624}
+		point={110768;219824;-3624}
+		point={110688;220576;-3624}
+		point={110896;220768;-3624}
+		point={111856;220752;-3624}
+		point={112112;220576;-3624}
+		point={112064;219792;-3624}
+		point={111888;219584;-3624}
+		chao_point={117872;225536;-3200}
+		chao_point={118064;225648;-3200}
+		chao_point={101696;221808;-3520}
+		chao_point={101552;221568;-3520}
+		chao_point={100784;218272;-3420}
+		chao_point={100928;218560;-3420}
+		map={22;23}
+		map={22;24}
+		map={22;25}
+		map={23;23}
+		map={23;24}
+		map={23;25}
+		map={24;23}
+		banned_race={}
+		bbs=12
+		loc_name=926
+	point_end
+
+       	//세드릭의 도장(17_25), 휴먼전사 초보 리스타트 군 (스타팅과 동일)
+	point_begin
+		point_name=[Cedric's_Training_Hall]
+		point={-71338;258271;-3104}
+		point={-71417;258270;-3104}
+		point={-71453;258305;-3104}
+		point={-71467;258378;-3104}
+		chao_point={-79411;240677;-3450}
+		chao_point={-80480;242640;-3690}
+		chao_point={-80336;244656;-3680}
+		chao_point={-82464;247248;-3570}
+		chao_point={-89522;241696;-3530}
+		chao_point={-87056;237952;-3580}
+		chao_point={-89536;240336;-3560}
+		chao_point={-88208;241360;-3560}
+		chao_point={-85328;238080;-3660}
+		chao_point={-89760;237408;-3660}
+		chao_point={-92976;240560;-3380}
+		chao_point={-94448;240944;-3300}
+		chao_point={-93552;245296;-3530}
+		chao_point={-91584;238480;-3650}
+		chao_point={-88720;238976;-3650}
+		chao_point={-91760;243664;-3440}
+		chao_point={-81680;249696;-3630}
+		chao_point={-83808;251264;-3630}
+		chao_point={-83328;238304;-3700}
+		chao_point={-91296;236272;-3690}
+	        map={}
+		banned_race={}
+		bbs=1
+		loc_name=910
+	point_end
+
+        //아인호반트 마법학교(17_25), 휴먼마법사 초보 리스타트 군 (스타팅과 동일)
+	point_begin
+		point_name=[Einhovant's_School_of_Magic]
+		point={-90875;248162;-3570}
+		point={-90954;248118;-3570}
+		point={-90918;248070;-3570}
+		point={-90890;248027;-3570}
+		chao_point={-79411;240677;-3450}
+		chao_point={-80480;242640;-3690}
+		chao_point={-80336;244656;-3680}
+		chao_point={-82464;247248;-3570}
+		chao_point={-89522;241696;-3530}
+		chao_point={-87056;237952;-3580}
+		chao_point={-89536;240336;-3560}
+		chao_point={-88208;241360;-3560}
+		chao_point={-85328;238080;-3660}
+		chao_point={-89760;237408;-3660}
+		chao_point={-92976;240560;-3380}
+		chao_point={-94448;240944;-3300}
+		chao_point={-93552;245296;-3530}
+		chao_point={-91584;238480;-3650}
+		chao_point={-88720;238976;-3650}
+		chao_point={-91760;243664;-3440}
+		chao_point={-81680;249696;-3630}
+		chao_point={-83808;251264;-3630}
+		chao_point={-83328;238304;-3700}
+		chao_point={-91296;236272;-3690}
+	        map={}
+		banned_race={}
+		bbs=1
+		loc_name=910
+	point_end
+
+        //세계수의 그늘(21_19), 엘프 초보 리스타트 군 (스타팅과 동일)
+	point_begin
+		point_name=[Mothertree_Glade]
+		point={46045;41251;-3440}
+		point={46117;41247;-3440}
+		point={46182;41198;-3440}
+		point={46115;41141;-3440}
+		point={46048;41141;-3440}
+		point={45978;41196;-3440}
+		chao_point={40720;56064;-3580}
+		chao_point={39760;55040;-3410}
+		chao_point={43152;55920;-3620}
+		chao_point={44192;56960;-3580}
+		chao_point={39328;56256;-3580}
+		chao_point={40448;57744;-3600}
+		chao_point={38080;52048;-3500}
+		chao_point={38784;51824;-3470}
+		chao_point={37088;51248;-3400}
+		chao_point={37952;49680;-3480}
+		chao_point={38848;47072;-3580}
+		chao_point={36688;49856;-3440}
+		chao_point={36096;46544;-3680}
+		chao_point={37200;45232;-3600}
+		chao_point={50128;55472;-3410}
+		chao_point={51856;54432;-3320}
+		chao_point={53136;54592;-3420}
+		chao_point={51824;58624;-3400}
+		chao_point={51232;59216;-3320}
+		chao_point={49808;56240;-3430}
+	        map={}
+		banned_race={darkelf;[darkelf_town]}
+		bbs=4
+		loc_name=914
+	point_end
+
+        //실렌의신전(20_18), 다크엘프 초보 리스타트 군 (스타팅과 동일)
+	point_begin
+		point_name=[Temple_of_Shilen]
+		point={28295;11063;-4224}
+		point={28302;11008;-4224}
+		point={28377;10916;-4224}
+		point={28456;10997;-4224}
+		point={28461;11044;-4224}
+		point={28395;11127;-4224}
+		chao_point={3040;24240;-3700}
+		chao_point={1184;21856;-3240}
+		chao_point={3760;25136;-3700}
+		chao_point={672;20096;-3350}
+		chao_point={1248;14512;-3180}
+		chao_point={-8176;23120;-3450}
+		chao_point={-10208;25408;-3560}
+		chao_point={-11456;23936;-3700}
+		chao_point={-9632;22624;-3650}
+		chao_point={-5776;22080;-3510}
+		chao_point={2224;11936;-3050}
+		chao_point={1744;8640;-3250}
+		chao_point={2784;7872;-3110}
+		chao_point={3216;10128;-2980}
+		chao_point={3584;6976;-3020}
+		chao_point={-10768;21952;-3600}
+		chao_point={-11360;22688;-3600}
+		chao_point={-12784;23232;-3630}
+		chao_point={-13632;21872;-3620}
+		chao_point={-11984;21232;-3600}
+	        map={}
+		banned_race={elf;[elf_town]}
+		bbs=3
+		loc_name=915
+	point_end
+
+        //파아그리오 신전(18_14), 오크  초보 리스타트 군 (스타팅과 동일)
+	point_begin
+		point_name=[Temple_of_Paagrio]
+		point={-56733;-113459;-690}
+		point={-56686;-113470;-690}
+		point={-56728;-113610;-690}
+		point={-56693;-113610;-690}
+		point={-56743;-113757;-690}
+		point={-56682;-113730;-690}
+		chao_point={-43552;-121488;-233}
+		chao_point={-42560;-121344;-188}
+		chao_point={-41536;-122960;-308}
+		chao_point={-40464;-122752;-364}
+		chao_point={-45568;-107296;-516}
+		chao_point={-46512;-106032;-700}
+		chao_point={-44304;-105888;-1156}
+		chao_point={-43728;-106688;-1304}
+		chao_point={-40000;-109200;-1736}
+		chao_point={-39792;-110832;-1860}
+		chao_point={-39136;-112688;-1844}
+		chao_point={-37888;-112608;-1772}
+	        map={}
+		banned_race={}
+		bbs=9
+		loc_name=920
+	point_end
+
+        //채굴장(23_12), 드워프 초보 리스타트 군 (스타팅과 동일)
+	point_begin
+		point_name=[Quarry]
+		point={108644;-173947;-400}
+		point={108678;-174002;-400}
+		point={108505;-173964;-400}
+		point={108512;-174026;-400}
+		point={108549;-174075;-400}
+		point={108576;-174122;-400}
+		chao_point={118160;-179328;-1578}
+		chao_point={119024;-180208;-2180}
+		chao_point={119728;-180912;-2649}
+		chao_point={119776;-181968;-2948}
+		chao_point={119392;-183968;-3125}
+		chao_point={119520;-184928;-3196}
+		chao_point={119568;-186016;-3220}
+		chao_point={119984;-187312;-3260}
+		chao_point={119632;-188352;-3260}
+		chao_point={119264;-188736;-3203}
+		chao_point={118656;-187760;-2828}
+	        map={}
+		banned_race={}
+		bbs=9
+		loc_name=921
+	point_end
+
+//GM상담소_감옥, 가라 리스타트 군
+	point_begin
+		point_name=[gm_room]
+		point={-114598;-249431;-2984}
+		point={-114527;-249452;-2984}
+		point={-114567;-249517;-2984}
+		point={-114634;-249516;-2984}
+		point={-114665;-249440;-2984}
+		point={-114626;-249397;-2984}
+		point={-114567;-249384;-2984}
+		point={-114566;-249470;-2984}
+		point={-114601;-249489;-2984}
+		point={-114630;-249465;-2984}
+		point={-114501;-249297;-2984}
+		point={-114475;-249273;-2984}
+		point={-114441;-249293;-2984}
+		chao_point={-114598;-249431;-2984}
+		chao_point={-114527;-249452;-2984}
+		chao_point={-114567;-249517;-2984}
+		chao_point={-114634;-249516;-2984}
+		chao_point={-114665;-249440;-2984}
+		chao_point={-114626;-249397;-2984}
+		chao_point={-114567;-249384;-2984}
+		chao_point={-114566;-249470;-2984}
+		chao_point={-114601;-249489;-2984}
+		chao_point={-114630;-249465;-2984}
+		chao_point={-114501;-249297;-2984}
+		chao_point={-114475;-249273;-2984}
+		chao_point={-114441;-249293;-2984}
+		map={}
+		banned_race={}
+		bbs=9
+		loc_name=1222
+	point_end
+
+//GM상담소_감옥_독방1, 가라 리스타트 군
+	point_begin
+		point_name=[gm_room_solo1]
+		point={-116059; -251145; -2992}
+		point={-116126; -251135; -2992}
+		point={-116050; -251210; -2992}
+		point={-116049; -251082; -2992}
+		chao_point={-116059; -251145; -2992}
+		chao_point={-116126; -251135; -2992}
+		chao_point={-116050; -251210; -2992}
+		chao_point={-116049; -251082; -2992}
+		map={}
+		banned_race={}
+		bbs=9
+		loc_name=1222
+	point_end
+
+//GM상담소_감옥_독방2, 가라 리스타트 군
+	point_begin
+		point_name=[gm_room_solo2]
+		point={-112959; -251147; -2992}
+		point={-113157; -251149; -2992}
+		point={-113099; -251231; -2992}
+		point={-113097; -251033; -2992}
+		chao_point={-112959; -251147; -2992}
+		chao_point={-113157; -251149; -2992}
+		chao_point={-113099; -251231; -2992}
+		chao_point={-113097; -251033; -2992}
+		map={}
+		banned_race={}
+		bbs=9
+		loc_name=1222
+	point_end
+
+//여명의 신탁소, 가라 리스타트 군
+	point_begin
+		point_name=[oracle_of_dawn]
+		point={-78853;111363;-4896}
+		point={-78819;111323;-4896}
+		point={-78859;111321;-4896}
+		point={-78900;111320;-4896}
+		point={-78900;111367;-4896}
+		point={-78896;111406;-4896}
+		point={-78856;111400;-4896}
+		point={-78814;111402;-4896}
+		point={-78816;111358;-4896}
+		point={-78797;111301;-4896}
+		point={-78862;111297;-4896}
+		point={-78919;111299;-4896}
+		point={-78919;111370;-4896}
+		point={-78926;111417;-4896}
+		point={-78854;111425;-4896}
+		point={-78783;111429;-4896}
+		point={-78785;111362;-4896}
+		chao_point={-78853;111363;-4896}
+		chao_point={-78819;111323;-4896}
+		chao_point={-78859;111321;-4896}
+		chao_point={-78900;111320;-4896}
+		chao_point={-78900;111367;-4896}
+		chao_point={-78896;111406;-4896}
+		chao_point={-78856;111400;-4896}
+		chao_point={-78814;111402;-4896}
+		chao_point={-78816;111358;-4896}
+		chao_point={-78797;111301;-4896}
+		chao_point={-78862;111297;-4896}
+		chao_point={-78919;111299;-4896}
+		chao_point={-78919;111370;-4896}
+		chao_point={-78926;111417;-4896}
+		chao_point={-78854;111425;-4896}
+		chao_point={-78783;111429;-4896}
+		chao_point={-78785;111362;-4896}
+		map={}
+		banned_race={}
+		bbs=2
+		loc_name=911
+	point_end
+
+//황혼의 신탁소, 가라 리스타트 군
+	point_begin
+		point_name=[oracle_of_dusk]
+		point={-80070;86517;-5152}
+		point={-80113;86563;-5152}
+		point={-80069;86569;-5152}
+		point={-80029;86563;-5152}
+		point={-80035;86529;-5152}
+		point={-80035;86468;-5152}
+		point={-80075;86487;-5152}
+		point={-80117;86485;-5152}
+		point={-80116;86525;-5152}
+		point={-80147;86594;-5152}
+		point={-80074;86596;-5152}
+		point={-80005;86607;-5152}
+		point={-80005;86520;-5152}
+		point={-80002;86477;-5152}
+		point={-80075;86466;-5152}
+		point={-80148;86462;-5152}
+		point={-80144;86520;-5152}
+		chao_point={-80070;86517;-5152}
+		chao_point={-80113;86563;-5152}
+		chao_point={-80069;86569;-5152}
+		chao_point={-80029;86563;-5152}
+		chao_point={-80035;86529;-5152}
+		chao_point={-80035;86468;-5152}
+		chao_point={-80075;86487;-5152}
+		chao_point={-80117;86485;-5152}
+		chao_point={-80116;86525;-5152}
+		chao_point={-80147;86594;-5152}
+		chao_point={-80074;86596;-5152}
+		chao_point={-80005;86607;-5152}
+		chao_point={-80005;86520;-5152}
+		chao_point={-80002;86477;-5152}
+		chao_point={-80075;86466;-5152}
+		chao_point={-80148;86462;-5152}
+		chao_point={-80144;86520;-5152}
+		map={}
+		banned_race={}
+		bbs=2
+		loc_name=911
+	point_end
+
+//몬스터 경기장. 가라 리스타트 군. 여기서 죽으면 다시 몬스터 경기장.
+	point_begin
+		point_name=[monster_race]
+		point={11892; 181700; -3560}
+		point={14028; 181695; -3560}
+		point={13111; 181695; -3560}
+		point={12587; 181702; -3560}
+		point={13588; 181695; -3560}
+		point={14077; 182490; -3560}
+		point={13631; 182490; -3560}
+		point={13157; 182490; -3560}
+		point={12675; 182490; -3560}
+		point={11926; 182503; -3560}
+		point={12288; 182497; -3560}
+		point={12292; 181707; -3560}
+		point={11825; 181822; -3560}
+		point={11827; 182334; -3560}
+		point={11814; 181984; -3560}
+		point={11824; 182172; -3560}
+		chao_point={11892; 181700; -3560}
+		chao_point={14028; 181695; -3560}
+		chao_point={13111; 181695; -3560}
+		chao_point={12587; 181702; -3560}
+		chao_point={13588; 181695; -3560}
+		chao_point={14077; 182490; -3560}
+		chao_point={13631; 182490; -3560}
+		chao_point={13157; 182490; -3560}
+		chao_point={12675; 182490; -3560}
+		chao_point={11926; 182503; -3560}
+		chao_point={12288; 182497; -3560}
+		chao_point={12292; 181707; -3560}
+		chao_point={11825; 181822; -3560}
+		chao_point={11827; 182334; -3560}
+		chao_point={11814; 181984; -3560}
+		chao_point={11824; 182172; -3560}
+		map={}
+		banned_race={}
+		bbs=5
+		loc_name=917
+	point_end
+
+//몬스터 경기장 부설 결투장. 가라 리스타트 군. 여기서 죽으면 다시 결투장.
+	point_begin
+		point_name=[monster_race_PVP]
+		point={11817; 182897; -3560}
+		point={12438; 182887; -3560}
+		point={13047; 182902; -3560}
+		point={13061; 183518; -3560}
+		point={13059; 184123; -3560}
+		point={12430; 184133; -3560}
+		point={11822; 184143; -3560}
+		point={11803; 183473; -3560}
+		point={12115; 182896; -3560}
+		point={12740; 182901; -3560}
+		point={13059; 183199; -3560}
+		point={13049; 182796; -3560}
+		point={12740; 184138; -3560}
+		point={12172; 184133; -3560}
+		point={11820; 183806; -3560}
+		point={11811; 183209; -3560}
+		chao_point={11817; 182897; -3560}
+		chao_point={12438; 182887; -3560}
+		chao_point={13047; 182902; -3560}
+		chao_point={13061; 183518; -3560}
+		chao_point={13059; 184123; -3560}
+		chao_point={12430; 184133; -3560}
+		chao_point={11822; 184143; -3560}
+		chao_point={11803; 183473; -3560}
+		chao_point={12115; 182896; -3560}
+		chao_point={12740; 182901; -3560}
+		chao_point={13059; 183199; -3560}
+		chao_point={13049; 182796; -3560}
+		chao_point={12740; 184138; -3560}
+		chao_point={12172; 184133; -3560}
+		chao_point={11820; 183806; -3560}
+		chao_point={11811; 183209; -3560}
+		map={}
+		banned_race={}
+		bbs=5
+		loc_name=917
+	point_end
+
+//루운성 마을
+	point_begin
+		point_name=[rune_town]
+		point={38096;-46976;899}
+		point={38608;-47168;899}
+		point={38752;-47792;899}
+		point={38848;-48640;899}
+		point={38272;-49008;899}
+		point={38112;-49792;899}
+		point={43408;-51120;-800}
+		point={43536;-50416;-800}
+		point={44368;-50592;-800}
+		point={44000;-49952;-800}
+		point={45072;-49936;-800}
+		point={45824;-49056;-800}
+		point={45632;-47968;-800}
+		point={44864;-47824;-800}
+		point={43744;-47920;-800}
+		point={43792;-48928;-800}
+		chao_point={42640;-54496;-2310}
+		chao_point={38304;-55440;-1136}
+		chao_point={40192;-57600;-2343}
+		chao_point={38400;-56832;-992}
+		chao_point={35632;-54800;-1744}
+		chao_point={37919;-54688;-672}
+		chao_point={43936;-56480;-3627}
+		chao_point={39440;-60080;-2870}
+		chao_point={41376;-55376;-1488}
+		chao_point={41920;-57760;-2392}
+		chao_point={40438;-55431;-1376}
+		chao_point={40784;-59888;-2600}
+		map={21;15}
+		map={21;16}
+		map={21;17}
+                map={22;15}
+		map={22;16}
+		map={23;15}
+		map={16;11}
+		map={17;10}
+		map={17;11}
+		map={19;17}
+		map={20;16}
+		map={20;17}
+		map={19;16}
+		banned_race={}
+		bbs=14
+		loc_name=1537
+	point_end
+
+//고다드성 마을
+	point_begin
+		point_name=[godard_town]
+		point={148560;-55904;-2779}
+		point={150704;-55744;-2979}
+		point={150400;-56752;-2979}
+		point={149872;-57424;-2979}
+		point={149088;-56256;-2779}
+		point={147664;-56464;-2779}
+		point={147680;-56928;-2779}
+		point={146832;-55904;-2779}
+		point={146368;-56256;-2779}
+		point={149120;-58064;-2979}
+		point={148288;-58304;-2979}
+		point={147680;-58208;-2979}
+		point={147232;-58480;-2979}
+		point={146272;-58176;-2979}
+		point={145696;-57696;-2979}
+		point={145264;-57680;-2979}
+		point={145392;-56960;-2979}
+		point={144752;-56752;-2979}
+		point={144960;-56224;-2979}
+		point={144944;-55392;-2979}
+		point={144496;-55088;-2979}
+		chao_point={142656;-55008;-3024}
+		chao_point={142832;-55680;-3462}
+		chao_point={143152;-56368;-3456}
+		chao_point={145344;-59472;-3344}
+		chao_point={145872;-59744;-3328}
+		chao_point={150304;-59800;-3504}
+		chao_point={145248;-60064;-3440}
+		chao_point={144368;-59616;-3512}
+		chao_point={149680;-59600;-3440}
+		chao_point={149360;-60576;-3520}
+		chao_point={152114;-57296;-3451}
+		chao_point={150492;-59719;-3611}
+		chao_point={148791;-60361;-3537}
+		chao_point={146499;-60242;-3455}
+		chao_point={143052;-56418;-3490}
+		map={23;16}
+		map={24;14}
+		map={24;15}
+                map={24;16}
+		map={25;14}
+		map={25;15}
+		map={25;16}
+		map={26;14}
+		banned_race={}
+		bbs=15
+		loc_name=1538
+	point_end
+
+//차원의 틈새 (중립 지역으로 설정 - bbs)
+	point_begin
+		point_name=[rift_bitween_worlds]
+		point={-114444;-178322;-6752}
+		point={-114470;-178883;-6752}
+		point={-114449;-179708;-6752}
+		point={-114518;-180567;-6752}
+		point={-114537;-181419;-6752}
+		point={-114918;-181706;-6752}
+		point={-115072;-180844;-6752}
+		point={-115146;-179844;-6752}
+		point={-115160;-179060;-6752}
+		point={-114989;-178312;-6752}
+		point={-114434;-180128;-6752}
+		point={-114469;-179415;-6752}
+		point={-115139;-180236;-6752}
+		point={-115169;-178312;-6752}
+		chao_point={-114459;-178615;-6752}
+		chao_point={-114469;-179415;-6752}
+		chao_point={-114434;-180128;-6752}
+		chao_point={-114597;-181000;-6752}
+		chao_point={-114708;-181823;-6752}
+		chao_point={-115008;-181224;-6752}
+		chao_point={-115139;-180236;-6752}
+		chao_point={-115155;-179354;-6752}
+		chao_point={-115169;-178312;-6752}
+		map={16;12}
+		banned_race={}
+		bbs=100
+		loc_name=1643
+	point_end
+
+//제국의 무덤
+	point_begin
+		point_name=[the_royal_family's_catacomb]
+		point={181544;-80897;-2728}
+		point={181415;-80791;-2728}
+		point={181383;-80984;-2728}
+		point={181277;-81017;-2728}
+		point={181232;-80937;-2728}
+		point={181063;-81000;-2728}
+		point={181125;-80920;-2728}
+		point={181122;-80869;-2728}
+		point={181155;-80825;-2728}
+		point={181142;-80754;-2728}
+		point={181301;-80776;-2728}
+		point={181398;-80782;-2728}
+		point={181722;-80785;-2728}
+		point={181491;-80868;-2728}
+		chao_point={181544;-80897;-2728}
+		chao_point={181415;-80791;-2728}
+		chao_point={181383;-80984;-2728}
+		chao_point={181277;-81017;-2728}
+		chao_point={181232;-80937;-2728}
+		chao_point={181063;-81000;-2728}
+		chao_point={181125;-80920;-2728}
+		chao_point={181122;-80869;-2728}
+		chao_point={181155;-80825;-2728}
+		chao_point={181142;-80754;-2728}
+		chao_point={181301;-80776;-2728}
+		chao_point={181398;-80782;-2728}
+		chao_point={181722;-80785;-2728}
+		chao_point={181491;-80868;-2728}
+		map={}
+		banned_race={}
+		bbs=15
+		loc_name=1659
+	point_end
+
+//슈트가르트 성마을
+	point_begin
+		point_name=[town_of_schuttgart]
+		point={88240;-142736;-1341}
+		point={88624;-142480;-1344}
+		point={87408;-142304;-1341}
+		point={87344;-141696;-1341}
+		point={86400;-142672;-1344}
+		point={85968;-142384;-1341}
+		point={84720;-141936;-1542}
+		point={85056;-141328;-1542}
+		point={85472;-140752;-1542}
+		point={86560;-140320;-1542}
+		point={87184;-140256;-1542}
+		point={87776;-140384;-1542}
+		point={88448;-140512;-1542}
+		point={89360;-140944;-1542}
+		point={89712;-141472;-1542}
+		chao_point={82720;-141584;-2221}
+		chao_point={83120;-141088;-2276}
+		chao_point={83744;-139392;-2272}
+		chao_point={84128;-139440;-2272}
+		chao_point={84480;-138800;-2245}
+		chao_point={85136;-139072;-2277}
+		chao_point={85184;-138560;-2265}
+		chao_point={85616;-138912;-2277}
+		chao_point={86016;-138736;-2277}
+		chao_point={86368;-137984;-2273}
+		chao_point={89200;-138336;-2344}
+		map={21;14}
+		map={22;14}
+		map={22;13}
+		map={23;14}
+		map={23;13}
+		banned_race={}
+		bbs=9
+		loc_name=1714
+	point_end
+
+	//원시의 섬
+	point_begin
+		point_name=[primeval_island]
+		point={11088;-24768;-3644}
+		point={10560;-24656;-3648}
+		point={10352;-24240;-3658}
+		point={10896;-24112;-3644}
+		chao_point={10256;-23680;-3667}
+		chao_point={10816;-23552;-3653}
+		chao_point={11424;-24064;-3644}
+		chao_point={10512;-23072;-3664}
+		chao_point={9904;-24128;-3728}
+		chao_point={10560;-23920;-3654}
+		chao_point={11136;-24384;-3644}
+		map={20;17}
+		banned_race={}
+		bbs=14
+		loc_name=1924
+	point_end
+
+	//영혼의 종유동(16_19), 카마엘 초보 리스타트 군 (스타팅과 동일)
+	point_begin
+		point_name=[spirit_cave]
+		point={-125607;38452;1152}
+		point={-125472;38450;1152}
+		point={-125615;37771;1152}
+		point={-125464;37776;1152}
+		point={-125517;38267;1155}
+		point={-125531;37944;1155}
+		chao_point={-122237;55073;-1609}
+		chao_point={-120736;58526;-2032}
+		chao_point={-106674;49527;-1735}
+		chao_point={-107156;45055;-1673}
+		chao_point={-106104;47189;-1529}
+		map={}
+		banned_race={}
+		bbs=13 //아덴 영지
+		loc_name=2189 // "카마엘 마을 근처"
+	point_end
+
+	//카마엘 마을 (16_19)
+	point_begin
+		point_name=[kamael_town]
+		point={-118092;46955;342}
+		point={-116739;45949;342}
+		point={-118087;45021;341}
+		point={-119401;45949;342}
+		chao_point={-122237;55073;-1609}
+		chao_point={-120736;58526;-2032}
+		chao_point={-106674;49527;-1735}
+		chao_point={-107156;45055;-1673}
+		chao_point={-106104;47189;-1529}
+		map={16;19}
+		map={16;20}
+		map={17;19}
+		banned_race={}
+		bbs=13 //아덴 영지
+		loc_name=2189 //"카마엘 마을 근처"
+	point_end
+
+	//헬바운드(19_25, 20_25) 리스존 황무지 남쪽 드워프 상인 캠프
+	point_begin
+		point_name=[southern_wasteland]
+		point={-16434;208803;-3691}
+		point={-16929;209712;-3691}
+		point={-16219;210056;-3691}
+		point={-15686;209285;-3691}
+		point={-17067;208965;-3691}
+		point={-17463;209659;-3691}
+		chao_point={-16434;208803;-3691}
+		chao_point={-16929;209712;-3691}
+		chao_point={-16219;210056;-3691}
+		chao_point={-15686;209285;-3691}
+		chao_point={-17067;208965;-3691}
+		chao_point={-17463;209659;-3691}
+		map={19;25}
+		map={20;25}
+		banned_race={}
+		bbs=2 // 글루디오 영지
+		loc_name=2190 //"황무지 남쪽 캠프 근처"
+	point_end
+
+	//환상의 섬 (17_15, 18_15, 17_16, 18_16)
+	point_begin
+		point_name=[themepark]
+		point={-60012;-57445;-2030}
+		point={-59078;-56898;-2030}
+		point={-60009;-56328;-2030}
+		chao_point={-60012;-57445;-2030}
+		chao_point={-59078;-56898;-2030}
+		chao_point={-60009;-56328;-2030}
+		map={17;15}
+		map={18;15}
+		map={17;16}
+		map={18;16}
+		banned_race={}
+		bbs=14 // 루운 영지 (임시)
+		loc_name=2259 //"환상의 섬 근처"
+	point_end
+
+	//헬바운드 강철의 성 내 (18_25, 19_26, 20_24, 20_26) 리스존 강철의 성 성내 오아시스
+	point_begin
+		point_name=[ironcastle_inner_oasis]
+		point={9155;252241;-1976}
+		point={9264;252432;-1936}
+		point={9360;252256;-2000}
+		point={9264;252000;-2032}
+		point={8976;252416;-1936}
+		point={9664;252112;-1952}
+		chao_point={9155;252241;-1976}
+		chao_point={9264;252432;-1936}
+		chao_point={9360;252256;-2000}
+		chao_point={9264;252000;-2032}
+		chao_point={8976;252416;-1936}
+		chao_point={9664;252112;-1952}
+		map={16;10} //컴파일 오류를 막기 위해 임시 지정
+		banned_race={}
+		bbs=2 // 글루디오 영지
+		loc_name=2293 // "강철의 성 내성 오아시스"
+	point_end
+
+	//카마로카
+	point_begin
+		point_name=[kamaroka]
+		point={19025;145245;-3107} //디온성마을
+		point={18576;145136;-3104}
+		point={18717;145711;-3097}
+		point={18512;145536;-3100}
+		point={18954;144428;-3000}
+		point={19150;143941;-3020}
+		point={19134;144847;-3020}
+		point={19613;145607;-3020}
+		point={18078;145925;-3020}
+		point={17398;145456;-3000}
+		point={17144;145055;-3000}
+		point={19012;145140;-3020}
+		chao_point={17555;170393;-3400}
+		chao_point={17699;170153;-3400}
+		chao_point={17315;170041;-3400}
+		chao_point={17283;170329;-3400}
+		chao_point={17536;170505;-3400}
+		chao_point={17299;170341;-3400}
+		chao_point={17085;170170;-3400}
+		chao_point={17421;169993;-3400}
+		chao_point={17820;170054;-3400}
+		chao_point={18054;170263;-3400}
+		chao_point={17931;170381;-3400}
+		map={16;10} //컴파일 오류를 막기 위해 임시 지정
+		banned_race={}
+		bbs=7 //중립지대
+		loc_name=2321 // "카마로카 내부"
+	point_end
+
+	//니어 카마로카
+	point_begin
+		point_name=[near_kamaroka]
+		point={19025;145245;-3107} //디온성마을
+		point={18576;145136;-3104}
+		point={18717;145711;-3097}
+		point={18512;145536;-3100}
+		point={18954;144428;-3000}
+		point={19150;143941;-3020}
+		point={19134;144847;-3020}
+		point={19613;145607;-3020}
+		point={18078;145925;-3020}
+		point={17398;145456;-3000}
+		point={17144;145055;-3000}
+		point={19012;145140;-3020}
+		chao_point={17555;170393;-3400}
+		chao_point={17699;170153;-3400}
+		chao_point={17315;170041;-3400}
+		chao_point={17283;170329;-3400}
+		chao_point={17536;170505;-3400}
+		chao_point={17299;170341;-3400}
+		chao_point={17085;170170;-3400}
+		chao_point={17421;169993;-3400}
+		chao_point={17820;170054;-3400}
+		chao_point={18054;170263;-3400}
+		chao_point={17931;170381;-3400}
+		map={16;10} //컴파일 오류를 막기 위해 임시 지정
+		banned_race={}
+		bbs=7 //중립지대
+		loc_name=2322 // "니어 카마로카 내부"
+	point_end
+
+	//림 카마로카
+	point_begin
+		point_name=[rim_kamaroka]
+		point={19025;145245;-3107} //디온성마을
+		point={18576;145136;-3104}
+		point={18717;145711;-3097}
+		point={18512;145536;-3100}
+		point={18954;144428;-3000}
+		point={19150;143941;-3020}
+		point={19134;144847;-3020}
+		point={19613;145607;-3020}
+		point={18078;145925;-3020}
+		point={17398;145456;-3000}
+		point={17144;145055;-3000}
+		point={19012;145140;-3020}
+		chao_point={17555;170393;-3400}
+		chao_point={17699;170153;-3400}
+		chao_point={17315;170041;-3400}
+		chao_point={17283;170329;-3400}
+		chao_point={17536;170505;-3400}
+		chao_point={17299;170341;-3400}
+		chao_point={17085;170170;-3400}
+		chao_point={17421;169993;-3400}
+		chao_point={17820;170054;-3400}
+		chao_point={18054;170263;-3400}
+		chao_point={17931;170381;-3400}
+		map={16;10} //컴파일 오류를 막기 위해 임시 지정
+		banned_race={}
+		bbs=7 //중립지대
+		loc_name=2323 // "림 카마로카 내부"
+	point_end
+
+	//크라테의 큐브 귀환 포인트 (17_17)
+	point_begin
+		point_name=[crate01]
+		point={-87123;-16464;-8320}
+		chao_point={-87123;-16464;-8320}
+		map={}
+		banned_race={}
+		bbs=14 // 루운 영지 (임시)
+		loc_name=2259 //"환상의 섬 근처"
+	point_end
+
+	//크라테의 큐브 귀환 포인트 (17_15)
+	point_begin
+		point_name=[crate02]
+		point={-86974;-81844;-8364}
+		chao_point={-86974;-81844;-8364}
+		map={}
+		banned_race={}
+		bbs=14 // 루운 영지 (임시)
+		loc_name=2259 //"환상의 섬 근처"
+	point_end
+
+	//크라테의 큐브 귀환 포인트 (18_15)
+	point_begin
+		point_name=[crate03]
+		point={-53892;-82896;-8320}
+		chao_point={-53892;-82896;-8320}
+		map={}
+		banned_race={}
+		bbs=14 // 루운 영지 (임시)
+		loc_name=2259 //"환상의 섬 근처"
+	point_end
+
+	//그레시아 귀환 포인트 (14_25)
+	point_begin
+		point_name=[union_base_of_kserth]
+		point={-184072;242773;1576}
+		point={-184588;242604;1576}
+		point={-184793;243268;1576}
+		point={-184241;243390;1576}
+		point={-184319;242837;1576}
+		point={-184629;242752;1576}
+		point={-184719;243083;1576}
+		chao_point={-184072;242773;1576}
+		chao_point={-184588;242604;1576}
+		chao_point={-184793;243268;1576}
+		chao_point={-184241;243390;1576}
+		chao_point={-184319;242837;1576}
+		chao_point={-184629;242752;1576}
+		chao_point={-184719;243083;1576}
+		map={12;24}
+		map={13;24}
+		map={14;24}
+		map={12;25}
+		map={13;25}
+		map={14;25}
+		map={14;23}
+		map={14;22}
+		banned_race={}
+		bbs=2 // 글루디오 영지 (임시)
+		loc_name=2710 //"크세르스 동맹 연합기지 근처"
+	point_end
+
+	//불멸의 씨앗 내부 (14_24)
+	point_begin
+		point_name=[inner_undying01]
+		//point={-212832;209705;4280}
+		//chao_point={-212832;209705;4280}
+		//point={-183134;205880;-12896}
+		//point={-182881;206241;-12896}
+		//point={-183302;206610;-12896}
+		//point={-183717;206214;-12896}
+		//point={-183432;205906;-12896}
+		//chao_point={-183134;205880;-12896}
+		//chao_point={-182881;206241;-12896}
+		//chao_point={-183302;206610;-12896}
+		//chao_point={-183717;206214;-12896}
+		//chao_point={-183432;205906;-12896}
+		point={-183285;205996;-12896}
+		chao_point={-183285;205996;-12896}
+		map={}
+		banned_race={}
+		bbs=2 // 글루디오 영지 (임시)
+		loc_name=2711 //"불멸의 씨앗 내부"
+	point_end
+
+	//파멸의 씨앗 내부 (12_24)
+	point_begin
+		point_name=[inner_destruction01]
+		point={-248373;250442;4318}
+		chao_point={-248373;250442;4318}
+		map={}
+		banned_race={}
+		bbs=2 // 글루디오 영지 (임시)
+		loc_name=2712 //"파멸의 씨앗 내부"
+	point_end
+
+	//클래프트
+	point_begin
+		point_name=[cleft]
+		point = {-223701;247795;1744}
+		point = {-223780;247661;1744}
+		point = {-223776;247914;1744}
+		point = {-204350;242148;1744}
+		point = {-204284;242288;1744}
+		point = {-204288;242026;1728}
+		chao_point = {-223701;247795;1744}
+		chao_point = {-223780;247661;1744}
+		chao_point = {-223776;247914;1744}
+		chao_point = {-204350;242148;1744}
+		chao_point = {-204284;242288;1744}
+		chao_point = {-204288;242026;1728}
+		map={}
+		banned_race={}
+		bbs=2 // 글루디오 영지 (임시)
+		loc_name=2716 //"클레프트 내부"
+	point_end
+
+	//몽환의 결계
+	point_begin
+		point_name=[border_of_nightmare]
+		point={-114633;-154243;-6720} //대기실
+		point={-114619;-153720;-6720}
+		point={-114595;-153080;-6720}
+		point={-114619;-152528;-6720}
+		chao_point={-114633;-154243;-6720} //대기실
+		chao_point={-114619;-153720;-6720}
+		chao_point={-114595;-153080;-6720}
+		chao_point={-114619;-152528;-6720}
+		map={}
+		banned_race={}
+		bbs=7 //중립지대
+		loc_name=3065 // "몽환의 결계 내부"
+	point_end
+
+	//파멸의 씨앗 내부 (12_24)
+	point_begin
+		point_name=[inner_annihilation01]
+		point={-178256;153397;2472}
+		chao_point={-178256;153397;2472}
+		map={}
+		banned_race={}
+		bbs=2 // 글루디오 영지 (임시)
+		loc_name=3170 //"진멸의 씨앗 내부"
+	point_end
+
+	//파멸의 씨앗 내부 (12_24)
+	point_begin
+		point_name=[inner_annihilation02]
+		point={-178256;153397;2472}
+		chao_point={-178256;153397;2472}
+		map={}
+		banned_race={}
+		bbs=2 // 글루디오 영지 (임시)
+		loc_name=3170 //"진멸의 씨앗 내부"
+	point_end
+
+	//올림피아드 경기장 (15_10)
+	point_begin
+		point_name=[olympiad_stadium02]
+		point={38096;-46976;899}
+		point={38608;-47168;899}
+		point={38752;-47792;899}
+		point={38848;-48640;899}
+		point={38272;-49008;899}
+		point={38112;-49792;899}
+		point={43408;-51120;-800}
+		point={43536;-50416;-800}
+		point={44368;-50592;-800}
+		point={44000;-49952;-800}
+		point={45072;-49936;-800}
+		point={45824;-49056;-800}
+		point={45632;-47968;-800}
+		point={44864;-47824;-800}
+		point={43744;-47920;-800}
+		point={43792;-48928;-800}
+		chao_point={42640;-54496;-2310}
+		chao_point={38304;-55440;-1136}
+		chao_point={40192;-57600;-2343}
+		chao_point={38400;-56832;-992}
+		chao_point={35632;-54800;-1744}
+		chao_point={37919;-54688;-672}
+		chao_point={43936;-56480;-3627}
+		chao_point={39440;-60080;-2870}
+		chao_point={41376;-55376;-1488}
+		chao_point={41920;-57760;-2392}
+		chao_point={40438;-55431;-1376}
+		chao_point={40784;-59888;-2600}
+		map={15;10}
+		banned_race={}
+		bbs=14 // 루운 영지 (임시)
+		loc_name=1537
+	point_end
+
+	//올림피아드 경기장 (15_11)
+	point_begin
+		point_name=[olympiad_stadium03]
+		point={38096;-46976;899}
+		point={38608;-47168;899}
+		point={38752;-47792;899}
+		point={38848;-48640;899}
+		point={38272;-49008;899}
+		point={38112;-49792;899}
+		point={43408;-51120;-800}
+		point={43536;-50416;-800}
+		point={44368;-50592;-800}
+		point={44000;-49952;-800}
+		point={45072;-49936;-800}
+		point={45824;-49056;-800}
+		point={45632;-47968;-800}
+		point={44864;-47824;-800}
+		point={43744;-47920;-800}
+		point={43792;-48928;-800}
+		chao_point={42640;-54496;-2310}
+		chao_point={38304;-55440;-1136}
+		chao_point={40192;-57600;-2343}
+		chao_point={38400;-56832;-992}
+		chao_point={35632;-54800;-1744}
+		chao_point={37919;-54688;-672}
+		chao_point={43936;-56480;-3627}
+		chao_point={39440;-60080;-2870}
+		chao_point={41376;-55376;-1488}
+		chao_point={41920;-57760;-2392}
+		chao_point={40438;-55431;-1376}
+		chao_point={40784;-59888;-2600}
+		map={15;11}
+		banned_race={}
+		bbs=14 // 루운 영지 (임시)
+		loc_name=1537
+	point_end
+
+	//올림피아드 경기장 (15_12)
+	point_begin
+		point_name=[olympiad_stadium04]
+		point={38096;-46976;899}
+		point={38608;-47168;899}
+		point={38752;-47792;899}
+		point={38848;-48640;899}
+		point={38272;-49008;899}
+		point={38112;-49792;899}
+		point={43408;-51120;-800}
+		point={43536;-50416;-800}
+		point={44368;-50592;-800}
+		point={44000;-49952;-800}
+		point={45072;-49936;-800}
+		point={45824;-49056;-800}
+		point={45632;-47968;-800}
+		point={44864;-47824;-800}
+		point={43744;-47920;-800}
+		point={43792;-48928;-800}
+		chao_point={42640;-54496;-2310}
+		chao_point={38304;-55440;-1136}
+		chao_point={40192;-57600;-2343}
+		chao_point={38400;-56832;-992}
+		chao_point={35632;-54800;-1744}
+		chao_point={37919;-54688;-672}
+		chao_point={43936;-56480;-3627}
+		chao_point={39440;-60080;-2870}
+		chao_point={41376;-55376;-1488}
+		chao_point={41920;-57760;-2392}
+		chao_point={40438;-55431;-1376}
+		chao_point={40784;-59888;-2600}
+		map={15;12}
+		banned_race={}
+		bbs=14 // 루운 영지 (임시)
+		loc_name=1537
+	point_end
+
+restart_point_end
+
+//PC creation시 종족/클래스 별 최소치/최대치/권장치
+//앞에서부터 INT / STR / CON / MEN / DEX/ WIT
+
+minimum_stat_begin
+	human_fighter={10;10;10;10;10;10}
+	human_magician={10;10;10;10;10;10}
+	elf_fighter={10;10;10;10;10;10}
+	elf_magician={10;10;10;10;10;10}
+	darkelf_fighter={10;10;10;10;10;10}
+	darkelf_magician={10;10;10;10;10;10}
+	orc_fighter={10;10;10;10;10;10}
+	orc_shaman={10;10;10;10;10;10}
+	dwarf_apprentice={10;10;10;10;10;10}
+	kamael_m_soldier={10;10;10;10;10;10}
+	kamael_f_soldier={10;10;10;10;10;10}
+minimum_stat_end
+
+maximum_stat_begin
+	human_fighter={70;70;70;70;70;70}
+	human_magician={70;70;70;70;70;70}
+	elf_fighter={70;70;70;70;70;70}
+	elf_magician={70;70;70;70;70;70}
+	darkelf_fighter={70;70;70;70;70;70}
+	darkelf_magician={70;70;70;70;70;70}
+	orc_fighter={70;70;70;70;70;70}
+	orc_shaman={70;70;70;70;70;70}
+	dwarf_apprentice={70;70;70;70;70;70}
+	kamael_m_soldier={70;70;70;70;70;70}
+	kamael_f_soldier={70;70;70;70;70;70}
+maximum_stat_end
+
+recommended_stat_begin
+	human_fighter={21;40;43;25;30;11}
+	human_magician={41;22;27;39;21;20}
+	elf_fighter={23;36;36;26;35;14}
+	elf_magician={37;21;25;40;24;23}
+	darkelf_fighter={25;41;32;26;34;12}
+	darkelf_magician={44;23;24;37;23;19}
+	orc_fighter={18;40;47;27;26;12}
+	orc_shaman={31;27;31;42;24;15}
+	dwarf_apprentice={20;39;45;27;29;10}
+	kamael_m_soldier={29;41;31;25;33;11}
+	kamael_f_soldier={28;39;30;27;35;11}
+recommended_stat_end
+
+
+olympiad_arena_begin
+	arena_begin
+		id = 1
+		range = {{-89897;-253947;-4819;181};{-86110;-253956;-4819;181};{-86110;-251348;-4819;181};{-89897;-251340;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-89245;-252643;-3320};{-89230;-252643;-3320};{-89260;-252643;-3320}}
+		point2 = {{-86751;-252633;-3320};{-86736;-252633;-3320};{-86766;-252633;-3320}}
+		olympiad_door = {[olympiad_door_001];[olympiad_door_002]}
+	arena_end
+
+	arena_begin
+		id = 2
+		range = {{-85677;-253925;-4819;181};{-81890;-253934;-4819;181};{-81890;-251326;-4819;181};{-85677;-251318;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-85022;-252640;-3320};{-85007;-252640;-3320};{-85037;-252640;-3320}}
+		point2 = {{-82551;-252638;-3321};{-82536;-252638;-3321};{-82566;-252638;-3321}}
+		olympiad_door = {[olympiad_door_003];[olympiad_door_004]}
+	arena_end
+
+	arena_begin
+		id = 3
+		range = {{-81486;-253937;-4819;181};{-77699;-253945;-4819;181};{-77699;-251338;-4819;181};{-81486;-251330;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-80854;-252640;-3320};{-80839;-252640;-3320};{-80869;-252640;-3320}}
+		point2 = {{-78326;-252634;-3320};{-78311;-252634;-3320};{-78341;-252634;-3320}}
+		olympiad_door = {[olympiad_door_005];[olympiad_door_006]}
+	arena_end
+
+	arena_begin
+		id = 4
+		range = {{-77565;-253952;-4819;181};{-73778;-253960;-4819;181};{-73778;-251353;-4819;181};{-77565;-251344;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-76985;-252644;-3320};{-76970;-252644;-3320};{-77000;-252644;-3320}}
+		point2 = {{-74385;-252639;-3320};{-74370;-252639;-3320};{-74400;-252639;-3320}}
+		olympiad_door = {[olympiad_door_007];[olympiad_door_008]}
+	arena_end
+
+	arena_begin
+		id = 5
+		range = {{-89899;-251072;-4819;181};{-86112;-251080;-4819;181};{-86112;-248473;-4819;181};{-89899;-248464;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-89306;-249765;-3320};{-89291;-249765;-3320};{-89321;-249765;-3320}}
+		point2 = {{-86693;-249761;-3320};{-86678;-249761;-3320};{-86708;-249761;-3320}}
+		olympiad_door = {[olympiad_door_009];[olympiad_door_010]}
+	arena_end
+
+	arena_begin
+		id = 6
+		range = {{-85675;-251074;-4819;181};{-81888;-251082;-4819;181};{-81888;-248475;-4819;181};{-85675;-248467;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-85097;-249766;-3320};{-85082;-249766;-3320};{-85112;-249766;-3320}}
+		point2 = {{-82479;-249760;-3320};{-82464;-249760;-3320};{-82494;-249760;-3320}}
+		olympiad_door = {[olympiad_door_011];[olympiad_door_012]}
+	arena_end
+
+	arena_begin
+		id = 7
+		range = {{-81495;-251062;-4819;181};{-77708;-251070;-4819;181};{-77708;-248463;-4819;181};{-81495;-248454;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-80899;-249765;-3320};{-80884;-249765;-3320};{-80914;-249765;-3320}}
+		point2 = {{-78275;-249758;-3320};{-78260;-249758;-3320};{-78290;-249758;-3320}}
+		olympiad_door = {[olympiad_door_013];[olympiad_door_014]}
+	arena_end
+
+	arena_begin
+		id = 8
+		range = {{-77559;-251077;-4819;181};{-73772;-251085;-4819;181};{-73772;-248478;-4819;181};{-77559;-248470;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-76987;-249767;-3320};{-76972;-249767;-3320};{-77002;-249767;-3320}}
+		point2 = {{-74357;-249757;-3320};{-74342;-249757;-3320};{-74372;-249757;-3320}}
+		olympiad_door = {[olympiad_door_015];[olympiad_door_016]}
+	arena_end
+
+	arena_begin
+		id = 9
+		range = {{-89897;-248271;-4819;181};{-86110;-248280;-4819;181};{-86110;-245672;-4819;181};{-89897;-245664;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-89318;-246959;-3320};{-89303;-246959;-3320};{-89333;-246959;-3320}}
+		point2 = {{-86707;-246954;-3320};{-86692;-246954;-3320};{-86722;-246954;-3320}}
+		olympiad_door = {[olympiad_door_017];[olympiad_door_018]}
+	arena_end
+
+	arena_begin
+		id = 10
+		range = {{-85674;-248281;-4819;181};{-81887;-248289;-4819;181};{-81887;-245682;-4819;181};{-85674;-245673;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-85080;-246960;-3320};{-85065;-246960;-3320};{-85095;-246960;-3320}}
+		point2 = {{-82481;-246953;-3320};{-82466;-246953;-3320};{-82496;-246953;-3320}}
+		olympiad_door = {[olympiad_door_019];[olympiad_door_020]}
+	arena_end
+
+	arena_begin
+		id = 11
+		range = {{-81487;-248254;-4819;181};{-77700;-248262;-4819;181};{-77700;-245655;-4819;181};{-81487;-245646;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-80878;-246961;-3320};{-80863;-246961;-3320};{-80893;-246961;-3320}}
+		point2 = {{-78318;-246956;-3320};{-78303;-246956;-3320};{-78333;-246956;-3320}}
+		olympiad_door = {[olympiad_door_021];[olympiad_door_022]}
+	arena_end
+
+	arena_begin
+		id = 12
+		range = {{-77564;-248269;-4819;181};{-73777;-248277;-4819;181};{-73777;-245670;-4819;181};{-77564;-245661;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-76968;-246963;-3320};{-76953;-246963;-3320};{-76983;-246963;-3320}}
+		point2 = {{-74362;-246951;-3320};{-74347;-246951;-3320};{-74377;-246951;-3320}}
+		olympiad_door = {[olympiad_door_023];[olympiad_door_024]}
+	arena_end
+
+	arena_begin
+		id = 13
+		range = {{-89902;-245579;-4819;181};{-86115;-245588;-4819;181};{-86115;-242980;-4819;181};{-89902;-242972;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-89270;-244281;-3320};{-89255;-244281;-3320};{-89285;-244281;-3320}}
+		point2 = {{-86706;-244275;-3320};{-86691;-244275;-3320};{-86721;-244275;-3320}}
+		olympiad_door = {[olympiad_door_025];[olympiad_door_026]}
+	arena_end
+
+	arena_begin
+		id = 14
+		range = {{-85675;-245555;-4819;181};{-81888;-245563;-4819;181};{-81888;-242956;-4819;181};{-85675;-242948;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-85069;-244279;-3320};{-85054;-244279;-3320};{-85084;-244279;-3320}}
+		point2 = {{-82474;-244272;-3320};{-82459;-244272;-3320};{-82489;-244272;-3320}}
+		olympiad_door = {[olympiad_door_027];[olympiad_door_028]}
+	arena_end
+
+	arena_begin
+		id = 15
+		range = {{-81483;-245579;-4819;181};{-77696;-245588;-4819;181};{-77696;-242980;-4819;181};{-81483;-242972;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-80895;-244277;-3320};{-80880;-244277;-3320};{-80910;-244277;-3320}}
+		point2 = {{-78314;-244273;-3320};{-78299;-244273;-3320};{-78329;-244273;-3320}}
+		olympiad_door = {[olympiad_door_029];[olympiad_door_030]}
+	arena_end
+
+	arena_begin
+		id = 16
+		range = {{-77558;-245568;-4819;181};{-73771;-245576;-4819;181};{-73771;-242969;-4819;181};{-77558;-242960;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-76969;-244277;-3320};{-76954;-244277;-3320};{-76984;-244277;-3320}}
+		point2 = {{-74352;-244276;-3320};{-74337;-244276;-3320};{-74367;-244276;-3320}}
+		olympiad_door = {[olympiad_door_031];[olympiad_door_032]}
+	arena_end
+
+	arena_begin
+		id = 17
+		range = {{-89901;-242785;-4819;181};{-86114;-242793;-4819;181};{-86114;-240186;-4819;181};{-89901;-240177;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-89313;-241481;-3320};{-89298;-241481;-3320};{-89328;-241481;-3320}}
+		point2 = {{-86681;-241478;-3320};{-86666;-241478;-3320};{-86696;-241478;-3320}}
+		olympiad_door = {[olympiad_door_033];[olympiad_door_034]}
+	arena_end
+
+	arena_begin
+		id = 18
+		range = {{-85675;-242754;-4819;181};{-81888;-242763;-4819;181};{-81888;-240155;-4819;181};{-85675;-240147;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-85096;-241480;-3320};{-85081;-241480;-3320};{-85111;-241480;-3320}}
+		point2 = {{-82465;-241482;-3320};{-82450;-241482;-3320};{-82480;-241482;-3320}}
+		olympiad_door = {[olympiad_door_035];[olympiad_door_036]}
+	arena_end
+
+	arena_begin
+		id = 19
+		range = {{-81484;-242794;-4819;181};{-77697;-242802;-4819;181};{-77697;-240195;-4819;181};{-81484;-240186;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-80875;-241480;-3320};{-80860;-241480;-3320};{-80890;-241480;-3320}}
+		point2 = {{-78284;-241482;-3320};{-78269;-241482;-3320};{-78299;-241482;-3320}}
+		olympiad_door = {[olympiad_door_037];[olympiad_door_038]}
+	arena_end
+
+	arena_begin
+		id = 20
+		range = {{-77564;-242790;-4819;181};{-73777;-242798;-4819;181};{-73777;-240191;-4819;181};{-77564;-240183;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-76957;-241484;-3320};{-76942;-241484;-3320};{-76972;-241484;-3320}}
+		point2 = {{-74352;-241485;-3320};{-74337;-241485;-3320};{-74367;-241485;-3320}}
+		olympiad_door = {[olympiad_door_039];[olympiad_door_040]}
+	arena_end
+
+	arena_begin
+		id = 21
+		range = {{-89882;-240108;-4819;181};{-86095;-240116;-4819;181};{-86095;-237509;-4819;181};{-89882;-237501;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-89310;-238839;-3320};{-89295;-238839;-3320};{-89325;-238839;-3320}}
+		point2 = {{-86697;-238836;-3320};{-86682;-238836;-3320};{-86712;-238836;-3320}}
+		olympiad_door = {[olympiad_door_041];[olympiad_door_042]}
+	arena_end
+
+	arena_begin
+		id = 22
+		range = {{-85682;-240123;-4819;181};{-81895;-240132;-4819;181};{-81895;-237524;-4819;181};{-85682;-237516;-4819;181}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-85087;-238834;-3320};{-85072;-238834;-3320};{-85102;-238834;-3320}}
+		point2 = {{-82498;-238832;-3320};{-82483;-238832;-3320};{-82513;-238832;-3320}}
+		olympiad_door = {[olympiad_door_043];[olympiad_door_044]}
+	arena_end
+
+	arena_begin
+		id = 23
+		range = {{-155469;-253929;-4000;500};{-151578;-253934;-4000;500};{-151581;-251320;-4000;500};{-155471;-251323;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154790;-252625;-3320};{-154790;-252640;-3320};{-154790;-252610;-3320}}
+		point2 = {{-152320;-252625;-3320};{-152320;-252640;-3320};{-152320;-252610;-3320}}
+		olympiad_door = {[olympiad_door_045];[olympiad_door_046]}
+	arena_end
+
+	arena_begin
+		id = 24
+		range = {{-151263;-253949;-4000;500};{-147372;-253954;-4000;500};{-147375;-251340;-4000;500};{-151266;-251344;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150608;-252625;-3320};{-150608;-252640;-3320};{-150608;-252610;-3320}}
+		point2 = {{-148032;-252625;-3320};{-148032;-252640;-3320};{-148032;-252610;-3320}}
+		olympiad_door = {[olympiad_door_047];[olympiad_door_048]}
+	arena_end
+
+	arena_begin
+		id = 25
+		range = {{-147110;-253945;-4000;500};{-143219;-253950;-4000;500};{-143222;-251336;-4000;500};{-147113;-251339;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146400;-252625;-3320};{-146400;-252640;-3320};{-146400;-252610;-3320}}
+		point2 = {{-143840;-252625;-3320};{-143840;-252640;-3320};{-143840;-252610;-3320}}
+		olympiad_door = {[olympiad_door_049];[olympiad_door_050]}
+	arena_end
+
+	arena_begin
+		id = 26
+		range = {{-143135;-253939;-4000;500};{-139244;-253943;-4000;500};{-139246;-251330;-4000;500};{-143137;-251333;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142480;-252625;-3320};{-142480;-252640;-3320};{-142480;-252610;-3320}}
+		point2 = {{-139968;-252625;-3320};{-139968;-252640;-3320};{-139968;-252610;-3320}}
+		olympiad_door = {[olympiad_door_051];[olympiad_door_052]}
+	arena_end
+
+	arena_begin
+		id = 27
+		range = {{-155471;-251083;-4000;500};{-151580;-251088;-4000;500};{-151582;-248475;-4000;500};{-155473;-248478;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154816;-249760;-3320};{-154816;-249775;-3320};{-154816;-249745;-3320}}
+		point2 = {{-152272;-249760;-3320};{-152272;-249775;-3320};{-152272;-249745;-3320}}
+		olympiad_door = {[olympiad_door_053];[olympiad_door_054]}
+	arena_end
+
+	arena_begin
+		id = 28
+		range = {{-151271;-251090;-4000;500};{-147380;-251095;-4000;500};{-147383;-248481;-4000;500};{-151274;-248484;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-249760;-3320};{-150576;-249775;-3320};{-150576;-249745;-3320}}
+		point2 = {{-148048;-249760;-3320};{-148048;-249775;-3320};{-148048;-249745;-3320}}
+		olympiad_door = {[olympiad_door_055];[olympiad_door_056]}
+	arena_end
+
+	arena_begin
+		id = 29
+		range = {{-147116;-251103;-4000;500};{-143226;-251108;-4000;500};{-143228;-248494;-4000;500};{-147119;-248497;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-249760;-3320};{-146384;-249775;-3320};{-146384;-249745;-3320}}
+		point2 = {{-143872;-249760;-3320};{-143872;-249775;-3320};{-143872;-249745;-3320}}
+		olympiad_door = {[olympiad_door_057];[olympiad_door_058]}
+	arena_end
+
+	arena_begin
+		id = 30
+		range = {{-143138;-251071;-4000;500};{-139247;-251075;-4000;500};{-139250;-248462;-4000;500};{-143141;-248465;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142480;-249760;-3320};{-142480;-249775;-3320};{-142480;-249745;-3320}}
+		point2 = {{-139984;-249760;-3320};{-139984;-249775;-3320};{-139984;-249745;-3320}}
+		olympiad_door = {[olympiad_door_059];[olympiad_door_060]}
+	arena_end
+
+	arena_begin
+		id = 31
+		range = {{-155477;-248267;-4000;500};{-151586;-248272;-4000;500};{-151589;-245658;-4000;500};{-155480;-245661;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-246940;-3320};{-154800;-246955;-3320};{-154800;-246925;-3320}}
+		point2 = {{-152288;-246940;-3320};{-152288;-246955;-3320};{-152288;-246925;-3320}}
+		olympiad_door = {[olympiad_door_061];[olympiad_door_062]}
+	arena_end
+
+	arena_begin
+		id = 32
+		range = {{-151278;-248286;-4000;500};{-147387;-248291;-4000;500};{-147389;-245677;-4000;500};{-151280;-245680;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-246940;-3320};{-150576;-246955;-3320};{-150576;-246925;-3320}}
+		point2 = {{-148048;-246940;-3320};{-148048;-246955;-3320};{-148048;-246925;-3320}}
+		olympiad_door = {[olympiad_door_063];[olympiad_door_064]}
+	arena_end
+
+	arena_begin
+		id = 33
+		range = {{-147091;-248267;-4000;500};{-143200;-248272;-4000;500};{-143203;-245658;-4000;500};{-147094;-245661;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-246940;-3320};{-146384;-246955;-3320};{-146384;-246925;-3320}}
+		point2 = {{-143872;-246940;-3320};{-143872;-246955;-3320};{-143872;-246925;-3320}}
+		olympiad_door = {[olympiad_door_065];[olympiad_door_066]}
+	arena_end
+
+	arena_begin
+		id = 34
+		range = {{-143128;-248267;-4000;500};{-139237;-248272;-4000;500};{-139240;-245658;-4000;500};{-143131;-245661;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142480;-246940;-3320};{-142480;-246955;-3320};{-142480;-246925;-3320}}
+		point2 = {{-139936;-246940;-3320};{-139936;-246955;-3320};{-139936;-246925;-3320}}
+		olympiad_door = {[olympiad_door_067];[olympiad_door_068]}
+	arena_end
+
+	arena_begin
+		id = 35
+		range = {{-155484;-245553;-4000;500};{-151593;-245557;-4000;500};{-151595;-242944;-4000;500};{-155486;-242947;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-244270;-3320};{-154800;-244285;-3320};{-154800;-244255;-3320}}
+		point2 = {{-152272;-244270;-3320};{-152272;-244285;-3320};{-152272;-244255;-3320}}
+		olympiad_door = {[olympiad_door_069];[olympiad_door_070]}
+	arena_end
+
+	arena_begin
+		id = 36
+		range = {{-151291;-245546;-4000;500};{-147400;-245551;-4000;500};{-147402;-242938;-4000;500};{-151293;-242941;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-244270;-3320};{-150576;-244285;-3320};{-150576;-244255;-3320}}
+		point2 = {{-148048;-244270;-3320};{-148048;-244285;-3320};{-148048;-244255;-3320}}
+		olympiad_door = {[olympiad_door_071];[olympiad_door_072]}
+	arena_end
+
+	arena_begin
+		id = 37
+		range = {{-147097;-245565;-4000;500};{-143206;-245570;-4000;500};{-143209;-242957;-4000;500};{-147100;-242960;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-244270;-3320};{-146384;-244285;-3320};{-146384;-244255;-3320}}
+		point2 = {{-143856;-244270;-3320};{-143856;-244285;-3320};{-143856;-244255;-3320}}
+		olympiad_door = {[olympiad_door_073];[olympiad_door_074]}
+	arena_end
+
+	arena_begin
+		id = 38
+		range = {{-143154;-245572;-4000;500};{-139263;-245577;-4000;500};{-139266;-242963;-4000;500};{-143157;-242966;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142480;-244270;-3320};{-142480;-244285;-3320};{-142480;-244255;-3320}}
+		point2 = {{-139936;-244270;-3320};{-139936;-244285;-3320};{-139936;-244255;-3320}}
+		olympiad_door = {[olympiad_door_075];[olympiad_door_076]}
+	arena_end
+
+	arena_begin
+		id = 39
+		range = {{-155477;-242806;-4000;500};{-151586;-242811;-4000;500};{-151589;-240198;-4000;500};{-155480;-240201;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154816;-241480;-3320};{-154816;-241495;-3320};{-154816;-241465;-3320}}
+		point2 = {{-152288;-241480;-3320};{-152288;-241495;-3320};{-152288;-241465;-3320}}
+		olympiad_door = {[olympiad_door_077];[olympiad_door_078]}
+	arena_end
+
+	arena_begin
+		id = 40
+		range = {{-151271;-242813;-4000;500};{-147380;-242818;-4000;500};{-147383;-240204;-4000;500};{-151274;-240207;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-241480;-3320};{-150576;-241495;-3320};{-150576;-241465;-3320}}
+		point2 = {{-148048;-241480;-3320};{-148048;-241495;-3320};{-148048;-241465;-3320}}
+		olympiad_door = {[olympiad_door_079];[olympiad_door_080]}
+	arena_end
+
+	arena_begin
+		id = 41
+		range = {{-147078;-242794;-4000;500};{-143187;-242798;-4000;500};{-143190;-240185;-4000;500};{-147081;-240188;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-241480;-3320};{-146384;-241495;-3320};{-146384;-241465;-3320}}
+		point2 = {{-143872;-241480;-3320};{-143872;-241495;-3320};{-143872;-241465;-3320}}
+		olympiad_door = {[olympiad_door_081];[olympiad_door_082]}
+	arena_end
+
+	arena_begin
+		id = 42
+		range = {{-143122;-242781;-4000;500};{-139231;-242786;-4000;500};{-139234;-240172;-4000;500};{-143124;-240175;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142464;-241480;-3320};{-142464;-241495;-3320};{-142464;-241465;-3320}}
+		point2 = {{-139952;-241480;-3320};{-139952;-241495;-3320};{-139952;-241465;-3320}}
+		olympiad_door = {[olympiad_door_083];[olympiad_door_084]}
+	arena_end
+
+	arena_begin
+		id = 43
+		range = {{-155477;-240143;-4000;500};{-151586;-240148;-4000;500};{-151589;-237535;-4000;500};{-155480;-237538;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154784;-238830;-3320};{-154784;-238845;-3320};{-154784;-238815;-3320}}
+		point2 = {{-152256;-238830;-3320};{-152256;-238845;-3320};{-152256;-238815;-3320}}
+		olympiad_door = {[olympiad_door_085];[olympiad_door_086]}
+	arena_end
+
+	arena_begin
+		id = 44
+		range = {{-151258;-240150;-4000;500};{-147367;-240155;-4000;500};{-147370;-237541;-4000;500};{-151261;-237544;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-238830;-3320};{-150576;-238845;-3320};{-150576;-238815;-3320}}
+		point2 = {{-148048;-238830;-3320};{-148048;-238845;-3320};{-148048;-238815;-3320}}
+		olympiad_door = {[olympiad_door_087];[olympiad_door_088]}
+	arena_end
+
+	arena_begin
+		id = 45
+		range = {{-155458;-221111;-4000;500};{-151632;-221111;-4000;500};{-151634;-218592;-4000;500};{-155458;-218594;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154816;-219856;-3320};{-154816;-219871;-3320};{-154816;-219841;-3320}}
+		point2 = {{-152288;-219856;-3320};{-152288;-219871;-3320};{-152288;-219841;-3320}}
+		olympiad_door = {[olympiad_door_089];[olympiad_door_090]}
+	arena_end
+
+	arena_begin
+		id = 46
+		range = {{-151248;-221114;-4000;500};{-147422;-221114;-4000;500};{-147424;-218594;-4000;500};{-151248;-218597;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150592;-219856;-3320};{-150592;-219871;-3320};{-150592;-219841;-3320}}
+		point2 = {{-148064;-219856;-3320};{-148064;-219871;-3320};{-148064;-219841;-3320}}
+		olympiad_door = {[olympiad_door_091];[olympiad_door_092]}
+	arena_end
+
+	arena_begin
+		id = 47
+		range = {{-147063;-221124;-4000;500};{-143238;-221124;-4000;500};{-143239;-218605;-4000;500};{-147063;-218607;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146400;-219856;-3320};{-146400;-219871;-3320};{-146400;-219841;-3320}}
+		point2 = {{-143882;-219856;-3320};{-143882;-219871;-3320};{-143882;-219841;-3320}}
+		olympiad_door = {[olympiad_door_093];[olympiad_door_094]}
+	arena_end
+
+	arena_begin
+		id = 48
+		range = {{-143130;-221128;-4000;500};{-139305;-221129;-4000;500};{-139306;-218609;-4000;500};{-143130;-218611;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142480;-219856;-3320};{-142480;-219871;-3320};{-142480;-219841;-3320}}
+		point2 = {{-139968;-219856;-3320};{-139968;-219871;-3320};{-139968;-219841;-3320}}
+		olympiad_door = {[olympiad_door_095];[olympiad_door_096]}
+	arena_end
+
+	arena_begin
+		id = 49
+		range = {{-155457;-218273;-4000;500};{-151632;-218273;-4000;500};{-151633;-215754;-4000;500};{-155457;-215756;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-216990;-3320};{-154800;-217005;-3320};{-154800;-216975;-3320}}
+		point2 = {{-152304;-216990;-3320};{-152304;-217005;-3320};{-152304;-216975;-3320}}
+		olympiad_door = {[olympiad_door_097];[olympiad_door_098]}
+	arena_end
+
+	arena_begin
+		id = 50
+		range = {{-151212;-218255;-4000;500};{-147387;-218255;-4000;500};{-147388;-215735;-4000;500};{-151212;-215738;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-216990;-3320};{-150576;-217005;-3320};{-150576;-216975;-3320}}
+		point2 = {{-148064;-216990;-3320};{-148064;-217005;-3320};{-148064;-216975;-3320}}
+		olympiad_door = {[olympiad_door_099];[olympiad_door_100]}
+	arena_end
+
+	arena_begin
+		id = 51
+		range = {{-147036;-218250;-4000;500};{-143210;-218251;-4000;500};{-143212;-215731;-4000;500};{-147036;-215733;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146368;-216990;-3320};{-146368;-217005;-3320};{-146368;-216975;-3320}}
+		point2 = {{-143888;-216990;-3320};{-143888;-217005;-3320};{-143888;-216975;-3320}}
+		olympiad_door = {[olympiad_door_101];[olympiad_door_102]}
+	arena_end
+
+	arena_begin
+		id = 52
+		range = {{-143134;-218250;-4000;500};{-139309;-218251;-4000;500};{-139310;-215731;-4000;500};{-143134;-215733;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142480;-216990;-3320};{-142480;-217005;-3320};{-142480;-216975;-3320}}
+		point2 = {{-139984;-216990;-3320};{-139984;-217005;-3320};{-139984;-216975;-3320}}
+		olympiad_door = {[olympiad_door_103];[olympiad_door_104]}
+	arena_end
+
+	arena_begin
+		id = 53
+		range = {{-155458;-215449;-4000;500};{-151632;-215450;-4000;500};{-151634;-212930;-4000;500};{-155458;-212932;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-214190;-3320};{-154800;-214205;-3320};{-154800;-214175;-3320}}
+		point2 = {{-152304;-214190;-3320};{-152304;-214205;-3320};{-152304;-214175;-3320}}
+		olympiad_door = {[olympiad_door_105];[olympiad_door_106]}
+	arena_end
+
+	arena_begin
+		id = 54
+		range = {{-151223;-215445;-4000;500};{-147398;-215445;-4000;500};{-147399;-212925;-4000;500};{-151223;-212928;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-214190;-3320};{-150576;-214205;-3320};{-150576;-214175;-3320}}
+		point2 = {{-148064;-214190;-3320};{-148064;-214205;-3320};{-148064;-214175;-3320}}
+		olympiad_door = {[olympiad_door_107];[olympiad_door_108]}
+	arena_end
+
+	arena_begin
+		id = 55
+		range = {{-147054;-215429;-4000;500};{-143228;-215429;-4000;500};{-143230;-212910;-4000;500};{-147054;-212912;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-214190;-3320};{-146384;-214205;-3320};{-146384;-214175;-3320}}
+		point2 = {{-143888;-214190;-3320};{-143888;-214205;-3320};{-143888;-214175;-3320}}
+		olympiad_door = {[olympiad_door_109];[olympiad_door_110]}
+	arena_end
+
+	arena_begin
+		id = 56
+		range = {{-143129;-215444;-4000;500};{-139304;-215445;-4000;500};{-139305;-212925;-4000;500};{-143129;-212927;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142464;-214190;-3320};{-142464;-214205;-3320};{-142464;-214175;-3320}}
+		point2 = {{-139968;-214190;-3320};{-139968;-214205;-3320};{-139968;-214175;-3320}}
+		olympiad_door = {[olympiad_door_111];[olympiad_door_112]}
+	arena_end
+
+	arena_begin
+		id = 57
+		range = {{-155449;-212749;-4000;500};{-151624;-212750;-4000;500};{-151625;-210230;-4000;500};{-155449;-210232;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-211500;-3320};{-154800;-211515;-3320};{-154800;-211485;-3320}}
+		point2 = {{-152304;-211500;-3320};{-152304;-211515;-3320};{-152304;-211485;-3320}}
+		olympiad_door = {[olympiad_door_113];[olympiad_door_114]}
+	arena_end
+
+	arena_begin
+		id = 58
+		range = {{-151222;-212753;-4000;500};{-147396;-212753;-4000;500};{-147398;-210234;-4000;500};{-151222;-210236;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150560;-211500;-3320};{-150560;-211515;-3320};{-150560;-211485;-3320}}
+		point2 = {{-148096;-211500;-3320};{-148096;-211515;-3320};{-148096;-211485;-3320}}
+		olympiad_door = {[olympiad_door_115];[olympiad_door_116]}
+	arena_end
+
+	arena_begin
+		id = 59
+		range = {{-147042;-212767;-4000;500};{-143216;-212768;-4000;500};{-143218;-210248;-4000;500};{-147042;-210250;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-211500;-3320};{-146384;-211515;-3320};{-146384;-211485;-3320}}
+		point2 = {{-143904;-211500;-3320};{-143904;-211515;-3320};{-143904;-211485;-3320}}
+		olympiad_door = {[olympiad_door_117];[olympiad_door_118]}
+	arena_end
+
+	arena_begin
+		id = 60
+		range = {{-143115;-212759;-4000;500};{-139289;-212759;-4000;500};{-139291;-210239;-4000;500};{-143115;-210242;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142464;-211500;-3320};{-142464;-211515;-3320};{-142464;-211485;-3320}}
+		point2 = {{-139968;-211500;-3320};{-139968;-211515;-3320};{-139968;-211485;-3320}}
+		olympiad_door = {[olympiad_door_119];[olympiad_door_120]}
+	arena_end
+
+	arena_begin
+		id = 61
+		range = {{-155455;-209991;-4000;500};{-151630;-209991;-4000;500};{-151631;-207471;-4000;500};{-155455;-207474;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-208700;-3320};{-154800;-208715;-3320};{-154800;-208685;-3320}}
+		point2 = {{-152304;-208700;-3320};{-152304;-208715;-3320};{-152304;-208685;-3320}}
+		olympiad_door = {[olympiad_door_121];[olympiad_door_122]}
+	arena_end
+
+	arena_begin
+		id = 62
+		range = {{-151228;-209990;-4000;500};{-147402;-209990;-4000;500};{-147404;-207471;-4000;500};{-151228;-207473;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-208700;-3320};{-150576;-208715;-3320};{-150576;-208685;-3320}}
+		point2 = {{-148080;-208700;-3320};{-148080;-208715;-3320};{-148080;-208685;-3320}}
+		olympiad_door = {[olympiad_door_123];[olympiad_door_124]}
+	arena_end
+
+	arena_begin
+		id = 63
+		range = {{-147046;-209964;-4000;500};{-143221;-209964;-4000;500};{-143222;-207445;-4000;500};{-147046;-207447;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-208700;-3320};{-146384;-208715;-3320};{-146384;-208685;-3320}}
+		point2 = {{-143888;-208700;-3320};{-143888;-208715;-3320};{-143888;-208685;-3320}}
+		olympiad_door = {[olympiad_door_125];[olympiad_door_126]}
+	arena_end
+
+	arena_begin
+		id = 64
+		range = {{-143130;-209978;-4000;500};{-139305;-209979;-4000;500};{-139306;-207459;-4000;500};{-143130;-207461;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142464;-208700;-3320};{-142464;-208715;-3320};{-142464;-208685;-3320}}
+		point2 = {{-139968;-208700;-3320};{-139968;-208715;-3320};{-139968;-208685;-3320}}
+		olympiad_door = {[olympiad_door_127];[olympiad_door_128]}
+	arena_end
+
+	arena_begin
+		id = 65
+		range = {{-155437;-207331;-4000;500};{-151611;-207331;-4000;500};{-151613;-204812;-4000;500};{-155437;-204814;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154768;-206080;-3320};{-154768;-206095;-3320};{-154768;-206065;-3320}}
+		point2 = {{-152288;-206080;-3320};{-152288;-206095;-3320};{-152288;-206065;-3320}}
+		olympiad_door = {[olympiad_door_129];[olympiad_door_130]}
+	arena_end
+
+	arena_begin
+		id = 66
+		range = {{-151232;-207319;-4000;500};{-147407;-207319;-4000;500};{-147408;-204800;-4000;500};{-151232;-204802;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150560;-206080;-3320};{-150560;-206095;-3320};{-150560;-206065;-3320}}
+		point2 = {{-148080;-206080;-3320};{-148080;-206095;-3320};{-148080;-206065;-3320}}
+		olympiad_door = {[olympiad_door_131];[olympiad_door_132]}
+	arena_end
+
+	arena_begin
+		id = 67
+		range = {{-155506;-188374;-4000;500};{-151590;-188370;-4000;500};{-151589;-185757;-4000;500};{-155504;-185757;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154816;-187085;-3320};{-154816;-187100;-3320};{-154816;-187070;-3320}}
+		point2 = {{-152304;-187085;-3320};{-152304;-187100;-3320};{-152304;-187070;-3320}}
+		olympiad_door = {[olympiad_door_133];[olympiad_door_134]}
+	arena_end
+
+	arena_begin
+		id = 68
+		range = {{-151310;-188374;-4000;500};{-147394;-188369;-4000;500};{-147393;-185756;-4000;500};{-151308;-185757;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150592;-187085;-3320};{-150592;-187100;-3320};{-150592;-187070;-3320}}
+		point2 = {{-148080;-187085;-3320};{-148080;-187100;-3320};{-148080;-187070;-3320}}
+		olympiad_door = {[olympiad_door_135];[olympiad_door_136]}
+	arena_end
+
+	arena_begin
+		id = 69
+		range = {{-147125;-188376;-4000;500};{-143209;-188371;-4000;500};{-143209;-185758;-4000;500};{-147123;-185759;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146400;-187085;-3320};{-146400;-187100;-3320};{-146400;-187070;-3320}}
+		point2 = {{-143888;-187085;-3320};{-143888;-187100;-3320};{-143888;-187070;-3320}}
+		olympiad_door = {[olympiad_door_137];[olympiad_door_138]}
+	arena_end
+
+	arena_begin
+		id = 70
+		range = {{-143166;-188372;-4000;500};{-139250;-188368;-4000;500};{-139250;-185755;-4000;500};{-143164;-185755;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142464;-187085;-3320};{-142464;-187100;-3320};{-142464;-187070;-3320}}
+		point2 = {{-139984;-187085;-3320};{-139984;-187100;-3320};{-139984;-187070;-3320}}
+		olympiad_door = {[olympiad_door_139];[olympiad_door_140]}
+	arena_end
+
+	arena_begin
+		id = 71
+		range = {{-155492;-185573;-4000;500};{-151576;-185568;-4000;500};{-151576;-182955;-4000;500};{-155490;-182956;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-184220;-3320};{-154800;-184235;-3320};{-154800;-184205;-3320}}
+		point2 = {{-152304;-184220;-3320};{-152304;-184235;-3320};{-152304;-184205;-3320}}
+		olympiad_door = {[olympiad_door_141];[olympiad_door_142]}
+	arena_end
+
+	arena_begin
+		id = 72
+		range = {{-151295;-185559;-4000;500};{-147379;-185554;-4000;500};{-147379;-182941;-4000;500};{-151293;-182942;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-184220;-3320};{-150576;-184235;-3320};{-150576;-184205;-3320}}
+		point2 = {{-148080;-184220;-3320};{-148080;-184235;-3320};{-148080;-184205;-3320}}
+		olympiad_door = {[olympiad_door_143];[olympiad_door_144]}
+	arena_end
+
+	arena_begin
+		id = 73
+		range = {{-147117;-185568;-4000;500};{-143201;-185563;-4000;500};{-143200;-182950;-4000;500};{-147115;-182951;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-184220;-3320};{-146384;-184235;-3320};{-146384;-184205;-3320}}
+		point2 = {{-143904;-184220;-3320};{-143904;-184235;-3320};{-143904;-184205;-3320}}
+		olympiad_door = {[olympiad_door_145];[olympiad_door_146]}
+	arena_end
+
+	arena_begin
+		id = 74
+		range = {{-143166;-185568;-4000;500};{-139250;-185563;-4000;500};{-139249;-182950;-4000;500};{-143164;-182950;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142480;-184220;-3320};{-142480;-184235;-3320};{-142480;-184205;-3320}}
+		point2 = {{-139984;-184220;-3320};{-139984;-184235;-3320};{-139984;-184205;-3320}}
+		olympiad_door = {[olympiad_door_147];[olympiad_door_148]}
+	arena_end
+
+	arena_begin
+		id = 75
+		range = {{-155501;-182741;-4000;500};{-151585;-182736;-4000;500};{-151584;-180123;-4000;500};{-155499;-180124;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-181420;-3320};{-154800;-181435;-3320};{-154800;-181405;-3320}}
+		point2 = {{-152304;-181420;-3320};{-152304;-181435;-3320};{-152304;-181405;-3320}}
+		olympiad_door = {[olympiad_door_149];[olympiad_door_150]}
+	arena_end
+
+	arena_begin
+		id = 76
+		range = {{-151277;-182750;-4000;500};{-147361;-182745;-4000;500};{-147360;-180132;-4000;500};{-151275;-180133;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150560;-181420;-3320};{-150560;-181435;-3320};{-150560;-181405;-3320}}
+		point2 = {{-148080;-181420;-3320};{-148080;-181435;-3320};{-148080;-181405;-3320}}
+		olympiad_door = {[olympiad_door_151];[olympiad_door_152]}
+	arena_end
+
+	arena_begin
+		id = 77
+		range = {{-147139;-182759;-4000;500};{-143223;-182754;-4000;500};{-143223;-180141;-4000;500};{-147137;-180142;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-181420;-3320};{-146384;-181435;-3320};{-146384;-181405;-3320}}
+		point2 = {{-143888;-181420;-3320};{-143888;-181435;-3320};{-143888;-181405;-3320}}
+		olympiad_door = {[olympiad_door_153];[olympiad_door_154]}
+	arena_end
+
+	arena_begin
+		id = 78
+		range = {{-143183;-182749;-4000;500};{-139267;-182745;-4000;500};{-139267;-180132;-4000;500};{-143181;-180132;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142448;-181420;-3320};{-142448;-181435;-3320};{-142448;-181405;-3320}}
+		point2 = {{-139968;-181420;-3320};{-139968;-181435;-3320};{-139968;-181405;-3320}}
+		olympiad_door = {[olympiad_door_155];[olympiad_door_156]}
+	arena_end
+
+	arena_begin
+		id = 79
+		range = {{-155505;-180032;-4000;500};{-151589;-180027;-4000;500};{-151588;-177414;-4000;500};{-155503;-177415;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-178730;-3320};{-154800;-178745;-3320};{-154800;-178715;-3320}}
+		point2 = {{-152304;-178730;-3320};{-152304;-178745;-3320};{-152304;-178715;-3320}}
+		olympiad_door = {[olympiad_door_157];[olympiad_door_158]}
+	arena_end
+
+	arena_begin
+		id = 80
+		range = {{-151281;-180023;-4000;500};{-147365;-180018;-4000;500};{-147364;-177405;-4000;500};{-151279;-177406;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-178730;-3320};{-150576;-178745;-3320};{-150576;-178715;-3320}}
+		point2 = {{-148080;-178730;-3320};{-148080;-178745;-3320};{-148080;-178715;-3320}}
+		olympiad_door = {[olympiad_door_159];[olympiad_door_160]}
+	arena_end
+
+	arena_begin
+		id = 81
+		range = {{-147126;-180029;-4000;500};{-143210;-180025;-4000;500};{-143209;-177412;-4000;500};{-147124;-177412;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-178730;-3320};{-146384;-178745;-3320};{-146384;-178715;-3320}}
+		point2 = {{-143888;-178730;-3320};{-143888;-178745;-3320};{-143888;-178715;-3320}}
+		olympiad_door = {[olympiad_door_161];[olympiad_door_162]}
+	arena_end
+
+	arena_begin
+		id = 82
+		range = {{-143170;-180024;-4000;500};{-139254;-180020;-4000;500};{-139253;-177407;-4000;500};{-143168;-177407;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142464;-178730;-3320};{-142464;-178745;-3320};{-142464;-178715;-3320}}
+		point2 = {{-139968;-178730;-3320};{-139968;-178745;-3320};{-139968;-178715;-3320}}
+		olympiad_door = {[olympiad_door_163];[olympiad_door_164]}
+	arena_end
+
+	arena_begin
+		id = 83
+		range = {{-155508;-177270;-4000;500};{-151592;-177265;-4000;500};{-151591;-174652;-4000;500};{-155505;-174653;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154800;-175950;-3320};{-154800;-175965;-3320};{-154800;-175935;-3320}}
+		point2 = {{-152304;-175950;-3320};{-152304;-175965;-3320};{-152304;-175935;-3320}}
+		olympiad_door = {[olympiad_door_165];[olympiad_door_166]}
+	arena_end
+
+	arena_begin
+		id = 84
+		range = {{-151300;-177271;-4000;500};{-147384;-177267;-4000;500};{-147384;-174654;-4000;500};{-151298;-174654;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-175950;-3320};{-150576;-175965;-3320};{-150576;-175935;-3320}}
+		point2 = {{-148080;-175950;-3320};{-148080;-175965;-3320};{-148080;-175935;-3320}}
+		olympiad_door = {[olympiad_door_167];[olympiad_door_168]}
+	arena_end
+
+	arena_begin
+		id = 85
+		range = {{-147112;-177248;-4000;500};{-143196;-177243;-4000;500};{-143196;-174630;-4000;500};{-147110;-174631;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-146384;-175950;-3320};{-146384;-175965;-3320};{-146384;-175935;-3320}}
+		point2 = {{-143888;-175950;-3320};{-143888;-175965;-3320};{-143888;-175935;-3320}}
+		olympiad_door = {[olympiad_door_169];[olympiad_door_170]}
+	arena_end
+
+	arena_begin
+		id = 86
+		range = {{-143179;-177253;-4000;500};{-139263;-177248;-4000;500};{-139263;-174635;-4000;500};{-143177;-174636;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-142464;-175950;-3320};{-142464;-175965;-3320};{-142464;-175935;-3320}}
+		point2 = {{-139968;-175950;-3320};{-139968;-175965;-3320};{-139968;-175935;-3320}}
+		olympiad_door = {[olympiad_door_171];[olympiad_door_172]}
+	arena_end
+
+	arena_begin
+		id = 87
+		range = {{-155496;-174642;-4000;500};{-151580;-174637;-4000;500};{-151580;-172024;-4000;500};{-155494;-172025;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-154784;-173310;-3320};{-154784;-173325;-3320};{-154784;-173295;-3320}}
+		point2 = {{-152288;-173310;-3320};{-152288;-173325;-3320};{-152288;-173295;-3320}}
+		olympiad_door = {[olympiad_door_173];[olympiad_door_174]}
+	arena_end
+
+	arena_begin
+		id = 88
+		range = {{-151276;-174648;-4000;500};{-147360;-174644;-4000;500};{-147360;-172031;-4000;500};{-151274;-172031;-4000;500}}
+		//일반적인 테리토리 지정 방식을 따름.
+		point1 = {{-150576;-173310;-3320};{-150576;-173325;-3320};{-150576;-173295;-3320}}
+		point2 = {{-148048;-173310;-3320};{-148048;-173325;-3320};{-148048;-173295;-3320}}
+		olympiad_door = {[olympiad_door_175];[olympiad_door_176]}
+	arena_end
+
+olympiad_arena_end
+
+
+olympiad_general_setting_begin
+	forbidden_weapon = {
+	[the_infinity_blade];
+	[the_infinity_cleaver];
+	[the_infinity_axe];
+	[the_infinity_rod];
+	[the_infinity_crusher];
+	[the_infinity_scepter];
+	[the_infinity_stinger];
+	[the_infinity_fangs];
+	[the_infinity_bow];
+	[the_infinity_wings];
+	[the_infinity_spear];
+	[infinity_rapier];
+	[infinity_sword];
+	[infinity_shooter];
+	[ev_shiny_bracelet];
+	[ev_shiny_couple_ring];
+	[pink_talisman_str_ev];
+	[pink_talisman_dex_ev];
+	[pink_talisman_con_ev];
+	[pink_talisman_wit_ev];
+	[pink_talisman_int_ev];
+	[pink_talisman_men_ev];
+	[pink_talisman_stun_ev];
+	[pink_talisman_sleep_ev];
+	[pink_talisman_hold_ev];
+	[pink_talisman_paralyze_ev];
+	[pink_talisman_all_stat_ev];
+	[br_xmas_shirts];
+	[br_aga_mercygod_a];
+	[br_aga_blue_pekingopera_a];
+	[br_aga_blue_pekingopera_b];
+	[br_aga_red_pekingopera_a];
+	[event_whiteday_pig_candy]
+}
+	//리콜, 파티 리콜
+	classless_bonus = {[olympiad_token] = 40}
+	class_bonus = {[olympiad_token] = 50}
+	team_bonus = {[olympiad_token] = 85}
+	give_skill_class = {
+		duelist = {}
+		dreadnought = {}
+		phoenix_knight = {}
+		hell_knight = {}
+		sagittarius = {}
+		adventurer = {}
+		archmage = {}
+		soultaker = {}
+		arcana_lord = {}
+		cardinal = {}
+		hierophant = {}
+		evas_templar = {}
+		sword_muse = {}
+		wind_rider = {}
+		moonlight_sentinel = {}
+		mystic_muse = {}
+		elemental_master = {}
+		evas_saint = {}
+		shilien_templar = {}
+		spectral_dancer = {}
+		ghost_hunter = {}
+		ghost_sentinel = {}
+		storm_screamer = {}
+		spectral_master = {}
+		shilien_saint = {}
+		titan = {}
+		grand_khavatari = {}
+		dominator = {}
+		doomcryer = {}
+		fortune_seeker = {}
+		maestro = {}
+		doombringer = {}
+		m_soul_hound = {}
+		f_soul_hound = {}
+		trickster = {}
+	}
+	give_skill_classless = {
+		duelist = {}
+		dreadnought = {}
+		phoenix_knight = {}
+		hell_knight = {}
+		sagittarius = {}
+		adventurer = {}
+		archmage = {}
+		soultaker = {}
+		arcana_lord = {}
+		cardinal = {}
+		hierophant = {}
+		evas_templar = {}
+		sword_muse = {}
+		wind_rider = {}
+		moonlight_sentinel = {}
+		mystic_muse = {}
+		elemental_master = {}
+		evas_saint = {}
+		shilien_templar = {}
+		spectral_dancer = {}
+		ghost_hunter = {}
+		ghost_sentinel = {}
+		storm_screamer = {}
+		spectral_master = {}
+		shilien_saint = {}
+		titan = {}
+		grand_khavatari = {}
+		dominator = {}
+		doomcryer = {}
+		fortune_seeker = {}
+		maestro = {}
+		doombringer = {}
+		m_soul_hound = {}
+		f_soul_hound = {}
+		trickster = {}
+	}
+	give_skill_team = {
+		duelist = {}
+		dreadnought = {}
+		phoenix_knight = {}
+		hell_knight = {}
+		sagittarius = {}
+		adventurer = {}
+		archmage = {}
+		soultaker = {}
+		arcana_lord = {}
+		cardinal = {}
+		hierophant = {}
+		evas_templar = {}
+		sword_muse = {}
+		wind_rider = {}
+		moonlight_sentinel = {}
+		mystic_muse = {}
+		elemental_master = {}
+		evas_saint = {}
+		shilien_templar = {}
+		spectral_dancer = {}
+		ghost_hunter = {}
+		ghost_sentinel = {}
+		storm_screamer = {}
+		spectral_master = {}
+		shilien_saint = {}
+		titan = {}
+		grand_khavatari = {}
+		dominator = {}
+		doomcryer = {}
+		fortune_seeker = {}
+		maestro = {}
+		doombringer = {}
+		m_soul_hound = {}
+		f_soul_hound = {}
+		trickster = {}
+	}
+
+	olympiad_time_setting = {18:00}
+	olympiad_point_denominator = {5;3;5}
+	olympiad_point_weight = {100;100;150}
+	
+	olympiad_reset_skill = 900
+	olympiad_reset_skill_excluded = {[s_super_haste1]}
+	
+olympiad_general_setting_end
+
+hero_general_setting_start
+	hero_skill = {[s_hero_heroic_miracle];[s_hero_heroic_berserker];[s_hero_heroic_valor];[s_hero_heroic_grandeur];[s_hero_heroic_dread]}
+hero_general_setting_end
+
+pvpmatch_setting_start
+	give_pvppoint_time_start
+		give_pvppoint_start_time={21:00}
+		give_pvppoint_end_time={23:00}
+		give_pvppoint_week_days={1;0;0;0;0;1;1}
+	give_pvppoint_time_end
+pvpmatch_setting_end
+
+cleft_setting_begin
+	cleft_zone_territory = {{-217824;235786;-4274;15796};{-210211;235784;-4274;15796};{-204827;241105;-4274;15796};{-204797;248701;-4274;15796};{-210263;254132;-4274;15796};{-217851;254063;-4274;15796};{-223234;248801;-4274;15796};{-223226;241093;-4274;15796}}
+	red_start_point_begin
+		point = {-222704;247803;1744}
+		point = {-222649;247945;1728}
+		point = {-222652;247666;1728}
+	red_start_point_end
+	blue_start_point_begin
+		point = {-205312;242144;1744}
+		point = {-205376;241997;1744}
+		point = {-205376;242276;1744}
+	blue_start_point_end
+	red_banish_point_begin
+		point = {-223701;247795;1744}
+		point = {-223780;247661;1744}
+		point = {-223776;247914;1744}
+	red_banish_point_end
+	blue_banish_point_begin
+		point = {-204350;242148;1744}
+		point = {-204284;242288;1744}
+		point = {-204288;242026;1728}
+	blue_banish_point_end
+	//팀별 입장, 추방 좌표
+	//cleft_controltower_list = {[cleft_main_controltower];[cleft_sub_controltower_a];[cleft_sub_controltower_b];[cleft_sub_controltower_c]}
+	//관련 제어장치 리스트 (NPC로 변경)
+	CAT_period = 3								//첫 선출 후 CAT변경 주기(분 단위)
+	winner_reward = {[piece_of_emery];50}				//승리 보상 아이템명;개수(승리);개수(패배)
+	loser_reward = {[piece_of_emery];20}				//패배 보상 아이템명;개수(승리);개수(패배)
+	winner_sp_bonus = 55000							//승리팀 지급 기본 SP
+	loser_sp_bonus = 22000							//패배팀 지급 기본 SP
+	kill_sp_bonus = 2500							//Kill수 지급 기본 SP
+	waiting_skill = {[s_wait_cleft1]}					//입장 시 부여 스킬
+cleft_setting_end

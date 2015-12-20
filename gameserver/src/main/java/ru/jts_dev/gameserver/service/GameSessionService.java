@@ -8,10 +8,10 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionCloseEvent;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameSession;
 
+import java.nio.ByteOrder;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +44,7 @@ public class GameSessionService {
     }
 
     private GameSession createSession(String connectionId) {
-        ByteBuf encryptKey = buffer(16, 16);
+        ByteBuf encryptKey = buffer(16, 16).order(ByteOrder.LITTLE_ENDIAN);
         // randomize first 8 bytes of key
         random.nextBytes(encryptKey.array());
         encryptKey.writerIndex(8);
@@ -53,7 +53,7 @@ public class GameSessionService {
         encryptKey.writeBytes(STATIC_KEY_PART);
 
         // then copy encrypt key to decrypt key
-        ByteBuf decryptKey = copiedBuffer(encryptKey);
+        ByteBuf decryptKey = copiedBuffer(encryptKey).order(ByteOrder.LITTLE_ENDIAN);
 
         // and pass keys to a game session object
         return context.getBean(GameSession.class, connectionId, encryptKey, decryptKey);

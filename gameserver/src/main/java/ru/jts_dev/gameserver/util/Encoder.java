@@ -26,9 +26,29 @@ public class Encoder {
 
         int temp = 0;
         for (int i = 0; i < data.readableBytes(); i++) {
-            final int temp2 = data.getByte(i) & 0xFF;
+            final int temp2 = data.getUnsignedByte(i);
             data.setByte(i, (byte) (temp2 ^ key.getByte(i & 15) ^ temp));
             temp = temp2;
+        }
+
+        int old = key.getInt(8);
+        old += data.readableBytes();
+
+        key.setInt(8, old);
+
+        return data;
+    }
+
+    @Transformer
+    public ByteBuf encrypt(ByteBuf data, @Header(CONNECTION_ID) String connectionId) {
+        GameSession gameSession = sessionService.getSessionBy(connectionId);
+        ByteBuf key = gameSession.getEncryptKey();
+
+        int temp = 0;
+        for (int i = 0; i < data.readableBytes(); i++) {
+            int temp2 = data.getUnsignedByte(data.readerIndex() + i);
+            temp = temp2 ^ key.getByte(i & 15) ^ temp;
+            data.setByte(data.readerIndex() + i, (byte) temp);
         }
 
         int old = key.getInt(8);

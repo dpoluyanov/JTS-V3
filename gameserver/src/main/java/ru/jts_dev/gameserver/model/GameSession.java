@@ -24,6 +24,8 @@ public class GameSession {
     @Autowired
     private MessageChannel packetChannel;
 
+    private int playKey;
+
     public GameSession(String connectionId, ByteBuf encryptKey, ByteBuf decryptKey) {
         if (encryptKey.readableBytes() != 16)
             throw new RuntimeException("encryptKey must be 16 bytes");
@@ -46,5 +48,13 @@ public class GameSession {
 
     public ByteBuf getDecryptKey() {
         return decryptKey;
+    }
+
+    public void setPlayKey(int playKey) {
+        this.playKey = playKey;
+    }
+
+    public int getPlayKey() {
+        return playKey;
     }
 }
