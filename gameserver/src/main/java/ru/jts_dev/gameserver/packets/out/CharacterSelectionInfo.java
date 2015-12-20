@@ -25,7 +25,7 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
         putInt(characters.size());
 
         putInt(MAX_CHARACTERS_CREATE_SIZE);
-        putByte(0x01); //разрешает или запрещает создание игроков
+        putByte(0x00); // enable character creation restriction?
         for (GameCharacter character : characters) {
             putString(character.getName()); // Name
             putInt(character.getObjectId()); // Char ID(objectID)
@@ -101,6 +101,7 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
             putInt(0x00); // days left before
 
             putInt(character.getClassId()); // Class Id
+
             if (character == characters.get(0)) // TODO: 13.12.15 last played character
                 putInt(0x01); //c3 auto-select char (0x01 - this char is active)
             else

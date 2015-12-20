@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.packets.in.AuthLogin;
+import ru.jts_dev.gameserver.packets.in.RequestNewCharacter;
 import ru.jts_dev.gameserver.packets.in.RequestProtocolVersion;
 
 import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
@@ -32,6 +33,9 @@ public class GameClientPacketHandler {
         switch (opcode) {
             case 0x0E:
                 msg = context.getBean(RequestProtocolVersion.class);
+                break;
+            case 0x13:
+                msg = context.getBean(RequestNewCharacter.class);
                 break;
             case 0x2B:
                 msg = context.getBean(AuthLogin.class);

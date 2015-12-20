@@ -1,7 +1,7 @@
 package ru.jts_dev.gameserver.movement;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameCharacter;
 
 import java.util.concurrent.Executors;
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @author Java-man
  * @since 13.12.2015
  */
-@Component
+@Service
 public class MovementService {
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
 

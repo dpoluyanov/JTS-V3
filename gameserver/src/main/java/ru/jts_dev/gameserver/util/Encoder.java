@@ -47,7 +47,8 @@ public class Encoder {
         int temp = 0;
         for (int i = 0; i < data.readableBytes(); i++) {
             int temp2 = data.getByte(i) & 0xFF;
-            data.setByte(i, (byte) temp2 ^ key.getByte(i & 15) ^ temp);
+            temp = temp2 ^ key.getByte(i & 15) ^ temp;
+            data.setByte(i, (byte) temp);
         }
 
         int old = key.getInt(8);

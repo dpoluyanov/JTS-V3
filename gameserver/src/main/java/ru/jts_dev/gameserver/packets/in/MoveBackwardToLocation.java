@@ -40,11 +40,7 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
         originX = readInt();
         originY = readInt();
         originZ = readInt();
-        if (getPayload().isReadable())// Normalny klient
-            movementType = readInt(); // is 0 if cursor keys are used 1 if mouse is used
-        else {
-            // Bot
-        }
+        movementType = readInt(); // is 0 if cursor keys are used 1 if mouse is used
     }
 
     @Override
