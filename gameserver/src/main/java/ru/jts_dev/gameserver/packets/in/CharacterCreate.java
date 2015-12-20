@@ -37,7 +37,7 @@ public class CharacterCreate extends IncomingMessageWrapper {
     @Override
     public void prepare() {
         name = readString();
-        raceId = readInt();
+        raceId = readInt(); // race
         sex = readInt();
         classId = readInt();
         _int = readInt(); // int
