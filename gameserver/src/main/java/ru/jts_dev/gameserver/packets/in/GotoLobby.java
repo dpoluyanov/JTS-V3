@@ -14,37 +14,23 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 
 /**
  * @author Camelion
- * @since 13.12.15
+ * @since 20.12.15
  */
 @Scope(SCOPE_PROTOTYPE)
 @Component
-public class AuthLogin extends IncomingMessageWrapper {
-    private String login;
-    private int playKey1;
-    private int playKey2;
-    private int loginKey1;
-    private int loginKey2;
-    private int languageType;
-
+public class GotoLobby extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
 
     @Override
     public void prepare() {
-        login = readString();
-        playKey2 = readInt();
-        playKey1 = readInt();
-        loginKey1 = readInt();
-        loginKey2 = readInt();
-        languageType = readInt();
+        // no data
     }
 
     @Override
     public void run() {
         GameSession session = sessionService.getSessionBy(getConnectionId());
-        session.setPlayKey(playKey1);
 
-        // TODO: 13.12.15 additional playkey check with authserver session keys
-        session.send(new CharacterSelectionInfo(Collections.emptyList(), playKey1));
+        session.send(new CharacterSelectionInfo(Collections.emptyList(), session.getPlayKey()));
     }
 }

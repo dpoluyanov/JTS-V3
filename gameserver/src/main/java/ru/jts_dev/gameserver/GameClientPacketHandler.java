@@ -29,6 +29,9 @@ public class GameClientPacketHandler {
         int opcode = buf.readUnsignedByte();
         IncomingMessageWrapper msg;
         switch (opcode) {
+            case 0x00:
+                msg = context.getBean(Logout.class);
+                break;
             case 0x0C:
                 msg = context.getBean(CharacterCreate.class);
                 break;
@@ -51,10 +54,13 @@ public class GameClientPacketHandler {
             case 0xD0:
                 opcode = buf.readUnsignedShort();
                 switch (opcode) {
+                    case 0x36:
+                        msg = context.getBean(GotoLobby.class);
+                        break;
                     default:
                         throw new RuntimeException("Invalid second packet opcode: " + String.format("0x%02X", (byte) opcode));
                 }
-                //break;
+                break;
             default:
                 throw new RuntimeException("Invalid first packet opcode: " + String.format("0x%02X", (byte) opcode));
         }
