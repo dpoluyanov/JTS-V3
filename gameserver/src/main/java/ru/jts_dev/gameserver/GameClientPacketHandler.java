@@ -8,9 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
-import ru.jts_dev.gameserver.packets.in.AuthLogin;
-import ru.jts_dev.gameserver.packets.in.RequestNewCharacter;
-import ru.jts_dev.gameserver.packets.in.RequestProtocolVersion;
+import ru.jts_dev.gameserver.packets.in.*;
 
 import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 
@@ -28,9 +26,12 @@ public class GameClientPacketHandler {
         if (buf.readableBytes() == 0)
             throw new RuntimeException("At least 1 readable byte excepted in buffer");
 
-        int opcode = buf.readByte();
+        int opcode = buf.readUnsignedByte();
         IncomingMessageWrapper msg;
         switch (opcode) {
+            case 0x0C:
+                msg = context.getBean(CharacterCreate.class);
+                break;
             case 0x0E:
                 msg = context.getBean(RequestProtocolVersion.class);
                 break;
@@ -40,9 +41,15 @@ public class GameClientPacketHandler {
             case 0x2B:
                 msg = context.getBean(AuthLogin.class);
                 break;
+            case 0x67:
+                msg = context.getBean(RequestPledgeCrest.class);
+                break;
+            case 0x92:
+                msg = context.getBean(RequestAllyCrest.class);
+                break;
             // second level opcodes
             case 0xD0:
-                opcode = buf.readShort();
+                opcode = buf.readUnsignedShort();
                 switch (opcode) {
                     default:
                         throw new RuntimeException("Invalid second packet opcode: " + String.format("0x%02X", (byte) opcode));
