@@ -23,8 +23,6 @@ dependencies {
     runtime project(":gameserver")
 
     // Spring
-    //compile('org.springframework.boot:spring-boot-starter-actuator')
-    //compile('org.springframework.boot:spring-boot-actuator-docs')
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -32,11 +30,18 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-integration')
     compile("org.springframework.integration:spring-integration-java-dsl:${springJavaDslVersion}")
     compile('org.springframework.boot:spring-boot-starter-jdbc')
+    compile('org.springframework.boot:spring-boot-starter-artemis')
+    //compile('org.springframework.boot:spring-boot-starter-actuator')
+    //compile('org.springframework.boot:spring-boot-actuator-docs')
     //compile('org.springframework.boot:spring-boot-starter-mail')
     //compile('org.springframework.boot:spring-boot-starter-remote-shell')
     //compile('org.springframework.boot:spring-boot-starter-validation')
 
-    compile('org.springframework.boot:spring-boot-starter-artemis')
+    // Hibernate
+    compile("org.hibernate:hibernate-core:${hibernateVersion}")
+    compile("org.hibernate:hibernate-entitymanager:${hibernateVersion}")
+    compile("org.hibernate:hibernate-java8:${hibernateVersion}")
+
     compile('org.apache.activemq:artemis-jms-server:1.1.0')
 
     runtime('org.hsqldb:hsqldb')
