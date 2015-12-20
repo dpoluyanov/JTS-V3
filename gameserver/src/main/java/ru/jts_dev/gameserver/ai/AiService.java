@@ -1,7 +1,8 @@
 package ru.jts_dev.gameserver.ai;
 
 import org.springframework.stereotype.Component;
-import ru.jts_dev.gameserver.ai.tasks.Task;
+import reactor.Environment;
+import reactor.rx.broadcast.Broadcaster;
 import ru.jts_dev.gameserver.ai.tasks.Tasks;
 
 /**
@@ -10,8 +11,16 @@ import ru.jts_dev.gameserver.ai.tasks.Tasks;
  */
 @Component
 public class AiService {
+    private final Broadcaster<InternalMessage> broadcaster = Broadcaster.create();
+
+    public AiService() {
+        broadcaster
+                // dispatch onto a Thread other than 'main'
+                .dispatchOn(Environment.cachedDispatcher())
+                .consume(InternalMessage::run);
+    }
+
     public void runningAround(AiObject aiObject) {
-        Task task = Tasks.repeatInfinite(Tasks.moveTo());
-        aiObject.setTask(task);
+        broadcaster.onNext(new InternalMessage.SetTask(aiObject, Tasks.moveTo()));
     }
 }

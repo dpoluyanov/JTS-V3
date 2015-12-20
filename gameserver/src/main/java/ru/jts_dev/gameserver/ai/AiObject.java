@@ -2,10 +2,14 @@ package ru.jts_dev.gameserver.ai;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.ai.tasks.Task;
 import ru.jts_dev.gameserver.model.GameCharacter;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Java-man
@@ -14,16 +18,25 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Component
 public class AiObject {
+    // TODO scheduler
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
+
     private final GameCharacter gameCharacter;
 
-    private Task task;
+    private AtomicReference<Task> taskAtomicReference;
 
     public AiObject(GameCharacter gameCharacter) {
         this.gameCharacter = gameCharacter;
+        scheduler.scheduleAtFixedRate(this::aiTaskExecute, 500, 500, TimeUnit.MILLISECONDS);
     }
 
-    @Scheduled(fixedRate = 1000)
     private void aiTaskExecute() {
+        if (taskAtomicReference == null) {
+            return;
+        }
+
+        Task task = taskAtomicReference.get();
+
         if (task == null) {
             return;
         }
@@ -34,9 +47,10 @@ public class AiObject {
         }
 
         task.act(this, gameCharacter);
+        taskAtomicReference.set(null);
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    void setTask(Task task) {
+        this.taskAtomicReference = new AtomicReference<>(task);
     }
 }

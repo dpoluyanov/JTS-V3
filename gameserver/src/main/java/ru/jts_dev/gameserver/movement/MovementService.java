@@ -14,11 +14,13 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class MovementService {
+    // TODO scheduler
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
 
     public void moveTo(GameCharacter character, Vector3D end) {
         Vector3D start = character.getVector3D();
 
+        // TODO speed
         float speed = 100;
 
         double distance = start.distance(end);

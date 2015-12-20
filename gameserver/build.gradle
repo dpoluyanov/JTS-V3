@@ -36,6 +36,14 @@ dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-artemis')
 
+    //Core stuff (Dispatchers, Functional interfaces...)
+    compile "io.projectreactor:reactor-core:$reactorVersion"
+    //Everything Stream
+    compile "io.projectreactor:reactor-stream:$reactorVersion"
+
+    //Everything Routing (Event Bus)
+    //compile "io.projectreactor:reactor-bus:$reactorVersion"
+
     runtime('org.hsqldb:hsqldb')
 
     runtime('mysql:mysql-connector-java')
