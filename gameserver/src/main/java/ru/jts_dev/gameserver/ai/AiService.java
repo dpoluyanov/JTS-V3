@@ -1,10 +1,10 @@
 package ru.jts_dev.gameserver.ai;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import reactor.Environment;
 import reactor.rx.broadcast.Broadcaster;
 import ru.jts_dev.gameserver.ai.tasks.Tasks;
+import ru.jts_dev.gameserver.model.GameCharacter;
 
 import javax.annotation.PostConstruct;
 
@@ -24,7 +24,7 @@ public class AiService {
                 .consume(InternalMessage::run);
     }
 
-    public void runningAround(AiObject aiObject) {
-        broadcaster.onNext(new InternalMessage.SetTask(aiObject, Tasks.moveTo()));
+    public void runningAround(GameCharacter gameCharacter) {
+        broadcaster.onNext(new InternalMessage.SetTask(gameCharacter.getAiObject(), Tasks.moveTo()));
     }
 }

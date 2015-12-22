@@ -104,4 +104,8 @@ public class GameCharacter {
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
+
+    public AiObject getAiObject() {
+        return aiObject;
+    }
 }

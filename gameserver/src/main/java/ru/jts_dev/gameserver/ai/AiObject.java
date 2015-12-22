@@ -1,8 +1,5 @@
 package ru.jts_dev.gameserver.ai;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.ai.tasks.Task;
 import ru.jts_dev.gameserver.model.GameCharacter;
 
@@ -15,8 +12,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Java-man
  * @since 13.12.2015
  */
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-@Component
 public class AiObject {
     // TODO scheduler
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
