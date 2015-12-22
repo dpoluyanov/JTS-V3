@@ -1,12 +1,12 @@
 package ru.jts_dev.gameserver.ai;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import reactor.Environment;
-import reactor.rx.broadcast.Broadcaster;
+import ru.jts_dev.gameserver.ai.InternalMessage.SetTask;
 import ru.jts_dev.gameserver.ai.tasks.Tasks;
 import ru.jts_dev.gameserver.model.GameCharacter;
-
-import javax.annotation.PostConstruct;
 
 /**
  * @author Java-man
@@ -14,17 +14,20 @@ import javax.annotation.PostConstruct;
  */
 @Service
 public class AiService {
-    private final Broadcaster<InternalMessage> broadcaster = Broadcaster.create();
+    private final ApplicationEventPublisher publisher;
 
-    @PostConstruct
-    private void startBroadCaster() {
-        broadcaster
-                // dispatch onto a Thread other than 'main'
-                .dispatchOn(Environment.cachedDispatcher())
-                .consume(InternalMessage::run);
+    @Autowired
+    public AiService(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
+
+    @EventListener
+    public void handleInternalMessage(InternalMessage internalMessage) {
+        internalMessage.run();
     }
 
     public void runningAround(GameCharacter gameCharacter) {
-        broadcaster.onNext(new InternalMessage.SetTask(gameCharacter.getAiObject(), Tasks.moveTo()));
+        SetTask task = new SetTask(gameCharacter.getAiObject(), Tasks.moveTo());
+        publisher.publishEvent(task);
     }
 }
