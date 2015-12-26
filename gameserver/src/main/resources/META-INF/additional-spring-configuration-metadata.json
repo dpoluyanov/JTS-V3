@@ -6,9 +6,19 @@
       "description": "Description for gameserver.id."
     },
     {
+      "name": "gameserver.host",
+      "type": "java.lang.String",
+      "description": "Description for gameserver.host."
+    },
+    {
       "name": "gameserver.port",
       "type": "java.lang.Integer",
       "description": "Description for gameserver.port."
+    },
+    {
+      "name": "gameserver.character.creation.disabled",
+      "type": "java.lang.Boolean",
+      "description": "Description for gameserver.character.creation.disabled."
     }
   ]
 }

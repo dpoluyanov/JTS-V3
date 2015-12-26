@@ -23,7 +23,7 @@ import org.springframework.messaging.MessageChannel;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.tcp.ProtocolByteArrayLengthHeaderSerializer;
-import ru.jts_dev.gameserver.GameClientPacketHandler;
+import ru.jts_dev.gameserver.packets.GameClientPacketHandler;
 import ru.jts_dev.gameserver.packets.out.VersionCheck;
 import ru.jts_dev.gameserver.util.Encoder;
 

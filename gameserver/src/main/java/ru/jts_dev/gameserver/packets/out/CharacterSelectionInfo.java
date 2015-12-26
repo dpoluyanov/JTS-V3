@@ -12,11 +12,13 @@ import java.util.List;
 public class CharacterSelectionInfo extends OutgoingMessageWrapper {
     private static final int MAX_CHARACTERS_CREATE_SIZE = 7;
     private final List<GameCharacter> characters;
-    private final int playKey1;
+    private final int playKey;
+    private final boolean charCreationDisabled;
 
-    public CharacterSelectionInfo(List<GameCharacter> characters, int playKey1) {
+    public CharacterSelectionInfo(List<GameCharacter> characters, int playKey, boolean charCreationDisabled) {
         this.characters = characters;
-        this.playKey1 = playKey1;
+        this.playKey = playKey;
+        this.charCreationDisabled = charCreationDisabled;
     }
 
     @Override
@@ -25,12 +27,12 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
         putInt(characters.size());
 
         putInt(MAX_CHARACTERS_CREATE_SIZE);
-        putByte(0x00); // enable character creation restriction?
+        putByte(charCreationDisabled ? 0x01 : 0x00); // enable character creation restriction?
         for (GameCharacter character : characters) {
             putString(character.getName()); // Name
             putInt(character.getObjectId()); // Char ID(objectID)
-            putString(character.getAccountName()); // Login account name
-            putInt(playKey1); // Session ID
+            putString(character.getLogin()); // Login account name
+            putInt(playKey); // Session ID
             putInt(0x00); // Clan ID
             putInt(0x00); // ??
 

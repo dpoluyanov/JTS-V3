@@ -1,4 +1,4 @@
-package ru.jts_dev.gameserver;
+package ru.jts_dev.gameserver.packets;
 
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;

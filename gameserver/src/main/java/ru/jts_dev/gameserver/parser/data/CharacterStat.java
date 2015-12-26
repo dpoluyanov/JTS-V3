@@ -64,7 +64,7 @@ public class CharacterStat {
         return classId;
     }
 
-    public int getStatForType(int type) {
+    public int getForType(int type) {
         if (type >= stats.length)
             throw new IndexOutOfBoundsException("Unknown stat type: " + type + " possible 0-5, INT, STR, CON, MEN, DEX, WIT");
 

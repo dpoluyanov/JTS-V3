@@ -3,6 +3,7 @@ package ru.jts_dev.gameserver.service;
 import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -30,6 +31,7 @@ public class GameSessionService {
     };
 
     private Map<String, GameSession> sessions = new ConcurrentHashMap<>();
+    private Map<String, String> accounts = new ConcurrentHashMap<>();
 
     @Autowired
     private ApplicationContext context;
@@ -43,6 +45,12 @@ public class GameSessionService {
         return sessions.get(connectionId);
     }
 
+    public String getAccountBy(String connectionId) {
+        if (!accounts.containsKey(connectionId))
+            throw new NullPointerException("accounts is null for " + connectionId);
+        return accounts.get(connectionId);
+    }
+
     private GameSession createSession(String connectionId) {
         ByteBuf encryptKey = buffer(16, 16).order(ByteOrder.LITTLE_ENDIAN);
         // randomize first 8 bytes of key
@@ -51,6 +59,7 @@ public class GameSessionService {
 
         // and add 8 byte as static key part
         encryptKey.writeBytes(STATIC_KEY_PART);
+
 
         // then copy encrypt key to decrypt key
         ByteBuf decryptKey = copiedBuffer(encryptKey).order(ByteOrder.LITTLE_ENDIAN);
@@ -68,5 +77,24 @@ public class GameSessionService {
     @EventListener
     private void tcpConnectionEventListener(TcpConnectionCloseEvent event) {
         sessions.remove(event.getConnectionId());
+        accounts.remove(event.getConnectionId());
+    }
+
+    @EventListener
+    public void accountLogged(AccountEvent event) {
+        accounts.put(event.getConnectionId(), (String) event.getSource());
+    }
+
+    public static class AccountEvent extends ApplicationEvent {
+        private final String connectionId;
+
+        public AccountEvent(String connectionId, String login) {
+            super(login);
+            this.connectionId = connectionId;
+        }
+
+        public String getConnectionId() {
+            return connectionId;
+        }
     }
 }
