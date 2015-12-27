@@ -3,6 +3,7 @@ package ru.jts_dev.gameserver.ai;
 import ru.jts_dev.gameserver.ai.tasks.Task;
 import ru.jts_dev.gameserver.model.GameCharacter;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
