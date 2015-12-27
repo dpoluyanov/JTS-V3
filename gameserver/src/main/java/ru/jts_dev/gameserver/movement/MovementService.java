@@ -1,10 +1,10 @@
 package ru.jts_dev.gameserver.movement;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameCharacter;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -14,8 +14,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class MovementService {
-    // TODO scheduler
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
+    private final ScheduledExecutorService scheduler;
+
+    @Autowired
+    public MovementService(ScheduledExecutorService scheduler) {
+        this.scheduler = scheduler;
+    }
 
     public void moveTo(GameCharacter character, Vector3D end) {
         Vector3D start = character.getVector3D();
