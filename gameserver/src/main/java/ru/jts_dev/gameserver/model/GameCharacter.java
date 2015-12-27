@@ -215,31 +215,31 @@ public class GameCharacter {
     // only for hibernate mapping
     @Access(AccessType.PROPERTY)
     @Column(name = "x")
-    public double getX() {
+    private double getX() {
         return vector3D.getX();
     }
 
-    public void setX(double x) {
+    private void setX(double x) {
         vector3D = new Vector3D(x, vector3D.getY(), vector3D.getZ());
     }
 
     @Access(AccessType.PROPERTY)
     @Column(name = "y")
-    public double getY() {
+    private double getY() {
         return vector3D.getY();
     }
 
-    public void setY(double y) {
+    private void setY(double y) {
         vector3D = new Vector3D(vector3D.getX(), y, vector3D.getZ());
     }
 
     @Access(AccessType.PROPERTY)
     @Column(name = "z")
-    public double getZ() {
+    private double getZ() {
         return vector3D.getZ();
     }
 
-    public void setZ(double z) {
+    private void setZ(double z) {
         vector3D = new Vector3D(vector3D.getX(), vector3D.getY(), z);
     }
 }
