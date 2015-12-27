@@ -79,6 +79,9 @@ public class GameCharacter {
     @Column
     private long exp;
 
+    @Column
+    private boolean lastUsed;
+
     // TODO: 26.12.15 pattern for account Name
     @Column
     private String accountName;
@@ -241,5 +244,13 @@ public class GameCharacter {
 
     private void setZ(double z) {
         vector3D = new Vector3D(vector3D.getX(), vector3D.getY(), z);
+    }
+
+    public boolean isLastUsed() {
+        return lastUsed;
+    }
+
+    public void setLastUsed(boolean lastUsed) {
+        this.lastUsed = lastUsed;
     }
 }

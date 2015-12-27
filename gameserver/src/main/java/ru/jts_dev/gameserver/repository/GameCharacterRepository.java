@@ -1,5 +1,10 @@
 package ru.jts_dev.gameserver.repository;
 
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +17,9 @@ import java.util.List;
  * @author Camelion
  * @since 21.12.15
  */
+@EnableAspectJAutoProxy
 @Repository
+@Aspect
 public interface GameCharacterRepository extends CrudRepository<GameCharacter, Integer> {
     /**
      * check existing character with given name
@@ -39,4 +46,10 @@ public interface GameCharacterRepository extends CrudRepository<GameCharacter, I
      * @return - {@code List} with characters for given account name
      */
     List<GameCharacter> findAllByAccountName(String accountName);
+
+    @Before(value = "execution(* GameCharacterRepository.save(character)) && args(accountName)")
+    //@Before("execution(* my.GameCharacterRepository.save(..)) && args(accountName,..)")
+    @Modifying
+    @Query("UPDATE GameCharacter c SET c.lastUsed = false WHERE c.accountName = :accountName")
+    void updateLastUsed(@Param("accountName") String accountName);
 }
