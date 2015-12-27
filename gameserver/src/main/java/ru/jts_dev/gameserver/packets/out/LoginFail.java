@@ -14,7 +14,7 @@ public class LoginFail extends OutgoingMessageWrapper {
     public static final Map<String, LoginFail> ERRORS = new HashMap<>();
 
     static {
-        ERRORS.put(PASSWORD_DOES_NOT_MATCH_THIS_ACCOUNT, new LoginFail(2));
+        ERRORS.put(PASSWORD_DOES_NOT_MATCH_THIS_ACCOUNT, new LoginFail(0x02));
     }
 
     private int errorCode;

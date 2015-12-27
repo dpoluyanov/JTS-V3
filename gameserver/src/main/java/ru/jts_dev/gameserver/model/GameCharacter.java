@@ -1,16 +1,15 @@
 package ru.jts_dev.gameserver.model;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.hibernate.validator.constraints.ConstraintComposition;
 import org.hibernate.validator.constraints.Range;
 import ru.jts_dev.gameserver.ai.AiObject;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
 
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.REASON_CREATION_FAILED;
-import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
+import static ru.jts_dev.gameserver.parser.data.CharacterStat.RACE_HUMAN;
+import static ru.jts_dev.gameserver.parser.data.CharacterStat.RACE_KAMAEL;
 
 /**
  * @author Camelion
@@ -88,14 +87,16 @@ public class GameCharacter {
     @Column
     private int level;
 
+    @Transient
+    private Vector3D vector3D = new Vector3D(0, 0, 0);
+
     // TODO: 21.12.15 should be calculable stat
     @Transient
     private double maxHP;
 
     @Transient
-    private Vector3D vector3D;
-    @Transient
     private boolean moving;
+
     @Transient
     private AiObject aiObject = new AiObject(this);
 
@@ -209,5 +210,36 @@ public class GameCharacter {
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
+    }
+
+    // only for hibernate mapping
+    @Access(AccessType.PROPERTY)
+    @Column(name = "x")
+    public double getX() {
+        return vector3D.getX();
+    }
+
+    public void setX(double x) {
+        vector3D = new Vector3D(x, vector3D.getY(), vector3D.getZ());
+    }
+
+    @Access(AccessType.PROPERTY)
+    @Column(name = "y")
+    public double getY() {
+        return vector3D.getY();
+    }
+
+    public void setY(double y) {
+        vector3D = new Vector3D(vector3D.getX(), y, vector3D.getZ());
+    }
+
+    @Access(AccessType.PROPERTY)
+    @Column(name = "z")
+    public double getZ() {
+        return vector3D.getZ();
+    }
+
+    public void setZ(double z) {
+        vector3D = new Vector3D(vector3D.getX(), vector3D.getY(), z);
     }
 }

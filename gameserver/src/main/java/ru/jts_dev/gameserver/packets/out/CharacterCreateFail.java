@@ -15,6 +15,7 @@ public class CharacterCreateFail extends OutgoingMessageWrapper implements Paylo
     public static final String REASON_TOO_MANY_CHARACTERS = "REASON_TOO_MANY_CHARACTERS";
     public static final String REASON_NAME_ALREADY_EXISTS = "REASON_NAME_ALREADY_EXISTS";
     public static final String REASON_16_ENG_CHARS = "REASON_16_ENG_CHARS";
+    public static final String REASON_INCORRECT_NAME = "REASON_INCORRECT_NAME";
     public static Map<String, OutgoingMessageWrapper> ERRORS = new HashMap<>();
 
     static {
@@ -22,6 +23,7 @@ public class CharacterCreateFail extends OutgoingMessageWrapper implements Paylo
         ERRORS.put(REASON_TOO_MANY_CHARACTERS, new CharacterCreateFail(0x01));
         ERRORS.put(REASON_NAME_ALREADY_EXISTS, new CharacterCreateFail(0x02));
         ERRORS.put(REASON_16_ENG_CHARS, new CharacterCreateFail(0x03));
+        ERRORS.put(REASON_INCORRECT_NAME, new CharacterCreateFail(0x04));
     }
 
     private final int errorCode;

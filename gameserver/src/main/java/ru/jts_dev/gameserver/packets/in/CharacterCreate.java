@@ -1,5 +1,7 @@
 package ru.jts_dev.gameserver.packets.in;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +49,8 @@ public class CharacterCreate extends IncomingMessageWrapper {
     @Autowired
     private Validator validator;
 
-    @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = REASON_16_ENG_CHARS)
+    @Length(max = 16, message = REASON_16_ENG_CHARS)
+    @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = REASON_INCORRECT_NAME)
     private String name;
     @Range(min = RACE_HUMAN, max = RACE_KAMAEL)
     private int raceId;
@@ -149,6 +152,7 @@ public class CharacterCreate extends IncomingMessageWrapper {
         character.setHairStyle(hairStyle);
         character.setHairColor(hairColor);
         character.setFace(face);
+        character.setVector3D(new Vector3D(0, 0, 0));
 
         return character;
     }
