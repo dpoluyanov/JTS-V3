@@ -21,7 +21,7 @@ public class GameCharacter {
     @GeneratedValue
     private int objectId;
 
-    @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = "16 ENG symbols")
+    @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = "4-16 ENG symbols")
     @Column(unique = true)
     private String name;
 
@@ -81,27 +81,29 @@ public class GameCharacter {
 
     @Column
     private boolean lastUsed;
-
     // TODO: 26.12.15 pattern for account Name
     @Column
     private String accountName;
-
     // TODO: 25.12.15 calculable level?
     @Column
     private int level;
-
     @Transient
     private Vector3D vector3D = new Vector3D(0, 0, 0);
-
     // TODO: 21.12.15 should be calculable stat
     @Transient
     private double maxHP;
-
     @Transient
     private boolean moving;
-
     @Transient
     private AiObject aiObject = new AiObject(this);
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
 
     public String getName() {
         return name;
@@ -209,10 +211,6 @@ public class GameCharacter {
 
     public AiObject getAiObject() {
         return aiObject;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
     }
 
     // only for hibernate mapping

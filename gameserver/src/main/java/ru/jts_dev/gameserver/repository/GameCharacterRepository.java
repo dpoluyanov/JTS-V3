@@ -1,14 +1,15 @@
 package ru.jts_dev.gameserver.repository;
 
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.jts_dev.gameserver.model.GameCharacter;
 
 import java.util.List;
@@ -17,9 +18,7 @@ import java.util.List;
  * @author Camelion
  * @since 21.12.15
  */
-@EnableAspectJAutoProxy
 @Repository
-@Aspect
 public interface GameCharacterRepository extends CrudRepository<GameCharacter, Integer> {
     /**
      * check existing character with given name
@@ -47,9 +46,26 @@ public interface GameCharacterRepository extends CrudRepository<GameCharacter, I
      */
     List<GameCharacter> findAllByAccountName(String accountName);
 
-    @Before(value = "execution(* GameCharacterRepository.save(character)) && args(accountName)")
-    //@Before("execution(* my.GameCharacterRepository.save(..)) && args(accountName,..)")
+    /**
+     * Hit before for {@link GameCharacterRepository#save(Object)}
+     * set lastUsed field false for all accounts
+     *
+     * @param character - character, prepared to save
+     */
     @Modifying
-    @Query("UPDATE GameCharacter c SET c.lastUsed = false WHERE c.accountName = :accountName")
-    void updateLastUsed(@Param("accountName") String accountName);
+    @Transactional
+    @Query("UPDATE GameCharacter c SET c.lastUsed = false WHERE c.accountName = ?#{#character.accountName}")
+    void updateLastUsed(@Param("character") GameCharacter character);
+
+    @Aspect
+    @Component
+    class Aspects {
+        @Autowired
+        private GameCharacterRepository repository;
+
+        @Before("execution(* GameCharacterRepository+.save(..)) && args(character))")
+        public void advice(GameCharacter character) {
+            repository.updateLastUsed(character);
+        }
+    }
 }
