@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * @since 04.01.2016
  */
 @Repository
-public interface ServerVariablesRepository extends CrudRepository<ServerVariable, ServerVariableType> {
+public interface ServerVariablesRepository extends CrudRepository<ServerVariable, ServerVariableKey> {
 }

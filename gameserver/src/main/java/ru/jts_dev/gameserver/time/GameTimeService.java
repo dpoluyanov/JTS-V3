@@ -7,6 +7,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.variables.server.ServerVariable;
+import ru.jts_dev.gameserver.variables.server.ServerVariableKey;
 import ru.jts_dev.gameserver.variables.server.ServerVariableType;
 import ru.jts_dev.gameserver.variables.server.ServerVariablesRepository;
 
@@ -43,7 +44,9 @@ public class GameTimeService {
 
     @PostConstruct
     private void loadDateTime() {
-        ServerVariable serverTime = serverVariablesRepository.findOne(ServerVariableType.SERVER_TIME);
+        // TODO server id
+        ServerVariableKey key = new ServerVariableKey(1, ServerVariableType.SERVER_TIME);
+        ServerVariable serverTime = serverVariablesRepository.findOne(key);
 
         if (serverTime != null) {
             String value = serverTime.getValue();
@@ -80,11 +83,16 @@ public class GameTimeService {
     }
 
     private void saveNewGameTimeInDatabase() {
-        ServerVariable serverTime = serverVariablesRepository.findOne(ServerVariableType.SERVER_TIME);
+        // TODO server id
+        ServerVariableKey key = new ServerVariableKey(1, ServerVariableType.SERVER_TIME);
+        ServerVariable serverTime = serverVariablesRepository.findOne(key);
 
-        if (serverTime == null)
+        if (serverTime == null) {
             // TODO server id
-            serverTime = new ServerVariable(1, ServerVariableType.SERVER_TIME);
+            serverTime = new ServerVariable();
+            serverTime.setServerId(1);
+            serverTime.setServerVariableType(ServerVariableType.SERVER_TIME);
+        }
 
         String dateTimeStr = dateTime.toString();
         serverTime.setValue(dateTimeStr);
