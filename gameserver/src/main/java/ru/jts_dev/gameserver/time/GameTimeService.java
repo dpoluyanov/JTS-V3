@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.service.GameSessionService;
+import ru.jts_dev.gameserver.variables.server.ServerVariable;
+import ru.jts_dev.gameserver.variables.server.ServerVariableType;
+import ru.jts_dev.gameserver.variables.server.ServerVariablesRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
@@ -28,17 +31,24 @@ import static ru.jts_dev.gameserver.time.GameTimeConstants.MIN_DATE_TIME;
 @Component
 public class GameTimeService {
     private final GameSessionService gameSessionService;
+    private final ServerVariablesRepository serverVariablesRepository;
 
     private ZonedDateTime dateTime = MIN_DATE_TIME;
 
     @Autowired
-    public GameTimeService(GameSessionService gameSessionService) {
+    public GameTimeService(GameSessionService gameSessionService, ServerVariablesRepository serverVariablesRepository) {
         this.gameSessionService = gameSessionService;
+        this.serverVariablesRepository = serverVariablesRepository;
     }
 
     @PostConstruct
     private void loadDateTime() {
-        // TODO load from db
+        ServerVariable serverTime = serverVariablesRepository.findOne(ServerVariableType.SERVER_TIME);
+
+        if (serverTime != null) {
+            String value = serverTime.getValue();
+            dateTime = ZonedDateTime.parse(value);
+        }
     }
 
     @Scheduled(fixedDelay = 10_000, fixedRate = 10_000)
@@ -46,7 +56,8 @@ public class GameTimeService {
         int oldHour = dateTime.getHour();
 
         dateTime = dateTime.plusMinutes(1);
-        // TODO save in db new time
+
+        saveNewGameTimeInDatabase();
 
         int newHour = dateTime.getHour();
 
@@ -66,5 +77,18 @@ public class GameTimeService {
 
     public ZonedDateTime getDateTime() {
         return dateTime;
+    }
+
+    private void saveNewGameTimeInDatabase() {
+        ServerVariable serverTime = serverVariablesRepository.findOne(ServerVariableType.SERVER_TIME);
+
+        if (serverTime == null)
+            // TODO server id
+            serverTime = new ServerVariable(1, ServerVariableType.SERVER_TIME);
+
+        String dateTimeStr = dateTime.toString();
+        serverTime.setValue(dateTimeStr);
+
+        serverVariablesRepository.save(serverTime);
     }
 }
