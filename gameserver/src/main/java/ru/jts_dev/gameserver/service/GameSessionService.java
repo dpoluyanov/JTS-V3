@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameSession;
 
 import java.nio.ByteOrder;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,6 +45,10 @@ public class GameSessionService {
             throw new NullPointerException("gameSession is null for " + connectionId);
 
         return sessions.get(connectionId);
+    }
+
+    public Collection<GameSession> getSessions() {
+        return Collections.unmodifiableCollection(sessions.values());
     }
 
     public String getAccountBy(String connectionId) {
