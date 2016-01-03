@@ -110,17 +110,20 @@ public class GameCharacterRepositoryTest extends Assert {
     public void testUpdateLastUsed() throws Exception {
         // ready
         GameCharacter character = new GameCharacter();
-        character.setLastUsed(true);
-        character.setAccountName("Test");
-
-        repository.save(character);
-
-        character = new GameCharacter();
-        character.setLastUsed(true);
         character.setAccountName("Test");
         repository.save(character);
 
+        // go
         List<GameCharacter> list = repository.findAllByAccountName("Test");
+        assertThat(list, hasItem(hasProperty("lastUsed", equalTo(true))));
+
+        // ready
+        character = new GameCharacter();
+        character.setAccountName("Test");
+        repository.save(character);
+
+        // go
+        list = repository.findAllByAccountName("Test");
 
         assertThat(list, hasItem(hasProperty("lastUsed", equalTo(true))));
         assertThat(list, hasItem(hasProperty("lastUsed", equalTo(false))));

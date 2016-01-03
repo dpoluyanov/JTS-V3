@@ -87,6 +87,7 @@ public class GameCharacter {
     // TODO: 25.12.15 calculable level?
     @Column
     private int level;
+
     @Transient
     private Vector3D vector3D = new Vector3D(0, 0, 0);
     // TODO: 21.12.15 should be calculable stat

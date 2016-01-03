@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.repository;
 
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +65,11 @@ public interface GameCharacterRepository extends CrudRepository<GameCharacter, I
         private GameCharacterRepository repository;
 
         @Before("execution(* GameCharacterRepository+.save(..)) && args(character))")
-        public void advice(GameCharacter character) {
+        public void updateLastUsedAdvice(GameCharacter character) {
+            // perform update
             repository.updateLastUsed(character);
+
+            character.setLastUsed(true);
         }
     }
 }

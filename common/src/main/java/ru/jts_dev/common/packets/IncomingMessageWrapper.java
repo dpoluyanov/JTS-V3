@@ -45,6 +45,13 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
         return buffer.readByte();
     }
 
+    public int readShort() {
+        if (buffer.readableBytes() < Short.BYTES)
+            throw new IndexOutOfBoundsException("At least 2 bytes must be readable in buffer");
+
+        return buffer.readShort();
+    }
+
     public int readInt() {
         if (buffer.readableBytes() < Integer.BYTES)
             throw new IndexOutOfBoundsException("At least 4 bytes must be readable in buffer");

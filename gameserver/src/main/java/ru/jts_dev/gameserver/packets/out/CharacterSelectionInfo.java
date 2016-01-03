@@ -92,22 +92,20 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
             putInt(0x00); // Deco 4
             putInt(0x00); // Deco 5
             putInt(0x00); // Deco 6
+            putInt(0x00); // Belt
 
             putInt(character.getHairStyle()); // Hair style
             putInt(character.getHairColor()); // Hair color
             putInt(character.getFace()); // Face
 
             putDouble(character.getMaxHP()); // hp max
-            putDouble(0x00); // mp max
+            putDouble(0.0); // mp max
 
             putInt(0x00); // days left before
 
             putInt(character.getClassId()); // Class Id
 
-            if (character == characters.get(0)) // TODO: 13.12.15 last played character
-                putInt(0x01); //c3 auto-select char (0x01 - this char is active)
-            else
-                putInt(0x00);
+            putInt(character.isLastUsed() ? 0x01 : 0x00); //c3 auto-select char (0x01 - this char is active)
 
             putByte(0x00); // EnchantEffect
 
@@ -115,6 +113,13 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
             putShort(0x00); // this is for augmentation too
 
             putInt(0x00); // Transformation ID
+
+            putInt(0); // npdid - 16024 Tame Tiny Baby Kookaburra A9E89C
+            putInt(0); // level
+            putInt(0); // ?
+            putInt(0); // food? - 1200
+            putInt(0); // max Hp
+            putInt(0); // cur Hp
         }
     }
 }

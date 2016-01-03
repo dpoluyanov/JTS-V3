@@ -38,6 +38,12 @@ public class GameClientPacketHandler {
             case 0x0E:
                 msg = context.getBean(RequestProtocolVersion.class);
                 break;
+            case 0x11:
+                msg = context.getBean(EnterWorld.class);
+                break;
+            case 0x12:
+                msg = context.getBean(CharacterSelect.class);
+                break;
             case 0x13:
                 msg = context.getBean(RequestNewCharacter.class);
                 break;
@@ -54,6 +60,12 @@ public class GameClientPacketHandler {
             case 0xD0:
                 opcode = buf.readUnsignedShort();
                 switch (opcode) {
+                    case 0x01:
+                        msg = context.getBean(RequestManorList.class);
+                        break;
+                    case 0x21:
+                        msg = context.getBean(RequestKeyMapping.class);
+                        break;
                     case 0x36:
                         msg = context.getBean(GotoLobby.class);
                         break;
