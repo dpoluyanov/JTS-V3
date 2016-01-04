@@ -69,6 +69,9 @@ public class GameClientPacketHandler {
                     case 0x36:
                         msg = context.getBean(GotoLobby.class);
                         break;
+                    case 0x3D:
+                        msg = context.getBean(RequestShortCutReg.class);
+                        break;
                     default:
                         throw new RuntimeException("Invalid second packet opcode: " + String.format("0x%02X", (byte) opcode));
                 }

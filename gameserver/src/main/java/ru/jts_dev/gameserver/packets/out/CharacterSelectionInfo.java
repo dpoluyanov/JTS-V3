@@ -98,8 +98,8 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
             putInt(character.getHairColor()); // Hair color
             putInt(character.getFace()); // Face
 
-            putDouble(character.getMaxHP()); // hp max
-            putDouble(0.0); // mp max
+            putDouble(character.getMaxHp()); // hp max
+            putDouble(character.getMaxMp()); // mp max
 
             putInt(0x00); // days left before
 

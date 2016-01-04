@@ -19,12 +19,8 @@ public class AuthServerService {
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    private final GameServerConfig gameServerConfig;
-
     @Autowired
-    public AuthServerService(GameServerConfig gameServerConfig) {
-        this.gameServerConfig = gameServerConfig;
-    }
+    private GameServerConfig gameServerConfig;
 
     /**
      * send game server status to auth server

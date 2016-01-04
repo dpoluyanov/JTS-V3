@@ -15,6 +15,8 @@ public class ClientSetTime extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
+        putByte(0xF2);
+
         putInt((int) gameTimeInMinutes); // time in client minutes
         putInt(6); //constant to match the server time (this determines the speed of the client clock)
     }

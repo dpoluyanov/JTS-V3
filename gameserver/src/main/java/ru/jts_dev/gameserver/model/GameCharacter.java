@@ -81,22 +81,35 @@ public class GameCharacter {
 
     @Column
     private boolean lastUsed;
+
     // TODO: 26.12.15 pattern for account Name
     @Column
     private String accountName;
-    // TODO: 25.12.15 calculable level?
+
+    // TODO: 25.12.15 computed level?
     @Column
     private int level;
 
     @Transient
     private Vector3D vector3D = new Vector3D(0, 0, 0);
+
     // TODO: 21.12.15 should be calculable stat
     @Transient
-    private double maxHP;
+    private double maxHp, maxMp;
+
     @Transient
     private boolean moving;
+
     @Transient
     private AiObject aiObject = new AiObject(this);
+
+    public double getHp() {
+        return hp;
+    }
+
+    public double getMaxMp() {
+        return maxMp;
+    }
 
     public String getAccountName() {
         return accountName;
@@ -146,10 +159,6 @@ public class GameCharacter {
         this.classId = classId;
     }
 
-    public double getHp() {
-        return hp;
-    }
-
     public double getMp() {
         return mp;
     }
@@ -190,8 +199,8 @@ public class GameCharacter {
         this.face = face;
     }
 
-    public double getMaxHP() {
-        return maxHP;
+    public double getMaxHp() {
+        return maxHp;
     }
 
     public Vector3D getVector3D() {
@@ -214,33 +223,62 @@ public class GameCharacter {
         return aiObject;
     }
 
-    // only for hibernate mapping
+    /**
+     * this method only for hibernate mapping!!! NOT FOR USE!!!
+     *
+     * @return x coordinate of vector3D
+     */
     @Access(AccessType.PROPERTY)
     @Column(name = "x")
     private double getX() {
         return vector3D.getX();
     }
 
+    /**
+     * this method only for hibernate mapping!!! NOT FOR USE!!!
+     *
+     * @param x - x character coordinate from db
+     */
     private void setX(double x) {
         vector3D = new Vector3D(x, vector3D.getY(), vector3D.getZ());
     }
 
+    /**
+     * this method only for hibernate mapping!!! NOT FOR USE!!!
+     *
+     * @return y coordinate of vector3D
+     */
     @Access(AccessType.PROPERTY)
     @Column(name = "y")
     private double getY() {
         return vector3D.getY();
     }
 
+    /**
+     * this method only for hibernate mapping!!! NOT FOR USE!!!
+     *
+     * @param y - y character coordinate from db
+     */
     private void setY(double y) {
         vector3D = new Vector3D(vector3D.getX(), y, vector3D.getZ());
     }
 
+    /**
+     * this method only for hibernate mapping!!! NOT FOR USE!!!
+     *
+     * @return z coordinate of vector3D
+     */
     @Access(AccessType.PROPERTY)
     @Column(name = "z")
     private double getZ() {
         return vector3D.getZ();
     }
 
+    /**
+     * this method only for hibernate mapping!!! NOT FOR USE!!!
+     *
+     * @param z - z character coordinate from db
+     */
     private void setZ(double z) {
         vector3D = new Vector3D(vector3D.getX(), vector3D.getY(), z);
     }

@@ -57,7 +57,7 @@ public class GameTimeService {
         }
     }
 
-    @Scheduled(fixedDelay = 10_000, fixedRate = 10_000)
+    @Scheduled(initialDelay = 10_000, fixedRate = 10_000)
     private void updateGameClock() {
         int oldHour = dateTime.getHour();
 
