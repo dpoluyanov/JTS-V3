@@ -5,4 +5,4 @@ Third version of JTS Project emulator, based on `https://github.com/Camelion/jts
 * Camelion
 
 **Thanks to:**
-* Pointer\*rage - Geo Engine
+* Pointer\*Rage - Geo Engine
