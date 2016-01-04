@@ -67,4 +67,21 @@ public class SettingsDataTest {
                 is(equalTo(settingsData.getMaximumStats().size()))
         ));
     }
+
+    @Test
+    public void testParseInitialStartPoints() throws Exception {
+        assertThat(settingsData.getInitialStartPoints().size(), greaterThan(0));
+
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("human_fighter"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("human_magician"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("elf_fighter"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("elf_magician"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("darkelf_fighter"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("darkelf_magician"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("orc_fighter"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("orc_shaman"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("dwarf_apprentice"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("kamael_m_soldier"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("kamael_f_soldier"), is(not(empty()))));
+    }
 }

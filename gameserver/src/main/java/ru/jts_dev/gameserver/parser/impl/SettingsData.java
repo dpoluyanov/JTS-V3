@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -16,9 +17,7 @@ import ru.jts_dev.gameserver.parser.data.CharacterStat;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 
@@ -26,13 +25,20 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
  * @author Camelion
  * @since 15.12.15
  */
+// TODO: 05.01.16 handle initial equipment
 @Component
 public class SettingsData extends SettingsBaseListener {
+    private final Map<String, List<Vector3D>> initialStartPoints = new HashMap<>();
     private final List<CharacterStat> minimumStats = new ArrayList<>();
     private final List<CharacterStat> recommendedStats = new ArrayList<>();
     private final List<CharacterStat> maximumStats = new ArrayList<>();
+
     @Autowired
     private ApplicationContext context;
+
+    public Map<String, List<Vector3D>> getInitialStartPoints() {
+        return Collections.unmodifiableMap(initialStartPoints);
+    }
 
     public List<CharacterStat> getMinimumStats() {
         return Collections.unmodifiableList(minimumStats);
@@ -124,8 +130,21 @@ public class SettingsData extends SettingsBaseListener {
         recommendedStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_F_SOLDIER, ctx.kamael_f_soldier_stat().int_array()));
     }
 
-    private CharacterStat statFrom(int raceId, int classId, SettingsParser.Int_arrayContext ctx) {
-        return new CharacterStat(raceId, classId, convertFromAntlrArray(ctx));
+    @Override
+    public void exitInitial_start_point(SettingsParser.Initial_start_pointContext ctx) {
+        for (SettingsParser.Start_pointContext sctx : ctx.start_point()) {
+            List<Vector3D> points = new ArrayList<>();
+
+            for (SettingsParser.PointContext pctx : sctx.point()) {
+                points.add(vectorFromArray(pctx.int_array()));
+            }
+
+            String[] classes = identifiersFromArray(sctx.class_().identifier_array());
+
+            for (String class_ : classes) {
+                initialStartPoints.put(class_, Collections.unmodifiableList(points));
+            }
+        }
     }
 
     /**
@@ -143,6 +162,28 @@ public class SettingsData extends SettingsBaseListener {
         }
 
         return array;
+    }
+
+    private Vector3D vectorFromArray(SettingsParser.Int_arrayContext ctx) {
+        int[] array = convertFromAntlrArray(ctx);
+
+        assert array.length == 3;
+
+        return new Vector3D(array[0], array[1], array[2]);
+    }
+
+    private String[] identifiersFromArray(SettingsParser.Identifier_arrayContext ctx) {
+        String[] array = new String[ctx.identifier_object().size()];
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = ctx.identifier_object(i).getText();
+        }
+
+        return array;
+    }
+
+    private CharacterStat statFrom(int raceId, int classId, SettingsParser.Int_arrayContext ctx) {
+        return new CharacterStat(raceId, classId, convertFromAntlrArray(ctx));
     }
 
     @PostConstruct
