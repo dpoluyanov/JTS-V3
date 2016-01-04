@@ -22,3 +22,5 @@ dependencies {
 
     compile("io.netty:netty-buffer:${nettyVersion}")
 }
+
+bootRepackage.enabled = false
