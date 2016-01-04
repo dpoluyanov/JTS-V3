@@ -50,7 +50,10 @@ dependencies {
 
     compile("org.apache.commons:commons-math3:${apacheMathVersion}")
 
+    // html compressor
     compile('com.googlecode.htmlcompressor:htmlcompressor:1.5.2')
+    compile('com.google.javascript:closure-compiler:v20151216')
+    compile('com.yahoo.platform.yui:yuicompressor:2.4.8')
 
     // Hibernate
     compile("org.hibernate:hibernate-core:${hibernateVersion}")

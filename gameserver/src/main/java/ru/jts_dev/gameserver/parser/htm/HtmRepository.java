@@ -22,15 +22,15 @@ import java.nio.file.Paths;
  */
 @Component
 public class HtmRepository {
-    private static final HtmlCompressor HTML_COMPRESSOR = createHtmlCompressor();
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(HtmRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(HtmRepository.class);
 
     private final HtmRepositoryConfig config;
+    private final HtmlCompressor htmlCompressor;
 
     @Autowired
-    public HtmRepository(HtmRepositoryConfig config) {
+    public HtmRepository(HtmRepositoryConfig config, HtmlCompressor htmlCompressor) {
         this.config = config;
+        this.htmlCompressor = htmlCompressor;
     }
 
     @PostConstruct
@@ -58,7 +58,7 @@ public class HtmRepository {
     @Cacheable("htm")
     private String getCachedHtm(String htmPath) {
         String htm = readHtm(htmPath);
-        htm = compressHtm(HTML_COMPRESSOR, htm);
+        htm = compressHtm(htmlCompressor, htm);
         return htm;
     }
 
@@ -74,10 +74,10 @@ public class HtmRepository {
         }
     }
 
-    private static String compressHtm(HtmlCompressor compressor, String content) {
+    private String compressHtm(HtmlCompressor compressor, String content) {
         String result = compressor.compress(content);
 
-        LOGGER.info(String.format(
+        logger.info(String.format(
                 "Compression time: %,d ms, Original size: %,d bytes, Compressed size: %,d bytes",
                 compressor.getStatistics().getTime(),
                 compressor.getStatistics().getOriginalMetrics().getFilesize(),
@@ -85,34 +85,5 @@ public class HtmRepository {
         ));
 
         return result;
-    }
-
-    private static HtmlCompressor createHtmlCompressor() {
-        HtmlCompressor htmlCompressor = new HtmlCompressor();
-
-        htmlCompressor.setEnabled(true);                   //if false all compression is off (default is true)
-        htmlCompressor.setRemoveComments(true);            //if false keeps HTML comments (default is true)
-        htmlCompressor.setRemoveMultiSpaces(true);         //if false keeps multiple whitespace characters (default is true)
-        htmlCompressor.setRemoveIntertagSpaces(true);      //removes iter-tag whitespace characters
-        htmlCompressor.setRemoveQuotes(true);              //removes unnecessary tag attribute quotes
-        htmlCompressor.setSimpleDoctype(false);             //simplify existing doctype
-        htmlCompressor.setRemoveScriptAttributes(false);    //remove optional attributes from script tags
-        htmlCompressor.setRemoveStyleAttributes(false);     //remove optional attributes from style tags
-        htmlCompressor.setRemoveLinkAttributes(true);      //remove optional attributes from link tags
-        htmlCompressor.setRemoveFormAttributes(true);      //remove optional attributes from form tags
-        htmlCompressor.setRemoveInputAttributes(true);     //remove optional attributes from input tags
-        htmlCompressor.setSimpleBooleanAttributes(true);   //remove values from boolean tag attributes
-        htmlCompressor.setRemoveJavaScriptProtocol(false);  //remove "javascript:" from inline event handlers
-        htmlCompressor.setRemoveHttpProtocol(false);        //replace "http://" with "//" inside tag attributes
-        htmlCompressor.setRemoveHttpsProtocol(false);       //replace "https://" with "//" inside tag attributes
-        htmlCompressor.setPreserveLineBreaks(false);        //preserves original line breaks
-        htmlCompressor.setRemoveSurroundingSpaces("all"); //remove spaces around provided tags
-
-        htmlCompressor.setCompressCss(false);               //compress inline css
-        htmlCompressor.setCompressJavaScript(false);        //compress inline javascript
-
-        htmlCompressor.setGenerateStatistics(true);
-
-        return htmlCompressor;
     }
 }
