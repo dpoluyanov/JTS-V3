@@ -1,10 +1,16 @@
 package ru.jts_dev.gameserver.parser.data;
 
+import org.hibernate.validator.constraints.Range;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
 /**
  * @author Camelion
  * @since 18.12.15
  */
-public class CharacterStat {
+@Embeddable
+public class CharacterStat implements Cloneable {
     // races
     public static final int RACE_HUMAN = 0;
     public static final int RACE_ELF = 1;
@@ -13,18 +19,30 @@ public class CharacterStat {
     public static final int RACE_DWARF = 4;
     public static final int RACE_KAMAEL = 5;
 
+    public static final String HUMAN_FIGHTER = "human_fighter";
+    public static final String HUMAN_MAGICIAN = "human_magician";
+    public static final String ELF_FIGHTER = "elf_fighter";
+    public static final String ELF_MAGICIAN = "elf_magician";
+    public static final String DARKELF_FIGHTER = "darkelf_fighter";
+    public static final String DARKELF_MAGICIAN = "darkelf_magician";
+    public static final String ORC_FIGHTER = "orс_fighter";
+    public static final String ORC_SHAMAN = "orc_shaman";
+    public static final String DWARF_APPRENTICE = "dwarf_apprentice";
+    public static final String KAMAEL_M_SOLDIER = "kamael_m_soldier";
+    public static final String KAMAEL_F_SOLDIER = "kamael_f_soldier";
+
     // classes
     // human
     public static final int CLASS_HUMAN_FIGHTER = 0;
-    public static final int CLASS_HUMAN_MAGICAN = 10;
+    public static final int CLASS_HUMAN_MAGICIAN = 10;
 
     // elf
     public static final int CLASS_ELF_FIGHTER = 18;
-    public static final int CLASS_ELF_MAGICAN = 25;
+    public static final int CLASS_ELF_MAGICIAN = 25;
 
     // darkelf
     public static final int CLASS_DARKELF_FIGHTER = 31;
-    public static final int CLASS_DARKELF_MAGICAN = 38;
+    public static final int CLASS_DARKELF_MAGICIAN = 38;
 
     // orc
     public static final int CLASS_ORC_FIGHTER = 44;
@@ -44,16 +62,44 @@ public class CharacterStat {
     public static final int DEX = 4;
     public static final int WIT = 5;
 
-    private final int raceId;
-    private final int classId;
+    @Column
+    private String statName;
 
+    @Column
     // INT, STR, CON, MEN, DEX, WIT
-    private final int[] stats;
+    private int[] stats;
 
-    public CharacterStat(int raceId, int classId, int[] stats) {
+    @Range(min = RACE_HUMAN, max = RACE_KAMAEL)
+    @Column
+    private int raceId;
+
+    // TODO: 05.01.16 move to our validator
+    /*
+    @Digits.List({
+            @Digits(integer = CLASS_HUMAN_FIGHTER, fraction = 0, message = ""),
+            @Digits(integer = CLASS_HUMAN_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_ELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_ELF_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_DARKELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_DARKELF_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_ORC_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_ORC_SHAMAN, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_DWARF_APPRENTICE, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_KAMAEL_M_SOLDIER, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_KAMAEL_M_SOLDIER, fraction = 0, message = REASON_CREATION_FAILED),
+    })*/
+    @Column
+    private int classId;
+
+    public CharacterStat(int raceId, int classId, String statName, int[] stats) {
         this.raceId = raceId;
         this.classId = classId;
         this.stats = stats;
+        this.statName = statName;
+    }
+
+    // only for jpa
+    private CharacterStat() {
     }
 
     public int getRaceId() {
@@ -64,10 +110,24 @@ public class CharacterStat {
         return classId;
     }
 
+    public String getStatName() {
+        return statName;
+    }
+
     public int getForType(int type) {
         if (type >= stats.length)
             throw new IndexOutOfBoundsException("Unknown stat type: " + type + " possible 0-5, INT, STR, CON, MEN, DEX, WIT");
 
         return stats[type];
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            // this shouldn't happen, since we are Cloneable
+            throw new InternalError(e);
+        }
     }
 }

@@ -2,6 +2,9 @@ package ru.jts_dev.gameserver.packets.out;
 
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.parser.data.CharacterStat;
+
+import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 
 /**
  * @author Camelion
@@ -25,19 +28,19 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // Vehicle Object Id
         putInt(character.getObjectId());
         putString(character.getName());
-        putInt(character.getRaceId());
+        putInt(character.getStat().getRaceId());
         putInt(character.getSex());
 
-        putInt(character.getClassId());
+        putInt(character.getStat().getClassId());
 
         putInt(character.getLevel());
         putLong(character.getExp());
-        putInt(0); // str
-        putInt(0); // dex
-        putInt(0); // con
-        putInt(0); // int
-        putInt(0); // wit
-        putInt(0); // men
+        putInt(character.getStat().getForType(STR)); // str
+        putInt(character.getStat().getForType(DEX)); // dex
+        putInt(character.getStat().getForType(CON)); // con
+        putInt(character.getStat().getForType(INT)); // int
+        putInt(character.getStat().getForType(WIT)); // wit
+        putInt(character.getStat().getForType(MEN)); // men
         putInt((int) character.getMaxHp());
         putInt((int) character.getHp());
         putInt((int) character.getMaxMp());
@@ -201,7 +204,7 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // mount npcid
         putShort(0); // inverntory limit
 
-        putInt(character.getClassId());
+        putInt(character.getStat().getClassId());
         putInt(0x00); // special effects? circles around player...
         putInt(0); // max CP
         putInt(0); // current CP

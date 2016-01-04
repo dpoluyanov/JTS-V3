@@ -3,6 +3,7 @@ package ru.jts_dev.gameserver.model;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Range;
 import ru.jts_dev.gameserver.ai.AiObject;
+import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -28,28 +29,6 @@ public class GameCharacter {
     @Range(min = 0, max = 1)
     @Column
     private int sex;
-
-    @Range(min = RACE_HUMAN, max = RACE_KAMAEL)
-    @Column
-    private int raceId;
-
-    // TODO: 26.12.15 move to our validator
-    /*
-    @Digits.List({
-            @Digits(integer = CLASS_HUMAN_FIGHTER, fraction = 0, message = ""),
-            @Digits(integer = CLASS_HUMAN_MAGICAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ELF_MAGICAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_DARKELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_DARKELF_MAGICAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ORC_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ORC_SHAMAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_DWARF_APPRENTICE, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_KAMAEL_M_SOLDIER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_KAMAEL_M_SOLDIER, fraction = 0, message = REASON_CREATION_FAILED),
-    })*/
-    @Column
-    private int classId;
 
     @Range(min = 0, max = 6, message = REASON_CREATION_FAILED)
     @Column
@@ -89,6 +68,9 @@ public class GameCharacter {
     // TODO: 25.12.15 computed level?
     @Column
     private int level;
+
+    @Embedded
+    private CharacterStat stat;
 
     @Transient
     private Vector3D vector3D = new Vector3D(0, 0, 0);
@@ -141,22 +123,6 @@ public class GameCharacter {
 
     public void setSex(int sex) {
         this.sex = sex;
-    }
-
-    public int getRaceId() {
-        return raceId;
-    }
-
-    public void setRaceId(int raceId) {
-        this.raceId = raceId;
-    }
-
-    public int getClassId() {
-        return classId;
-    }
-
-    public void setClassId(int classId) {
-        this.classId = classId;
     }
 
     public double getMp() {
@@ -289,5 +255,13 @@ public class GameCharacter {
 
     public void setLastUsed(boolean lastUsed) {
         this.lastUsed = lastUsed;
+    }
+
+    public void setStat(CharacterStat stat) {
+        this.stat = stat;
+    }
+
+    public CharacterStat getStat() {
+        return stat;
     }
 }

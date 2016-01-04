@@ -55,79 +55,79 @@ public class SettingsData extends SettingsBaseListener {
     @Override
     public void exitMinimum_stat(SettingsParser.Minimum_statContext ctx) {
         // human
-        minimumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_FIGHTER, ctx.human_fighter_stat().int_array()));
-        minimumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_MAGICAN, ctx.human_magician_stat().int_array()));
+        minimumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_FIGHTER, HUMAN_FIGHTER, ctx.human_fighter_stat().int_array()));
+        minimumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_MAGICIAN, HUMAN_MAGICIAN, ctx.human_magician_stat().int_array()));
 
         // elf
-        minimumStats.add(statFrom(RACE_ELF, CLASS_ELF_FIGHTER, ctx.elf_fighter_stat().int_array()));
-        minimumStats.add(statFrom(RACE_ELF, CLASS_ELF_MAGICAN, ctx.elf_magician_stat().int_array()));
+        minimumStats.add(statFrom(RACE_ELF, CLASS_ELF_FIGHTER, ELF_FIGHTER, ctx.elf_fighter_stat().int_array()));
+        minimumStats.add(statFrom(RACE_ELF, CLASS_ELF_MAGICIAN, ELF_MAGICIAN, ctx.elf_magician_stat().int_array()));
 
         // darkelf
-        minimumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_FIGHTER, ctx.darkelf_fighter_stat().int_array()));
-        minimumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_MAGICAN, ctx.darkelf_magician_stat().int_array()));
+        minimumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_FIGHTER, DARKELF_FIGHTER, ctx.darkelf_fighter_stat().int_array()));
+        minimumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_MAGICIAN, DARKELF_MAGICIAN, ctx.darkelf_magician_stat().int_array()));
 
         // orc
-        minimumStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ctx.orc_fighter_stat().int_array()));
-        minimumStats.add(statFrom(RACE_ORC, CLASS_ORC_SHAMAN, ctx.orc_shaman_stat().int_array()));
+        minimumStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ORC_FIGHTER, ctx.orc_fighter_stat().int_array()));
+        minimumStats.add(statFrom(RACE_ORC, CLASS_ORC_SHAMAN, ORC_SHAMAN, ctx.orc_shaman_stat().int_array()));
 
         // dwarf
-        minimumStats.add(statFrom(RACE_DWARF, CLASS_DWARF_APPRENTICE, ctx.dwarf_apprentice_stat().int_array()));
+        minimumStats.add(statFrom(RACE_DWARF, CLASS_DWARF_APPRENTICE, DWARF_APPRENTICE, ctx.dwarf_apprentice_stat().int_array()));
 
         // kamael
-        minimumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_M_SOLDIER, ctx.kamael_m_soldier_stat().int_array()));
-        minimumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_F_SOLDIER, ctx.kamael_f_soldier_stat().int_array()));
+        minimumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_M_SOLDIER, KAMAEL_M_SOLDIER, ctx.kamael_m_soldier_stat().int_array()));
+        minimumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_F_SOLDIER, KAMAEL_F_SOLDIER, ctx.kamael_f_soldier_stat().int_array()));
     }
 
     @Override
     public void exitMaximum_stat(SettingsParser.Maximum_statContext ctx) {
         // human
-        maximumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_FIGHTER, ctx.human_fighter_stat().int_array()));
-        maximumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_MAGICAN, ctx.human_magician_stat().int_array()));
+        maximumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_FIGHTER, HUMAN_FIGHTER, ctx.human_fighter_stat().int_array()));
+        maximumStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_MAGICIAN, HUMAN_MAGICIAN, ctx.human_magician_stat().int_array()));
 
         // elf
-        maximumStats.add(statFrom(RACE_ELF, CLASS_ELF_FIGHTER, ctx.elf_fighter_stat().int_array()));
-        maximumStats.add(statFrom(RACE_ELF, CLASS_ELF_MAGICAN, ctx.elf_magician_stat().int_array()));
+        maximumStats.add(statFrom(RACE_ELF, CLASS_ELF_FIGHTER, ELF_FIGHTER, ctx.elf_fighter_stat().int_array()));
+        maximumStats.add(statFrom(RACE_ELF, CLASS_ELF_MAGICIAN, ELF_MAGICIAN, ctx.elf_magician_stat().int_array()));
 
         // darkelf
-        maximumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_FIGHTER, ctx.darkelf_fighter_stat().int_array()));
-        maximumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_MAGICAN, ctx.darkelf_magician_stat().int_array()));
+        maximumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_FIGHTER, DARKELF_FIGHTER, ctx.darkelf_fighter_stat().int_array()));
+        maximumStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_MAGICIAN, DARKELF_MAGICIAN, ctx.darkelf_magician_stat().int_array()));
 
         // orc
-        maximumStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ctx.orc_fighter_stat().int_array()));
-        maximumStats.add(statFrom(RACE_ORC, CLASS_ORC_SHAMAN, ctx.orc_shaman_stat().int_array()));
+        maximumStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ORC_FIGHTER, ctx.orc_fighter_stat().int_array()));
+        maximumStats.add(statFrom(RACE_ORC, CLASS_ORC_SHAMAN, ORC_SHAMAN, ctx.orc_shaman_stat().int_array()));
 
         // dwarf
-        maximumStats.add(statFrom(RACE_DWARF, CLASS_DWARF_APPRENTICE, ctx.dwarf_apprentice_stat().int_array()));
+        maximumStats.add(statFrom(RACE_DWARF, CLASS_DWARF_APPRENTICE, DWARF_APPRENTICE, ctx.dwarf_apprentice_stat().int_array()));
 
         // kamael
-        maximumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_M_SOLDIER, ctx.kamael_m_soldier_stat().int_array()));
-        maximumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_F_SOLDIER, ctx.kamael_f_soldier_stat().int_array()));
+        maximumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_M_SOLDIER, KAMAEL_M_SOLDIER, ctx.kamael_m_soldier_stat().int_array()));
+        maximumStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_F_SOLDIER, KAMAEL_F_SOLDIER, ctx.kamael_f_soldier_stat().int_array()));
     }
 
     @Override
     public void exitRecommended_stat(SettingsParser.Recommended_statContext ctx) {
         // human
-        recommendedStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_FIGHTER, ctx.human_fighter_stat().int_array()));
-        recommendedStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_MAGICAN, ctx.human_magician_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_FIGHTER, HUMAN_FIGHTER, ctx.human_fighter_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_HUMAN, CLASS_HUMAN_MAGICIAN, HUMAN_MAGICIAN, ctx.human_magician_stat().int_array()));
 
         // elf
-        recommendedStats.add(statFrom(RACE_ELF, CLASS_ELF_FIGHTER, ctx.elf_fighter_stat().int_array()));
-        recommendedStats.add(statFrom(RACE_ELF, CLASS_ELF_MAGICAN, ctx.elf_magician_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_ELF, CLASS_ELF_FIGHTER, ELF_FIGHTER, ctx.elf_fighter_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_ELF, CLASS_ELF_MAGICIAN, ELF_MAGICIAN, ctx.elf_magician_stat().int_array()));
 
         // darkelf
-        recommendedStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_FIGHTER, ctx.darkelf_fighter_stat().int_array()));
-        recommendedStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_MAGICAN, ctx.darkelf_magician_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_FIGHTER, DARKELF_FIGHTER, ctx.darkelf_fighter_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_MAGICIAN, DARKELF_MAGICIAN, ctx.darkelf_magician_stat().int_array()));
 
         // orc
-        recommendedStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ctx.orc_fighter_stat().int_array()));
-        recommendedStats.add(statFrom(RACE_ORC, CLASS_ORC_SHAMAN, ctx.orc_shaman_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ORC_FIGHTER,  ctx.orc_fighter_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_ORC, CLASS_ORC_SHAMAN, ORC_SHAMAN, ctx.orc_shaman_stat().int_array()));
 
         // dwarf
-        recommendedStats.add(statFrom(RACE_DWARF, CLASS_DWARF_APPRENTICE, ctx.dwarf_apprentice_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_DWARF, CLASS_DWARF_APPRENTICE, DWARF_APPRENTICE, ctx.dwarf_apprentice_stat().int_array()));
 
         // kamael
-        recommendedStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_M_SOLDIER, ctx.kamael_m_soldier_stat().int_array()));
-        recommendedStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_F_SOLDIER, ctx.kamael_f_soldier_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_M_SOLDIER, KAMAEL_M_SOLDIER, ctx.kamael_m_soldier_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_KAMAEL, CLASS_KAMAEL_F_SOLDIER, KAMAEL_F_SOLDIER, ctx.kamael_f_soldier_stat().int_array()));
     }
 
     @Override
@@ -182,8 +182,8 @@ public class SettingsData extends SettingsBaseListener {
         return array;
     }
 
-    private CharacterStat statFrom(int raceId, int classId, SettingsParser.Int_arrayContext ctx) {
-        return new CharacterStat(raceId, classId, convertFromAntlrArray(ctx));
+    private CharacterStat statFrom(int raceId, int classId, String name, SettingsParser.Int_arrayContext ctx) {
+        return new CharacterStat(raceId, classId, name, convertFromAntlrArray(ctx));
     }
 
     @PostConstruct

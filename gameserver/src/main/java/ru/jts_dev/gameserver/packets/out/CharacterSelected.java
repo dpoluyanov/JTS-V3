@@ -2,6 +2,9 @@ package ru.jts_dev.gameserver.packets.out;
 
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.parser.data.CharacterStat;
+
+import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 
 /**
  * @author Camelion
@@ -27,8 +30,8 @@ public class CharacterSelected extends OutgoingMessageWrapper {
         putInt(0); // clanId
         putInt(0x00); // ??
         putInt(character.getSex());
-        putInt(character.getRaceId());
-        putInt(character.getClassId());
+        putInt(character.getStat().getRaceId());
+        putInt(character.getStat().getClassId());
         putInt(0x01); // active ??
         putInt((int) character.getVector3D().getX());
         putInt((int) character.getVector3D().getY());
@@ -41,17 +44,17 @@ public class CharacterSelected extends OutgoingMessageWrapper {
         putInt(character.getLevel());
         putInt(0x00); // karma
         putInt(0x00);
-        putInt(0x00); // INT
-        putInt(0x00); // STR
-        putInt(0x00); // CON
-        putInt(0x00); // MEN
-        putInt(0x00); // DEX
-        putInt(0x00); // WIT
+        putInt(character.getStat().getForType(INT)); // INT
+        putInt(character.getStat().getForType(STR)); // STR
+        putInt(character.getStat().getForType(CON)); // CON
+        putInt(character.getStat().getForType(MEN)); // MEN
+        putInt(character.getStat().getForType(DEX)); // DEX
+        putInt(character.getStat().getForType(WIT)); // WIT
 
         putInt(0x00); // Game Time
         putInt(0x00);
 
-        putInt(character.getClassId());
+        putInt(character.getStat().getClassId());
 
         putInt(0x00);
         putInt(0x00);

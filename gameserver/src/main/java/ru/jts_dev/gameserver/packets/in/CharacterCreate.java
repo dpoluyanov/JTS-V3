@@ -20,6 +20,8 @@ import ru.jts_dev.gameserver.service.GameSessionService;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.Pattern;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -49,6 +51,9 @@ public class CharacterCreate extends IncomingMessageWrapper {
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private Random random;
+
     @Length(max = 16, message = REASON_16_ENG_CHARS)
     @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = REASON_INCORRECT_NAME)
     private String name;
@@ -60,11 +65,11 @@ public class CharacterCreate extends IncomingMessageWrapper {
     /*
     @Digits.List({
             @Digits(integer = CLASS_HUMAN_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_HUMAN_MAGICAN, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_HUMAN_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
             @Digits(integer = CLASS_ELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ELF_MAGICAN, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_ELF_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
             @Digits(integer = CLASS_DARKELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_DARKELF_MAGICAN, fraction = 0, message = REASON_CREATION_FAILED),
+            @Digits(integer = CLASS_DARKELF_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
             @Digits(integer = CLASS_ORC_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
             @Digits(integer = CLASS_ORC_SHAMAN, fraction = 0, message = REASON_CREATION_FAILED),
             @Digits(integer = CLASS_DWARF_APPRENTICE, fraction = 0, message = REASON_CREATION_FAILED),
@@ -128,31 +133,33 @@ public class CharacterCreate extends IncomingMessageWrapper {
         } else if (characterRepository.countByAccountName(login) >= MAX_CHARACTERS_ON_ACCOUNT) {
             session.send(ERRORS.get(REASON_TOO_MANY_CHARACTERS));
         } else {
-            // find stat or throw RuntimeException with stat not found exception
-            CharacterStat stat = settingsData.getRecommendedStats().stream().filter(
-                    s -> s.getRaceId() == raceId && s.getClassId() == s.getClassId())
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Character stat for race " + raceId
-                            + " and class " + classId + " not found"));
-
-            characterRepository.save(newCharacterWith(stat, login));
+            characterRepository.save(newCharacterWith(login));
 
             session.send(new CharacterCreateSuccess());
         }
     }
 
-    private GameCharacter newCharacterWith(CharacterStat stat, String accountName) {
+    private GameCharacter newCharacterWith(String accountName) {
+        // find stat or throw RuntimeException with stat not found exception
+        CharacterStat stat = (CharacterStat) settingsData.getRecommendedStats().stream().filter(
+                s -> s.getRaceId() == raceId && s.getClassId() == s.getClassId())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Character stat for race " + raceId
+                        + " and class " + classId + " not found")).clone();
+
+        // find initial start points
+        List<Vector3D> startPoints = settingsData.getInitialStartPoints().get(stat.getStatName());
+
         GameCharacter character = new GameCharacter();
 
         character.setAccountName(accountName);
         character.setName(name);
-        character.setRaceId(raceId);
         character.setSex(sex);
-        character.setClassId(classId);
         character.setHairStyle(hairStyle);
         character.setHairColor(hairColor);
         character.setFace(face);
-        character.setVector3D(new Vector3D(0, 0, 0));
+        character.setStat(stat);
+        character.setVector3D(startPoints.get(random.nextInt(startPoints.size())));
 
         return character;
     }

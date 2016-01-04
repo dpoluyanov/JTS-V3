@@ -5,9 +5,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 
 /**
  * @author Camelion
@@ -72,16 +74,16 @@ public class SettingsDataTest {
     public void testParseInitialStartPoints() throws Exception {
         assertThat(settingsData.getInitialStartPoints().size(), greaterThan(0));
 
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("human_fighter"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("human_magician"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("elf_fighter"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("elf_magician"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("darkelf_fighter"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("darkelf_magician"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("orc_fighter"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("orc_shaman"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("dwarf_apprentice"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("kamael_m_soldier"), is(not(empty()))));
-        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo("kamael_f_soldier"), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(HUMAN_FIGHTER), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(HUMAN_MAGICIAN), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(ELF_FIGHTER), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(ELF_MAGICIAN), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(DARKELF_FIGHTER), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(DARKELF_MAGICIAN), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(ORC_FIGHTER), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(ORC_SHAMAN), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(DWARF_APPRENTICE), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(KAMAEL_M_SOLDIER), is(not(empty()))));
+        assertThat(settingsData.getInitialStartPoints(), hasEntry(equalTo(KAMAEL_F_SOLDIER), is(not(empty()))));
     }
 }
