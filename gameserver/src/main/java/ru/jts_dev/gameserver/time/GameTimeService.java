@@ -3,6 +3,7 @@ package ru.jts_dev.gameserver.time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.service.GameSessionService;
@@ -31,21 +32,23 @@ import static ru.jts_dev.gameserver.time.GameTimeConstants.MIN_DATE_TIME;
  */
 @Component
 public class GameTimeService {
+    private final GameServerConfig gameServerConfig;
     private final GameSessionService gameSessionService;
     private final ServerVariablesRepository serverVariablesRepository;
 
     private ZonedDateTime dateTime = MIN_DATE_TIME;
 
     @Autowired
-    public GameTimeService(GameSessionService gameSessionService, ServerVariablesRepository serverVariablesRepository) {
+    public GameTimeService(GameServerConfig gameServerConfig, GameSessionService gameSessionService,
+                           ServerVariablesRepository serverVariablesRepository) {
+        this.gameServerConfig = gameServerConfig;
         this.gameSessionService = gameSessionService;
         this.serverVariablesRepository = serverVariablesRepository;
     }
 
     @PostConstruct
     private void loadDateTime() {
-        // TODO server id
-        ServerVariableKey key = new ServerVariableKey(1, ServerVariableType.SERVER_TIME);
+        ServerVariableKey key = new ServerVariableKey(gameServerConfig.getServerId(), ServerVariableType.SERVER_TIME);
         ServerVariable serverTime = serverVariablesRepository.findOne(key);
 
         if (serverTime != null) {
@@ -78,19 +81,13 @@ public class GameTimeService {
         return MIN_DATE_TIME.until(dateTime, ChronoUnit.MINUTES);
     }
 
-    public ZonedDateTime getDateTime() {
-        return dateTime;
-    }
-
     private void saveNewGameTimeInDatabase() {
-        // TODO server id
-        ServerVariableKey key = new ServerVariableKey(1, ServerVariableType.SERVER_TIME);
+        ServerVariableKey key = new ServerVariableKey(gameServerConfig.getServerId(), ServerVariableType.SERVER_TIME);
         ServerVariable serverTime = serverVariablesRepository.findOne(key);
 
         if (serverTime == null) {
-            // TODO server id
             serverTime = new ServerVariable();
-            serverTime.setServerId(1);
+            serverTime.setServerId(gameServerConfig.getServerId());
             serverTime.setServerVariableType(ServerVariableType.SERVER_TIME);
         }
 

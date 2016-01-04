@@ -1,10 +1,10 @@
 package ru.jts_dev.gameserver.packets.in;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
@@ -27,8 +27,8 @@ public class GotoLobby extends IncomingMessageWrapper {
     @Autowired
     private GameCharacterRepository repository;
 
-    @Value("${gameserver.character.creation.disabled}")
-    private boolean charCreationDisabled;
+    @Autowired
+    private GameServerConfig gameServerConfig;
 
     @Override
     public void prepare() {
@@ -43,6 +43,6 @@ public class GotoLobby extends IncomingMessageWrapper {
 
         List<GameCharacter> characters = repository.findAllByAccountName(accountName);
 
-        session.send(new CharacterSelectionInfo(characters, session.getPlayKey(), charCreationDisabled));
+        session.send(new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
     }
 }

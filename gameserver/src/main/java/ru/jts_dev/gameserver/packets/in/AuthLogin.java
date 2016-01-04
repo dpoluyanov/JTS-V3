@@ -1,18 +1,17 @@
 package ru.jts_dev.gameserver.packets.in;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -40,8 +39,8 @@ public class AuthLogin extends IncomingMessageWrapper {
     @Autowired
     private GameCharacterRepository repository;
 
-    @Value("${gameserver.character.creation.disabled}")
-    private boolean charCreationDisabled;
+    @Autowired
+    private GameServerConfig gameServerConfig;
 
     @Override
     public void prepare() {
@@ -63,6 +62,6 @@ public class AuthLogin extends IncomingMessageWrapper {
         List<GameCharacter> characters = repository.findAllByAccountName(login);
 
         // TODO: 13.12.15 additional playkey check with authserver session keys
-        session.send(new CharacterSelectionInfo(characters, session.getPlayKey(), charCreationDisabled));
+        session.send(new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
     }
 }
