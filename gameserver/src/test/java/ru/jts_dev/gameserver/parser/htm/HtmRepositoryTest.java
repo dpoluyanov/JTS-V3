@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.*;
  * @author Java-man
  * @since 04.01.2016
  */
-@ContextConfiguration(classes = {HtmRepository.class})
+@ContextConfiguration(classes = {HtmRepository.class, HtmRepositoryConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class HtmRepositoryTest {
     @Autowired
@@ -24,7 +24,7 @@ public class HtmRepositoryTest {
 
     @Test
     public void testGetHtm() throws Exception {
-        Path path = Paths.get("htm-en" + "/" + "abel001.htm");
+        Path path = Paths.get("htm-en/abel001.htm");
 
         String content = htmRepository.getHtm(path.toString());
 

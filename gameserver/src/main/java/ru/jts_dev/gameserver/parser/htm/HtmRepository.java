@@ -3,6 +3,7 @@ package ru.jts_dev.gameserver.parser.htm;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.model.Language;
@@ -10,7 +11,6 @@ import ru.jts_dev.gameserver.model.Language;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,9 +26,16 @@ public class HtmRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HtmRepository.class);
 
+    private final HtmRepositoryConfig config;
+
+    @Autowired
+    public HtmRepository(HtmRepositoryConfig config) {
+        this.config = config;
+    }
+
     @PostConstruct
     private void loadHtm() {
-        if (true)
+        if (config.getHtmRepositoryType() != HtmRepositoryType.ENABLE)
             return;
 
         for (Language language : Language.values()) {
@@ -41,28 +48,30 @@ public class HtmRepository {
         }
     }
 
-    @Cacheable("htm")
     public String getHtm(String htmPath) {
+        if (config.getHtmRepositoryType() == HtmRepositoryType.DISABLE)
+            return readHtm(htmPath);
+        else
+            return getCachedHtm(htmPath);
+    }
+
+    @Cacheable("htm")
+    private String getCachedHtm(String htmPath) {
+        String htm = readHtm(htmPath);
+        htm = compressHtm(HTML_COMPRESSOR, htm);
+        return htm;
+    }
+
+    private String readHtm(String htmPath) {
         try {
             Path path = Paths.get(ClassLoader.getSystemResource(htmPath).toURI());
 
             byte[] content = Files.readAllBytes(path);
             String htm = new String(content, StandardCharsets.UTF_8);
-            htm = compressHtm(HTML_COMPRESSOR, htm);
             return htm;
         } catch (IOException | URISyntaxException e) {
             throw new IllegalArgumentException(e);
         }
-    }
-
-    public static Path getResourcePath(Class<?> resourceClass, String resourceName) {
-        URL url = resourceClass.getResource(resourceName);
-        try {
-            return Paths.get(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private static String compressHtm(HtmlCompressor compressor, String content) {
