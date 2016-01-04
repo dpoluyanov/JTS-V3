@@ -50,6 +50,8 @@ dependencies {
 
     compile("org.apache.commons:commons-math3:${apacheMathVersion}")
 
+    compile('com.googlecode.htmlcompressor:htmlcompressor:1.5.2')
+
     // Hibernate
     compile("org.hibernate:hibernate-core:${hibernateVersion}")
     compile("org.hibernate:hibernate-entitymanager:${hibernateVersion}")
