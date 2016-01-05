@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.parser.PCParametersBaseListener;
 import ru.jts_dev.gameserver.parser.PCParametersLexer;
 import ru.jts_dev.gameserver.parser.PCParametersParser;
+import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -25,6 +26,9 @@ import java.util.Map;
  */
 @Component
 public class PCParametersData extends PCParametersBaseListener {
+    public static final int RADIUS = 0; // collision radius index
+    public static final int HEIGHT = 1; // collision height index
+
     public static final String FFIGHTER = "FFighter";
     public static final String MFIGHTER = "MFighter";
     public static final String FMAGIC = "FMagic";
@@ -45,10 +49,56 @@ public class PCParametersData extends PCParametersBaseListener {
     public static final String MDWARF_FIGHTER = "MDwarfFighter";
     public static final String FKAMAEL_SOLDIER = "FKamaelSoldier";
     public static final String MKAMAEL_SOLDIER = "MKamaelSoldier";
-
     @Autowired
     private ApplicationContext context;
     private Map<String, double[]> collisionBoxes = new HashMap<>();
+
+    /**
+     * @param sex      - male = 0, female = 1
+     * @param statName - {@link CharacterStat#HUMAN_FIGHTER, or etc}
+     * @return - String representation of sex and stat name
+     */
+    // TODO: 05.01.16 replace with enum
+    public static String toPCParameterName(int sex, String statName) {
+        String name = "";
+        switch (statName) {
+            case CharacterStat.HUMAN_FIGHTER:
+                name = sex == 0 ? MFIGHTER : FFIGHTER;
+                break;
+            case CharacterStat.HUMAN_MAGICIAN:
+                name = sex == 0 ? MMAGIC : FMAGIC;
+                break;
+            case CharacterStat.ELF_FIGHTER:
+                name = sex == 0 ? MELF_FIGHTER : FELF_FIGHTER;
+                break;
+            case CharacterStat.ELF_MAGICIAN:
+                name = sex == 0 ? MELF_MAGIC : FELF_MAGIC;
+                break;
+            case CharacterStat.DARKELF_FIGHTER:
+                name = sex == 0 ? MDARKELF_FIGHTER : FDARKELF_FIGHTER;
+                break;
+            case CharacterStat.DARKELF_MAGICIAN:
+                name = sex == 0 ? MDARKELF_MAGIC : FDARKELF_MAGIC;
+                break;
+            case CharacterStat.ORC_FIGHTER:
+                name = sex == 0 ? MORC_FIGHTER : FORC_FIGHTER;
+                break;
+            case CharacterStat.ORC_SHAMAN:
+                name = sex == 0 ? MSHAMAN : FSHAMAN;
+                break;
+            case CharacterStat.DWARF_APPRENTICE:
+                name = sex == 0 ? MDWARF_FIGHTER : FDWARF_FIGHTER;
+                break;
+            case CharacterStat.KAMAEL_F_SOLDIER:
+                name = FKAMAEL_SOLDIER;
+                break;
+            case CharacterStat.KAMAEL_M_SOLDIER:
+                name = MKAMAEL_SOLDIER;
+                break;
+        }
+
+        return name;
+    }
 
     public Map<String, double[]> getCollisionBoxes() {
         return Collections.unmodifiableMap(collisionBoxes);

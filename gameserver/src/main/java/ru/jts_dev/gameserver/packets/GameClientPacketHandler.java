@@ -38,6 +38,9 @@ public class GameClientPacketHandler {
             case 0x0E:
                 msg = context.getBean(RequestProtocolVersion.class);
                 break;
+            case 0x0F:
+                msg = context.getBean(MoveBackwardToLocation.class);
+                break;
             case 0x11:
                 msg = context.getBean(EnterWorld.class);
                 break;

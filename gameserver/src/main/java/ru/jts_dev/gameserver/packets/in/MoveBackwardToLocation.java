@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.movement.MovementService;
+import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
@@ -25,12 +26,10 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
     private int originZ;
     private int movementType;
 
-    private MovementService movementService;
-
     @Autowired
-    public MoveBackwardToLocation(MovementService movementService) {
-        this.movementService = movementService;
-    }
+    private MovementService movementService;
+    @Autowired
+    private PlayerService playerService;
 
     @Override
     public void prepare() {
@@ -49,7 +48,7 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
             targetZ += 27;
 
         // TODO
-        GameCharacter character = null;
+        GameCharacter character = playerService.getCharacterBy(getConnectionId());
         Vector3D end = new Vector3D(targetX, targetY, targetZ);
 
         movementService.moveTo(character, end);

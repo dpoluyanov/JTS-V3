@@ -25,7 +25,7 @@ public class CharacterStat implements Cloneable {
     public static final String ELF_MAGICIAN = "elf_magician";
     public static final String DARKELF_FIGHTER = "darkelf_fighter";
     public static final String DARKELF_MAGICIAN = "darkelf_magician";
-    public static final String ORC_FIGHTER = "orс_fighter";
+    public static final String ORC_FIGHTER = "orc_fighter";
     public static final String ORC_SHAMAN = "orc_shaman";
     public static final String DWARF_APPRENTICE = "dwarf_apprentice";
     public static final String KAMAEL_M_SOLDIER = "kamael_m_soldier";
