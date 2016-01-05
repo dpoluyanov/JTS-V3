@@ -119,7 +119,7 @@ public class SettingsData extends SettingsBaseListener {
         recommendedStats.add(statFrom(RACE_DARKELF, CLASS_DARKELF_MAGICIAN, DARKELF_MAGICIAN, ctx.darkelf_magician_stat().int_array()));
 
         // orc
-        recommendedStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ORC_FIGHTER,  ctx.orc_fighter_stat().int_array()));
+        recommendedStats.add(statFrom(RACE_ORC, CLASS_ORC_FIGHTER, ORC_FIGHTER, ctx.orc_fighter_stat().int_array()));
         recommendedStats.add(statFrom(RACE_ORC, CLASS_ORC_SHAMAN, ORC_SHAMAN, ctx.orc_shaman_stat().int_array()));
 
         // dwarf
@@ -149,7 +149,7 @@ public class SettingsData extends SettingsBaseListener {
 
     /**
      * Converts ANTLR Generated {@link ru.jts_dev.gameserver.parser.SettingsParser.Int_arrayContext}
-     * to Java int[] array
+     * to Java {@code int[]} array
      *
      * @param ctx - parser {@link ru.jts_dev.gameserver.parser.SettingsParser.Int_arrayContext}
      * @return - filled int[] array
@@ -164,6 +164,13 @@ public class SettingsData extends SettingsBaseListener {
         return array;
     }
 
+    /**
+     * Converts ANTLR Generated {@link ru.jts_dev.gameserver.parser.SettingsParser.Int_arrayContext}
+     * to {@link Vector3D}
+     *
+     * @param ctx - parser {@link ru.jts_dev.gameserver.parser.SettingsParser.Int_arrayContext}
+     * @return - Vector3D
+     */
     private Vector3D vectorFromArray(SettingsParser.Int_arrayContext ctx) {
         int[] array = convertFromAntlrArray(ctx);
 
@@ -172,6 +179,13 @@ public class SettingsData extends SettingsBaseListener {
         return new Vector3D(array[0], array[1], array[2]);
     }
 
+    /**
+     * Converts ANTLR Generated {@link ru.jts_dev.gameserver.parser.SettingsParser.Identifier_arrayContext}
+     * to Java {@code String[]} array
+     *
+     * @param ctx - parser {@link ru.jts_dev.gameserver.parser.SettingsParser.Int_arrayContext}
+     * @return - Vector3D
+     */
     private String[] identifiersFromArray(SettingsParser.Identifier_arrayContext ctx) {
         String[] array = new String[ctx.identifier_object().size()];
 

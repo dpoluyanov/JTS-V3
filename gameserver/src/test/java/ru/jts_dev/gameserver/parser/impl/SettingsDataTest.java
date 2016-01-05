@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -70,6 +69,11 @@ public class SettingsDataTest {
         ));
     }
 
+    /**
+     * Assert that {@link SettingsData#initialStartPoints} parsed correctly
+     *
+     * @throws Exception
+     */
     @Test
     public void testParseInitialStartPoints() throws Exception {
         assertThat(settingsData.getInitialStartPoints().size(), greaterThan(0));
