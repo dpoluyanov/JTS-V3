@@ -2,9 +2,10 @@ package ru.jts_dev.gameserver.packets.out;
 
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
-import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
+import static ru.jts_dev.gameserver.parser.impl.PCParametersData.HEIGHT;
+import static ru.jts_dev.gameserver.parser.impl.PCParametersData.RADIUS;
 
 /**
  * @author Camelion
@@ -13,9 +14,11 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 public class UserInfo extends OutgoingMessageWrapper {
 
     private final GameCharacter character;
+    private final double[] collisions;
 
-    public UserInfo(GameCharacter character) {
+    public UserInfo(GameCharacter character, double[] collisions) {
         this.character = character;
+        this.collisions = collisions;
     }
 
     @Override
@@ -164,8 +167,8 @@ public class UserInfo extends OutgoingMessageWrapper {
         putDouble(0); // move multiplier
         putDouble(0); // attack speed multiplier
 
-        putDouble(0); // collision radius
-        putDouble(0); // collision height
+        putDouble(collisions[RADIUS]); // collision radius
+        putDouble(collisions[HEIGHT]); // collision height
 
         putInt(character.getHairStyle());
         putInt(character.getHairColor());
@@ -220,7 +223,7 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // fishing x
         putInt(0); // fishing y
         putInt(0); // fishing z
-        putInt(0); // name color
+        putInt(0xFFFFFF); // name color
 
         // new c5
         putByte(0); // running ? 0x01 : 0x00 changes the Speed display on Status Window
@@ -228,7 +231,7 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // pledge class changes the text above CP on Status Window
         putInt(0); // pledge type
 
-        putInt(0); // title color
+        putInt(0xFFFF77); // title color
 
         putInt(0); // curse weapon level
 
@@ -236,7 +239,7 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // transformation id
 
 
-        putShort(0); // attack attribute
+        putShort(-2); // attack attribute
         putShort(0); // attack value
         putShort(0); // fire def
         putShort(0); // wter def

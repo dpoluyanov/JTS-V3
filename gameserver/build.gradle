@@ -97,7 +97,7 @@ generateGrammarSource {
 
 generateGrammarSource.finalizedBy copyGeneratedParser
 
-test.enabled = true
+applicationDefaultJvmArgs = ["-server"]
 
 clean {
     delete fileTree(dir: "src/generated/java/")

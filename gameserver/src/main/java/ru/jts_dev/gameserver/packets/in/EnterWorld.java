@@ -8,11 +8,13 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
+import ru.jts_dev.gameserver.parser.impl.PCParametersData;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+import static ru.jts_dev.gameserver.parser.impl.PCParametersData.toPCParameterName;
 
 /**
  * @author Camelion
@@ -27,6 +29,8 @@ public class EnterWorld extends IncomingMessageWrapper {
     private GameSessionService sessionService;
     @Autowired
     private PlayerService playerService;
+    @Autowired
+    private PCParametersData parametersData;
 
     @Override
     public void prepare() {
@@ -44,9 +48,16 @@ public class EnterWorld extends IncomingMessageWrapper {
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
         session.send(new ClientSetTime(gameTimeInMinutes));
 
+
         // TODO: 04.01.16 broadcast CharInfo, send UserInfo
         // send UserInfo
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
-        session.send(new UserInfo(character));
+
+        String pcParameterName = toPCParameterName(character.getSex(), character.getStat().getStatName());
+        assert parametersData.getCollisionBoxes().containsKey(pcParameterName);
+
+        double[] collisions = parametersData.getCollisionBoxes().get(pcParameterName);
+
+        session.send(new UserInfo(character, collisions));
     }
 }
