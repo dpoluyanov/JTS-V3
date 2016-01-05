@@ -15,7 +15,7 @@ import ru.jts_dev.gameserver.config.GameServerConfig;
 // TODO: 04.01.16 Не работает
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {GameTimeService.class})
+@ContextConfiguration(classes = {GameServerConfig.class, GameTimeService.class})
 public class GameTimeServiceTest {
     @Autowired
     private GameTimeService timeService;

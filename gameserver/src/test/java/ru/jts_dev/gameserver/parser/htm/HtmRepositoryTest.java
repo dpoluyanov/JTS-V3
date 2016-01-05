@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.jts_dev.gameserver.model.Language;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +17,7 @@ import static org.hamcrest.Matchers.*;
  * @author Java-man
  * @since 04.01.2016
  */
-@ContextConfiguration(classes = {HtmRepository.class, HtmRepositoryConfig.class})
+@ContextConfiguration(classes = {HtmRepositoryConfig.class, HtmRepository.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class HtmRepositoryTest {
     @Autowired
@@ -24,10 +25,12 @@ public class HtmRepositoryTest {
 
     @Test
     public void testGetHtm() throws Exception {
-        Path path = Paths.get("htm-en/abel001.htm");
+        Path path = Paths.get("abel001.htm");
+        String content = htmRepository.getHtm(Language.ENGLISH, "abel001.htm");
+        assertThat(content, is(not(isEmptyOrNullString())));
 
-        String content = htmRepository.getHtm(path.toString());
-
+        path = Paths.get("abel002.htm");
+        content = htmRepository.getHtm(Language.ENGLISH, "abel002.htm");
         assertThat(content, is(not(isEmptyOrNullString())));
     }
 }
