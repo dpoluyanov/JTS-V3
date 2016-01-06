@@ -15,8 +15,8 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  * @author Camelion
  * @since 03.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
 public class AuthSession {
     public final KeyPair RSAKeyPair;
     private final byte[] blowfishKey;

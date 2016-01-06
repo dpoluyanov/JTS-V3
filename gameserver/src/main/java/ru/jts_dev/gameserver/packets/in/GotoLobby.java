@@ -7,6 +7,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
+import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.GameSessionService;
@@ -19,8 +20,9 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  * @author Camelion
  * @since 20.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
+@Opcode(second = 0x36)
 public class GotoLobby extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;

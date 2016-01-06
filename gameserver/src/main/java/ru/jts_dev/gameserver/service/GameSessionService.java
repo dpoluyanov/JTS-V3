@@ -66,7 +66,6 @@ public class GameSessionService {
         // and add 8 byte as static key part
         encryptKey.writeBytes(STATIC_KEY_PART);
 
-
         // then copy encrypt key to decrypt key
         ByteBuf decryptKey = copiedBuffer(encryptKey).order(ByteOrder.LITTLE_ENDIAN);
 

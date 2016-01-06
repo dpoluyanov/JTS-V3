@@ -10,7 +10,7 @@ import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.variables.server.ServerVariable;
 import ru.jts_dev.gameserver.variables.server.ServerVariableKey;
 import ru.jts_dev.gameserver.variables.server.ServerVariableType;
-import ru.jts_dev.gameserver.variables.server.ServerVariablesRepository;
+import ru.jts_dev.gameserver.repository.ServerVariablesRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;

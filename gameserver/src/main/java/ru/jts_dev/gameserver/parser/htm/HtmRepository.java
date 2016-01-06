@@ -19,12 +19,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.stream.Stream;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.StandardOpenOption.READ;
 
 /**
  * @author Java-man
@@ -33,17 +34,26 @@ import java.util.stream.Stream;
 @Component
 public class HtmRepository {
     private final Logger logger = LoggerFactory.getLogger(HtmRepository.class);
-
-    @Autowired
-    private ApplicationContext context;
-
     private final HtmRepositoryConfig config;
     private final HtmlCompressor htmlCompressor;
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     public HtmRepository(HtmRepositoryConfig config, HtmlCompressor htmlCompressor) {
         this.config = config;
         this.htmlCompressor = htmlCompressor;
+    }
+
+    public static String inputStreamToString(InputStream inputStream, int size, Charset charset) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        InputStreamReader reader = new InputStreamReader(inputStream, charset);
+        char[] buffer = new char[size];
+        int length;
+        while ((length = reader.read(buffer)) != -1) {
+            builder.append(buffer, 0, length);
+        }
+        return builder.toString();
     }
 
     @PostConstruct
@@ -111,7 +121,7 @@ public class HtmRepository {
             }
 
             byte[] content = Files.readAllBytes(htmPath);
-            String htm = new String(content, StandardCharsets.UTF_8);
+            String htm = new String(content, UTF_8);
             return htm;
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
@@ -129,7 +139,7 @@ public class HtmRepository {
     }
 
     private void openArchive(Language language, Path path) throws IOException, ArchiveException {
-        try (InputStream originalInput = Files.newInputStream(path, StandardOpenOption.READ);
+        try (InputStream originalInput = Files.newInputStream(path, READ);
              BufferedInputStream bufferedInputStream = new BufferedInputStream(originalInput);
              ArchiveInputStream input = new ArchiveStreamFactory().createArchiveInputStream(bufferedInputStream)) {
             ArchiveEntry entry;
@@ -138,20 +148,9 @@ public class HtmRepository {
                     continue;
                 }
 
-                String htm = inputStreamToString(input, (int) entry.getSize(), StandardCharsets.UTF_8);
+                String htm = inputStreamToString(input, (int) entry.getSize(), UTF_8);
                 addHtm(language, entry.getName(), htm);
             }
         }
-    }
-
-    public static String inputStreamToString(InputStream inputStream, int size, Charset charset) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        InputStreamReader reader = new InputStreamReader(inputStream, charset);
-        char[] buffer = new char[size];
-        int length;
-        while ((length = reader.read(buffer)) != -1) {
-            builder.append(buffer, 0, length);
-        }
-        return builder.toString();
     }
 }

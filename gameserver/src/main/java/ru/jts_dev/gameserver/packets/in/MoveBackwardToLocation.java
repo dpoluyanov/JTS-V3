@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.movement.MovementService;
+import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -15,8 +16,9 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  * @author Java-man
  * @since 17.12.2015
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
+@Opcode(0x0F)
 public class MoveBackwardToLocation extends IncomingMessageWrapper {
     private int targetX;
     private int targetY;

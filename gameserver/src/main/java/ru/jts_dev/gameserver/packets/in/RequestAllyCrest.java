@@ -3,6 +3,7 @@ package ru.jts_dev.gameserver.packets.in;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.packets.Opcode;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
@@ -10,8 +11,9 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  * @author Camelion
  * @since 20.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
+@Opcode(0x92)
 public class RequestAllyCrest extends IncomingMessageWrapper {
     private int crestId;
 

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameSession;
+import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.NewCharacterSuccess;
 import ru.jts_dev.gameserver.parser.impl.SettingsData;
 import ru.jts_dev.gameserver.service.GameSessionService;
@@ -17,6 +18,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  */
 @Component
 @Scope(SCOPE_PROTOTYPE)
+@Opcode(0x13)
 public class RequestNewCharacter extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;

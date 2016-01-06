@@ -8,6 +8,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
+import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.GameSessionService;
@@ -20,8 +21,9 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  * @author Camelion
  * @since 13.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
+@Opcode(0x2B)
 public class AuthLogin extends IncomingMessageWrapper {
     private String login;
     private int playKey1;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
+import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterCreateSuccess;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
 import ru.jts_dev.gameserver.parser.impl.SettingsData;
@@ -33,8 +34,9 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.RACE_KAMAEL;
  * @author Camelion
  * @since 20.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
+@Opcode(0x0C)
 public class CharacterCreate extends IncomingMessageWrapper {
     private static final Logger log = LoggerFactory.getLogger(CharacterCreate.class);
 

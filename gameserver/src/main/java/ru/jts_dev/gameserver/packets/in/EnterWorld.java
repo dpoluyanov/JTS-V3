@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
+import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
 import ru.jts_dev.gameserver.parser.impl.PCParametersData;
@@ -22,6 +23,7 @@ import static ru.jts_dev.gameserver.parser.impl.PCParametersData.toPCParameterNa
  */
 @Component
 @Scope(SCOPE_PROTOTYPE)
+@Opcode(0x11)
 public class EnterWorld extends IncomingMessageWrapper {
     @Autowired
     private GameTimeService timeService;

@@ -26,8 +26,8 @@ import static ru.jts_dev.authserver.packets.out.LoginFail.REASON_USER_OR_PASS_WR
  * @author Camelion
  * @since 08.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
 public class RequestAuthLogin extends IncomingMessageWrapper {
     private static final Logger log = LoggerFactory.getLogger(RequestAuthLogin.class);
 

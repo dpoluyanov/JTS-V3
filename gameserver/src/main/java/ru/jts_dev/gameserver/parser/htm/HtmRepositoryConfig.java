@@ -3,13 +3,13 @@ package ru.jts_dev.gameserver.parser.htm;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Java-man
  * @since 04.01.2016
  */
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "htm.repository")
 public class HtmRepositoryConfig {
     private HtmRepositoryType type;
@@ -19,7 +19,7 @@ public class HtmRepositoryConfig {
     }
 
     @Bean
-    private HtmlCompressor htmlCompressor() {
+    public HtmlCompressor htmlCompressor() {
         HtmlCompressor htmlCompressor = new HtmlCompressor();
 
         htmlCompressor.setEnabled(true);                   //if false all compression is off (default is true)

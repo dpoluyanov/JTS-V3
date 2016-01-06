@@ -8,16 +8,13 @@ import javax.persistence.*;
  * @author Java-man
  * @since 04.01.2016
  */
-@Table
 @Entity
 @IdClass(ServerVariableKey.class)
 public class ServerVariable extends AbstractVariable {
     @Id
-    @Column
     private int serverId;
 
     @Id
-    @Column
     @Enumerated(EnumType.STRING)
     private ServerVariableType serverVariableType;
 

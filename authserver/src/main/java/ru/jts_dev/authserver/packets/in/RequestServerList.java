@@ -18,8 +18,8 @@ import static ru.jts_dev.authserver.packets.out.LoginFail.REASON_ACCESS_FAILED;
  * @author Camelion
  * @since 08.12.15
  */
-@Scope(SCOPE_PROTOTYPE)
 @Component
+@Scope(SCOPE_PROTOTYPE)
 public class RequestServerList extends IncomingMessageWrapper {
     private int loginKey1, loginKey2;
 

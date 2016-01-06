@@ -143,5 +143,3 @@ ORC_SHAMAN: 'orc_shaman';
 DWARP_APPRENTICE: 'dwarf_apprentice';
 KAMAEL_M_SOLDIER : 'kamael_m_soldier';
 KAMAEL_F_SOLDIER : 'kamael_f_soldier';
-
-
