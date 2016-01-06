@@ -87,6 +87,7 @@ public class HtmRepository {
         }
     }
 
+    @Cacheable(cacheNames = "htm", key = "#language.toString() + \"_\" + #htmPath")
     public String getHtm(Language language, String htmPath) {
         if (config.getHtmRepositoryType() == HtmRepositoryType.DISABLE)
             return readHtm(language, htmPath);
@@ -94,21 +95,19 @@ public class HtmRepository {
             return getCachedHtm(language, htmPath);
     }
 
-    @Cacheable(cacheNames = "htm", key = "#language.toString() + \"_\" + #htmPath")
     private String getCachedHtm(Language language, String htmPath) {
         String htm = readHtm(language, htmPath);
         htm = compressHtm(htmlCompressor, htm);
-        logger.info("Loaded {} {}: {}", language, htmPath, htm);
+        logger.debug("Loaded {} {}: {}", language, htmPath, htm);
         return htm;
     }
 
-    @Cacheable(cacheNames = "htm", key = "#language.toString() + \"_\" + #htmName")
     private String addHtm(Language language, String htmName, String content) {
         if (content == null) {
             content = readHtm(language, htmName);
         }
         content = compressHtm(htmlCompressor, content);
-        logger.info("Loaded {} {}: {}", language, htmName, content);
+        logger.debug("Loaded {} {}: {}", language, htmName, content);
         return content;
     }
 
@@ -131,7 +130,7 @@ public class HtmRepository {
     private String compressHtm(HtmlCompressor compressor, String content) {
         String result = compressor.compress(content);
 
-        logger.info(String.format("Compression time: %,d ms, Original size: %,d bytes, Compressed size: %,d bytes",
+        logger.debug(String.format("Compression time: %,d ms, Original size: %,d bytes, Compressed size: %,d bytes",
                 compressor.getStatistics().getTime(), compressor.getStatistics().getOriginalMetrics().getFilesize(),
                 compressor.getStatistics().getCompressedMetrics().getFilesize()));
 

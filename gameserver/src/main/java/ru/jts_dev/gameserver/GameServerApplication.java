@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @since 09.12.15
  */
 @EnableScheduling
-@EnableCaching
 @EntityScan(basePackages = {"ru.jts_dev.common", "ru.jts_dev.gameserver"})
 @SpringBootApplication(scanBasePackages = {"ru.jts_dev.common", "ru.jts_dev.gameserver"})
 public class GameServerApplication {
