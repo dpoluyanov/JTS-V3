@@ -350,35 +350,6 @@ CONSUME_TYPE_NORMAL: 'consume_type_normal';
 CONSUME_TYPE_STACKABLE: 'consume_type_stackable';
 CONSUME_TYPE_ASSET: 'consume_type_asset';
 
-// Material types
-STEEL : 'steel';
-FINE_STEEL : 'fine_steel';
-WOOD : 'wood';
-CLOTH : 'cloth';
-LEATHER : 'leather';
-BONE : 'bone';
-BRONZE : 'bronze';
-ORIHARUKON : 'oriharukon';
-MITHRIL : 'mithril';
-DAMASCUS : 'damascus';
-ADAMANTAITE : 'adamantaite';
-BLOOD_STEEL : 'blood_steel';
-PAPER : 'paper';
-GOLD : 'gold';
-LIQUID : 'liquid';
-FISH : 'fish';
-SILVER : 'silver';
-CHRYSOLITE : 'chrysolite';
-CRYSTAL : 'crystal';
-HORN : 'horn';
-SCALE_OF_DRAGON : 'scale_of_dragon';
-COTTON : 'cotton';
-DYESTUFF : 'dyestuff';
-COBWEB : 'cobweb';
-RUNE_XP : 'rune_xp';
-RUNE_SP : 'rune_sp';
-RUNE_REMOVE_PENALTY : 'rune_remove_penalty';
-
 // Crystal types
 CRYSTAL_FREE: 'crystal_free';
 EVENT: 'event';

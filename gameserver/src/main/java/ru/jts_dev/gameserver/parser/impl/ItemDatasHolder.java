@@ -39,31 +39,31 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         int slotChest = Integer.valueOf(ctx.slot_chest().int_object().getText());
         SetData data = new SetData(setId, slotChest);
 
-        if (!ctx.slot_legs().isEmpty())
+        if (ctx.slot_legs() != null)
             data.setSlotLegs(toList(ctx.slot_legs().int_array()));
 
-        if (!ctx.slot_head().isEmpty())
+        if (ctx.slot_head() != null)
             data.setSlotHead(toList(ctx.slot_head().int_array()));
 
-        if (!ctx.slot_gloves().isEmpty())
+        if (ctx.slot_gloves() != null)
             data.setSlotGloves(toList(ctx.slot_gloves().int_array()));
 
-        if (!ctx.slot_feet().isEmpty())
+        if (ctx.slot_feet() != null)
             data.setSlotFeet(toList(ctx.slot_feet().int_array()));
 
-        if (!ctx.slot_lhand().isEmpty())
+        if (ctx.slot_lhand() != null)
             data.setSlotLhand(toList(ctx.slot_lhand().int_array()));
 
-        data.setSlotAdditional(ctx.slot_additional().name_object().name().getText());
-        data.setSetSkill(ctx.set_skill().name_object().name().getText());
-        data.setSetEffectSkill(ctx.set_effect_skill().name_object().name().getText());
-        data.setSetAdditionalEffectSkill(ctx.set_additional_effect_skill().name_object().name().getText());
+        data.setSlotAdditional(ctx.slot_additional().name_object().identifier_object().getText());
+        data.setSetSkill(ctx.set_skill().name_object().identifier_object().getText());
+        data.setSetEffectSkill(ctx.set_effect_skill().name_object().identifier_object().getText());
+        data.setSetAdditionalEffectSkill(ctx.set_additional_effect_skill().name_object().identifier_object().getText());
 
-        if (!ctx.set_additional2_condition().isEmpty())
+        if (ctx.set_additional2_condition() != null)
             data.setSetAdditional2Condition(Integer.valueOf(ctx.set_additional2_condition().int_object().getText()));
 
-        if (!ctx.set_additional2_effect_skill().isEmpty())
-            data.setSetAdditional2EffectSkill(ctx.set_additional2_effect_skill().name_object().name().getText());
+        if (ctx.set_additional2_effect_skill() != null)
+            data.setSetAdditional2EffectSkill(ctx.set_additional2_effect_skill().name_object().identifier_object().getText());
 
         data.setStrInc(fromInt2Array(ctx.str_inc().int_array2()));
         data.setConInc(fromInt2Array(ctx.con_inc().int_array2()));

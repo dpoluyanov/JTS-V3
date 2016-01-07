@@ -168,4 +168,8 @@ public class SetData {
     public void setWitInc(int[] witInc) {
         this.witInc = witInc;
     }
+
+    public int getSlotChest() {
+        return slotChest;
+    }
 }

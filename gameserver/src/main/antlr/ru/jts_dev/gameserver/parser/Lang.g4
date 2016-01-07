@@ -1,11 +1,14 @@
 grammar Lang;
 
-identifier_object : IDENTIFIER;
+
+identifier_object :
+    // workaround about name conflicts (itemdata.txt)
+    DAGGER | BOW | CROSSBOW | RAPIER | GLOVES | STEEL | LEATHER | ORIHARUKON | 'slot_lhand'
+    | NAME | NONE
+    ;
 int_object : INTEGER;
 double_object : INTEGER | DOUBLE;
-name_object: '[' name ']';
-// workaround about name conflicts (itemdata.txt)
-name : NONE | DAGGER | BOW | GLOVES | NAME;
+name_object: '[' identifier_object  ']';
 category_object: CATEGORY;
 
 empty_array : '{''}';
@@ -16,7 +19,7 @@ int_array : empty_array | '{' int_object (';' int_object)* '}';
 double_array : empty_array | '{' double_object (';' double_object)* '}';
 category_array : empty_array | '{' category_object (';' category_object)* '}';
 
-CATEGORY : '@' IDENTIFIER;
+CATEGORY : '@' NAME;
 DOUBLE : INTEGER '.' '0'..'9'+;
 INTEGER : '-'? ('0' | '1'..'9' '0'..'9'*);
 
@@ -73,8 +76,36 @@ LBRACELET : 'lbracelet';
 WAIST : 'waist';
 DECO1 : 'deco1';
 
-NAME : [A-Za-z0-9]+ [A-Za-z0-9_'*.~:-]*;
-IDENTIFIER : [A-Za-z]+ [A-Za-z0-9_]*;
+// Material types
+STEEL : 'steel';
+FINE_STEEL : 'fine_steel';
+WOOD : 'wood';
+CLOTH : 'cloth';
+LEATHER : 'leather';
+BONE : 'bone';
+BRONZE : 'bronze';
+ORIHARUKON : 'oriharukon';
+MITHRIL : 'mithril';
+DAMASCUS : 'damascus';
+ADAMANTAITE : 'adamantaite';
+BLOOD_STEEL : 'blood_steel';
+PAPER : 'paper';
+GOLD : 'gold';
+LIQUID : 'liquid';
+FISH : 'fish';
+SILVER : 'silver';
+CHRYSOLITE : 'chrysolite';
+CRYSTAL : 'crystal';
+HORN : 'horn';
+SCALE_OF_DRAGON : 'scale_of_dragon';
+COTTON : 'cotton';
+DYESTUFF : 'dyestuff';
+COBWEB : 'cobweb';
+RUNE_XP : 'rune_xp';
+RUNE_SP : 'rune_sp';
+RUNE_REMOVE_PENALTY : 'rune_remove_penalty';
+
+NAME : [A-Za-z0-9_]+ [A-Za-z0-9_'*.~:-]*;
 
 // skip whitespaces and line comments
 WS : [ \r\t\u000C\r\n]+ -> skip;
