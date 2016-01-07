@@ -3,13 +3,10 @@ package ru.jts_dev.gameserver.parser.htm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.jts_dev.gameserver.GameServerApplication;
 import ru.jts_dev.gameserver.config.CacheConfig;
-import ru.jts_dev.gameserver.model.Language;
+import ru.jts_dev.gameserver.Language;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

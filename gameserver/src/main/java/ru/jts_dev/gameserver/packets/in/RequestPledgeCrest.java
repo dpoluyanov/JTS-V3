@@ -24,6 +24,7 @@ public class RequestPledgeCrest extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        // todo send crest id
+        // TODO: 06.01.16 send crest id 
+        throw new UnsupportedOperationException("Not released yet");
     }
 }

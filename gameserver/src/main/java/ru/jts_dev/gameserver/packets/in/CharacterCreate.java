@@ -14,7 +14,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterCreateSuccess;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
-import ru.jts_dev.gameserver.parser.impl.SettingsData;
+import ru.jts_dev.gameserver.parser.impl.SettingsHolder;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
@@ -48,7 +48,7 @@ public class CharacterCreate extends IncomingMessageWrapper {
     private GameCharacterRepository characterRepository;
 
     @Autowired
-    private SettingsData settingsData;
+    private SettingsHolder settingsData;
 
     @Autowired
     private Validator validator;

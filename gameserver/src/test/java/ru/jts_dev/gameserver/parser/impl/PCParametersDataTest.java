@@ -8,20 +8,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static ru.jts_dev.gameserver.parser.impl.PCParametersData.*;
+import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.*;
 
 /**
  * @author Camelion
  * @since 05.01.16
  */
-@ContextConfiguration(classes = PCParametersData.class)
+@ContextConfiguration(classes = PCParametersHolder.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PCParametersDataTest {
     @Autowired
-    private PCParametersData pcParametersData;
+    private PCParametersHolder pcParametersData;
 
     /**
-     * Assert that {@link PCParametersData#collisionBoxes} parsed correctly
+     * Assert that {@link PCParametersHolder#collisionBoxes} parsed correctly
      *
      * @throws Exception
      */

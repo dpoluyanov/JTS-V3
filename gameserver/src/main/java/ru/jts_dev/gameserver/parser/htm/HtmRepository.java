@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.gameserver.model.Language;
+import ru.jts_dev.gameserver.Language;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedInputStream;

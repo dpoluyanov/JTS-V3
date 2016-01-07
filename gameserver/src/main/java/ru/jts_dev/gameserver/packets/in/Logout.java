@@ -27,6 +27,7 @@ public class Logout extends IncomingMessageWrapper {
 
     @Override
     public void run() {
+        // TODO: 06.01.16
         throw new UnsupportedOperationException("Not released yet");
         // client close session by himself
 

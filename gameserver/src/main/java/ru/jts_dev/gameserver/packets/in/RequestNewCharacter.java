@@ -7,7 +7,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.NewCharacterSuccess;
-import ru.jts_dev.gameserver.parser.impl.SettingsData;
+import ru.jts_dev.gameserver.parser.impl.SettingsHolder;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -24,7 +24,7 @@ public class RequestNewCharacter extends IncomingMessageWrapper {
     private GameSessionService sessionService;
 
     @Autowired
-    private SettingsData settingsData;
+    private SettingsHolder settingsData;
 
     @Override
     public void prepare() {

@@ -14,15 +14,15 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
  * @author Camelion
  * @since 20.12.15
  */
-@ContextConfiguration(classes = SettingsData.class)
+@ContextConfiguration(classes = SettingsHolder.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SettingsDataTest {
     private static final int STATS_COUNT = 11;
     @Autowired
-    private SettingsData settingsData;
+    private SettingsHolder settingsData;
 
     /**
-     * Assert that {@link SettingsData#recommendedStats} parsed correctly
+     * Assert that {@link SettingsHolder#recommendedStats} parsed correctly
      *
      * @throws Exception
      */
@@ -34,7 +34,7 @@ public class SettingsDataTest {
 
 
     /**
-     * Assert that {@link SettingsData#maximumStats} parsed correctly
+     * Assert that {@link SettingsHolder#maximumStats} parsed correctly
      *
      * @throws Exception
      */
@@ -45,7 +45,7 @@ public class SettingsDataTest {
     }
 
     /**
-     * Assert that {@link SettingsData#minimumStats} parsed correctly
+     * Assert that {@link SettingsHolder#minimumStats} parsed correctly
      *
      * @throws Exception
      */
@@ -56,8 +56,8 @@ public class SettingsDataTest {
     }
 
     /**
-     * assertThat {@link SettingsData#recommendedStats} size
-     * equals {@link SettingsData#minimumStats} and equals {@link SettingsData#maximumStats}
+     * assertThat {@link SettingsHolder#recommendedStats} size
+     * equals {@link SettingsHolder#minimumStats} and equals {@link SettingsHolder#maximumStats}
      *
      * @throws Exception
      */
@@ -70,7 +70,7 @@ public class SettingsDataTest {
     }
 
     /**
-     * Assert that {@link SettingsData#initialStartPoints} parsed correctly
+     * Assert that {@link SettingsHolder#initialStartPoints} parsed correctly
      *
      * @throws Exception
      */

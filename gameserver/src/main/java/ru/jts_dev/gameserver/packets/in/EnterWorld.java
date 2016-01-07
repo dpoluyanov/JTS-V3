@@ -9,13 +9,13 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
-import ru.jts_dev.gameserver.parser.impl.PCParametersData;
+import ru.jts_dev.gameserver.parser.impl.PCParametersHolder;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
-import static ru.jts_dev.gameserver.parser.impl.PCParametersData.toPCParameterName;
+import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.toPCParameterName;
 
 /**
  * @author Camelion
@@ -32,7 +32,7 @@ public class EnterWorld extends IncomingMessageWrapper {
     @Autowired
     private PlayerService playerService;
     @Autowired
-    private PCParametersData parametersData;
+    private PCParametersHolder parametersData;
 
     @Override
     public void prepare() {
@@ -49,7 +49,6 @@ public class EnterWorld extends IncomingMessageWrapper {
 
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
         session.send(new ClientSetTime(gameTimeInMinutes));
-
 
         // TODO: 04.01.16 broadcast CharInfo, send UserInfo
         // send UserInfo

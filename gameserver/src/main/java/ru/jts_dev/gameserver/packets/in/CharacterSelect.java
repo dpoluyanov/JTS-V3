@@ -48,7 +48,7 @@ public class CharacterSelect extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        // TODO: 03.01.16 send SsqInfo and CharSelected packets
+        // TODO: 03.01.16 send SsqInfo packet
         GameSession session = sessionService.getSessionBy(getConnectionId());
 
         String account = sessionService.getAccountBy(getConnectionId());

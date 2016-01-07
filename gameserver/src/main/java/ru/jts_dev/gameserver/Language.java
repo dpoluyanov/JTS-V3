@@ -1,4 +1,4 @@
-package ru.jts_dev.gameserver.model;
+package ru.jts_dev.gameserver;
 
 /**
  * @author Java-man

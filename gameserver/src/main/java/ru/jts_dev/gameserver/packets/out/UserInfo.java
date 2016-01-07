@@ -4,8 +4,8 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 
 import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
-import static ru.jts_dev.gameserver.parser.impl.PCParametersData.HEIGHT;
-import static ru.jts_dev.gameserver.parser.impl.PCParametersData.RADIUS;
+import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.HEIGHT;
+import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.RADIUS;
 
 /**
  * @author Camelion

@@ -49,7 +49,7 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
         if (movementType == 1)
             targetZ += 27;
 
-        // TODO
+        // TODO: 06.01.16
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
         Vector3D end = new Vector3D(targetX, targetY, targetZ);
 

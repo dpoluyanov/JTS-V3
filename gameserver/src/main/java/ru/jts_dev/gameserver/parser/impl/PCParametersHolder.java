@@ -25,7 +25,7 @@ import java.util.Map;
  * @since 05.01.16
  */
 @Component
-public class PCParametersData extends PCParametersBaseListener {
+public class PCParametersHolder extends PCParametersBaseListener {
     public static final int RADIUS = 0; // collision radius index
     public static final int HEIGHT = 1; // collision height index
 

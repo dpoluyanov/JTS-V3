@@ -27,7 +27,7 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
  */
 // TODO: 05.01.16 handle initial equipment
 @Component
-public class SettingsData extends SettingsBaseListener {
+public class SettingsHolder extends SettingsBaseListener {
     private final Map<String, List<Vector3D>> initialStartPoints = new HashMap<>();
     private final List<CharacterStat> minimumStats = new ArrayList<>();
     private final List<CharacterStat> recommendedStats = new ArrayList<>();
