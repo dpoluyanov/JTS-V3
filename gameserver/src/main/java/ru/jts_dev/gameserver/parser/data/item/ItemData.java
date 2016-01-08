@@ -17,7 +17,7 @@ public class ItemData {
     private final ItemClass itemClass;
     private final String name;
     private final ItemClass itemType;
-    private final SlotBitType slotBitType;
+    private final List<SlotBitType> slotBitTypes;
 
     private ArmorType armorType;
     private EtcItemType etcItemType;
@@ -97,12 +97,12 @@ public class ItemData {
     private boolean canMove;
     private boolean isPremium;
 
-    public ItemData(int itemId, ItemClass itemClass, String name, ItemClass itemType, SlotBitType slotBitType) {
+    public ItemData(int itemId, ItemClass itemClass, String name, ItemClass itemType, List<SlotBitType> slotBitTypes) {
         this.itemId = itemId;
         this.itemClass = itemClass;
         this.name = name;
         this.itemType = itemType;
-        this.slotBitType = slotBitType;
+        this.slotBitTypes = slotBitTypes;
     }
 
     private static final class CapsuledItemData {

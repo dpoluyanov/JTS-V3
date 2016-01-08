@@ -6,9 +6,13 @@ identifier_object :
     DAGGER | BOW | CROSSBOW | RAPIER | GLOVES | STEEL | LEATHER | ORIHARUKON | 'slot_lhand'
     | NAME | NONE
     ;
-int_object : INTEGER;
-double_object : INTEGER | DOUBLE;
-name_object: '[' identifier_object  ']';
+int_object
+    returns [int value]: INTEGER { $ctx.value = Integer.valueOf($text); };
+double_object
+    returns [double value]:
+    INTEGER { $ctx.value = Integer.valueOf($text); }
+    | DOUBLE { $ctx.value = Double.valueOf($text); };
+name_object returns [String value] : '[' identifier_object ']' { $ctx.value = $text; };
 category_object: CATEGORY;
 
 empty_array : '{''}';

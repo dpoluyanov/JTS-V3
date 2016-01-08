@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import ru.jts_dev.gameserver.constants.ItemClass;
+import ru.jts_dev.gameserver.constants.SlotBitType;
 import ru.jts_dev.gameserver.parser.ItemDatasBaseListener;
 import ru.jts_dev.gameserver.parser.ItemDatasLexer;
 import ru.jts_dev.gameserver.parser.ItemDatasParser;
+import ru.jts_dev.gameserver.parser.data.item.ItemData;
 import ru.jts_dev.gameserver.parser.data.item.SetData;
 
 import javax.annotation.PostConstruct;
@@ -25,12 +28,18 @@ import java.util.*;
 @Component
 public class ItemDatasHolder extends ItemDatasBaseListener {
     private final Map<Integer, SetData> setsData = new HashMap<>();
+    private final Map<Integer, ItemData> itemData = new HashMap<>();
+
 
     @Autowired
     private ApplicationContext context;
 
     public Map<Integer, SetData> getSetsData() {
         return Collections.unmodifiableMap(setsData);
+    }
+
+    public Map<Integer, ItemData> getItemData() {
+        return Collections.unmodifiableMap(itemData);
     }
 
     @Override
@@ -65,13 +74,27 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         if (ctx.set_additional2_effect_skill() != null)
             data.setSetAdditional2EffectSkill(ctx.set_additional2_effect_skill().name_object().identifier_object().getText());
 
-        data.setStrInc(fromInt2Array(ctx.str_inc().int_array2()));
-        data.setConInc(fromInt2Array(ctx.con_inc().int_array2()));
-        data.setDexInc(fromInt2Array(ctx.dex_inc().int_array2()));
-        data.setIntInc(fromInt2Array(ctx.int_inc().int_array2()));
-        data.setMenInc(fromInt2Array(ctx.men_inc().int_array2()));
-        data.setWitInc(fromInt2Array(ctx.wit_inc().int_array2()));
+        data.setStrInc(fromIntArray2(ctx.str_inc().int_array2()));
+        data.setConInc(fromIntArray2(ctx.con_inc().int_array2()));
+        data.setDexInc(fromIntArray2(ctx.dex_inc().int_array2()));
+        data.setIntInc(fromIntArray2(ctx.int_inc().int_array2()));
+        data.setMenInc(fromIntArray2(ctx.men_inc().int_array2()));
+        data.setWitInc(fromIntArray2(ctx.wit_inc().int_array2()));
         setsData.put(setId, data);
+    }
+
+    @Override
+    public void exitItem(ItemDatasParser.ItemContext ctx) {
+        int itemId = ctx.item_id().int_object().value;
+        ItemClass itemClass = ctx.item_class().value;
+        String name = ctx.name_object().value;
+        ItemClass itemType = ctx.item_type().value;
+        List<SlotBitType> slotBitTypes = ctx.slot_bit_type_wrapper().value;
+
+        // TODO: 08.01.16 create item data from parsed values
+        ItemData data = new ItemData(itemId, itemClass, name, itemType, slotBitTypes);
+
+        itemData.put(itemId, data);
     }
 
     /**
@@ -98,7 +121,7 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
      * @param ctx - parser {@link ru.jts_dev.gameserver.parser.ItemDatasParser.Int_array2Context}
      * @return - int[] array with two values
      */
-    private int[] fromInt2Array(ItemDatasParser.Int_array2Context ctx) {
+    private int[] fromIntArray2(ItemDatasParser.Int_array2Context ctx) {
         if (ctx.int_object().size() != 2)
             throw new ArrayIndexOutOfBoundsException("size must be equal to 2");
 

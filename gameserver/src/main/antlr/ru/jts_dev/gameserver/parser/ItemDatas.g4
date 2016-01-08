@@ -2,6 +2,11 @@ grammar ItemDatas;
 
 import Lang;
 
+@header {
+import ru.jts_dev.gameserver.constants.ItemClass;
+import ru.jts_dev.gameserver.constants.SlotBitType;
+}
+
 file : (item | set)+;
 
 set :
@@ -265,16 +270,27 @@ etcitem_type : NONE | POTION | ARROW | SCRL_ENCHANT_AM | SCRL_ENCHANT_WP | SCROL
 armor_type_wrapper : 'armor_type' '=' armor_type;
 armor_type : NONE | LIGHT | HEAVY | MAGIC | SIGIL;
 
-slot_bit_type_wrapper : 'slot_bit_type' '=' '{' slot_bit_type (';' slot_bit_type)? '}';
+slot_bit_type_wrapper
+    returns [List<SlotBitType> value]
+    @init { $ctx.value = new ArrayList<>(); }:
+    'slot_bit_type' '=' '{'
+    slot_bit_type { $ctx.value.add(SlotBitType.valueOf($slot_bit_type.text)); }
+    (';' slot_bit_type { $ctx.value.add(SlotBitType.valueOf($slot_bit_type.text)); })? '}';
 slot_bit_type: NONE | RHAND | LRHAND | LHAND | CHEST | LEGS | FEET | HEAD | GLOVES | ONEPIECE | REAR | LEAR
     | LFINGER | RFINGER | NECK | BACK | UNDERWEAR | HAIR | HAIR2 | HAIRALL | ALLDRESS | RBRACELET | LBRACELET
     | WAIST
     | DECO1;
 
-item_type : 'item_type' '=' item_class;
-item_class : WEAPON | ARMOR | ETCITEM | ASSET | ACCESSARY | QUESTITEM;
+item_type returns [ItemClass value]: 'item_type' '=' item_class { $ctx.value = ItemClass.valueOf($item_class.text);};
+item_class returns [ItemClass value]:
+    WEAPON { $ctx.value = ItemClass.WEAPON; }
+    | ARMOR { $ctx.value = ItemClass.ARMOR; }
+    | ETCITEM { $ctx.value = ItemClass.ETCITEM; }
+    | ASSET { $ctx.value = ItemClass.ASSET; }
+    | ACCESSARY { $ctx.value = ItemClass.ACCESSARY; }
+    | QUESTITEM { $ctx.value = ItemClass.QUESTITEM; };
 
-item_id : int_object;
+item_id returns [int value]: int_object;
 
 // item classes
 WEAPON : 'weapon';
