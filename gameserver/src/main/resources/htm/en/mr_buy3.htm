@@ -1,0 +1,67 @@
+<html>
+<body>
+<center>Monster Race Bet <font color="00ffff">To Win</font> (Race # <font color="LEVEL"><?RACE_ID?></font>)<br1>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=1 height=3>
+</center>
+
+<table width=270 border=0 bgcolor="111111">
+<tr>
+<td fixwidth=35>Lane</td>
+<td fixwidth=120 align=center>Racer</td>
+<td fixwidth=80 align=center>Rating</td>
+<td fixwidth=35 align=right>Odds</td>
+</tr>
+</table>
+
+<table width=270 border=0>
+<tr>
+<td fixwidth=13><img src="L2UI_CT1.Button_DF_Right_Down" width=15 height=15></td>
+<td fixwidth=22><?LANE?></td>
+<td fixwidth=120><font color="LEVEL"><?NAME1?></font></td>
+<td fixwidth=80 align=center><?COND1?></td>
+<td fixwidth=35 align=right><font color="00ffff"><?WIN1?>%</font></td>
+</tr>
+</table>
+
+<table width=270 border=0 bgcolor=111111>
+<tr>
+<td fixwidth=60> </td>
+<td fixwidth=200></td>
+</tr>
+<tr>
+<td>Bet  </td>
+<td><font color="LEVEL"><?BUY_AMOUNT?></font> Adena</td>
+</tr>
+<tr>
+<td>Tax </td>
+<td><font color="LEVEL"><?TAX_AMOUNT?></font> Adena</td>
+</tr>
+<!--TEMPLET1
+<tr>
+<td>Commission Fee</td>
+<td><font color="LEVEL"><?FEE?></font> Adena</td>
+</tr>
+TEMPLET-->
+<?FEE_CHARGE?>
+<tr>
+<td>Total </td>
+<td><font color="LEVEL"><?SUM_AMOUNT?></font> Adena</td>
+</tr>
+
+</table>
+<br><center>If the information is correct, please click "Confirm."</center><br>
+<img src="L2UI.SquareBlank" width=270 height=10>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=270 height=5>
+
+<table width=270 border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=90 height=20><button value=&$141; action="<?LINK_HOME?>" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+<td width=90 align=center><button value="Lane" action="bypass _mrbu01" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+<td width=90 align=right><button value=&$140; action="<?LINK_NEXT?>" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+</tr>
+</table>
+
+</body></html>
+

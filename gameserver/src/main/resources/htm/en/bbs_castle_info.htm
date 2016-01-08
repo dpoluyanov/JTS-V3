@@ -1,0 +1,73 @@
+<?MULTI_1?>
+<html><body>
+
+<center><br><br> <br1><br1>
+
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td FIXWIDTH=15>&nbsp;</td>
+<td width=610 height=30 align=left><a action="bypass _bbsinit_0">HOME</a> &nbsp; > <a action="bypass _bbsinit_<?community_id?>_1">LOCAL COMMUNITY</a> &nbsp; > <a action="bypass _announcecastlelist">LOCAL INFO</a> &nbsp; > <a action="bypass _announcecastleinfo_<?castle_id?>"> &^<?castle_id?>; </a></td>
+</tr></table>
+
+<table border=0 cellspacing=0 cellpadding=0 bgcolor=222222>
+<tr><td height=10></td></tr>
+<tr>
+<td width=5></td>
+<td WIDTH=80 valign=top>Territory Name:</td>
+<td WIDTH=220 valign=top>&^<?castle_id?>;</td>
+<td width=5></td>
+<td width=80 valign=top> Today's Tax Rate:</td>
+<td WIDTH=220 valign=top><?current_tax_rate?></td>
+</tr>
+<tr><td height=10></td></tr>
+
+<tr>
+<td></td>
+<td>Castle Lord:</td>
+<td><?pledge_ruler_name?></td>
+<td></td>
+<td>Tomorrow's Tax Rate:</td>
+<td><?next_tax_rate?></td>
+</tr>
+<tr><td height=10></td></tr>
+
+<tr>
+<td></td>
+<td>Owning Clan:</td>
+<td><a action="bypass _clbbsclan_<?pledge_id?>"><?pledge_name?></a></td>
+<td></td>
+<td>Castle Name:</td>
+<td>&%<?castle_id?>;</td>
+</tr>
+<tr><td height=10></td></tr>
+
+<tr>
+<td></td>
+<td>Alliance:</td>
+<td><?alliance_name?></td>
+<td></td>
+<td>Next Attack Date:</td>
+<td><?next_siege_date?></td>
+</tr>
+<tr><td height=10></td></tr>
+</table>
+
+<br>
+
+<table border=0 cellspacing=0 cellpadding=2 bgcolor=222222 width=610>
+<tr>
+<td width=5></td>
+<td width=180>Clan Hall Name</td>
+<td width=160>Owning Clan</td>
+<td width=160>Clan Leader Name</td>
+<td width=5></td>
+</tr>
+</table>
+
+<!--TEMPLET1 <table border=0 cellspacing=0 cellpadding=5 width=610> <tr> <td width=5></td> <td  width=190>&%<?agit_id?>;</td> <td  width=160><?pledge_name?></td> <td  width=160><?pledge_ruler_name?></td> <td width=5></td> </tr> </table>  <img src="L2UI.Squaregray" width="600" height="1"> TEMPLET-->
+
+<?AGIT_LIST?>
+
+<br> <br> <br></center>
+</body>
+</html>

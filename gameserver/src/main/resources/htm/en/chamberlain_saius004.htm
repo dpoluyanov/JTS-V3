@@ -1,0 +1,18 @@
+<html>
+<body>
+<font color="LEVEL">[Adjust Tax Rate]</font><br>
+The current tax rate is <font color="00FFFF"><?current_tax_rate?>%</font>.<br>The tax rate to be changed is <font color="00FFFF"><?next_tax_rate?>%</font>.<br>
+You can set a new rate between <font color="LEVEL">0% - 20%</font>. Changes will be applied the following midnight.
+<br>
+<center>
+<table width=170 height=27 bgcolor="CCCCCC">
+<tr>
+<td width=30 align=center>Enter</td>
+<td width=50 align=right><edit type=number var="tax_rate" width=30 height=18></td><td width=15 align=left>%</td>
+<td>
+<button action="bypass -h menu_select?ask=-202&reply= $tax_rate" value="OK" width=80 height=27 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF">
+</td></tr>
+</table>
+<br><button action="bypass -h menu_select?ask=0" value="cancel" width=80 height=27 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF">
+</center></body></html>
+

@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+
+
+<BODY>
+
+<br>
+<center>
+<img src="l2ui_ch3.herotower_deco" width=256 height=32>
+</center>
+Hero <?hero_name?>'s Message:<br1><?hero_words?><br>
+<center>
+<img src="L2UI.SquareWhite" width=270 height=1>
+</center>
+<br>
+
+<!--TEMPLET1
+<font color="LEVEL">Year: <?year?> Month: <?month?> Day: <?day?> Time: <?hour?></font><br1>
+&@<?npc_id?>; was defeated.
+<br>
+TEMPLET-->
+
+<!--TEMPLET2
+<font color="LEVEL"><?year?>Year <?month?>Month <?day?>Day <?hour?>Time</font><br1>
+&%<?castle_id?>; was successfully taken.
+<br>
+TEMPLET-->
+
+<!--TEMPLET3
+<font color="LEVEL"><?year?>Year <?month?>Month <?day?>Day <?hour?>Time</font><br1>
+Gained Hero status.
+<br>
+TEMPLET-->
+
+<?DIARY_LIST?>
+
+<!--TEMPLET4
+<button value = "Previous" action="<?tion?>"  back="L2UI_CT1.Button_DF_Small_DOWN" fore="L2UI_CT1.Button_DF_Small" width=70 height=25 >
+TEMPLET-->
+
+<!--TEMPLET5
+<button value = "Next" action="<?tion?>"  back="L2UI_CT1.Button_DF_Small_DOWN" fore="L2UI_CT1.Button_DF_Small" width=70 height=25 >
+TEMPLET-->
+
+<table border=0 cellspacing=0 cellpadding=0 align=center>
+<tr>
+<td width=70 align=right><?PREV?></td>
+<td width=70 align=right><?NEXT?></td>
+</tr>
+</table>
+
+</BODY>
+</HTML>

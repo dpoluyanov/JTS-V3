@@ -1,0 +1,23 @@
+<html>
+<body>
+The minimum bid for this clan hall is <font color="aaccff"><?AGIT_LAST_PRICE?></font> Adena, and the last bid was <font color="aaccff"><?AGIT_AUCTION_MIN?></font> Adena.<br>
+All bids are subject to a non-refundable <font color="LEVEL">10% transaction tax</font>, which will be automatically deducted from the bid. 
+<br>Would you like to set a minimum bid?
+<table width=270 border=0><tr><td width=220 align=right><edit var=minbid width=230 align=right type=number></td><td width=40 align=right>Adena</td></tr></table>
+<br>
+<table width=270 border=0><tr><td width=220>How long do you want the auction to run?</td><td width=50 align=right><combobox width=50 var=day list="7 days;3 days;1 day"></td></tr></table>
+
+Describe the clan hall: 
+<multiedit var="comment" width=270>
+<img src="L2UI.SquareBlank" width=270 height=10> 
+<img src="L2UI.SquareWhite" width=270 height=1> 
+<img src="L2UI.SquareBlank" width=270 height=5>
+<table width=270 border=0>
+<tr>
+<td width=100></td>
+<td width=80 align=center><button action="<?AGIT_LINK_BACK?>" value="Back" width=80 height=27 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"></td>
+<td width=80 align=center><button action="<?AGIT_LINK_SALE3?>" value="Next" width=80 height=27 back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF"></td>
+</tr>
+</table>
+<br>
+</body></html>

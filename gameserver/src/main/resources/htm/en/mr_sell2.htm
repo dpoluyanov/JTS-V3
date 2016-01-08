@@ -1,0 +1,42 @@
+<html>
+<body>
+<center>Confirm Monster Race Bet / Calculate Winnings</center>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=1 height=3>
+
+<table width=270 border=0>
+
+<!--TEMPLET1
+<tr>
+<td width=230>Race #<?raceid?>  <br>Lane <?lane1?>  <br>Bet: <?bet_adena?> adena 
+<br>1st place:  Lane [<?win1?>] <br>Odds:[<?winrate?>] 
+</td>
+</tr>
+TEMPLET-->
+
+<!--TEMPLET2
+<tr>
+<td width=230>Race #<?raceid?>  <br>Lane <?lane1?>  <br>Bet: <?bet_adena?> adena 
+<br>1st place:  Lane [<?win1?>] <br>Odds:[<?winrate?>] 
+</td>
+</tr>
+TEMPLET-->
+
+<?TICKET_INFO?>
+
+</table>
+
+<img src="L2UI.SquareBlank" width=270 height=10>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=270 height=5>
+<table width=270 border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=90 height=20><button value="Back" action="bypass _mrsl01_" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+<td width=90></td>
+<td width=90 align=right><button value="Calculate" action="<?TICKET_ACTION?>" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+</tr>
+</table>
+
+</body></html>
+
+

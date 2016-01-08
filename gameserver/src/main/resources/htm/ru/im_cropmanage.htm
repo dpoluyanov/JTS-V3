@@ -1,0 +1,63 @@
+<html><body>
+<br>Настройки управления новыми плодами<font color="LEVEL"><?cropname?></font> 
+<img src="L2UI.SquareWhite" width=270 height=1>
+ <img src="L2UI.SquareBlank" width=1 height=3>
+<table width=270 border=0 bgcolor="111111">
+<tr>
+<td fixwidth=90>Категории</td>
+<td fixwidth=45 align=right>Текущая цена</td>
+<td fixwidth=45 align=right>Новая цена</td>
+<td fixwidth=45 align=right>Разница цен</td>
+</tr>
+</table>
+<table width=270 border=0>
+<tr>
+<td fixwidth=90>Количество проданных семян</td>
+<td fixwidth=45 align=right><?CurrentSeedCount?></td>
+<td fixwidth=45 align=right><?NextSeedCount?></td>
+<td fixwidth=45 align=right><edit var="data1" width=35 height=10>
+</td>
+</tr>
+<tr>
+<td>Цена на семена</td>
+<td align=right><?CurrentSeedPrice?></td>
+<td align=right><?NextSeedPrice?></td>
+<td align=right><edit var="data2" width=35 height=10></td>
+</tr>
+<tr>
+<td>Награда за плоды</td>
+<td align=right><?CurrentCropProcureCount?></td>
+<td align=right><?NextProcureCount?></td>
+<td align=right><edit var = "data3" width=35 height=10>
+</td>
+</tr>
+<tr>
+<td>Цена награды за плоды</td>
+<td align=right><?CurrentCropPrice?></td>
+<td align=right><?NextProcurePrice?></td>
+<td align=right><edit var = "data4" width=35 height=10>
+</td>
+</tr>
+<tr>
+<td>Форма награды за плоды</td>
+<td align=right><?CurrentProcureType?></td>
+<td align=right><?NextProcureType?></td>
+<td align=right><combobox width=35 var=keyword list="I;II"></td>
+</tr>
+</table>
+<img src="L2UI.SquareWhite" width=270 height=1>
+ <img src="L2UI.SquareBlank" width=1 height=3>
+<table width=270 border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=90 height=20>
+<button value="Изменить" action="bypass -h  manor_select?reply=<?manorid?>&crop_id=<?cropid?>&ask=-257&data1= $data1 &data2= $data2 &data3= $data3 &data4=  $data4 &keyword= $keyword" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27>
+</td>
+<td width=90 align=Center>
+<button value="Назад" action="bypass -h  menu_select?ask=-256&reply=<?manorid?>&state=2" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27>
+</td>
+</tr>
+</table>
+</center>
+</body>
+</html>
+

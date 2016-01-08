@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<BODY>
+
+<br>
+<center>
+<img src="l2ui_ch3.herotower_deco" width=256 height=32>
+</center>
+<font color="LEVEL">Total score: </font> <?total_win?> Wins <?total_draw?> Ties <?total_lose?> Losses <br1>
+<center>
+<img src="L2UI.SquareWhite" width=270 height=1>
+</center>
+<br>
+
+<!--TEMPLET6  -- Match Results Regardless of Class --<br> TEMPLET-->
+
+<!--TEMPLET7  -- Match Results According to Class --<br> TEMPLET-->
+
+<!--TEMPLET1 <font color="LEVEL"><?year?>year <?month?>month <?day?>day <?hour?>hour <?min?>minute</font><br1> vs <?opponent?> (<ClassID><?classID?></ClassID>) (<?time_min?>minute <?time_sec?>second)   <font color="0000ff">victory</font>  <?win?>victory <?draw?>draw <?lose?>loss<br> TEMPLET-->
+
+<!--TEMPLET2 <font color="LEVEL"><?year?>year <?month?>month <?day?>day <?hour?>hour <?min?>minute</font><br1> vs <?opponent?> (<ClassID><?classID?></ClassID>) (<?time_min?>minute <?time_sec?>second)   <font color="ff0000">loss</font>  <?win?>victory <?draw?>draw <?lose?>loss<br> TEMPLET-->
+
+<!--TEMPLET3 <font color="LEVEL"><?year?>year <?month?>month <?day?>day <?hour?>hour <?min?>minute</font><br1> vs <?opponent?> (<ClassID><?classID?></ClassID>) (<?time_min?>minute <?time_sec?>second)   <font color="ffff00">draw</font>  <?win?>victory <?draw?>draw <?lose?>loss<br> TEMPLET-->
+
+<?MATCH_LIST?>
+
+<!--TEMPLET4 <button value = "Previous" action="<?action?>"  back="L2UI_CT1.Button_DF_Small_DOWN" fore="L2UI_CT1.Button_DF_Small" width=70 height=25  > TEMPLET-->
+
+<!--TEMPLET5 <button value = "Next" action="<?action?>"  back="L2UI_CT1.Button_DF_Small_DOWN" fore="L2UI_CT1.Button_DF_Small" width=70 height=25  > TEMPLET-->
+
+<table border=0 cellspacing=0 cellpadding=0 align=center>
+<tr>
+<td width=70 align=right><?PREV?></td>
+<td width=70 align=right><?NEXT?></td>
+</tr>
+</table>
+
+</BODY>
+</HTML>
+

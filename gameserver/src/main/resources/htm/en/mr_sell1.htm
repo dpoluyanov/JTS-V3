@@ -1,0 +1,43 @@
+<html>
+<body>
+<center>Confirm Monster Race Bet / Calculate Winnings</center>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=1 height=3>
+
+<table width=270 border=0 bgcolor=111111>
+<tr><td fixwidth=60>Race #</td><td fixwidth=60 align=right>Lane</td><td fixwidth=160 align=right>Bet Amount</td></tr>
+</table>
+<table width=270 border=0>
+<tr><td fixwidth=60 fixheight=1></td><td fixwidth=60></td><td fixwidth=160></td></tr>
+
+
+<!--TEMPLET1
+<tr>
+<td><a action="<?action_link?>">#<?race_id?></a></td>
+<td align=right><font color="LEVEL"><?lane?></font></td>
+<td align=right><font color="LEVEL"><?adena?></font> Adena</td>
+</tr>
+TEMPLET-->
+
+<?TICKET_LIST?>
+
+</table>
+
+<img src="L2UI.SquareWhite" width=270 height=1>
+
+<table width=270 border=0>
+<tr><td width=90><a action="<?LINK_PREV?>">Previous List</a></td><td width=90 align=center><?CURR_PAGE?> Page </td><td width=90 align=right><a action="<?LINK_NEXT?>"> Next List</a></td></tr>
+</table>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=270 height=5>
+<table width=270 border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=90 height=20><button value="Back" action="<?LINK_HOME?>" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+<td width=90></td>
+<td width=90></td>
+</tr>
+</table>
+
+</body></html>
+
+

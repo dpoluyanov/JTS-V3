@@ -1,6 +1,7 @@
 package ru.jts_dev.gameserver.parser.htm;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import com.googlecode.htmlcompressor.compressor.HtmlCompressorStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,9 +125,10 @@ public class HtmRepository {
     private String compressHtm(HtmlCompressor compressor, String content) {
         String result = compressor.compress(content);
 
+        HtmlCompressorStatistics statistics = compressor.getStatistics();
         logger.debug(String.format("Compression time: %,d ms, Original size: %,d bytes, Compressed size: %,d bytes",
-                compressor.getStatistics().getTime(), compressor.getStatistics().getOriginalMetrics().getFilesize(),
-                compressor.getStatistics().getCompressedMetrics().getFilesize()));
+                statistics.getTime(), statistics.getOriginalMetrics().getFilesize(),
+                statistics.getCompressedMetrics().getFilesize()));
 
         return result;
     }

@@ -1,0 +1,54 @@
+<html>
+<body>
+<center>Monster Race Betting <font color="00ffff">To Win</font> <br1>View Odds (Race # <font color="LEVEL"><?RACE_ID?></font> )<br1>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=1 height=3>
+</center>
+
+<!--TEMPLET1
+<tr>
+<td fixwidth=40><?lane?></td>
+<td fixwidth=130 align=left><font color="LEVEL"><?mon_name?></font></td>
+<td fixwidth=100 align=right><font color="00ffff"><?winrate?></font> times</td>
+</tr>
+
+TEMPLET-->
+
+<!--TEMPLET2
+<tr>
+<td fixwidth=40><?lane?></td>
+<td fixwidth=130 align=left><font color="LEVEL"><?mon_name?></font></td>
+<td fixwidth=100 align=right><font color="00ffff"><?winrate?></font> </td>
+</tr>
+
+TEMPLET-->
+
+<table width=270 border=0 bgcolor=111111>
+<tr>
+<td fixwidth=40 align=left>Lane</td>
+<td fixwidth=130 align=center>Racer's Name</td>
+<td fixwidth=100 align=right>Odds</td>
+</tr>
+</table>
+<table width=270 border=0>
+
+<?MON_LIST?>
+
+</table>
+<img src="L2UI.SquareBlank" width=270 height=10>
+<img src="L2UI.SquareWhite" width=270 height=1>
+<img src="L2UI.SquareBlank" width=270 height=5>
+<table width=270 border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=90 height=20><button value="Back" action="<?LINK_HOME?>" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+<td width=90></td>
+<td width=90 align=right><button value="Racer Info" action="bypass _mrvw20" back="L2UI_CT1.Button_DF_Down" fore="L2UI_CT1.Button_DF" width=80 height=27></td>
+</tr>
+</table>
+
+</body>
+
+</html>
+
+
+
