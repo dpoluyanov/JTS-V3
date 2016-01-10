@@ -28,12 +28,12 @@ public class CommandHandler<TCommandType> implements ICommandHandler<TCommandTyp
                 if (method.isAnnotationPresent(TextCommand.class)) {
                     String commandName = method.getAnnotation(TextCommand.class).value();
 
-                    if (!commands.contains((TCommandType) commandName)) {
+                    if (!commands.contains(commandName)) {
                         commands.add((TCommandType) commandName);
                     }
                 } else if (method.isAnnotationPresent(NumericCommand.class)) {
                     Integer command = method.getAnnotation(NumericCommand.class).value();
-                    if (!commands.contains((TCommandType) command)) {
+                    if (!commands.contains(command)) {
                         commands.add((TCommandType) command);
                     }
                 }

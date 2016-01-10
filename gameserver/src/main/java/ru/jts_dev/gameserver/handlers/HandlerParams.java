@@ -62,7 +62,7 @@ public class HandlerParams<TCommandType> {
             return args;
         }
 
-        query = query.substring(query.indexOf("?"));
+        query = query.substring(query.indexOf('?'));
 
         if (query.length() <= 1) {
             return args;
@@ -75,7 +75,7 @@ public class HandlerParams<TCommandType> {
             if (!arg.contains("=")) {
                 args.put(arg, null);
             } else {
-                int equationPos = arg.indexOf("=");
+                int equationPos = arg.indexOf('=');
                 args.put(arg.substring(0, equationPos), arg.substring(equationPos + 1));
             }
         }

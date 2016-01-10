@@ -13,7 +13,7 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 public class Ping extends CommandHandler<String> {
     @TextCommand
     public boolean ping(HandlerParams<String> params) {
-        GameCharacter activeChar = params.getCharacter();
+        GameCharacter character = params.getCharacter();
         // TODO: Send message ping
         return true;
     }
