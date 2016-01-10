@@ -10,11 +10,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionCloseEvent;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.stereotype.Service;
+import ru.jts_dev.common.packets.OutgoingMessageWrapper;
+import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 
 import java.nio.ByteOrder;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,14 +47,23 @@ public class GameSessionService {
         return sessions.get(connectionId);
     }
 
-    public Collection<GameSession> getSessions() {
-        return Collections.unmodifiableCollection(sessions.values());
-    }
-
     public String getAccountBy(String connectionId) {
         if (!accounts.containsKey(connectionId))
             throw new NullPointerException("accounts is null for " + connectionId);
         return accounts.get(connectionId);
+    }
+
+    public void send(String connectionId, OutgoingMessageWrapper message) {
+        GameSession session = getSessionBy(connectionId);
+        session.send(message);
+    }
+
+    public void send(GameCharacter character, OutgoingMessageWrapper message) {
+        send(character.getConnectionId(), message);
+    }
+
+    public void sendToAll(OutgoingMessageWrapper message) {
+        sessions.values().forEach(gameSession -> send(gameSession.getConnectionId(), message));
     }
 
     private GameSession createSession(String connectionId) {

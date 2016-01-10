@@ -154,6 +154,7 @@ public class CharacterCreate extends IncomingMessageWrapper {
 
         GameCharacter character = new GameCharacter();
 
+        character.setConnectionId(getConnectionId());
         character.setAccountName(accountName);
         character.setName(name);
         character.setSex(sex);

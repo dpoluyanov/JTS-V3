@@ -2,20 +2,18 @@ package ru.jts_dev.gameserver.time;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.config.GameServerConfig;
-import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
+import ru.jts_dev.gameserver.repository.ServerVariablesRepository;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.variables.server.ServerVariable;
 import ru.jts_dev.gameserver.variables.server.ServerVariableKey;
 import ru.jts_dev.gameserver.variables.server.ServerVariableType;
-import ru.jts_dev.gameserver.repository.ServerVariablesRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 
 import static ru.jts_dev.gameserver.time.GameTimeConstants.MIN_DATE_TIME;
 
@@ -30,7 +28,7 @@ import static ru.jts_dev.gameserver.time.GameTimeConstants.MIN_DATE_TIME;
  * @author Java-man
  * @since 03.01.2016
  */
-@Component
+@Service
 public class GameTimeService {
     private final GameServerConfig gameServerConfig;
     private final GameSessionService gameSessionService;
@@ -61,7 +59,7 @@ public class GameTimeService {
     private void updateGameClock() {
         int oldHour = dateTime.getHour();
 
-        dateTime = dateTime.plusMinutes(1);
+        dateTime = dateTime.plusMinutes(1L);
 
         saveNewGameTimeInDatabase();
 
@@ -69,9 +67,8 @@ public class GameTimeService {
 
         if (oldHour != newHour) {
             // update time for all players
-            Collection<GameSession> sessions = gameSessionService.getSessions();
             long gameTimeInMinutes = getGameTimeInMinutes();
-            sessions.forEach(gameSession -> gameSession.send(new ClientSetTime(gameTimeInMinutes)));
+            gameSessionService.sendToAll(new ClientSetTime(gameTimeInMinutes));
 
             // TODO night, day listeners
         }

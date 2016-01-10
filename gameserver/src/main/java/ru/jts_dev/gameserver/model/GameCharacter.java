@@ -9,8 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.REASON_CREATION_FAILED;
-import static ru.jts_dev.gameserver.parser.data.CharacterStat.RACE_HUMAN;
-import static ru.jts_dev.gameserver.parser.data.CharacterStat.RACE_KAMAEL;
 
 /**
  * @author Camelion
@@ -71,6 +69,9 @@ public class GameCharacter {
 
     @Embedded
     private CharacterStat stat;
+
+    @Transient
+    private String connectionId;
 
     @Transient
     private Vector3D vector3D = new Vector3D(0, 0, 0);
@@ -263,5 +264,13 @@ public class GameCharacter {
 
     public CharacterStat getStat() {
         return stat;
+    }
+
+    public String getConnectionId() {
+        return connectionId;
+    }
+
+    public void setConnectionId(String connectionId) {
+        this.connectionId = connectionId;
     }
 }

@@ -42,6 +42,10 @@ public class GameSession {
         packetChannel.send(msg);
     }
 
+    public String getConnectionId() {
+        return connectionId;
+    }
+
     public ByteBuf getEncryptKey() {
         return encryptKey;
     }
