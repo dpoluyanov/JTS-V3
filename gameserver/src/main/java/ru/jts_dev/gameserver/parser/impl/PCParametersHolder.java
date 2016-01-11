@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,7 +53,7 @@ public class PCParametersHolder extends PCParametersBaseListener {
     public static final String MKAMAEL_SOLDIER = "MKamaelSoldier";
     @Autowired
     private ApplicationContext context;
-    private Map<String, double[]> collisionBoxes = new HashMap<>();
+    private Map<String, List<Double>> collisionBoxes = new HashMap<>();
 
     /**
      * @param sex      - male = 0, female = 1
@@ -59,6 +61,7 @@ public class PCParametersHolder extends PCParametersBaseListener {
      * @return - String representation of sex and stat name
      */
     // TODO: 05.01.16 replace with enum
+    @Cacheable(cacheNames = "pcParameterName", key = "#statName + \"_\" + #sex")
     public static String toPCParameterName(int sex, String statName) {
         String name = "";
         switch (statName) {
@@ -100,7 +103,7 @@ public class PCParametersHolder extends PCParametersBaseListener {
         return name;
     }
 
-    public Map<String, double[]> getCollisionBoxes() {
+    public Map<String, List<Double>> getCollisionBoxes() {
         return Collections.unmodifiableMap(collisionBoxes);
     }
 
@@ -109,31 +112,14 @@ public class PCParametersHolder extends PCParametersBaseListener {
         for (PCParametersParser.Collision_statContext csctx : ctx.collision_stat()) {
             String pcClassName = csctx.pc_name().getText();
 
-            double[] collisions = convertFromDoubleArray(csctx.double_array());
+            List<Double> collisions = csctx.double_list().value;
 
             collisionBoxes.put(pcClassName, collisions);
         }
     }
 
-    /**
-     * Converts ANTLR Generated {@link ru.jts_dev.gameserver.parser.PCParametersParser.Double_arrayContext}
-     * to Java {@code double[]} array
-     *
-     * @param ctx - parser {@link ru.jts_dev.gameserver.parser.PCParametersParser.Double_arrayContext}
-     * @return - filled double[] array
-     */
-    private double[] convertFromDoubleArray(PCParametersParser.Double_arrayContext ctx) {
-        double[] array = new double[ctx.double_object().size()];
-
-        for (int i = 0; i < array.length; i++) {
-            array[i] = Double.valueOf(ctx.double_object(i).getText());
-        }
-
-        return array;
-    }
-
     @PostConstruct
-    public void parse() throws IOException {
+    private void parse() throws IOException {
         Resource file = context.getResource("scripts/pc_parameter.txt");
         try (InputStream is = file.getInputStream()) {
             ANTLRInputStream input = new ANTLRInputStream(is);

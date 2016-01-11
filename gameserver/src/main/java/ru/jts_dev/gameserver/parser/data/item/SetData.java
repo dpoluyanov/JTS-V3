@@ -21,12 +21,12 @@ public class SetData {
     private String setAdditionalEffectSkill;
     private int setAdditional2Condition;
     private String setAdditional2EffectSkill;
-    private int[] strInc;
-    private int[] conInc;
-    private int[] dexInc;
-    private int[] intInc;
-    private int[] menInc;
-    private int[] witInc;
+    private List<Integer> strInc;
+    private List<Integer> conInc;
+    private List<Integer> dexInc;
+    private List<Integer> intInc;
+    private List<Integer> menInc;
+    private List<Integer> witInc;
 
     public SetData(int setId, int slotChest) {
         this.setId = setId;
@@ -121,51 +121,51 @@ public class SetData {
         this.setAdditional2EffectSkill = setAdditional2EffectSkill;
     }
 
-    public int[] getStrInc() {
+    public List<Integer> getStrInc() {
         return strInc;
     }
 
-    public void setStrInc(int[] strInc) {
+    public void setStrInc(List<Integer> strInc) {
         this.strInc = strInc;
     }
 
-    public int[] getConInc() {
+    public List<Integer> getConInc() {
         return conInc;
     }
 
-    public void setConInc(int[] conInc) {
+    public void setConInc(List<Integer> conInc) {
         this.conInc = conInc;
     }
 
-    public int[] getDexInc() {
+    public List<Integer> getDexInc() {
         return dexInc;
     }
 
-    public void setDexInc(int[] dexInc) {
+    public void setDexInc(List<Integer> dexInc) {
         this.dexInc = dexInc;
     }
 
-    public int[] getIntInc() {
+    public List<Integer> getIntInc() {
         return intInc;
     }
 
-    public void setIntInc(int[] intInc) {
+    public void setIntInc(List<Integer> intInc) {
         this.intInc = intInc;
     }
 
-    public int[] getMenInc() {
+    public List<Integer> getMenInc() {
         return menInc;
     }
 
-    public void setMenInc(int[] menInc) {
+    public void setMenInc(List<Integer> menInc) {
         this.menInc = menInc;
     }
 
-    public int[] getWitInc() {
+    public List<Integer> getWitInc() {
         return witInc;
     }
 
-    public void setWitInc(int[] witInc) {
+    public void setWitInc(List<Integer> witInc) {
         this.witInc = witInc;
     }
 

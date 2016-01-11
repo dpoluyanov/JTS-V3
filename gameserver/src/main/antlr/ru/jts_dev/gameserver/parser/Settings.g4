@@ -64,11 +64,13 @@ start_point :
     'point_end'
     ;
 
-point : 'point' '=' int_array;
+point : 'point' '=' vector3D_object;
 
-class_ : 'class' '=' identifier_array;
+class_ : 'class' '=' identifier_list;
 
-identifier_object: HUMAN_FIGHTER | HUMAN_MAGICAN | ELF_FIGHTER | ELF_MAGICAN | DARKELF_FIGHTER | DARKELF_MAGICAN
+identifier_object returns [String value]
+    @after {$ctx.value = $text;}
+    : HUMAN_FIGHTER | HUMAN_MAGICAN | ELF_FIGHTER | ELF_MAGICAN | DARKELF_FIGHTER | DARKELF_MAGICAN
     | DWARP_APPRENTICE | ORC_FIGHTER | ORC_SHAMAN | KAMAEL_M_SOLDIER | KAMAEL_F_SOLDIER
     ;
 
@@ -120,17 +122,17 @@ recommended_stat :
     'recommended_stat_end'
     ;
 
-human_fighter_stat : HUMAN_FIGHTER '=' int_array;
-human_magician_stat : HUMAN_MAGICAN '=' int_array;
-elf_fighter_stat : ELF_FIGHTER '=' int_array;
-elf_magician_stat : ELF_MAGICAN'=' int_array;
-darkelf_fighter_stat : DARKELF_FIGHTER '=' int_array;
-darkelf_magician_stat : DARKELF_MAGICAN'=' int_array;
-orc_fighter_stat : ORC_FIGHTER'=' int_array;
-orc_shaman_stat : ORC_SHAMAN '=' int_array;
-dwarf_apprentice_stat : DWARP_APPRENTICE '=' int_array;
-kamael_m_soldier_stat : KAMAEL_M_SOLDIER '=' int_array;
-kamael_f_soldier_stat : KAMAEL_F_SOLDIER '=' int_array;
+human_fighter_stat : HUMAN_FIGHTER '=' int_list;
+human_magician_stat : HUMAN_MAGICAN '=' int_list;
+elf_fighter_stat : ELF_FIGHTER '=' int_list;
+elf_magician_stat : ELF_MAGICAN'=' int_list;
+darkelf_fighter_stat : DARKELF_FIGHTER '=' int_list;
+darkelf_magician_stat : DARKELF_MAGICAN'=' int_list;
+orc_fighter_stat : ORC_FIGHTER'=' int_list;
+orc_shaman_stat : ORC_SHAMAN '=' int_list;
+dwarf_apprentice_stat : DWARP_APPRENTICE '=' int_list;
+kamael_m_soldier_stat : KAMAEL_M_SOLDIER '=' int_list;
+kamael_f_soldier_stat : KAMAEL_F_SOLDIER '=' int_list;
 
 HUMAN_FIGHTER : 'human_fighter';
 HUMAN_MAGICAN : 'human_magician';

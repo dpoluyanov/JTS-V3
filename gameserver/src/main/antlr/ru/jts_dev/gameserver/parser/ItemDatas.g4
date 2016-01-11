@@ -3,7 +3,9 @@ grammar ItemDatas;
 import Lang;
 
 @header {
+import ru.jts_dev.gameserver.constants.DefaultAction;
 import ru.jts_dev.gameserver.constants.ItemClass;
+import ru.jts_dev.gameserver.constants.ItemTypes.*;
 import ru.jts_dev.gameserver.constants.SlotBitType;
 }
 
@@ -33,23 +35,23 @@ set :
     ;
 
 slot_chest : 'slot_chest' '=' '{' int_object '}';
-slot_legs : 'slot_legs' '=' int_array;
-slot_feet : 'slot_feet' '=' int_array;
-slot_head : 'slot_head' '=' int_array;
-slot_gloves : 'slot_gloves' '=' int_array;
-slot_lhand : 'slot_lhand' '=' int_array;
+slot_legs : 'slot_legs' '=' int_list;
+slot_feet : 'slot_feet' '=' int_list;
+slot_head : 'slot_head' '=' int_list;
+slot_gloves : 'slot_gloves' '=' int_list;
+slot_lhand : 'slot_lhand' '=' int_list;
 slot_additional : 'slot_additional' '=' name_object;
 set_skill : 'set_skill' '=' name_object;
 set_effect_skill : 'set_effect_skill' '=' name_object;
 set_additional_effect_skill : 'set_additional_effect_skill' '=' name_object;
 set_additional2_condition : 'set_additional2_condition' '=' int_object;
 set_additional2_effect_skill : 'set_additional2_effect_skill' '=' name_object;
-str_inc : 'str_inc' '=' int_array2;
-con_inc : 'con_inc' '=' int_array2;
-dex_inc : 'dex_inc' '=' int_array2;
-int_inc : 'int_inc' '=' int_array2;
-men_inc : 'men_inc' '=' int_array2;
-wit_inc : 'wit_inc' '=' int_array2;
+str_inc : 'str_inc' '=' int_list;
+con_inc : 'con_inc' '=' int_list;
+dex_inc : 'dex_inc' '=' int_list;
+int_inc : 'int_inc' '=' int_list;
+men_inc : 'men_inc' '=' int_list;
+wit_inc : 'wit_inc' '=' int_list;
 
 item :
     'item_begin'
@@ -57,7 +59,7 @@ item :
     item_id
     name_object
     item_type
-    slot_bit_type_wrapper
+    slot_bit_type_list
     armor_type_wrapper
     etcitem_type_wrapper
     delay_share_group
@@ -140,13 +142,13 @@ can_move : 'can_move' '=' int_object;
 is_premium : 'is_premium' '=' int_object;
 
 is_olympiad_can_use : 'is_olympiad_can_use' '=' int_object;
-use_condition : 'use_condition' '=' (empty_array | '{' condition (';' condition)* '}');
-equip_condition : 'equip_condition' '=' (empty_array | '{' condition (';' condition)* '}');
-item_equip_option : 'item_equip_option' '=' (empty_array | identifier_array);
-condition : '{' identifier_object (';' (int_object | int_array | identifier_array | category_array))? '}';
+use_condition : 'use_condition' '=' (empty_list | '{' condition (';' condition)* '}');
+equip_condition : 'equip_condition' '=' (empty_list | '{' condition (';' condition)* '}');
+item_equip_option : 'item_equip_option' '=' (empty_list | identifier_list);
+condition : '{' identifier_object (';' (int_object | int_list | identifier_list | category_list))? '}';
 
 for_npc : 'for_npc' '=' int_object;
-unequip_skill : 'unequip_skill' '=' identifier_array;
+unequip_skill : 'unequip_skill' '=' identifier_list;
 
 base_attribute_attack : 'base_attribute_attack' '=' attack_attribute;
 attack_attribute : '{' attribute ';' int_object '}';
@@ -154,9 +156,9 @@ attribute : NONE | FIRE | EARTH;
 
 html : 'html' '=' name_object;
 
-base_attribute_defend : 'base_attribute_defend' '=' int_array6;
+base_attribute_defend : 'base_attribute_defend' '=' int_list;
 
-category : 'category' '=' empty_array;
+category : 'category' '=' empty_list;
 
 enchant_enable : 'enchant_enable' '=' int_object;
 elemental_enable : 'elemental_enable' '=' int_object;
@@ -172,9 +174,28 @@ physical_defense : 'physical_defense' '=' int_object;
 magical_defense : 'magical_defense' '=' int_object;
 mp_bonus : 'mp_bonus' '=' int_object;
 
-weapon_type_wrapper : 'weapon_type' '=' weapon_type;
-weapon_type : NONE | SWORD | BLUNT | BOW | POLE | DAGGER | DUAL | FIST | DUALFIST | FISHINGROD | RAPIER | ETC
-    | ANCIENTSWORD | CROSSBOW | FLAG | OWNTHING | DUALDAGGER;
+weapon_type_wrapper
+    returns [WeaponType value]: 'weapon_type' '=' wt=weapon_type { $ctx.value = $wt.value; };
+weapon_type
+    returns [WeaponType value]:
+    NONE { $ctx.value = WeaponType.NONE; }
+    | SWORD { $ctx.value = WeaponType.SWORD; }
+    | BLUNT { $ctx.value = WeaponType.BLUNT; }
+    | BOW { $ctx.value = WeaponType.BOW; }
+    | POLE { $ctx.value = WeaponType.POLE; }
+    | DAGGER { $ctx.value = WeaponType.DAGGER; }
+    | DUAL { $ctx.value = WeaponType.DUAL; }
+    | FIST { $ctx.value = WeaponType.FIST; }
+    | DUALFIST { $ctx.value = WeaponType.DUALFIST; }
+    | FISHINGROD { $ctx.value = WeaponType.FISHINGROD; }
+    | RAPIER { $ctx.value = WeaponType.RAPIER; }
+    | ETC { $ctx.value = WeaponType.ETC; }
+    | ANCIENTSWORD { $ctx.value = WeaponType.ANCIENTSWORD; }
+    | CROSSBOW { $ctx.value = WeaponType.CROSSBOW; }
+    | FLAG { $ctx.value = WeaponType.FLAG; }
+    | OWNTHING { $ctx.value = WeaponType.OWNTHING; }
+    | DUALDAGGER { $ctx.value = WeaponType.DUALDAGGER; }
+    ;
 
 is_trade : 'is_trade' '=' int_object;
 is_drop : 'is_drop' '=' int_object;
@@ -187,7 +208,7 @@ random_damage : 'random_damage' '=' int_object;
 critical : 'critical' '=' int_object;
 hit_modify : 'hit_modify' '=' double_object;
 attack_range : 'attack_range' '=' int_object;
-damage_range : 'damage_range' '=' int_array;
+damage_range : 'damage_range' '=' int_list;
 
 attack_speed : 'attack_speed' '=' int_object;
 
@@ -195,8 +216,10 @@ avoid_modify : 'avoid_modify' '=' int_object;
 
 dual_fhit_rate : 'dual_fhit_rate' '=' int_object;
 
-shield_defense : 'shield_defense' '=' int_object;
-shield_defense_rate : 'shield_defense_rate' '=' int_object;
+shield_defense
+    returns[int value]: 'shield_defense' '=' io=int_object {$ctx.value = $io.value;};
+shield_defense_rate
+    returns[int value]: 'shield_defense_rate' '=' io=int_object {$ctx.value = $io.value;};
 
 reuse_delay : 'reuse_delay' '=' int_object;
 
@@ -204,9 +227,9 @@ initial_count : 'initial_count' '=' int_object;
 soulshot_count : 'soulshot_count' '=' int_object;
 spiritshot_count : 'spiritshot_count' '=' int_object;
 
-reduced_soulshot : 'reduced_soulshot' '=' int_array2;
-reduced_spiritshot : 'reduced_spiritshot' '=' empty_array;
-reduced_mp_consume : 'reduced_mp_consume' '=' int_array2;
+reduced_soulshot : 'reduced_soulshot' '=' int_list;
+reduced_spiritshot : 'reduced_spiritshot' '=' empty_list;
+reduced_mp_consume : 'reduced_mp_consume' '=' int_list;
 
 immediate_effect : 'immediate_effect' '=' int_object;
 ex_immediate_effect : 'ex_immediate_effect' '=' int_object;
@@ -218,7 +241,7 @@ duration : 'duration' '=' int_object;
 period : 'period' '=' int_object;
 equip_reuse_delay : 'equip_reuse_delay' '=' int_object;
 
-capsuled_items : 'capsuled_items' '=' (empty_array | '{' capsuled_item (';' capsuled_item)* '}');
+capsuled_items : 'capsuled_items' '=' (empty_list | '{' capsuled_item (';' capsuled_item)* '}');
 capsuled_item : '{' name_object ';' int_object ';' int_object ';' double_object '}';
 
 price : 'price' '=' int_object;
@@ -244,44 +267,132 @@ material_type : STEEL | FINE_STEEL | WOOD | CLOTH | LEATHER | BONE | BRONZE | OR
 consume_type_wrapper : 'consume_type' '=' consume_type;
 consume_type: CONSUME_TYPE_NORMAL | CONSUME_TYPE_STACKABLE | CONSUME_TYPE_ASSET;
 
-default_action_wrapper: 'default_action' '=' default_action;
-default_action : ACTION_NONE | ACTION_EQUIP | ACTION_PEEL | ACTION_SKILL_REDUCE | ACTION_SOULSHOT | ACTION_RECIPE
-    | ACTION_SKILL_MAINTAIN | ACTION_SPIRITSHOT | ACTION_DICE | ACTION_CALC | ACTION_SEED | ACTION_HARVEST
-    | ACTION_CAPSULE | ACTION_XMAS_OPEN | ACTION_SHOW_HTML | ACTION_SHOW_SSQ_STATUS | ACTION_FISHINGSHOT
-    | ACTION_SUMMON_SOULSHOT | ACTION_SUMMON_SPIRITSHOT | ACTION_CALL_SKILL | ACTION_SHOW_ADVENTURER_GUIDE_BOOK
-    | ACTION_KEEP_EXP | ACTION_CREATE_MPCC | ACTION_NICK_COLOR | ACTION_HIDE_NAME | ACTION_START_QUEST;
-
-recipe_id : 'recipe_id' '=' int_object;
-blessed : 'blessed' '=' int_object;
-weight : 'weight' '=' int_object;
-
-item_multi_skill_list : 'item_multi_skill_list' '=' identifier_array;
-
-delay_share_group: 'delay_share_group' '=' int_object;
-
-etcitem_type_wrapper : 'etcitem_type' '=' etcitem_type;
-etcitem_type : NONE | POTION | ARROW | SCRL_ENCHANT_AM | SCRL_ENCHANT_WP | SCROLL | MATERIAL | RECIPE | PET_COLLAR
-    | CASTLE_GUARD | LOTTO | RACE_TICKET | DYE | SEED | SEED2 | CROP | MATURECROP | HARVEST | TICKET_OF_LORD | LURE
-    | BLESS_SCRL_ENCHANT_AM | BLESS_SCRL_ENCHANT_WP | COUPON | ELIXIR | SCRL_ENCHANT_ATTR | BOLT | RUNE_SELECT
-    | SCRL_INC_ENCHANT_PROP_WP | SCRL_INC_ENCHANT_PROP_AM | ANCIENT_CRYSTAL_ENCHANT_WP | ANCIENT_CRYSTAL_ENCHANT_AM
-    | RUNE
+default_action_wrapper
+    returns[DefaultAction value]: 'default_action' '=' da=default_action {$ctx.value=$da.value;};
+default_action
+    returns[DefaultAction value]:
+    ACTION_NONE {$ctx.value=DefaultAction.ACTION_NONE;}
+    | ACTION_EQUIP {$ctx.value=DefaultAction.ACTION_EQUIP;}
+    | ACTION_PEEL {$ctx.value=DefaultAction.ACTION_PEEL;}
+    | ACTION_SKILL_REDUCE {$ctx.value=DefaultAction.ACTION_SKILL_REDUCE;}
+    | ACTION_SOULSHOT {$ctx.value=DefaultAction.ACTION_SOULSHOT;}
+    | ACTION_RECIPE {$ctx.value=DefaultAction.ACTION_RECIPE;}
+    | ACTION_SKILL_MAINTAIN {$ctx.value=DefaultAction.ACTION_SKILL_MAINTAIN;}
+    | ACTION_SPIRITSHOT {$ctx.value=DefaultAction.ACTION_SPIRITSHOT;}
+    | ACTION_DICE {$ctx.value=DefaultAction.ACTION_DICE;}
+    | ACTION_CALC {$ctx.value=DefaultAction.ACTION_CALC;}
+    | ACTION_SEED {$ctx.value=DefaultAction.ACTION_SEED;}
+    | ACTION_HARVEST {$ctx.value=DefaultAction.ACTION_HARVEST;}
+    | ACTION_CAPSULE {$ctx.value=DefaultAction.ACTION_CAPSULE;}
+    | ACTION_XMAS_OPEN {$ctx.value=DefaultAction.ACTION_XMAS_OPEN;}
+    | ACTION_SHOW_HTML {$ctx.value=DefaultAction.ACTION_SHOW_HTML;}
+    | ACTION_SHOW_SSQ_STATUS {$ctx.value=DefaultAction.ACTION_SHOW_SSQ_STATUS;}
+    | ACTION_FISHINGSHOT {$ctx.value=DefaultAction.ACTION_FISHINGSHOT;}
+    | ACTION_SUMMON_SOULSHOT {$ctx.value=DefaultAction.ACTION_SUMMON_SOULSHOT;}
+    | ACTION_SUMMON_SPIRITSHOT {$ctx.value=DefaultAction.ACTION_SUMMON_SPIRITSHOT;}
+    | ACTION_CALL_SKILL {$ctx.value=DefaultAction.ACTION_CALL_SKILL;}
+    | ACTION_SHOW_ADVENTURER_GUIDE_BOOK {$ctx.value=DefaultAction.ACTION_SHOW_ADVENTURER_GUIDE_BOOK;}
+    | ACTION_KEEP_EXP {$ctx.value=DefaultAction.ACTION_KEEP_EXP;}
+    | ACTION_CREATE_MPCC {$ctx.value=DefaultAction.ACTION_CREATE_MPCC;}
+    | ACTION_NICK_COLOR {$ctx.value=DefaultAction.ACTION_NICK_COLOR;}
+    | ACTION_HIDE_NAME {$ctx.value=DefaultAction.ACTION_HIDE_NAME;}
+    | ACTION_START_QUEST {$ctx.value=DefaultAction.ACTION_START_QUEST;}
     ;
 
-armor_type_wrapper : 'armor_type' '=' armor_type;
-armor_type : NONE | LIGHT | HEAVY | MAGIC | SIGIL;
+recipe_id
+    returns[int value]: 'recipe_id' '=' io=int_object {$ctx.value = $io.value;};
+blessed
+    returns[boolean value] : 'blessed' '=' bo=bool_object {$ctx.value = $bo.value;};
+weight
+    returns[int value]: 'weight' '=' io=int_object {$ctx.value = $io.value;};
 
-slot_bit_type_wrapper
+item_multi_skill_list
+    returns[List<String> value]: 'item_multi_skill_list' '=' il=identifier_list {$ctx.value = $il.value;};
+
+delay_share_group returns[int value]: 'delay_share_group' '=' io=int_object { $ctx.value = $io.value;};
+
+etcitem_type_wrapper
+    returns [EtcItemType value]: 'etcitem_type' '=' et=etcitem_type { $ctx.value = $et.value; };
+etcitem_type
+    returns [EtcItemType value]:
+    NONE { $ctx.value = EtcItemType.NONE; }
+    | POTION { $ctx.value = EtcItemType.POTION; }
+    | ARROW { $ctx.value = EtcItemType.ARROW; }
+    | SCRL_ENCHANT_AM { $ctx.value = EtcItemType.SCRL_ENCHANT_AM; }
+    | SCRL_ENCHANT_WP { $ctx.value = EtcItemType.SCRL_ENCHANT_WP; }
+    | SCROLL { $ctx.value = EtcItemType.SCROLL; }
+    | MATERIAL { $ctx.value = EtcItemType.MATERIAL; }
+    | RECIPE { $ctx.value = EtcItemType.RECIPE; }
+    | PET_COLLAR { $ctx.value = EtcItemType.PET_COLLAR; }
+    | CASTLE_GUARD { $ctx.value = EtcItemType.CASTLE_GUARD; }
+    | LOTTO { $ctx.value = EtcItemType.LOTTO; }
+    | RACE_TICKET { $ctx.value = EtcItemType.RACE_TICKET; }
+    | DYE { $ctx.value = EtcItemType.DYE; }
+    | SEED { $ctx.value = EtcItemType.SEED; }
+    | SEED2 { $ctx.value = EtcItemType.SEED2; }
+    | CROP { $ctx.value = EtcItemType.CROP; }
+    | MATURECROP { $ctx.value = EtcItemType.MATURECROP; }
+    | HARVEST { $ctx.value = EtcItemType.HARVEST; }
+    | TICKET_OF_LORD { $ctx.value = EtcItemType.TICKET_OF_LORD; }
+    | LURE { $ctx.value = EtcItemType.LURE; }
+    | BLESS_SCRL_ENCHANT_AM { $ctx.value = EtcItemType.BLESS_SCRL_ENCHANT_AM; }
+    | BLESS_SCRL_ENCHANT_WP { $ctx.value = EtcItemType.BLESS_SCRL_ENCHANT_WP; }
+    | COUPON { $ctx.value = EtcItemType.COUPON; }
+    | ELIXIR { $ctx.value = EtcItemType.ELIXIR; }
+    | SCRL_ENCHANT_ATTR { $ctx.value = EtcItemType.SCRL_ENCHANT_ATTR; }
+    | BOLT { $ctx.value = EtcItemType.BOLT; }
+    | RUNE_SELECT { $ctx.value = EtcItemType.RUNE_SELECT; }
+    | SCRL_INC_ENCHANT_PROP_WP { $ctx.value = EtcItemType.SCRL_INC_ENCHANT_PROP_WP; }
+    | SCRL_INC_ENCHANT_PROP_AM { $ctx.value = EtcItemType.SCRL_INC_ENCHANT_PROP_AM; }
+    | ANCIENT_CRYSTAL_ENCHANT_WP { $ctx.value = EtcItemType.ANCIENT_CRYSTAL_ENCHANT_WP; }
+    | ANCIENT_CRYSTAL_ENCHANT_AM { $ctx.value = EtcItemType.ANCIENT_CRYSTAL_ENCHANT_AM; }
+    | RUNE { $ctx.value = EtcItemType.RUNE; }
+    ;
+
+armor_type_wrapper
+    returns [ArmorType value] : 'armor_type' '=' at=armor_type { $ctx.value = $at.value; };
+armor_type
+    returns[ArmorType value]:
+    NONE { $ctx.value = ArmorType.NONE; }
+    | LIGHT { $ctx.value = ArmorType.LIGHT; }
+    | HEAVY { $ctx.value = ArmorType.HEAVY; }
+    | MAGIC { $ctx.value = ArmorType.MAGIC; }
+    | SIGIL { $ctx.value = ArmorType.SIGIL; };
+
+slot_bit_type_list
     returns [List<SlotBitType> value]
     @init { $ctx.value = new ArrayList<>(); }:
     'slot_bit_type' '=' '{'
-    slot_bit_type { $ctx.value.add(SlotBitType.valueOf($slot_bit_type.text)); }
-    (';' slot_bit_type { $ctx.value.add(SlotBitType.valueOf($slot_bit_type.text)); })? '}';
-slot_bit_type: NONE | RHAND | LRHAND | LHAND | CHEST | LEGS | FEET | HEAD | GLOVES | ONEPIECE | REAR | LEAR
-    | LFINGER | RFINGER | NECK | BACK | UNDERWEAR | HAIR | HAIR2 | HAIRALL | ALLDRESS | RBRACELET | LBRACELET
-    | WAIST
-    | DECO1;
+    slot_bit_type { $ctx.value.add($slot_bit_type.value); }
+    (';' slot_bit_type { $ctx.value.add($slot_bit_type.value); })? '}';
+slot_bit_type returns [SlotBitType value]:
+    NONE { $ctx.value = SlotBitType.NONE; }
+    | RHAND { $ctx.value = SlotBitType.RHAND; }
+    | LRHAND { $ctx.value = SlotBitType.LRHAND; }
+    | LHAND { $ctx.value = SlotBitType.LHAND; }
+    | CHEST { $ctx.value = SlotBitType.CHEST; }
+    | LEGS { $ctx.value = SlotBitType.LEGS; }
+    | FEET { $ctx.value = SlotBitType.FEET; }
+    | HEAD { $ctx.value = SlotBitType.HEAD; }
+    | GLOVES { $ctx.value = SlotBitType.GLOVES; }
+    | ONEPIECE { $ctx.value = SlotBitType.ONEPIECE; }
+    | REAR { $ctx.value = SlotBitType.REAR; }
+    | LEAR { $ctx.value = SlotBitType.LEAR; }
+    | LFINGER { $ctx.value = SlotBitType.LFINGER; }
+    | RFINGER { $ctx.value = SlotBitType.RFINGER; }
+    | NECK { $ctx.value = SlotBitType.NECK; }
+    | BACK { $ctx.value = SlotBitType.BACK; }
+    | UNDERWEAR { $ctx.value = SlotBitType.UNDERWEAR; }
+    | HAIR { $ctx.value = SlotBitType.HAIR; }
+    | HAIR2 { $ctx.value = SlotBitType.HAIR2; }
+    | HAIRALL { $ctx.value = SlotBitType.HAIRALL; }
+    | ALLDRESS { $ctx.value = SlotBitType.ALLDRESS; }
+    | RBRACELET { $ctx.value = SlotBitType.RBRACELET; }
+    | LBRACELET { $ctx.value = SlotBitType.LBRACELET; }
+    | WAIST { $ctx.value = SlotBitType.WAIST; }
+    | DECO1 { $ctx.value = SlotBitType.DECO1; };
 
-item_type returns [ItemClass value]: 'item_type' '=' item_class { $ctx.value = ItemClass.valueOf($item_class.text);};
+item_type returns [ItemClass value]: 'item_type' '=' item_class { $ctx.value = $item_class.value;};
 item_class returns [ItemClass value]:
     WEAPON { $ctx.value = ItemClass.WEAPON; }
     | ARMOR { $ctx.value = ItemClass.ARMOR; }
@@ -290,7 +401,7 @@ item_class returns [ItemClass value]:
     | ACCESSARY { $ctx.value = ItemClass.ACCESSARY; }
     | QUESTITEM { $ctx.value = ItemClass.QUESTITEM; };
 
-item_id returns [int value]: int_object;
+item_id returns [int value]: io=int_object { $ctx.value = $io.value; } ;
 
 // item classes
 WEAPON : 'weapon';

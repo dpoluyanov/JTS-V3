@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.List;
 
 /**
  * @author Camelion
@@ -67,7 +68,7 @@ public class CharacterStat implements Cloneable {
 
     @Column
     // INT, STR, CON, MEN, DEX, WIT
-    private int[] stats;
+    private List<Integer> stats;
 
     @Range(min = RACE_HUMAN, max = RACE_KAMAEL)
     @Column
@@ -91,7 +92,7 @@ public class CharacterStat implements Cloneable {
     @Column
     private int classId;
 
-    public CharacterStat(int raceId, int classId, String statName, int[] stats) {
+    public CharacterStat(int raceId, int classId, String statName, List<Integer > stats) {
         this.raceId = raceId;
         this.classId = classId;
         this.stats = stats;
@@ -115,10 +116,10 @@ public class CharacterStat implements Cloneable {
     }
 
     public int getForType(int type) {
-        if (type >= stats.length)
+        if (type >= stats.size())
             throw new IndexOutOfBoundsException("Unknown stat type: " + type + " possible 0-5, INT, STR, CON, MEN, DEX, WIT");
 
-        return stats[type];
+        return stats.get(type);
     }
 
     @Override

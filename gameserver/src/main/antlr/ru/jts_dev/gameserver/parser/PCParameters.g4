@@ -10,7 +10,7 @@ pc_collision_box_table :
     'pc_collision_box_table_end'
     ;
 
-collision_stat : pc_name '=' double_array;
+collision_stat : pc_name '=' double_list;
 
 pc_name : FFIGHTER | MFIGHTER | FMAGIC | MMAGIC | FELF_FIGHTER | MELF_FIGHTER | FELF_MAGIC | MELF_MAGIC
     | FDARKELF_FIGHTER | MDARKELF_FIGHTER | FDARKELF_MAGIC | MDARKELF_MAGIC | FORC_FIGHTER | MORC_FIGHTER

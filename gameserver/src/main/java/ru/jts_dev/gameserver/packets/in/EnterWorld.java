@@ -14,6 +14,8 @@ import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
 
+import java.util.List;
+
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.toPCParameterName;
 
@@ -57,7 +59,7 @@ public class EnterWorld extends IncomingMessageWrapper {
         String pcParameterName = toPCParameterName(character.getSex(), character.getStat().getStatName());
         assert parametersData.getCollisionBoxes().containsKey(pcParameterName);
 
-        double[] collisions = parametersData.getCollisionBoxes().get(pcParameterName);
+        List<Double> collisions = parametersData.getCollisionBoxes().get(pcParameterName);
 
         sessionService.send(session, new UserInfo(character, collisions));
     }

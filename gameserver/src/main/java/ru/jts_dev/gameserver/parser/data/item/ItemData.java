@@ -105,6 +105,98 @@ public class ItemData {
         this.slotBitTypes = slotBitTypes;
     }
 
+    public ArmorType getArmorType() {
+        return armorType;
+    }
+
+    public void setArmorType(ArmorType armorType) {
+        this.armorType = armorType;
+    }
+
+    public EtcItemType getEtcItemType() {
+        return etcItemType;
+    }
+
+    public void setEtcItemType(EtcItemType etcItemType) {
+        this.etcItemType = etcItemType;
+    }
+
+    public ItemTypes.WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    public void setWeaponType(ItemTypes.WeaponType weaponType) {
+        this.weaponType = weaponType;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public ItemClass getItemClass() {
+        return itemClass;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ItemClass getItemType() {
+        return itemType;
+    }
+
+    public int getDelayShareGroup() {
+        return delayShareGroup;
+    }
+
+    public void setDelayShareGroup(int delayShareGroup) {
+        this.delayShareGroup = delayShareGroup;
+    }
+
+    public int getShieldDefenseRate() {
+        return shieldDefenseRate;
+    }
+
+    public void setShieldDefenseRate(int shieldDefenseRate) {
+        this.shieldDefenseRate = shieldDefenseRate;
+    }
+
+    public int getShieldDefense() {
+        return shieldDefense;
+    }
+
+    public void setShieldDefense(int shieldDefense) {
+        this.shieldDefense = shieldDefense;
+    }
+
+    public List<String> getItemMultiSkillList() {
+        return itemMultiSkillList;
+    }
+
+    public void setItemMultiSkillList(List<String> itemMultiSkillList) {
+        this.itemMultiSkillList = itemMultiSkillList;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public void setBlessed(boolean blessed) {
+        this.blessed = blessed;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
     private static final class CapsuledItemData {
         private final String itemName;
         private final int minCount;
@@ -118,6 +210,7 @@ public class ItemData {
             this.chance = chance;
         }
     }
+
     private static final class AttributeAttack {
         private final AttributeType type;
         private final int value;

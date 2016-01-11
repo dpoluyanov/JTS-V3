@@ -1,31 +1,96 @@
 grammar Lang;
 
+@header {
+// For vector3D_object Rule
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+}
 
-identifier_object :
+identifier_object
+    returns [String value]
+    @after {$ctx.value = $text;} :
     // workaround about name conflicts (itemdata.txt)
     DAGGER | BOW | CROSSBOW | RAPIER | GLOVES | STEEL | LEATHER | ORIHARUKON | 'slot_lhand'
     | NAME | NONE
     ;
+
+bool_object
+    returns [boolean value]
+    @after {$ctx.value = $text.equals("1");}:
+    BOOLEAN;
+
 int_object
-    returns [int value]: INTEGER { $ctx.value = Integer.valueOf($text); };
+    returns [int value]
+    @after {$ctx.value = Integer.valueOf($text);}:
+    BOOLEAN | INTEGER;
+
 double_object
-    returns [double value]:
-    INTEGER { $ctx.value = Integer.valueOf($text); }
-    | DOUBLE { $ctx.value = Double.valueOf($text); };
-name_object returns [String value] : '[' identifier_object ']' { $ctx.value = $text; };
+    returns [double value]
+    @after {$ctx.value = Double.valueOf($text);}:
+    BOOLEAN | INTEGER | DOUBLE;
+
+name_object
+    returns [String value]:
+    '[' io=identifier_object ']' { $ctx.value = $io.value; };
+
 category_object: CATEGORY;
 
-empty_array : '{''}';
-identifier_array : empty_array | '{' identifier_object (';' identifier_object)* '}';
-int_array2 : empty_array | '{' int_object ';' int_object '}';
-int_array6 : empty_array | '{' int_object ';' int_object ';' int_object ';' int_object ';' int_object ';' int_object '}';
-int_array : empty_array | '{' int_object (';' int_object)* '}';
-double_array : empty_array | '{' double_object (';' double_object)* '}';
-category_array : empty_array | '{' category_object (';' category_object)* '}';
+vector3D_object
+    returns[Vector3D value]
+    @after{$ctx.value = new Vector3D($x.value, $y.value, $z.value);}
+    : '{' x=int_object ';' y=int_object ';' z=int_object '}';
+
+empty_list
+    returns[List<String> value]
+    @init{$ctx.value = new ArrayList<>();}:
+    '{''}';
+
+identifier_list
+    returns[List<String> value]
+    @init{ $ctx.value = new ArrayList<>();}: empty_list
+    | '{' io=identifier_object { $ctx.value.add($io.value); }
+    (';' io=identifier_object { $ctx.value.add($io.value); })* '}';
+
+int_list
+    returns [List<Integer> value]
+    @init{ $ctx.value = new ArrayList<>(); }: empty_list
+    | '{' io=int_object { $ctx.value.add($io.value); }
+    (';' io=int_object {$ctx.value.add($io.value);})* '}';
+
+double_list
+    returns [List<Double> value]
+    @init { $ctx.value = new ArrayList<>(); }: empty_list
+    | '{' d=double_object { $ctx.value.add(Double.valueOf($d.text)); }
+    (';' d=double_object { $ctx.value.add(Double.valueOf($d.text)); })* '}';
+
+category_list
+    returns [List<String> value]
+    @init { $ctx.value = new ArrayList<>(); }: empty_list
+    | '{' co=category_object { $ctx.value.add($co.text); }
+    (';' co=category_object { $ctx.value.add($co.text); })* '}';
 
 CATEGORY : '@' NAME;
-DOUBLE : INTEGER '.' '0'..'9'+;
-INTEGER : '-'? ('0' | '1'..'9' '0'..'9'*);
+
+BOOLEAN: BINARY_DIGIT;
+INTEGER: MINUS? DECIMAL;
+DOUBLE: INTEGER '.' DIGIT+;
+
+fragment
+DECIMAL: ZERO_DIGIT | NON_ZERO_DIGIT DIGIT*;
+
+fragment
+MINUS: '-';
+
+fragment
+BINARY_DIGIT: [01];
+
+fragment
+DIGIT : [0-9];
+
+fragment
+NON_ZERO_DIGIT: [1-9];
+
+fragment
+ZERO_DIGIT: [0];
 
 // Constants
 NONE : 'none';

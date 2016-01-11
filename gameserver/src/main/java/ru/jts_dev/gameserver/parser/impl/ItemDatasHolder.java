@@ -13,13 +13,17 @@ import ru.jts_dev.gameserver.constants.SlotBitType;
 import ru.jts_dev.gameserver.parser.ItemDatasBaseListener;
 import ru.jts_dev.gameserver.parser.ItemDatasLexer;
 import ru.jts_dev.gameserver.parser.ItemDatasParser;
+import ru.jts_dev.gameserver.parser.ItemDatasParser.SetContext;
 import ru.jts_dev.gameserver.parser.data.item.ItemData;
 import ru.jts_dev.gameserver.parser.data.item.SetData;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Camelion
@@ -29,7 +33,6 @@ import java.util.*;
 public class ItemDatasHolder extends ItemDatasBaseListener {
     private final Map<Integer, SetData> setsData = new HashMap<>();
     private final Map<Integer, ItemData> itemData = new HashMap<>();
-
 
     @Autowired
     private ApplicationContext context;
@@ -42,26 +45,32 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         return Collections.unmodifiableMap(itemData);
     }
 
+    /**
+     * parse itemdata set section
+     * {@see ItemDatas.g4} `set` rule
+     *
+     * @param ctx - parsed {@link SetContext}
+     */
     @Override
-    public void exitSet(ItemDatasParser.SetContext ctx) {
+    public void exitSet(SetContext ctx) {
         int setId = Integer.valueOf(ctx.int_object().getText());
         int slotChest = Integer.valueOf(ctx.slot_chest().int_object().getText());
         SetData data = new SetData(setId, slotChest);
 
         if (ctx.slot_legs() != null)
-            data.setSlotLegs(toList(ctx.slot_legs().int_array()));
+            data.setSlotLegs(ctx.slot_legs().int_list().value);
 
         if (ctx.slot_head() != null)
-            data.setSlotHead(toList(ctx.slot_head().int_array()));
+            data.setSlotHead(ctx.slot_head().int_list().value);
 
         if (ctx.slot_gloves() != null)
-            data.setSlotGloves(toList(ctx.slot_gloves().int_array()));
+            data.setSlotGloves(ctx.slot_gloves().int_list().value);
 
         if (ctx.slot_feet() != null)
-            data.setSlotFeet(toList(ctx.slot_feet().int_array()));
+            data.setSlotFeet(ctx.slot_feet().int_list().value);
 
         if (ctx.slot_lhand() != null)
-            data.setSlotLhand(toList(ctx.slot_lhand().int_array()));
+            data.setSlotLhand(ctx.slot_lhand().int_list().value);
 
         data.setSlotAdditional(ctx.slot_additional().name_object().identifier_object().getText());
         data.setSetSkill(ctx.set_skill().name_object().identifier_object().getText());
@@ -74,66 +83,45 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         if (ctx.set_additional2_effect_skill() != null)
             data.setSetAdditional2EffectSkill(ctx.set_additional2_effect_skill().name_object().identifier_object().getText());
 
-        data.setStrInc(fromIntArray2(ctx.str_inc().int_array2()));
-        data.setConInc(fromIntArray2(ctx.con_inc().int_array2()));
-        data.setDexInc(fromIntArray2(ctx.dex_inc().int_array2()));
-        data.setIntInc(fromIntArray2(ctx.int_inc().int_array2()));
-        data.setMenInc(fromIntArray2(ctx.men_inc().int_array2()));
-        data.setWitInc(fromIntArray2(ctx.wit_inc().int_array2()));
+        data.setStrInc(ctx.str_inc().int_list().value);
+        data.setConInc(ctx.con_inc().int_list().value);
+        data.setDexInc(ctx.dex_inc().int_list().value);
+        data.setIntInc(ctx.int_inc().int_list().value);
+        data.setMenInc(ctx.men_inc().int_list().value);
+        data.setWitInc(ctx.wit_inc().int_list().value);
         setsData.put(setId, data);
     }
 
     @Override
     public void exitItem(ItemDatasParser.ItemContext ctx) {
-        int itemId = ctx.item_id().int_object().value;
+        int itemId = ctx.item_id().value;
         ItemClass itemClass = ctx.item_class().value;
         String name = ctx.name_object().value;
         ItemClass itemType = ctx.item_type().value;
-        List<SlotBitType> slotBitTypes = ctx.slot_bit_type_wrapper().value;
+        List<SlotBitType> slotBitTypes = ctx.slot_bit_type_list().value;
 
-        // TODO: 08.01.16 create item data from parsed values
         ItemData data = new ItemData(itemId, itemClass, name, itemType, slotBitTypes);
+        data.setArmorType(ctx.armor_type_wrapper().value);
+        data.setEtcItemType(ctx.etcitem_type_wrapper().value);
+        data.setWeaponType(ctx.weapon_type_wrapper().value);
+        data.setDelayShareGroup(ctx.delay_share_group().value);
+        data.setItemMultiSkillList(ctx.item_multi_skill_list().value);
+        data.setRecipeId(ctx.recipe_id().value);
+        data.setBlessed(ctx.blessed().value);
+        data.setWeight(ctx.weight().value);
+
+        // TODO: 09.01.16 fill item data from parsed values
+
+        data.setShieldDefense(ctx.shield_defense().value);
+        data.setShieldDefenseRate(ctx.shield_defense_rate().value);
+
+        assert !itemData.containsKey(itemId) : "Duplicate ItemId " + itemId;
 
         itemData.put(itemId, data);
     }
 
-    /**
-     * Converts ANTLR Generated {@link ru.jts_dev.gameserver.parser.ItemDatasParser.Int_arrayContext}
-     * to Java {@code List<Integer>} list
-     *
-     * @param ctx - parser {@link ru.jts_dev.gameserver.parser.ItemDatasParser.Int_arrayContext}
-     * @return - filled {@code List<Integer>} list
-     */
-    private List<Integer> toList(ItemDatasParser.Int_arrayContext ctx) {
-        List<Integer> list = new ArrayList<>(ctx.int_object().size());
-
-        for (int i = 0; i < list.size(); i++) {
-            list.add(Integer.valueOf(ctx.int_object(i).getText()));
-        }
-
-        return list;
-    }
-
-    /**
-     * Converts ANTLR Generated {@link ru.jts_dev.gameserver.parser.ItemDatasParser.Int_array2Context}
-     * to Java {@code int[]} array with two numbers
-     *
-     * @param ctx - parser {@link ru.jts_dev.gameserver.parser.ItemDatasParser.Int_array2Context}
-     * @return - int[] array with two values
-     */
-    private int[] fromIntArray2(ItemDatasParser.Int_array2Context ctx) {
-        if (ctx.int_object().size() != 2)
-            throw new ArrayIndexOutOfBoundsException("size must be equal to 2");
-
-        int[] array = new int[2];
-        array[0] = Integer.valueOf(ctx.int_object(0).getText());
-        array[1] = Integer.valueOf(ctx.int_object(1).getText());
-
-        return array;
-    }
-
     @PostConstruct
-    public void parse() throws IOException {
+    private void parse() throws IOException {
         Resource file = context.getResource("scripts/itemdata.txt");
         try (InputStream is = file.getInputStream()) {
             ANTLRInputStream input = new ANTLRInputStream(is);

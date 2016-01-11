@@ -3,6 +3,8 @@ package ru.jts_dev.gameserver.packets.out;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 
+import java.util.List;
+
 import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.HEIGHT;
 import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.RADIUS;
@@ -14,9 +16,9 @@ import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.RADIUS;
 public class UserInfo extends OutgoingMessageWrapper {
 
     private final GameCharacter character;
-    private final double[] collisions;
+    private final List<Double> collisions;
 
-    public UserInfo(GameCharacter character, double[] collisions) {
+    public UserInfo(GameCharacter character, List<Double> collisions) {
         this.character = character;
         this.collisions = collisions;
     }
@@ -167,8 +169,8 @@ public class UserInfo extends OutgoingMessageWrapper {
         putDouble(0); // move multiplier
         putDouble(0); // attack speed multiplier
 
-        putDouble(collisions[RADIUS]); // collision radius
-        putDouble(collisions[HEIGHT]); // collision height
+        putDouble(collisions.get(RADIUS)); // collision radius
+        putDouble(collisions.get(HEIGHT)); // collision height
 
         putInt(character.getHairStyle());
         putInt(character.getHairColor());
