@@ -4,6 +4,9 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.packets.out.MoveToLocation;
+import ru.jts_dev.gameserver.packets.out.StopMove;
+import ru.jts_dev.gameserver.service.GameSessionService;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +18,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MovementService {
     private final ScheduledExecutorService scheduler;
+
+    @Autowired
+    private GameSessionService sessionService;
 
     @Autowired
     public MovementService(ScheduledExecutorService scheduler) {
@@ -34,8 +40,12 @@ public class MovementService {
 
         scheduler.schedule((Runnable) () -> {
             if (character.isMoving()) {
-                character.setVector3D(character.getVector3D().add(speed, direction));
+                Vector3D temp = character.getVector3D().add(speed, direction);
+                sessionService.send(character, new MoveToLocation(character, temp));
+                character.setVector3D(temp);
+
                 if (start.distance(character.getVector3D()) >= distance) {
+                    sessionService.send(character, new StopMove(character));
                     character.setVector3D(end);
                     character.setMoving(false);
                 }
