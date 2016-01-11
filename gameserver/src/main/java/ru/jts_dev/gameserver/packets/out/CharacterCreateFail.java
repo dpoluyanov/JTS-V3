@@ -16,6 +16,7 @@ public class CharacterCreateFail extends OutgoingMessageWrapper implements Paylo
     public static final String REASON_NAME_ALREADY_EXISTS = "REASON_NAME_ALREADY_EXISTS";
     public static final String REASON_16_ENG_CHARS = "REASON_16_ENG_CHARS";
     public static final String REASON_INCORRECT_NAME = "REASON_INCORRECT_NAME";
+
     public static Map<String, OutgoingMessageWrapper> ERRORS = new HashMap<>();
 
     static {
@@ -28,7 +29,7 @@ public class CharacterCreateFail extends OutgoingMessageWrapper implements Paylo
 
     private final int errorCode;
 
-    public CharacterCreateFail(int errorCode) {
+    private CharacterCreateFail(int errorCode) {
         this.errorCode = errorCode;
     }
 

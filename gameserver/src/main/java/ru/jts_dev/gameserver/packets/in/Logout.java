@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
+import ru.jts_dev.gameserver.packets.out.LeaveWorld;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -27,11 +29,9 @@ public class Logout extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        // TODO: 06.01.16
-        throw new UnsupportedOperationException("Not released yet");
         // client close session by himself
-
-        // GameSession session = sessionService.getSessionBy(getConnectionId());
-        // session.send(new LeaveWorld());
+        GameSession session = sessionService.getSessionBy(getConnectionId());
+        sessionService.send(session, LeaveWorld.PACKET);
+        sessionService.forcedClose(session);
     }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public class LoginFail extends OutgoingMessageWrapper {
     public static final String PASSWORD_DOES_NOT_MATCH_THIS_ACCOUNT = "PASSWORD_DOES_NOT_MATCH_THIS_ACCOUNT";
+
     public static final Map<String, LoginFail> ERRORS = new HashMap<>();
 
     static {
@@ -19,7 +20,7 @@ public class LoginFail extends OutgoingMessageWrapper {
 
     private int errorCode;
 
-    public LoginFail(int errorCode) {
+    private LoginFail(int errorCode) {
         this.errorCode = errorCode;
     }
 

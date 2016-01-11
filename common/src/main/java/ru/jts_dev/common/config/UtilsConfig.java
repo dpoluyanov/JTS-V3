@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Camelion
@@ -15,6 +16,6 @@ public class UtilsConfig {
     @Bean
     @Lazy
     public Random random() {
-        return new Random(System.currentTimeMillis());
+        return ThreadLocalRandom.current();
     }
 }

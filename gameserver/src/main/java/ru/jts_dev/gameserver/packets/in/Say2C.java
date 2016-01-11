@@ -11,6 +11,8 @@ import ru.jts_dev.gameserver.handlers.ChatHandlerParams;
 import ru.jts_dev.gameserver.model.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.Opcode;
+import ru.jts_dev.gameserver.packets.out.ActionFailed;
+import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -28,6 +30,8 @@ public class Say2C extends IncomingMessageWrapper {
     @Autowired
     private ChatCommandManager chatCommandManager;
     @Autowired
+    private GameSessionService sessionService;
+    @Autowired
     private PlayerService playerService;
 
     private String text;
@@ -43,27 +47,25 @@ public class Say2C extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        GameCharacter activeChar = playerService.getCharacterBy(getConnectionId());
-        if (activeChar == null) {
+        GameCharacter character = playerService.getCharacterBy(getConnectionId());
+        if (character == null) {
             return;
         }
 
         if (type == null) {
-            log.warn("Say2: Invalid type: {} Player : {} text: {}", type, activeChar.getName(), String.valueOf(text));
-            // TODO
-            //character.sendActionFailed();
-            //character.logout();
+            log.warn("Say2: Invalid type: {} Player : {} text: {}", type, character.getName(), text);
+            sessionService.send(character, ActionFailed.PACKET);
+            // TODO character.logout();
             return;
         }
 
         if (text.isEmpty()) {
-            log.warn(activeChar.getName() + ": sending empty text. Possible packet hack!");
-            // TODO
-            //character.sendActionFailed();
-            //character.logout();
+            log.warn(character.getName() + ": sending empty text. Possible packet hack!");
+            sessionService.send(character, ActionFailed.PACKET);
+            // TODO character.logout();
             return;
         }
 
-        chatCommandManager.execute(new ChatHandlerParams<>(activeChar, type.ordinal(), text, target));
+        chatCommandManager.execute(new ChatHandlerParams<>(character, type.ordinal(), text, target));
     }
 }

@@ -137,7 +137,7 @@ public class CharacterCreate extends IncomingMessageWrapper {
         } else {
             characterRepository.save(newCharacterWith(login));
 
-            sessionService.send(session, new CharacterCreateSuccess());
+            sessionService.send(session, CharacterCreateSuccess.PACKET);
         }
     }
 
