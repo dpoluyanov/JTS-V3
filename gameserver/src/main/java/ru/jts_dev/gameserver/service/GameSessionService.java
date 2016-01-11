@@ -8,6 +8,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.integration.ip.IpHeaders;
+import org.springframework.integration.ip.tcp.connection.TcpConnection;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionCloseEvent;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.messaging.MessageChannel;
@@ -74,7 +75,11 @@ public class GameSessionService {
         sessions.values().forEach(gameSession -> send(gameSession.getConnectionId(), message));
     }
 
-    private GameSession createSession(String connectionId) {
+    public void forcedClose(GameSession session) {
+        session.getConnection().close();
+    }
+
+    private GameSession createSession(TcpConnection connection) {
         ByteBuf encryptKey = buffer(16, 16).order(ByteOrder.LITTLE_ENDIAN);
         // randomize first 8 bytes of key
         random.nextBytes(encryptKey.array());
@@ -87,13 +92,13 @@ public class GameSessionService {
         ByteBuf decryptKey = copiedBuffer(encryptKey).order(ByteOrder.LITTLE_ENDIAN);
 
         // and pass keys to a game session object
-        return context.getBean(GameSession.class, connectionId, encryptKey, decryptKey);
+        return context.getBean(GameSession.class, connection, encryptKey, decryptKey);
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @EventListener
     private void tcpConnectionEventListener(TcpConnectionEvent event) {
-        sessions.put(event.getConnectionId(), createSession(event.getConnectionId()));
+        sessions.put(event.getConnectionId(), createSession((TcpConnection) event.getSource()));
     }
 
     @EventListener

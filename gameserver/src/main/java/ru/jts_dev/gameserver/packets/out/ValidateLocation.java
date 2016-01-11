@@ -25,7 +25,9 @@ public class ValidateLocation extends OutgoingMessageWrapper {
     @Override
     public void write() {
         putByte(0x79);
+
         putInt(objectId);
+
         putInt((int) location.getX());
         putInt((int) location.getY());
         putInt((int) location.getZ());

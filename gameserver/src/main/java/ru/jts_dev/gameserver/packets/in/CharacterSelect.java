@@ -55,7 +55,7 @@ public class CharacterSelect extends IncomingMessageWrapper {
         List<GameCharacter> characters = repository.findAllByAccountName(account);
 
         if (characterIndex < 0 || characters.isEmpty() || characters.size() <= characterIndex) {
-            sessionService.send(session, null); // TODO: 03.01.16 close connection
+            sessionService.forcedClose(session);
             return;
         }
 
