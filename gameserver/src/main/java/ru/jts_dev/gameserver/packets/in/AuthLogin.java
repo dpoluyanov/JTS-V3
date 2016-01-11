@@ -64,6 +64,7 @@ public class AuthLogin extends IncomingMessageWrapper {
         List<GameCharacter> characters = repository.findAllByAccountName(login);
 
         // TODO: 13.12.15 additional playkey check with authserver session keys
-        session.send(new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
+        sessionService.send(session,
+                new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
     }
 }

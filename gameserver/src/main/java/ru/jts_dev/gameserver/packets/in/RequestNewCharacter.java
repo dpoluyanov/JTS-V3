@@ -36,7 +36,7 @@ public class RequestNewCharacter extends IncomingMessageWrapper {
         GameSession session = sessionService.getSessionBy(getConnectionId());
 
         // TODO: 14.12.15 connection close packet, if new character creation disabled for this server
-        session.send(new NewCharacterSuccess(settingsData.getMaximumStats(),
+        sessionService.send(session, new NewCharacterSuccess(settingsData.getMaximumStats(),
                 settingsData.getRecommendedStats(), settingsData.getMinimumStats()));
     }
 }

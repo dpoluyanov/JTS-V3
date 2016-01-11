@@ -38,6 +38,6 @@ public class RequestProtocolVersion extends IncomingMessageWrapper {
             throw new IndexOutOfBoundsException("client part of key must be 8 byte");
 
         // TODO: 13.12.15 check protocol version compatibility
-        session.send(new VersionCheck(key));
+        sessionService.send(session, new VersionCheck(key));
     }
 }

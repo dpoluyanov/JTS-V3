@@ -7,8 +7,10 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.integration.ip.IpHeaders;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionCloseEvent;
 import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
@@ -38,6 +40,8 @@ public class GameSessionService {
     @Autowired
     private ApplicationContext context;
     @Autowired
+    private MessageChannel packetChannel;
+    @Autowired
     private Random random;
 
     public GameSession getSessionBy(String connectionId) {
@@ -54,8 +58,12 @@ public class GameSessionService {
     }
 
     public void send(String connectionId, OutgoingMessageWrapper message) {
-        GameSession session = getSessionBy(connectionId);
-        session.send(message);
+        message.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
+        packetChannel.send(message);
+    }
+
+    public void send(GameSession session, OutgoingMessageWrapper message) {
+        send(session.getConnectionId(), message);
     }
 
     public void send(GameCharacter character, OutgoingMessageWrapper message) {

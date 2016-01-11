@@ -45,6 +45,7 @@ public class GotoLobby extends IncomingMessageWrapper {
 
         List<GameCharacter> characters = repository.findAllByAccountName(accountName);
 
-        session.send(new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
+        sessionService.send(session,
+                new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
     }
 }

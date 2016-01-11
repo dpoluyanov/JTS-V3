@@ -11,7 +11,7 @@ import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelected;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.GameSessionService;
-import ru.jts_dev.gameserver.service.PlayerService;
+import ru.jts_dev.gameserver.service.PlayerService.CharacterSelectedEvent;
 
 import java.util.List;
 
@@ -55,14 +55,14 @@ public class CharacterSelect extends IncomingMessageWrapper {
         List<GameCharacter> characters = repository.findAllByAccountName(account);
 
         if (characterIndex < 0 || characters.isEmpty() || characters.size() <= characterIndex) {
-            session.send(null); // TODO: 03.01.16 close connection
+            sessionService.send(session, null); // TODO: 03.01.16 close connection
             return;
         }
 
         GameCharacter character = characters.get(characterIndex);
 
-        publisher.publishEvent(new PlayerService.CharacterSelectedEvent(getConnectionId(), character));
+        publisher.publishEvent(new CharacterSelectedEvent(getConnectionId(), character));
 
-        session.send(new CharacterSelected(character, session.getPlayKey()));
+        sessionService.send(session, new CharacterSelected(character, session.getPlayKey()));
     }
 }

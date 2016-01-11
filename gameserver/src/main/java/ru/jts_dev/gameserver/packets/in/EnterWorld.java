@@ -48,7 +48,7 @@ public class EnterWorld extends IncomingMessageWrapper {
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
 
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
-        session.send(new ClientSetTime(gameTimeInMinutes));
+        sessionService.send(session, new ClientSetTime(gameTimeInMinutes));
 
         // TODO: 04.01.16 broadcast CharInfo, send UserInfo
         // send UserInfo
@@ -59,6 +59,6 @@ public class EnterWorld extends IncomingMessageWrapper {
 
         double[] collisions = parametersData.getCollisionBoxes().get(pcParameterName);
 
-        session.send(new UserInfo(character, collisions));
+        sessionService.send(session, new UserInfo(character, collisions));
     }
 }

@@ -3,10 +3,8 @@ package ru.jts_dev.gameserver.model;
 import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.integration.ip.IpHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Component;
-import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
@@ -35,11 +33,6 @@ public class GameSession {
         this.connectionId = connectionId;
         this.encryptKey = encryptKey;
         this.decryptKey = decryptKey;
-    }
-
-    public void send(OutgoingMessageWrapper msg) {
-        msg.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
-        packetChannel.send(msg);
     }
 
     public String getConnectionId() {

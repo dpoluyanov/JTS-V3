@@ -126,18 +126,18 @@ public class CharacterCreate extends IncomingMessageWrapper {
 
             assert ERRORS.containsKey(error.getMessage()) : "Unknown error message " + error.getMessage();
 
-            session.send(ERRORS.get(error.getMessage()));
+            sessionService.send(session, ERRORS.get(error.getMessage()));
         }
         // TODO: 25.12.15 validate race & class compatibility
         // TODO: 22.12.15 move this checks to our validator, or annotation with error message
         else if (characterRepository.existsByName(name)) {
-            session.send(ERRORS.get(REASON_NAME_ALREADY_EXISTS));
+            sessionService.send(session, ERRORS.get(REASON_NAME_ALREADY_EXISTS));
         } else if (characterRepository.countByAccountName(login) >= MAX_CHARACTERS_ON_ACCOUNT) {
-            session.send(ERRORS.get(REASON_TOO_MANY_CHARACTERS));
+            sessionService.send(session, ERRORS.get(REASON_TOO_MANY_CHARACTERS));
         } else {
             characterRepository.save(newCharacterWith(login));
 
-            session.send(new CharacterCreateSuccess());
+            sessionService.send(session, new CharacterCreateSuccess());
         }
     }
 
