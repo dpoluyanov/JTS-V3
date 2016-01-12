@@ -1,12 +1,16 @@
 package ru.jts_dev.gameserver.time;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.repository.ServerVariablesRepository;
 import ru.jts_dev.gameserver.service.GameSessionService;
+import ru.jts_dev.gameserver.time.events.DayNightStateChanged;
 import ru.jts_dev.gameserver.variables.server.ServerVariable;
 import ru.jts_dev.gameserver.variables.server.ServerVariableKey;
 import ru.jts_dev.gameserver.variables.server.ServerVariableType;
@@ -30,18 +34,25 @@ import static ru.jts_dev.gameserver.time.GameTimeConstants.MIN_DATE_TIME;
  */
 @Service
 public class GameTimeService {
+    private static final int SUNRISE_HOUR = 6; // час, в который встает солнце
+    private static final int SUNSET_HOUR = 24; // час, в который садится солнце
+
+    private final Logger logger = LoggerFactory.getLogger(GameTimeService.class);
+
     private final GameServerConfig gameServerConfig;
     private final GameSessionService gameSessionService;
     private final ServerVariablesRepository serverVariablesRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     private ZonedDateTime dateTime = MIN_DATE_TIME;
 
     @Autowired
     public GameTimeService(GameServerConfig gameServerConfig, GameSessionService gameSessionService,
-                           ServerVariablesRepository serverVariablesRepository) {
+                           ServerVariablesRepository serverVariablesRepository, ApplicationEventPublisher eventPublisher) {
         this.gameServerConfig = gameServerConfig;
         this.gameSessionService = gameSessionService;
         this.serverVariablesRepository = serverVariablesRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @PostConstruct
@@ -53,11 +64,15 @@ public class GameTimeService {
             String value = serverTime.getValue();
             dateTime = ZonedDateTime.parse(value);
         }
+
+        logger.info("Current time is {}.", dateTime);
     }
 
     @Scheduled(initialDelay = 10_000, fixedRate = 10_000)
     private void updateGameClock() {
         int oldHour = dateTime.getHour();
+        int oldDay = dateTime.getDayOfYear();
+        boolean wasDay = isNowDay();
 
         dateTime = dateTime.plusMinutes(1L);
 
@@ -70,12 +85,28 @@ public class GameTimeService {
             long gameTimeInMinutes = getGameTimeInMinutes();
             gameSessionService.sendToAll(new ClientSetTime(gameTimeInMinutes));
 
-            // TODO night, day listeners
+            boolean nowDay = isNowDay();
+
+            // check if day night state changed
+            if (wasDay != nowDay) {
+                eventPublisher.publishEvent(new DayNightStateChanged(nowDay));
+            }
+
+            int newDay = dateTime.getDayOfYear();
+
+            // check if a whole nowDay passed
+            if (oldDay != newDay)
+                logger.info("An in-game day passed - it's now: {}", dateTime);
         }
     }
 
     public long getGameTimeInMinutes() {
         return MIN_DATE_TIME.until(dateTime, ChronoUnit.MINUTES);
+    }
+
+    public boolean isNowDay() {
+        int hour = dateTime.getHour();
+        return hour >= SUNRISE_HOUR || hour < SUNSET_HOUR;
     }
 
     private void saveNewGameTimeInDatabase() {
