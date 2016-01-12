@@ -12,13 +12,13 @@ import javax.persistence.*;
 @IdClass(ServerVariableKey.class)
 public class ServerVariable extends AbstractVariable {
     @Id
-    private int serverId;
+    private byte serverId;
 
     @Id
     @Enumerated(EnumType.STRING)
     private ServerVariableType serverVariableType;
 
-    public void setServerId(int serverId) {
+    public void setServerId(byte serverId) {
         this.serverId = serverId;
     }
 

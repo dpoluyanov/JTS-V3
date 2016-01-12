@@ -10,13 +10,13 @@ import java.util.Objects;
 public class ServerVariableKey implements Serializable {
     private static final long serialVersionUID = -4003143477633996904L;
 
-    private int serverId;
+    private byte serverId;
     private ServerVariableType serverVariableType;
 
     public ServerVariableKey() {
     }
 
-    public ServerVariableKey(int serverId, ServerVariableType serverVariableType) {
+    public ServerVariableKey(byte serverId, ServerVariableType serverVariableType) {
         this.serverId = serverId;
         this.serverVariableType = serverVariableType;
     }
