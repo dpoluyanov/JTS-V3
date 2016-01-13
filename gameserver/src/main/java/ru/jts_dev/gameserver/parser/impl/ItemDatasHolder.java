@@ -104,6 +104,7 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         data.setArmorType(ctx.armor_type_wrapper().value);
         data.setEtcItemType(ctx.etcitem_type_wrapper().value);
         data.setWeaponType(ctx.weapon_type_wrapper().value);
+
         data.setDelayShareGroup(ctx.delay_share_group().value);
         data.setItemMultiSkillList(ctx.item_multi_skill_list().value);
         data.setRecipeId(ctx.recipe_id().value);
@@ -111,6 +112,7 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         data.setWeight(ctx.weight().value);
         data.setDefaultAction(ctx.default_action_wrapper().value);
         data.setConsumeType(ctx.consume_type_wrapper().value);
+
         data.setInitialCount(ctx.initial_count().value);
         data.setSoulshotCount(ctx.soulshot_count().value);
         data.setSpiritshotCount(ctx.spiritshot_count().value);
@@ -119,28 +121,81 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         data.setReducedMpConsume(ctx.reduced_mp_consume().value);
         data.setImmediateEffect(ctx.immediate_effect().value);
         data.setExImmediateEffect(ctx.ex_immediate_effect().value);
+
         data.setDropPeriod(ctx.drop_period().value);
         data.setDuration(ctx.duration().value);
         data.setUseSkillDistime(ctx.use_skill_distime().value);
         data.setPeriod(ctx.period().value);
         data.setEquipReuseDelay(ctx.equip_reuse_delay().value);
+
         data.setPrice(ctx.price().value);
         data.setDefaultPrice(ctx.default_price().value);
+
         data.setItemSkill(ctx.item_skill().value);
         data.setCriticalAttackSkill(ctx.critical_attack_skill().value);
         data.setAttackSkill(ctx.attack_skill().value);
         data.setMagicSkill(ctx.magic_skill().value);
         data.setMagicSkillUnknownValue(ctx.magic_skill().unk);
         data.setItemSkillEnchantedFour(ctx.item_skill_enchanted_four().value);
+
         data.setCapsuledItems(ctx.capsuled_items().value);
         data.setMaterialType(ctx.material_type_wrapper().value);
+
         data.setCrystalType(ctx.crystal_type_wrapper().value);
         data.setCrystalCount(ctx.crystal_count().value);
 
-        // TODO: 09.01.16 fill item data from parsed values
+        data.setIsTrade(ctx.is_trade().value);
+        data.setIsDrop(ctx.is_drop().value);
+        data.setIsDestruct(ctx.is_destruct().value);
+        data.setIsPrivateStore(ctx.is_private_store().value);
+        data.setKeepType(ctx.keep_type().value);
 
+        data.setPhysicalDamage(ctx.physical_damage().value);
+        data.setRandomDamage(ctx.random_damage().value);
+        data.setCritical(ctx.critical().value);
+        data.setHitModify(ctx.hit_modify().value);
+
+        data.setAvoidModify(ctx.avoid_modify().value);
+        data.setDualFhitRate(ctx.dual_fhit_rate().value);
         data.setShieldDefense(ctx.shield_defense().value);
         data.setShieldDefenseRate(ctx.shield_defense_rate().value);
+
+        data.setAttackRange(ctx.attack_range().value);
+        data.setDamageRange(ctx.damage_range().value);
+        data.setAttackSpeed(ctx.attack_speed().value);
+
+        data.setReuseDelay(ctx.reuse_delay().value);
+
+        data.setMpConsume(ctx.mp_consume().value);
+        data.setMagicalDamage(ctx.magical_damage().value);
+
+        data.setDurability(ctx.durability().value);
+        data.setDamaged(ctx.damaged().value);
+
+        data.setPhysicalDefense(ctx.physical_defense().value);
+        data.setMagicalDefense(ctx.magical_defense().value);
+
+        data.setMpBonus(ctx.mp_bonus().value);
+
+        data.setCategory(ctx.category().value);
+        data.setEnchanted(ctx.enchanted().value);
+
+        data.setBaseAttributeAttack(ctx.base_attribute_attack().value);
+        data.setBaseAttributeDefend(ctx.base_attribute_defend().value);
+
+        data.setHtml(ctx.html().value);
+        data.setMagicWeapon(ctx.magic_weapon().value);
+        data.setEnchantEnable(ctx.enchant_enable().value);
+        data.setElementalEnable(ctx.elemental_enable().value);
+
+        data.setUnequipSkill(ctx.unequip_skill().value);
+        data.setForNpc(ctx.for_npc().value);
+
+        data.setItemEquipOption(ctx.item_equip_option().value);
+
+
+
+        // TODO: 09.01.16 fill item data from parsed values
 
         assert !itemData.containsKey(itemId) : "Duplicate ItemId " + itemId;
 

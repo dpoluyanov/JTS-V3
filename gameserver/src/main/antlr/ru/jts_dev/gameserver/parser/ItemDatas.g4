@@ -3,6 +3,7 @@ grammar ItemDatas;
 import Lang;
 
 @header {
+import ru.jts_dev.gameserver.constants.AttributeType;
 import ru.jts_dev.gameserver.constants.ConsumeType;
 import ru.jts_dev.gameserver.constants.CrystalType;
 import ru.jts_dev.gameserver.constants.DefaultAction;
@@ -10,6 +11,7 @@ import ru.jts_dev.gameserver.constants.ItemClass;
 import ru.jts_dev.gameserver.constants.ItemTypes.*;
 import ru.jts_dev.gameserver.constants.MaterialType;
 import ru.jts_dev.gameserver.constants.SlotBitType;
+import ru.jts_dev.gameserver.parser.data.item.ItemData.AttributeAttack;
 import ru.jts_dev.gameserver.parser.data.item.ItemData.CapsuledItemData;
 }
 
@@ -146,37 +148,64 @@ can_move : 'can_move' '=' int_object;
 is_premium : 'is_premium' '=' int_object;
 
 is_olympiad_can_use : 'is_olympiad_can_use' '=' int_object;
-use_condition : 'use_condition' '=' (empty_list | '{' condition (';' condition)* '}');
+use_condition : 'use_condition' '=' '{' condition (';' condition)* '}';
 equip_condition : 'equip_condition' '=' (empty_list | '{' condition (';' condition)* '}');
-item_equip_option : 'item_equip_option' '=' (empty_list | identifier_list);
+
+item_equip_option
+    returns[List<String> value]: 'item_equip_option' '=' il=identifier_list {$ctx.value = $il.value;};
+
 condition : '{' identifier_object (';' (int_object | int_list | identifier_list | category_list))? '}';
 
-for_npc : 'for_npc' '=' int_object;
-unequip_skill : 'unequip_skill' '=' identifier_list;
+for_npc
+    returns[boolean value]: 'for_npc' '=' bo=bool_object {$ctx.value = $bo.value;};
+unequip_skill
+    returns[List<String> value]: 'unequip_skill' '=' il=identifier_list {$ctx.value = $il.value;};
 
-base_attribute_attack : 'base_attribute_attack' '=' attack_attribute;
-attack_attribute : '{' attribute ';' int_object '}';
-attribute : NONE | FIRE | EARTH;
+base_attribute_attack
+    returns[AttributeAttack value]: 'base_attribute_attack' '=' aa=attack_attribute {$ctx.value = $aa.value;};
+attack_attribute
+    returns[AttributeAttack value]
+    :'{' attribute ';' io=int_object '}' {$ctx.value = new AttributeAttack($attribute.value, $io.value);};
 
-html : 'html' '=' name_object;
+attribute
+    returns[AttributeType value]:
+    NONE {$ctx.value = AttributeType.NONE;}
+    | FIRE {$ctx.value = AttributeType.FIRE;}
+    | EARTH {$ctx.value = AttributeType.EARTH;};
 
-base_attribute_defend : 'base_attribute_defend' '=' int_list;
+html
+    returns[String value]: 'html' '=' no=name_object {$ctx.value = $no.value;};
 
-category : 'category' '=' empty_list;
+base_attribute_defend
+    returns[List<Integer> value]: 'base_attribute_defend' '=' il=int_list {$ctx.value = $il.value;};
 
-enchant_enable : 'enchant_enable' '=' int_object;
-elemental_enable : 'elemental_enable' '=' int_object;
-enchanted : 'enchanted' '=' int_object;
+category
+    returns[List<String> value = new ArrayList<>();]: 'category' '=' empty_list;
 
-mp_consume : 'mp_consume' '=' int_object;
-magical_damage : 'magical_damage' '=' int_object;
-durability : 'durability' '=' int_object;
-damaged : 'damaged' '=' int_object;
-magic_weapon : 'magic_weapon' '=' int_object;
+enchant_enable
+    returns[int value]: 'enchant_enable' '=' io=int_object {$ctx.value = $io.value;};
+elemental_enable
+    returns[boolean value]: 'elemental_enable' '=' bo=bool_object {$ctx.value = $bo.value;};
+enchanted
+    returns[int value]: 'enchanted' '=' io=int_object {$ctx.value = $io.value;};
 
-physical_defense : 'physical_defense' '=' int_object;
-magical_defense : 'magical_defense' '=' int_object;
-mp_bonus : 'mp_bonus' '=' int_object;
+mp_consume
+    returns[int value]: 'mp_consume' '=' io=int_object {$ctx.value = $io.value;};
+magical_damage
+    returns[int value]: 'magical_damage' '=' io=int_object {$ctx.value = $io.value;};
+durability
+    returns[int value]: 'durability' '=' io=int_object {$ctx.value = $io.value;};
+damaged
+    returns[boolean value]: 'damaged' '=' bo=bool_object {$ctx.value = $bo.value;};
+magic_weapon
+    returns[boolean value]: 'magic_weapon' '=' bo=bool_object {$ctx.value = $bo.value;};
+
+physical_defense
+    returns[int value]: 'physical_defense' '=' io=int_object {$ctx.value = $io.value;};
+magical_defense
+    returns[int value]: 'magical_defense' '=' io=int_object {$ctx.value = $io.value;};
+mp_bonus
+    returns[int value]: 'mp_bonus' '=' io=int_object {$ctx.value = $io.value;};
 
 weapon_type_wrapper
     returns [WeaponType value]: 'weapon_type' '=' wt=weapon_type { $ctx.value = $wt.value; };
@@ -201,31 +230,48 @@ weapon_type
     | DUALDAGGER { $ctx.value = WeaponType.DUALDAGGER; }
     ;
 
-is_trade : 'is_trade' '=' int_object;
-is_drop : 'is_drop' '=' int_object;
-is_destruct : 'is_destruct' '=' int_object;
-is_private_store : 'is_private_store' '=' int_object;
-keep_type : 'keep_type' '=' int_object;
+is_trade
+    returns [boolean value]: 'is_trade' '=' bo=bool_object {$ctx.value=$bo.value;};
+is_drop
+    returns [boolean value]: 'is_drop' '=' bo=bool_object {$ctx.value=$bo.value;};
+is_destruct
+    returns [boolean value]: 'is_destruct' '=' bo=bool_object {$ctx.value=$bo.value;};
+is_private_store
+    returns [boolean value]: 'is_private_store' '=' bo=bool_object {$ctx.value=$bo.value;};
+keep_type
+    returns [byte value]: 'keep_type' '=' bo=byte_object {$ctx.value=$bo.value;};
 
-physical_damage : 'physical_damage' '=' int_object;
-random_damage : 'random_damage' '=' int_object;
-critical : 'critical' '=' int_object;
-hit_modify : 'hit_modify' '=' double_object;
-attack_range : 'attack_range' '=' int_object;
-damage_range : 'damage_range' '=' int_list;
+physical_damage
+    returns[int value]: 'physical_damage' '=' io=int_object {$ctx.value=$io.value;};
+random_damage
+    returns[int value]: 'random_damage' '=' io=int_object {$ctx.value=$io.value;};
+critical
+    returns[int value]: 'critical' '=' io=int_object {$ctx.value=$io.value;};
+hit_modify
+    returns[double value]: 'hit_modify' '=' d=double_object {$ctx.value=$d.value;};
 
-attack_speed : 'attack_speed' '=' int_object;
+attack_range
+    returns[int value]: 'attack_range' '=' io=int_object {$ctx.value=$io.value;};
 
-avoid_modify : 'avoid_modify' '=' int_object;
+damage_range
+    returns[List<Integer> value]: 'damage_range' '=' il=int_list {$ctx.value = $il.value;};
 
-dual_fhit_rate : 'dual_fhit_rate' '=' int_object;
+attack_speed
+    returns[int value]: 'attack_speed' '=' io=int_object {$ctx.value = $io.value;};
+
+avoid_modify
+    returns[int value]: 'avoid_modify' '=' io=int_object {$ctx.value=$io.value;};
+
+dual_fhit_rate
+    returns[int value]: 'dual_fhit_rate' '=' io = int_object {$ctx.value=$io.value;};
 
 shield_defense
     returns[int value]: 'shield_defense' '=' io=int_object {$ctx.value = $io.value;};
 shield_defense_rate
     returns[int value]: 'shield_defense_rate' '=' io=int_object {$ctx.value = $io.value;};
 
-reuse_delay : 'reuse_delay' '=' int_object;
+reuse_delay
+    returns[int value]: 'reuse_delay' '=' io=int_object {$ctx.value = $io.value;};
 
 initial_count
     returns[int value]: 'initial_count' '=' io=int_object {$ctx.value=$io.value;};
