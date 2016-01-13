@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.parser.impl;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +58,81 @@ public class ItemDatasHolderTest {
             assertThat("For item " + itemData.getName(), itemData.getDelayShareGroup(), greaterThanOrEqualTo(-1));
 
             testItemMultiSkillList(itemData); // TODO: 10.01.16 test exists skill name in skilldata.txt
-            assertThat(itemData.getRecipeId(), greaterThanOrEqualTo(0)); // TODO: 11.01.16 test exists in recipe data file
-            assertThat("For item " + itemData.getName(), itemData.getWeight(), greaterThan(0));
+            assertThat(itemData.getRecipeId(), greaterThanOrEqualTo(0)); // TODO: 11.01.16 test exists in recipe.txt
+            assertThat("For item " + itemData.getName(), itemData.getBlessed(), anyOf(is(0), is(2)));
+            assertThat("For item " + itemData.getName(), itemData.getWeight(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getDefaultAction(), is(notNullValue()));
+            assertThat("For item " + itemData.getName(), itemData.getConsumeType(), is(notNullValue()));
+            assertThat("For item " + itemData.getName(), itemData.getInitialCount(), greaterThanOrEqualTo(1));
+
+            assertThat("For item " + itemData.getName(), itemData.getSoulshotCount(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getSpiritshotCount(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getReducedSoulshot(), anyOf(is(empty()), hasSize(2)));
+            assertThat("For item " + itemData.getName(), itemData.getReducedSpiritshot(), is(empty()));
+            assertThat("For item " + itemData.getName(), itemData.getReducedMpConsume(), anyOf(is(empty()), hasSize(2)));
+
+            assertThat("For item " + itemData.getName(), itemData.getImmediateEffect(), anyOf(is(0), is(1)));
+            assertThat("For item " + itemData.getName(), itemData.getExImmediateEffect(), anyOf(is(0), is(1), is(2)));
+
+            assertThat("For item " + itemData.getName(), itemData.getDropPeriod(), greaterThan(0));
+            assertThat("For item " + itemData.getName(), itemData.getDuration(),
+                    allOf(greaterThanOrEqualTo(-1), is(not(0))));
+            assertThat("For item " + itemData.getName(), itemData.getUseSkillDistime(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getPeriod(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getEquipReuseDelay(), greaterThanOrEqualTo(0));
+
+            assertThat("For item " + itemData.getName(), itemData.getItemSkill(), not(isEmptyOrNullString()));
+            assertThat("For item " + itemData.getName(), itemData.getCriticalAttackSkill(), not(isEmptyOrNullString()));
+            assertThat("For item " + itemData.getName(), itemData.getAttackSkill(), is("none"));
+            assertThat("For item " + itemData.getName(), itemData.getItemSkillEnchantedFour(), not(isEmptyOrNullString()));
+
+            testCapsuledItems(itemData);
+
+            testMagicSkill(itemData);
+
+            testPrice(itemData);
 
             testShield(itemData);
             testArmorType(itemData);
             testWeaponType(itemData);
             testEtcItemType(itemData);
         }
+    }
+
+    private void testCapsuledItems(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getCapsuledItems(), is(notNullValue()));
+        assertThat("For item " + itemData.getName(), itemData.getCapsuledItems(), hasSize(1));
+
+        // TODO: 13.01.16 тест наличия предмета в списке, тест шансов, минимального кол-ва
+        for (ItemData.CapsuledItemData capsuledItemData : itemData.getCapsuledItems()) {
+            assertThat("For item " + itemData.getName(), capsuledItemData.getItemName(), not(isEmptyOrNullString()));
+
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+                    itemDatasHolder.getItemData(), hasKey(capsuledItemData.getItemName()));
+
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+                    capsuledItemData.getMaxCount(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+                    capsuledItemData.getMinCount(), allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(capsuledItemData.getMaxCount())));
+        }
+    }
+
+    private void testMagicSkill(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getMagicSkill(), not(isEmptyOrNullString()));
+
+        if (itemData.getMagicSkill().equals("none")) {
+            assertThat("For item " + itemData.getName(), itemData.getMagicSkillUnknownValue(), is(0));
+        } else {
+            assertThat("For item " + itemData.getName(), itemData.getMagicSkillUnknownValue(), greaterThan(0));
+        }
+    }
+
+    private void testPrice(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getPrice(), greaterThanOrEqualTo(0L));
+
+        if (itemData.getPrice() > 0)
+            assertThat("For item " + itemData.getName(), itemData.getPrice(), is(equalTo(itemData.getDefaultPrice())));
+        assertThat("For item " + itemData.getName(), itemData.getDefaultPrice(), greaterThanOrEqualTo(0L));
     }
 
     private void testItemMultiSkillList(ItemData itemData) {

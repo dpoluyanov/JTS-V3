@@ -3,10 +3,12 @@ grammar ItemDatas;
 import Lang;
 
 @header {
+import ru.jts_dev.gameserver.constants.ConsumeType;
 import ru.jts_dev.gameserver.constants.DefaultAction;
 import ru.jts_dev.gameserver.constants.ItemClass;
 import ru.jts_dev.gameserver.constants.ItemTypes.*;
 import ru.jts_dev.gameserver.constants.SlotBitType;
+import ru.jts_dev.gameserver.parser.data.item.ItemData.CapsuledItemData;
 }
 
 file : (item | set)+;
@@ -223,35 +225,76 @@ shield_defense_rate
 
 reuse_delay : 'reuse_delay' '=' int_object;
 
-initial_count : 'initial_count' '=' int_object;
-soulshot_count : 'soulshot_count' '=' int_object;
-spiritshot_count : 'spiritshot_count' '=' int_object;
+initial_count
+    returns[int value]: 'initial_count' '=' io=int_object {$ctx.value=$io.value;};
+soulshot_count
+    returns[int value]: 'soulshot_count' '=' io=int_object {$ctx.value=$io.value;};
+spiritshot_count
+    returns[int value]: 'spiritshot_count' '=' io=int_object {$ctx.value=$io.value;};
 
-reduced_soulshot : 'reduced_soulshot' '=' int_list;
-reduced_spiritshot : 'reduced_spiritshot' '=' empty_list;
-reduced_mp_consume : 'reduced_mp_consume' '=' int_list;
+reduced_soulshot
+    returns[List<Integer> value]
+    @init{ $ctx.value = new ArrayList<>();}: 'reduced_soulshot' '=' il=int_list {$ctx.value = $il.value;};
 
-immediate_effect : 'immediate_effect' '=' int_object;
-ex_immediate_effect : 'ex_immediate_effect' '=' int_object;
+reduced_spiritshot
+    returns[List<Integer> value = new ArrayList<>();]: 'reduced_spiritshot' '=' empty_list;
 
-use_skill_distime : 'use_skill_distime' '=' int_object;
+reduced_mp_consume
+    returns[List<Integer> value]: 'reduced_mp_consume' '=' il=int_list {$ctx.value=$il.value;};
 
-drop_period : 'drop_period' '=' int_object;
-duration : 'duration' '=' int_object;
-period : 'period' '=' int_object;
-equip_reuse_delay : 'equip_reuse_delay' '=' int_object;
+immediate_effect
+    returns[int value]: 'immediate_effect' '=' io=int_object {$ctx.value=$io.value;};
 
-capsuled_items : 'capsuled_items' '=' (empty_list | '{' capsuled_item (';' capsuled_item)* '}');
-capsuled_item : '{' name_object ';' int_object ';' int_object ';' double_object '}';
+ex_immediate_effect
+    returns[int value]: 'ex_immediate_effect' '=' io=int_object {$ctx.value=$io.value;};
 
-price : 'price' '=' int_object;
-default_price : 'default_price' '=' int_object;
+use_skill_distime
+    returns[int value]: 'use_skill_distime' '=' io=int_object {$ctx.value=$io.value;};
 
-item_skill : 'item_skill' '=' name_object;
-critical_attack_skill : 'critical_attack_skill' '=' name_object;
-attack_skill : 'attack_skill' '=' name_object;
-magic_skill : 'magic_skill' '=' name_object (';' int_object)?;
-item_skill_enchanted_four : 'item_skill_enchanted_four' '=' name_object;
+drop_period
+    returns[int value]: 'drop_period' '=' io=int_object {$ctx.value=$io.value;};
+
+duration
+    returns[int value]: 'duration' '=' io=int_object {$ctx.value=$io.value;};
+
+period
+    returns[int value]: 'period' '=' io=int_object {$ctx.value=$io.value;};
+
+equip_reuse_delay
+    returns[int value]: 'equip_reuse_delay' '=' io=int_object {$ctx.value=$io.value;};
+
+capsuled_items
+    returns[List<CapsuledItemData> value = new ArrayList<>()]:
+    'capsuled_items' '=' (empty_list | '{' ci=capsuled_item {$ctx.value.add($ci.value);}
+    (';' ci=capsuled_item {$ctx.value.add($ci.value);})* '}');
+
+capsuled_item
+    returns[CapsuledItemData value]
+    @after{$ctx.value = new CapsuledItemData($p1.value, $p2.value, $p3.value, $p4.value);}:
+    '{' p1=name_object ';' p2=int_object ';' p3=int_object ';' p4=double_object '}';
+
+price
+    returns[long value]: 'price' '=' io=int_object {$ctx.value=$io.value;};
+
+default_price
+    returns[long value]: 'default_price' '=' io=int_object {$ctx.value=$io.value;};
+
+item_skill
+    returns[String value]: 'item_skill' '=' no=name_object {$ctx.value=$no.value;};
+    
+critical_attack_skill
+    returns[String value]: 'critical_attack_skill' '=' no=name_object {$ctx.value=$no.value;};
+
+attack_skill
+    returns[String value]: 'attack_skill' '=' no=name_object {$ctx.value=$no.value;};
+
+magic_skill
+    returns[String value, int unk]:
+    'magic_skill' '=' no=name_object {$ctx.value=$no.value;}
+    (';' io=int_object {$ctx.unk = $io.value;})?;
+
+item_skill_enchanted_four
+    returns[String value]: 'item_skill_enchanted_four' '=' no=name_object {$ctx.value=$no.value;};
 
 crystal_type_wrapper : 'crystal_type' '=' crystal_type;
 crystal_type: NONE | CRYSTAL_FREE | EVENT | D | C | B | A | S | S80 | S84;
@@ -264,8 +307,13 @@ material_type : STEEL | FINE_STEEL | WOOD | CLOTH | LEATHER | BONE | BRONZE | OR
     | COTTON | DYESTUFF | COBWEB | RUNE_XP | RUNE_SP | RUNE_REMOVE_PENALTY
     ;
 
-consume_type_wrapper : 'consume_type' '=' consume_type;
-consume_type: CONSUME_TYPE_NORMAL | CONSUME_TYPE_STACKABLE | CONSUME_TYPE_ASSET;
+consume_type_wrapper
+    returns[ConsumeType value]: 'consume_type' '=' ct=consume_type {$ctx.value=$ct.value;};
+consume_type
+    returns[ConsumeType value]:
+    CONSUME_TYPE_NORMAL {$ctx.value=ConsumeType.CONSUME_TYPE_NORMAL;}
+    | CONSUME_TYPE_STACKABLE {$ctx.value=ConsumeType.CONSUME_TYPE_STACKABLE;}
+    | CONSUME_TYPE_ASSET {$ctx.value=ConsumeType.CONSUME_TYPE_ASSET;};
 
 default_action_wrapper
     returns[DefaultAction value]: 'default_action' '=' da=default_action {$ctx.value=$da.value;};
@@ -302,7 +350,7 @@ default_action
 recipe_id
     returns[int value]: 'recipe_id' '=' io=int_object {$ctx.value = $io.value;};
 blessed
-    returns[boolean value] : 'blessed' '=' bo=bool_object {$ctx.value = $bo.value;};
+    returns[int value] : 'blessed' '=' io=int_object {$ctx.value = $io.value;};
 weight
     returns[int value]: 'weight' '=' io=int_object {$ctx.value = $io.value;};
 
@@ -360,11 +408,10 @@ armor_type
     | SIGIL { $ctx.value = ArmorType.SIGIL; };
 
 slot_bit_type_list
-    returns [List<SlotBitType> value]
-    @init { $ctx.value = new ArrayList<>(); }:
+    returns [List<SlotBitType> value = new ArrayList<>();]:
     'slot_bit_type' '=' '{'
-    slot_bit_type { $ctx.value.add($slot_bit_type.value); }
-    (';' slot_bit_type { $ctx.value.add($slot_bit_type.value); })? '}';
+    sbt=slot_bit_type { $ctx.value.add($sbt.value); }
+    (';' sbt=slot_bit_type { $ctx.value.add($sbt.value); })? '}';
 slot_bit_type returns [SlotBitType value]:
     NONE { $ctx.value = SlotBitType.NONE; }
     | RHAND { $ctx.value = SlotBitType.RHAND; }
@@ -392,8 +439,10 @@ slot_bit_type returns [SlotBitType value]:
     | WAIST { $ctx.value = SlotBitType.WAIST; }
     | DECO1 { $ctx.value = SlotBitType.DECO1; };
 
-item_type returns [ItemClass value]: 'item_type' '=' item_class { $ctx.value = $item_class.value;};
-item_class returns [ItemClass value]:
+item_type
+    returns [ItemClass value]: 'item_type' '=' ic=item_class { $ctx.value = $ic.value;};
+item_class
+    returns [ItemClass value]:
     WEAPON { $ctx.value = ItemClass.WEAPON; }
     | ARMOR { $ctx.value = ItemClass.ARMOR; }
     | ETCITEM { $ctx.value = ItemClass.ETCITEM; }

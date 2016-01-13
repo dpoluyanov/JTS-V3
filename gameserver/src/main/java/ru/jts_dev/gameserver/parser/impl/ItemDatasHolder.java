@@ -109,6 +109,30 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         data.setRecipeId(ctx.recipe_id().value);
         data.setBlessed(ctx.blessed().value);
         data.setWeight(ctx.weight().value);
+        data.setDefaultAction(ctx.default_action_wrapper().value);
+        data.setConsumeType(ctx.consume_type_wrapper().value);
+        data.setInitialCount(ctx.initial_count().value);
+        data.setSoulshotCount(ctx.soulshot_count().value);
+        data.setSpiritshotCount(ctx.spiritshot_count().value);
+        data.setReducedSoulshot(ctx.reduced_soulshot().value);
+        data.setReducedSpiritshot(ctx.reduced_spiritshot().value);
+        data.setReducedMpConsume(ctx.reduced_mp_consume().value);
+        data.setImmediateEffect(ctx.immediate_effect().value);
+        data.setExImmediateEffect(ctx.ex_immediate_effect().value);
+        data.setDropPeriod(ctx.drop_period().value);
+        data.setDuration(ctx.duration().value);
+        data.setUseSkillDistime(ctx.use_skill_distime().value);
+        data.setPeriod(ctx.period().value);
+        data.setEquipReuseDelay(ctx.equip_reuse_delay().value);
+        data.setPrice(ctx.price().value);
+        data.setDefaultPrice(ctx.default_price().value);
+        data.setItemSkill(ctx.item_skill().value);
+        data.setCriticalAttackSkill(ctx.critical_attack_skill().value);
+        data.setAttackSkill(ctx.attack_skill().value);
+        data.setMagicSkill(ctx.magic_skill().value);
+        data.setMagicSkillUnknownValue(ctx.magic_skill().unk);
+        data.setItemSkillEnchantedFour(ctx.item_skill_enchanted_four().value);
+        data.setCapsuledItems(ctx.capsuled_items().value);
 
         // TODO: 09.01.16 fill item data from parsed values
 

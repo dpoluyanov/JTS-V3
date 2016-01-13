@@ -25,32 +25,39 @@ public class ItemData {
     private int delayShareGroup;
     private List<String> itemMultiSkillList = new ArrayList<>();
     private int recipeId;
-    private boolean blessed;
+    private int blessed;
     private int weight;
     private DefaultAction defaultAction;
     private ConsumeType consumeType;
     private int initialCount;
     private int soulshotCount;
     private int spiritshotCount;
-    private int[] reducedSoulshot;
-    // not used in datas, always EMPTY ARRAY
-    private int[] reducedSpiritshot;
-    private int[] reducedMpConsume;
+    // two size or empty list
+    private List<Integer> reducedSoulshot;
+    // not used in datas, always empty list
+    private List<Integer> reducedSpiritshot;
+    // two size or empty list
+    private List<Integer> reducedMpConsume;
     private int immediateEffect;
     private int exImmediateEffect;
     private int dropPeriod;
+    // -1, or positive value
     private int duration;
-    private int useSkillDistTime;
+    private int useSkillDistime;
     private int period;
     private int equipReuseDelay;
-    private int price;
-    private int defaultPrice;
+    // TODO: 13.01.16 unknown
+    private long price;
+    private long defaultPrice;
+    // `none` or skill name
     private String itemSkill;
+    // `none` or skill name
     private String criticalAttackSkill;
     private String attackSkill;
     private String magicSkill;
+    private int magicSkillUnknownValue;
     private String itemSkillEnchantedFour;
-    private List<CapsuledItemData> capsuledItems = new ArrayList<>();
+    private List<CapsuledItemData> capsuledItems;
     private MaterialType materialType;
     private int crystalCount;
     private boolean isTrade;
@@ -96,7 +103,6 @@ public class ItemData {
     private boolean isOlympiadCanUse;
     private boolean canMove;
     private boolean isPremium;
-
     public ItemData(int itemId, ItemClass itemClass, String name, ItemClass itemType, List<SlotBitType> slotBitTypes) {
         this.itemId = itemId;
         this.itemClass = itemClass;
@@ -185,29 +191,241 @@ public class ItemData {
         this.recipeId = recipeId;
     }
 
-    public void setBlessed(boolean blessed) {
+    public void setBlessed(int blessed) {
         this.blessed = blessed;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
     }
 
     public int getWeight() {
         return weight;
     }
 
-    private static final class CapsuledItemData {
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public DefaultAction getDefaultAction() {
+        return defaultAction;
+    }
+
+    public void setDefaultAction(DefaultAction defaultAction) {
+        this.defaultAction = defaultAction;
+    }
+
+    public ConsumeType getConsumeType() {
+        return consumeType;
+    }
+
+    public void setConsumeType(ConsumeType consumeType) {
+        this.consumeType = consumeType;
+    }
+
+    public void setInitialCount(int initialCount) {
+        this.initialCount = initialCount;
+    }
+
+    public int getInitialCount() {
+        return initialCount;
+    }
+
+    public void setSoulshotCount(int soulshotCount) {
+        this.soulshotCount = soulshotCount;
+    }
+
+    public void setSpiritshotCount(int spiritshotCount) {
+        this.spiritshotCount = spiritshotCount;
+    }
+
+    public int getSoulshotCount() {
+        return soulshotCount;
+    }
+
+    public int getSpiritshotCount() {
+        return spiritshotCount;
+    }
+
+    public void setReducedSoulshot(List<Integer> reducedSoulshot) {
+        this.reducedSoulshot = reducedSoulshot;
+    }
+
+    public void setReducedSpiritshot(List<Integer> reducedSpiritshot) {
+        this.reducedSpiritshot = reducedSpiritshot;
+    }
+
+    public List<Integer> getReducedSoulshot() {
+        return reducedSoulshot;
+    }
+
+    public List<Integer> getReducedSpiritshot() {
+        return reducedSpiritshot;
+    }
+
+    public int getBlessed() {
+        return blessed;
+    }
+
+    public void setReducedMpConsume(List<Integer> reducedMpConsume) {
+        this.reducedMpConsume = reducedMpConsume;
+    }
+
+    public List<Integer> getReducedMpConsume() {
+        return reducedMpConsume;
+    }
+
+    public void setImmediateEffect(int immediateEffect) {
+        this.immediateEffect = immediateEffect;
+    }
+
+    public int getImmediateEffect() {
+        return immediateEffect;
+    }
+
+    public void setExImmediateEffect(int exImmediateEffect) {
+        this.exImmediateEffect = exImmediateEffect;
+    }
+
+    public int getExImmediateEffect() {
+        return exImmediateEffect;
+    }
+
+    public void setDropPeriod(int dropPeriod) {
+        this.dropPeriod = dropPeriod;
+    }
+
+    public int getDropPeriod() {
+        return dropPeriod;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setUseSkillDistime(int useSkillDistime) {
+        this.useSkillDistime = useSkillDistime;
+    }
+
+    public int getUseSkillDistime() {
+        return useSkillDistime;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setEquipReuseDelay(int equipReuseDelay) {
+        this.equipReuseDelay = equipReuseDelay;
+    }
+
+    public int getEquipReuseDelay() {
+        return equipReuseDelay;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public void setDefaultPrice(long defaultPrice) {
+        this.defaultPrice = defaultPrice;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public long getDefaultPrice() {
+        return defaultPrice;
+    }
+
+    public void setItemSkill(String itemSkill) {
+        this.itemSkill = itemSkill;
+    }
+
+    public String getItemSkill() {
+        return itemSkill;
+    }
+
+    public void setCriticalAttackSkill(String criticalAttackSkill) {
+        this.criticalAttackSkill = criticalAttackSkill;
+    }
+
+    public String getCriticalAttackSkill() {
+        return criticalAttackSkill;
+    }
+
+    public void setAttackSkill(String attackSkill) {
+        this.attackSkill = attackSkill;
+    }
+
+    public String getAttackSkill() {
+        return attackSkill;
+    }
+
+    public String getMagicSkill() {
+        return magicSkill;
+    }
+
+    public void setMagicSkill(String magicSkill) {
+        this.magicSkill = magicSkill;
+    }
+
+    public int getMagicSkillUnknownValue() {
+        return magicSkillUnknownValue;
+    }
+
+    public void setMagicSkillUnknownValue(int magicSkillUnknownValue) {
+        this.magicSkillUnknownValue = magicSkillUnknownValue;
+    }
+
+    public void setItemSkillEnchantedFour(String itemSkillEnchantedFour) {
+        this.itemSkillEnchantedFour = itemSkillEnchantedFour;
+    }
+
+    public String getItemSkillEnchantedFour() {
+        return itemSkillEnchantedFour;
+    }
+
+    public void setCapsuledItems(List<CapsuledItemData> capsuledItems) {
+        this.capsuledItems = capsuledItems;
+    }
+
+    public List<CapsuledItemData> getCapsuledItems() {
+        return capsuledItems;
+    }
+
+    public static final class CapsuledItemData {
         private final String itemName;
         private final int minCount;
         private final int maxCount;
         private final double chance;
 
-        private CapsuledItemData(String itemName, int minCount, int maxCount, double chance) {
+        public CapsuledItemData(String itemName, int minCount, int maxCount, double chance) {
             this.itemName = itemName;
             this.minCount = minCount;
             this.maxCount = maxCount;
             this.chance = chance;
+        }
+
+        public String getItemName() {
+            return itemName;
+        }
+
+        public int getMinCount() {
+            return minCount;
+        }
+
+        public int getMaxCount() {
+            return maxCount;
+        }
+
+        public double getChance() {
+            return chance;
         }
     }
 
