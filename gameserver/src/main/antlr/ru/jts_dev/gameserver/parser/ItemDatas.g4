@@ -4,9 +4,11 @@ import Lang;
 
 @header {
 import ru.jts_dev.gameserver.constants.ConsumeType;
+import ru.jts_dev.gameserver.constants.CrystalType;
 import ru.jts_dev.gameserver.constants.DefaultAction;
 import ru.jts_dev.gameserver.constants.ItemClass;
 import ru.jts_dev.gameserver.constants.ItemTypes.*;
+import ru.jts_dev.gameserver.constants.MaterialType;
 import ru.jts_dev.gameserver.constants.SlotBitType;
 import ru.jts_dev.gameserver.parser.data.item.ItemData.CapsuledItemData;
 }
@@ -296,15 +298,56 @@ magic_skill
 item_skill_enchanted_four
     returns[String value]: 'item_skill_enchanted_four' '=' no=name_object {$ctx.value=$no.value;};
 
-crystal_type_wrapper : 'crystal_type' '=' crystal_type;
-crystal_type: NONE | CRYSTAL_FREE | EVENT | D | C | B | A | S | S80 | S84;
+crystal_type_wrapper
+    returns[CrystalType value]: 'crystal_type' '=' ct=crystal_type{$ctx.value=$ct.value;};
 
-crystal_count : 'crystal_count' '=' int_object;
+crystal_type
+    returns[CrystalType value]:
+    NONE {$ctx.value=CrystalType.NONE;}
+    | CRYSTAL_FREE {$ctx.value=CrystalType.CRYSTAL_FREE;}
+    | EVENT {$ctx.value=CrystalType.EVENT;}
+    | D {$ctx.value=CrystalType.D;}
+    | C {$ctx.value=CrystalType.C;}
+    | B {$ctx.value=CrystalType.B;}
+    | A {$ctx.value=CrystalType.A;}
+    | S {$ctx.value=CrystalType.S;}
+    | S80 {$ctx.value=CrystalType.S80;}
+    | S84 {$ctx.value=CrystalType.S84;};
 
-material_type_wrapper : 'material_type' '=' material_type;
-material_type : STEEL | FINE_STEEL | WOOD | CLOTH | LEATHER | BONE | BRONZE | ORIHARUKON | MITHRIL | DAMASCUS
-    | ADAMANTAITE | BLOOD_STEEL | PAPER | GOLD | LIQUID | FISH | SILVER | CHRYSOLITE | CRYSTAL | HORN | SCALE_OF_DRAGON
-    | COTTON | DYESTUFF | COBWEB | RUNE_XP | RUNE_SP | RUNE_REMOVE_PENALTY
+crystal_count
+    returns[int value]: 'crystal_count' '=' io=int_object {$ctx.value=$io.value;};
+
+material_type_wrapper
+    returns[MaterialType value]: 'material_type' '=' mt=material_type {$ctx.value=$mt.value;};
+material_type
+    returns[MaterialType value]:
+    STEEL {$ctx.value=MaterialType.STEEL;}
+    | FINE_STEEL {$ctx.value=MaterialType.FINE_STEEL;}
+    | WOOD {$ctx.value=MaterialType.WOOD;}
+    | CLOTH {$ctx.value=MaterialType.CLOTH;}
+    | LEATHER {$ctx.value=MaterialType.LEATHER;}
+    | BONE {$ctx.value=MaterialType.BONE;}
+    | BRONZE {$ctx.value=MaterialType.BRONZE;}
+    | ORIHARUKON {$ctx.value=MaterialType.ORIHARUKON;}
+    | MITHRIL {$ctx.value=MaterialType.MITHRIL;}
+    | DAMASCUS {$ctx.value=MaterialType.DAMASCUS;}
+    | ADAMANTAITE {$ctx.value=MaterialType.ADAMANTAITE;}
+    | BLOOD_STEEL {$ctx.value=MaterialType.BLOOD_STEEL;}
+    | PAPER {$ctx.value=MaterialType.PAPER;}
+    | GOLD {$ctx.value=MaterialType.GOLD;}
+    | LIQUID {$ctx.value=MaterialType.LIQUID;}
+    | FISH {$ctx.value=MaterialType.FISH;}
+    | SILVER {$ctx.value=MaterialType.SILVER;}
+    | CHRYSOLITE {$ctx.value=MaterialType.CHRYSOLITE;}
+    | CRYSTAL {$ctx.value=MaterialType.CRYSTAL;}
+    | HORN {$ctx.value=MaterialType.HORN;}
+    | SCALE_OF_DRAGON {$ctx.value=MaterialType.SCALE_OF_DRAGON;}
+    | COTTON {$ctx.value=MaterialType.COTTON;}
+    | DYESTUFF {$ctx.value=MaterialType.DYESTUFF;}
+    | COBWEB {$ctx.value=MaterialType.COBWEB;}
+    | RUNE_XP {$ctx.value=MaterialType.RUNE_XP;}
+    | RUNE_SP {$ctx.value=MaterialType.RUNE_SP;}
+    | RUNE_REMOVE_PENALTY {$ctx.value=MaterialType.RUNE_REMOVE_PENALTY;}
     ;
 
 consume_type_wrapper

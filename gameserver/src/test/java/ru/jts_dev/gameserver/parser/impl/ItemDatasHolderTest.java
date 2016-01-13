@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.jts_dev.gameserver.constants.CrystalType;
 import ru.jts_dev.gameserver.constants.ItemTypes.ArmorType;
 import ru.jts_dev.gameserver.constants.ItemTypes.EtcItemType;
 import ru.jts_dev.gameserver.constants.ItemTypes.WeaponType;
@@ -86,10 +87,11 @@ public class ItemDatasHolderTest {
             assertThat("For item " + itemData.getName(), itemData.getAttackSkill(), is("none"));
             assertThat("For item " + itemData.getName(), itemData.getItemSkillEnchantedFour(), not(isEmptyOrNullString()));
 
+            assertThat("For item " + itemData.getName(), itemData.getMaterialType(), is(notNullValue()));
+
+            testCrystal(itemData);
             testCapsuledItems(itemData);
-
             testMagicSkill(itemData);
-
             testPrice(itemData);
 
             testShield(itemData);
@@ -99,21 +101,32 @@ public class ItemDatasHolderTest {
         }
     }
 
+    private void testCrystal(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getCrystalType(), is(notNullValue()));
+        assertThat("For item " + itemData.getName(), itemData.getCrystalCount(), greaterThanOrEqualTo(0));
+
+        if(itemData.getCrystalType() == CrystalType.CRYSTAL_FREE) {
+            assertThat("For item " + itemData.getName(), itemData.getCrystalCount(), is(0));
+        }
+    }
+
     private void testCapsuledItems(ItemData itemData) {
         assertThat("For item " + itemData.getName(), itemData.getCapsuledItems(), is(notNullValue()));
-        assertThat("For item " + itemData.getName(), itemData.getCapsuledItems(), hasSize(1));
 
         // TODO: 13.01.16 тест наличия предмета в списке, тест шансов, минимального кол-ва
         for (ItemData.CapsuledItemData capsuledItemData : itemData.getCapsuledItems()) {
             assertThat("For item " + itemData.getName(), capsuledItemData.getItemName(), not(isEmptyOrNullString()));
 
             assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
-                    itemDatasHolder.getItemData(), hasKey(capsuledItemData.getItemName()));
+                    itemDatasHolder.getItemData(), hasValue(hasProperty("name", equalTo(capsuledItemData.getItemName()))));
 
             assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
                     capsuledItemData.getMaxCount(), greaterThanOrEqualTo(0));
             assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
                     capsuledItemData.getMinCount(), allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(capsuledItemData.getMaxCount())));
+
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+                    capsuledItemData.getChance(), allOf(greaterThan(0.0), lessThanOrEqualTo(100.0)));
         }
     }
 

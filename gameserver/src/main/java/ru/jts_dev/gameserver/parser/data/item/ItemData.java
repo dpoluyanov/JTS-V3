@@ -59,6 +59,7 @@ public class ItemData {
     private String itemSkillEnchantedFour;
     private List<CapsuledItemData> capsuledItems;
     private MaterialType materialType;
+    private CrystalType crystalType;
     private int crystalCount;
     private boolean isTrade;
     private boolean isDrop;
@@ -103,6 +104,7 @@ public class ItemData {
     private boolean isOlympiadCanUse;
     private boolean canMove;
     private boolean isPremium;
+
     public ItemData(int itemId, ItemClass itemClass, String name, ItemClass itemType, List<SlotBitType> slotBitTypes) {
         this.itemId = itemId;
         this.itemClass = itemClass;
@@ -397,6 +399,30 @@ public class ItemData {
 
     public List<CapsuledItemData> getCapsuledItems() {
         return capsuledItems;
+    }
+
+    public void setMaterialType(MaterialType materialType) {
+        this.materialType = materialType;
+    }
+
+    public MaterialType getMaterialType() {
+        return materialType;
+    }
+
+    public void setCrystalType(CrystalType crystalType) {
+        this.crystalType = crystalType;
+    }
+
+    public CrystalType getCrystalType() {
+        return crystalType;
+    }
+
+    public void setCrystalCount(int crystalCount) {
+        this.crystalCount = crystalCount;
+    }
+
+    public int getCrystalCount() {
+        return crystalCount;
     }
 
     public static final class CapsuledItemData {

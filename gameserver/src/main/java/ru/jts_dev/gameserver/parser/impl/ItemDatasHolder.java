@@ -133,6 +133,9 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         data.setMagicSkillUnknownValue(ctx.magic_skill().unk);
         data.setItemSkillEnchantedFour(ctx.item_skill_enchanted_four().value);
         data.setCapsuledItems(ctx.capsuled_items().value);
+        data.setMaterialType(ctx.material_type_wrapper().value);
+        data.setCrystalType(ctx.crystal_type_wrapper().value);
+        data.setCrystalCount(ctx.crystal_count().value);
 
         // TODO: 09.01.16 fill item data from parsed values
 
