@@ -193,6 +193,10 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
 
         data.setItemEquipOption(ctx.item_equip_option().value);
 
+        data.setOlympiadCanUse(ctx.is_olympiad_can_use().value);
+        data.setCanMove(ctx.can_move().value);
+        data.setPremium(ctx.is_premium().value);
+
 
 
         // TODO: 09.01.16 fill item data from parsed values

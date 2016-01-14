@@ -13,6 +13,7 @@ import ru.jts_dev.gameserver.constants.MaterialType;
 import ru.jts_dev.gameserver.constants.SlotBitType;
 import ru.jts_dev.gameserver.parser.data.item.ItemData.AttributeAttack;
 import ru.jts_dev.gameserver.parser.data.item.ItemData.CapsuledItemData;
+import ru.jts_dev.gameserver.parser.data.item.condition.*;
 }
 
 file : (item | set)+;
@@ -144,17 +145,144 @@ item :
     'item_end'
     ;
 
-can_move : 'can_move' '=' int_object;
-is_premium : 'is_premium' '=' int_object;
+can_move
+    returns[boolean value]: 'can_move' '=' bo=bool_object {$ctx.value = $bo.value;};
+is_premium
+    returns[boolean value]: 'is_premium' '=' bo=bool_object {$ctx.value = $bo.value;};
 
-is_olympiad_can_use : 'is_olympiad_can_use' '=' int_object;
-use_condition : 'use_condition' '=' '{' condition (';' condition)* '}';
-equip_condition : 'equip_condition' '=' (empty_list | '{' condition (';' condition)* '}');
+is_olympiad_can_use
+    returns[boolean value]: 'is_olympiad_can_use' '=' bo=bool_object {$ctx.value = $bo.value;};
+
+use_condition
+    returns[List<Condition> value = new ArrayList<>()]:
+    'use_condition' '='
+    (empty_list
+    | '{' c=condition {$ctx.value.add($c.value);} (';' c=condition {$ctx.value.add($c.value);})* '}');
+
+equip_condition
+    returns[List<Condition> value = new ArrayList<>()]:
+    'equip_condition' '='
+    (empty_list
+    | '{' c=condition {$ctx.value.add($c.value);} (';' c=condition {$ctx.value.add($c.value);})* '}');
 
 item_equip_option
     returns[List<String> value]: 'item_equip_option' '=' il=identifier_list {$ctx.value = $il.value;};
 
-condition : '{' identifier_object (';' (int_object | int_list | identifier_list | category_list))? '}';
+condition
+    returns[Condition value]:
+    '{' (ecr_c=ec_race_condition {$ctx.value = $ecr_c.value;}
+    | ute_c=uc_transmode_exclude_condition {$ctx.value = $ute_c.value;}
+    | ecc_c=ec_category_condition {$ctx.value = $ecc_c.value;}
+    | ucc_c=uc_category_condition {$ctx.value = $ucc_c.value;}
+    | ucr_c=uc_race_condition {$ctx.value = $ucr_c.value;}
+    | ech_c=ec_hero_condition {$ctx.value = $ech_c.value;}
+    | eccast_c=ec_castle_condition {$ctx.value = $eccast_c.value;}
+    | ecs_c=ec_sex_condition {$ctx.value = $ecs_c.value;}
+    | eca_c=ec_agit_condition {$ctx.value = $eca_c.value;}
+    | eccn_c=ec_castle_num_condition {$ctx.value = $eccn_c.value;}
+    | ecacad_c=ec_academy_condition {$ctx.value = $ecacad_c.value;}
+    | ecsc_c=ec_social_class_condition {$ctx.value = $ecsc_c.value;}
+    | ucl_c=uc_level_condition {$ctx.value = $ucl_c.value;}
+    | ucrl_c=uc_required_level_condition {$ctx.value = $ucrl_c.value;}
+    | ecrl_c=ec_required_level_condition {$ctx.value = $ecrl_c.value;}
+    | ucrp_c=uc_restart_point_condition {$ctx.value = $ucrp_c.value;}
+    | ecn_c=ec_nobless_condition {$ctx.value = $ecn_c.value;}
+    | eccl_c=ec_clan_leader_condition {$ctx.value = $eccl_c.value;}
+    | ecsj_c=ec_subjob_condition {$ctx.value = $ecsj_c.value;}
+    | ucti_c=uc_transmode_include_condition {$ctx.value = $ucti_c.value;}
+    | ucin_c=uc_inzone_num_condition {$ctx.value = $ucin_c.value;}
+    | ecin_c=ec_inzone_num_condition {$ctx.value = $ecin_c.value;}
+    | ecchao_c=ec_chao_condtion {$ctx.value = $ecchao_c.value;}
+    | ucsf_c=uc_in_residence_siege_field_condition {$ctx.value = $ucsf_c.value;}
+    | ecf_c=ec_fortress_condition {$ctx.value = $ecf_c.value;}
+    | ecan_c=ec_agit_num_condition {$ctx.value = $ecan_c.value;}
+    | io=identifier_object {System.out.println($io.value);}
+     )
+    '}';
+
+ec_race_condition
+    returns[EcRace value]:
+    'ec_race' ';' il=int_list {$ctx.value = new EcRace($il.value);};
+uc_race_condition
+    returns[UcRace value]:
+    'uc_race' ';' il=int_list {$ctx.value = new UcRace($il.value);};
+
+uc_transmode_exclude_condition
+    returns[UcTransmodeExclude value]:
+    'uc_transmode_exclude' ';' il=identifier_list {$ctx.value = new UcTransmodeExclude($il.value);};
+ec_category_condition
+    returns[EcCategory value]:
+    'ec_category' ';' cl=category_list {$ctx.value = new EcCategory($cl.value);};
+
+uc_category_condition
+    returns[UcCategory value]:
+    'uc_category' ';' cl=category_list {$ctx.value = new UcCategory($cl.value);};
+
+ec_hero_condition
+    returns[EcHero value]:
+    'ec_hero' ';'  bo=bool_object {$ctx.value = new EcHero($bo.value);};
+
+ec_castle_condition
+    returns[EcCastle value]:
+    'ec_castle' ';'  bo=bool_object {$ctx.value = new EcCastle($bo.value);};
+
+ec_sex_condition
+    returns[EcSex value]:
+    'ec_sex' ';' io=int_object {$ctx.value = new EcSex($io.value);};
+ec_agit_condition
+    returns[EcAgit value]:
+    'ec_agit' ';' bo=bool_object {$ctx.value = new EcAgit($bo.value);};
+ec_castle_num_condition
+    returns[EcCastleNum value]:
+    'ec_castle_num' ';' '{' io=int_object '}' {$ctx.value = new EcCastleNum($io.value);};
+ec_academy_condition
+    returns[EcAcademy value]:
+    'ec_academy' ';' bo=bool_object {$ctx.value = new EcAcademy($bo.value);};
+ec_social_class_condition
+    returns[EcSocialClass value]:
+    'ec_social_class' ';' bo=byte_object {$ctx.value = new EcSocialClass($bo.value);};
+uc_level_condition
+    returns[UcLevel value]:
+    'uc_level' ';' '{' min=int_object ';' max=int_object '}' {$ctx.value = new UcLevel($min.value, $max.value);};
+uc_required_level_condition
+    returns[UcRequiredLevel value]:
+    'uc_requiredlevel' ';' io=int_object {$ctx.value = new UcRequiredLevel($io.value);};
+ec_required_level_condition
+    returns[EcRequiredLevel value]:
+    'ec_requiredlevel' ';' io=int_object {$ctx.value = new EcRequiredLevel($io.value);};
+uc_restart_point_condition
+    returns[UcRestartPoint value]:
+    'uc_restart_point' ';' io=int_object {$ctx.value = new UcRestartPoint($io.value);};
+ec_nobless_condition
+    returns[EcNobless value]:
+    'ec_nobless' ';' bo=bool_object {$ctx.value = new EcNobless($bo.value);};
+ec_clan_leader_condition
+    returns[EcClanLeader value]:
+    'ec_clan_leader' ';' bo=bool_object {$ctx.value = new EcClanLeader($bo.value);};
+ec_subjob_condition
+    returns[EcSubjob value]:
+    'ec_subjob' ';' bo=bool_object {$ctx.value = new EcSubjob($bo.value);};
+uc_transmode_include_condition
+    returns[UcTransmodeInclude value]:
+    'uc_transmode_include' ';' il=identifier_list {$ctx.value = new UcTransmodeInclude($il.value);};
+uc_inzone_num_condition
+    returns[UcInzoneNum value]:
+    'uc_inzone_num' ';' il=int_list {$ctx.value = new UcInzoneNum($il.value);};
+ec_inzone_num_condition
+    returns[EcInzoneNum value]:
+    'ec_inzone_num' ';' il=int_list {$ctx.value = new EcInzoneNum($il.value);};
+ec_chao_condtion
+    returns[EcChao value]:
+    'ec_chao' ';' bo=bool_object {$ctx.value = new EcChao($bo.value);};
+uc_in_residence_siege_field_condition
+    returns[UcInResidenceSiegeFlag value]:
+    'uc_in_residence_siege_field' {$ctx.value = new UcInResidenceSiegeFlag();};
+ec_fortress_condition
+    returns[EcFortress value]:
+    'ec_fortress' ';' bo=bool_object {$ctx.value = new EcFortress($bo.value);};
+ec_agit_num_condition
+    returns[EcAgitNum value]:
+    'ec_agit_num' ';' '{' io=int_object '}' {$ctx.value = new EcAgitNum($io.value);};
 
 for_npc
     returns[boolean value]: 'for_npc' '=' bo=bool_object {$ctx.value = $bo.value;};
