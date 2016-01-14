@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.model;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Range;
 import ru.jts_dev.gameserver.ai.AiObject;
@@ -73,13 +74,14 @@ public class GameCharacter {
     @Transient
     private String connectionId;
 
-    @Transient
-    private Vector3D vector3D = new Vector3D(0, 0, 0);
-
     // TODO: 21.12.15 should be calculable stat
     @Transient
     private double maxHp, maxMp;
 
+    @Transient
+    private Vector3D vector3D = new Vector3D(0, 0, 0);
+    @Transient
+    private Rotation rotation;
     @Transient
     private boolean moving;
 
@@ -178,6 +180,14 @@ public class GameCharacter {
         this.vector3D = vector3D;
     }
 
+    public Rotation getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(Rotation rotation) {
+        this.rotation = rotation;
+    }
+
     public boolean isMoving() {
         return moving;
     }
@@ -185,6 +195,7 @@ public class GameCharacter {
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
+
 
     public AiObject getAiObject() {
         return aiObject;

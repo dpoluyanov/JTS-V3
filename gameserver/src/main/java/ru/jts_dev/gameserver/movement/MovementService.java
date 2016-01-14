@@ -1,5 +1,7 @@
 package ru.jts_dev.gameserver.movement;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Line;
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +35,10 @@ public class MovementService {
         // TODO speed
         float speed = 100;
 
+        Line line = new Line(start, end, 1.0D);
         double distance = start.distance(end);
-        Vector3D direction = end.subtract(start).normalize();
+        Vector3D direction = line.getDirection();
+        character.setRotation(new Rotation(start, direction));
         character.setVector3D(start);
         character.setMoving(true);
 
@@ -50,6 +54,6 @@ public class MovementService {
                     character.setMoving(false);
                 }
             }
-        }, 500, TimeUnit.MILLISECONDS);
+        }, 500L, TimeUnit.MILLISECONDS);
     }
 }

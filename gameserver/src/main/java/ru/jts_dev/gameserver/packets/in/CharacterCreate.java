@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.packets.in;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
@@ -162,7 +163,10 @@ public class CharacterCreate extends IncomingMessageWrapper {
         character.setHairColor(hairColor);
         character.setFace(face);
         character.setStat(stat);
-        character.setVector3D(startPoints.get(random.nextInt(startPoints.size())));
+
+        Vector3D startPoint = startPoints.get(random.nextInt(startPoints.size()));
+        character.setVector3D(startPoint);
+        character.setRotation(new Rotation(startPoint, 0.0D));
 
         return character;
     }

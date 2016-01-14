@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.packets.out;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
@@ -11,15 +12,18 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 public class ValidateLocation extends OutgoingMessageWrapper {
     private final int objectId;
     private final Vector3D location;
+    private final Rotation rotation;
 
-    public ValidateLocation(int objectId, Vector3D location) {
+    public ValidateLocation(int objectId, Vector3D location, Rotation rotation) {
         this.objectId = objectId;
         this.location = location;
+        this.rotation = rotation;
     }
 
     public ValidateLocation(GameCharacter character) {
         objectId = character.getObjectId();
         location = character.getVector3D();
+        rotation = character.getRotation();
     }
 
     @Override
@@ -31,7 +35,6 @@ public class ValidateLocation extends OutgoingMessageWrapper {
         putInt((int) location.getX());
         putInt((int) location.getY());
         putInt((int) location.getZ());
-        // TODO heading
-        putInt(10);
+        putInt((int) rotation.getAngle());
     }
 }
