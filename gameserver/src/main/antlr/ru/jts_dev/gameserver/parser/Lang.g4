@@ -18,6 +18,11 @@ bool_object
     @after {$ctx.value = $text.equals("1");}:
     BOOLEAN;
 
+byte_object
+    returns [byte value]
+     @after {$ctx.value = Byte.valueOf($text);}:
+     BOOLEAN | INTEGER;
+
 int_object
     returns [int value]
     @after {$ctx.value = Integer.valueOf($text);}:

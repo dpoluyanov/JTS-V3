@@ -23,7 +23,7 @@ public class ItemData {
     private EtcItemType etcItemType;
     private ItemTypes.WeaponType weaponType;
     private int delayShareGroup;
-    private List<String> itemMultiSkillList = new ArrayList<>();
+    private List<String> itemMultiSkillList;
     private int recipeId;
     private int blessed;
     private int weight;
@@ -65,42 +65,46 @@ public class ItemData {
     private boolean isDrop;
     private boolean isDestruct;
     private boolean isPrivateStore;
-    private byte keep_type;
+    private byte keepType;
 
     private int physicalDamage;
     private int randomDamage;
     private int critical;
+    // can't test, because can be any value
     private double hitModify;
     private int avoidModify;
     private int dualFhitRate;
     private int shieldDefense;
     private int shieldDefenseRate;
     private int attackRange;
-    private int[] damageRange;
+    private List<Integer> damageRange;
     private int attackSpeed;
 
     private int reuseDelay;
     private int mpConsume;
     private int magicalDamage;
     private int durability;
-    private int damaged;
+    // always false
+    private boolean damaged;
     private int physicalDefense;
     private int magicalDefense;
     private int mpBonus;
     // not used in datas, always EMPTY ARRAY
-    private String[] category;
+    private List<String> category;
     private int enchanted;
     private AttributeAttack baseAttributeAttack;
-    private int[] baseAttributeDefend;
+    private List<Integer> baseAttributeDefend;
     private String html;
-    private int magicWeapon;
-    private boolean enchantEnable;
+    // can't test
+    private boolean magicWeapon;
+    private int enchantEnable;
     private boolean elementalEnable;
-    private List<String> unequipSkill = new ArrayList<>();
+    private List<String> unequipSkill;
+    // can't test
     private boolean forNpc;
-    private List<String> itemEquipOption = new ArrayList<>();
-    private List<Condition> useCondition = new ArrayList<>();
-    private List<Condition> equipCondition = new ArrayList<>();
+    private List<String> itemEquipOption;
+    private List<Condition> useCondition;
+    private List<Condition> equipCondition;
     private boolean isOlympiadCanUse;
     private boolean canMove;
     private boolean isPremium;
@@ -425,6 +429,314 @@ public class ItemData {
         return crystalCount;
     }
 
+    public void setIsTrade(boolean isTrade) {
+        this.isTrade = isTrade;
+    }
+
+    public boolean isTrade() {
+        return isTrade;
+    }
+
+    public boolean isDrop() {
+        return isDrop;
+    }
+
+    public void setIsDrop(boolean isDrop) {
+        this.isDrop = isDrop;
+    }
+
+    public boolean isDestruct() {
+        return isDestruct;
+    }
+
+    public void setIsDestruct(boolean isDestruct) {
+        this.isDestruct = isDestruct;
+    }
+
+    public boolean isPrivateStore() {
+        return isPrivateStore;
+    }
+
+    public void setIsPrivateStore(boolean isPrivateStore) {
+        this.isPrivateStore = isPrivateStore;
+    }
+
+    public void setKeepType(byte keepType) {
+        this.keepType = keepType;
+    }
+
+    public byte getKeepType() {
+        return keepType;
+    }
+
+    public void setPhysicalDamage(int physicalDamage) {
+        this.physicalDamage = physicalDamage;
+    }
+
+    public void setRandomDamage(int randomDamage) {
+        this.randomDamage = randomDamage;
+    }
+
+    public int getPhysicalDamage() {
+        return physicalDamage;
+    }
+
+    public int getRandomDamage() {
+        return randomDamage;
+    }
+
+    public void setCritical(int critical) {
+        this.critical = critical;
+    }
+
+    public int getCritical() {
+        return critical;
+    }
+
+    public void setHitModify(double hitModify) {
+        this.hitModify = hitModify;
+    }
+
+    public double getHitModify() {
+        return hitModify;
+    }
+
+    public int getAvoidModify() {
+        return avoidModify;
+    }
+
+    public void setAvoidModify(int avoidModify) {
+        this.avoidModify = avoidModify;
+    }
+
+    public int getDualFhitRate() {
+        return dualFhitRate;
+    }
+
+    public void setDualFhitRate(int dualFhitRate) {
+        this.dualFhitRate = dualFhitRate;
+    }
+
+    public void setAttackRange(int attackRange) {
+        this.attackRange = attackRange;
+    }
+
+    public int getAttackRange() {
+        return attackRange;
+    }
+
+    public List<Integer> getDamageRange() {
+        return damageRange;
+    }
+
+    public void setDamageRange(List<Integer> damageRange) {
+        this.damageRange = damageRange;
+    }
+
+    public int getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public void setAttackSpeed(int attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
+    public void setReuseDelay(int reuseDelay) {
+        this.reuseDelay = reuseDelay;
+    }
+
+    public int getReuseDelay() {
+        return reuseDelay;
+    }
+
+    public int getMpConsume() {
+        return mpConsume;
+    }
+
+    public void setMpConsume(int mpConsume) {
+        this.mpConsume = mpConsume;
+    }
+
+    public int getMagicalDamage() {
+        return magicalDamage;
+    }
+
+    public void setMagicalDamage(int magicalDamage) {
+        this.magicalDamage = magicalDamage;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
+    public boolean isDamaged() {
+        return damaged;
+    }
+
+    public void setDamaged(boolean damaged) {
+        this.damaged = damaged;
+    }
+
+    public int getPhysicalDefense() {
+        return physicalDefense;
+    }
+
+    public void setPhysicalDefense(int physicalDefense) {
+        this.physicalDefense = physicalDefense;
+    }
+
+    public int getMagicalDefense() {
+        return magicalDefense;
+    }
+
+    public void setMagicalDefense(int magicalDefense) {
+        this.magicalDefense = magicalDefense;
+    }
+
+    public int getMpBonus() {
+        return mpBonus;
+    }
+
+    public void setMpBonus(int mpBonus) {
+        this.mpBonus = mpBonus;
+    }
+
+    public List<String> getCategory() {
+        return category;
+    }
+
+    public void setCategory(List<String> category) {
+        this.category = category;
+    }
+
+    public int getEnchanted() {
+        return enchanted;
+    }
+
+    public void setEnchanted(int enchanted) {
+        this.enchanted = enchanted;
+    }
+
+    public List<SlotBitType> getSlotBitTypes() {
+        return slotBitTypes;
+    }
+
+    public AttributeAttack getBaseAttributeAttack() {
+        return baseAttributeAttack;
+    }
+
+    public void setBaseAttributeAttack(AttributeAttack baseAttributeAttack) {
+        this.baseAttributeAttack = baseAttributeAttack;
+    }
+
+    public List<Integer> getBaseAttributeDefend() {
+        return baseAttributeDefend;
+    }
+
+    public void setBaseAttributeDefend(List<Integer> baseAttributeDefend) {
+        this.baseAttributeDefend = baseAttributeDefend;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setMagicWeapon(boolean magicWeapon) {
+        this.magicWeapon = magicWeapon;
+    }
+
+    public boolean isMagicWeapon() {
+        return magicWeapon;
+    }
+
+    public int getEnchantEnable() {
+        return enchantEnable;
+    }
+
+    public void setEnchantEnable(int enchantEnable) {
+        this.enchantEnable = enchantEnable;
+    }
+
+    public boolean isElementalEnable() {
+        return elementalEnable;
+    }
+
+    public void setElementalEnable(boolean elementalEnable) {
+        this.elementalEnable = elementalEnable;
+    }
+
+    public List<String> getUnequipSkill() {
+        return unequipSkill;
+    }
+
+    public void setUnequipSkill(List<String> unequipSkill) {
+        this.unequipSkill = unequipSkill;
+    }
+
+    public boolean isForNpc() {
+        return forNpc;
+    }
+
+    public void setForNpc(boolean forNpc) {
+        this.forNpc = forNpc;
+    }
+
+    public List<String> getItemEquipOption() {
+        return itemEquipOption;
+    }
+
+    public void setItemEquipOption(List<String> itemEquipOption) {
+        this.itemEquipOption = itemEquipOption;
+    }
+
+    public List<Condition> getUseCondition() {
+        return useCondition;
+    }
+
+    public void setUseCondition(List<Condition> useCondition) {
+        this.useCondition = useCondition;
+    }
+
+    public List<Condition> getEquipCondition() {
+        return equipCondition;
+    }
+
+    public void setEquipCondition(List<Condition> equipCondition) {
+        this.equipCondition = equipCondition;
+    }
+
+    public boolean isOlympiadCanUse() {
+        return isOlympiadCanUse;
+    }
+
+    public void setOlympiadCanUse(boolean olympiadCanUse) {
+        isOlympiadCanUse = olympiadCanUse;
+    }
+
+    public boolean isCanMove() {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
+
     public static final class CapsuledItemData {
         private final String itemName;
         private final int minCount;
@@ -455,13 +767,21 @@ public class ItemData {
         }
     }
 
-    private static final class AttributeAttack {
-        private final AttributeType type;
-        private final int value;
+    public static final class AttributeAttack {
+        private AttributeType type;
+        private int value;
 
-        private AttributeAttack(AttributeType type, int value) {
+        public AttributeAttack(AttributeType type, int value) {
             this.type = type;
             this.value = value;
+        }
+
+        public AttributeType getType() {
+            return type;
+        }
+
+        public int getValue() {
+            return value;
         }
     }
 }

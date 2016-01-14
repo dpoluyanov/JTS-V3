@@ -1,17 +1,19 @@
 package ru.jts_dev.gameserver.parser.impl;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.jts_dev.gameserver.constants.AttributeType;
 import ru.jts_dev.gameserver.constants.CrystalType;
 import ru.jts_dev.gameserver.constants.ItemTypes.ArmorType;
 import ru.jts_dev.gameserver.constants.ItemTypes.EtcItemType;
 import ru.jts_dev.gameserver.constants.ItemTypes.WeaponType;
 import ru.jts_dev.gameserver.parser.data.item.ItemData;
 import ru.jts_dev.gameserver.parser.data.item.SetData;
+
+import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -28,6 +30,11 @@ public class ItemDatasHolderTest {
     @Autowired
     private ItemDatasHolder itemDatasHolder;
 
+    /**
+     * test loading sets data
+     *
+     * @throws Exception
+     */
     @Test
     public void testGetSetsData() throws Exception {
         assertThat(itemDatasHolder.getSetsData().size(), is(greaterThan(0)));
@@ -48,6 +55,11 @@ public class ItemDatasHolderTest {
         }
     }
 
+    /**
+     * test loading item data
+     *
+     * @throws Exception
+     */
     @Test
     public void testGetItemData() throws Exception {
         assertThat(itemDatasHolder.getItemData().size(), is(greaterThan(0)));
@@ -58,12 +70,14 @@ public class ItemDatasHolderTest {
             assertThat("For item " + itemData.getName(), itemData.getItemType(), is(notNullValue()));
             assertThat("For item " + itemData.getName(), itemData.getDelayShareGroup(), greaterThanOrEqualTo(-1));
 
+            assertThat("For item " + itemData.getName(), itemData.getSlotBitTypes(), notNullValue());
+
             testItemMultiSkillList(itemData); // TODO: 10.01.16 test exists skill name in skilldata.txt
             assertThat(itemData.getRecipeId(), greaterThanOrEqualTo(0)); // TODO: 11.01.16 test exists in recipe.txt
             assertThat("For item " + itemData.getName(), itemData.getBlessed(), anyOf(is(0), is(2)));
             assertThat("For item " + itemData.getName(), itemData.getWeight(), greaterThanOrEqualTo(0));
-            assertThat("For item " + itemData.getName(), itemData.getDefaultAction(), is(notNullValue()));
-            assertThat("For item " + itemData.getName(), itemData.getConsumeType(), is(notNullValue()));
+            assertThat("For item " + itemData.getName(), itemData.getDefaultAction(), notNullValue());
+            assertThat("For item " + itemData.getName(), itemData.getConsumeType(), notNullValue());
             assertThat("For item " + itemData.getName(), itemData.getInitialCount(), greaterThanOrEqualTo(1));
 
             assertThat("For item " + itemData.getName(), itemData.getSoulshotCount(), greaterThanOrEqualTo(0));
@@ -89,15 +103,101 @@ public class ItemDatasHolderTest {
 
             assertThat("For item " + itemData.getName(), itemData.getMaterialType(), is(notNullValue()));
 
+            assertThat("For item " + itemData.getName(), itemData.isTrade(), notNullValue());
+            assertThat("For item " + itemData.getName(), itemData.isDrop(), notNullValue());
+            assertThat("For item " + itemData.getName(), itemData.isDestruct(), notNullValue());
+            assertThat("For item " + itemData.getName(), itemData.isPrivateStore(), notNullValue());
+            assertThat("For item " + itemData.getName(), itemData.getKeepType(),
+                    isIn(Arrays.asList((byte) 0, (byte) 1, (byte) 7, (byte) 9, (byte) 15)));
+
+            assertThat("For item " + itemData.getName(), itemData.getAvoidModify(), lessThanOrEqualTo(0));
+
+            assertThat("For item " + itemData.getName(), itemData.getReuseDelay(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getMpConsume(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getDurability(),
+                    allOf(greaterThanOrEqualTo(-1), is(not(0))));
+
+            assertThat("For item " + itemData.getName(), itemData.isDamaged(), equalTo(false));
+
+            assertThat("For item " + itemData.getName(), itemData.getPhysicalDefense(), greaterThanOrEqualTo(0));
+            assertThat("For item " + itemData.getName(), itemData.getMagicalDefense(), greaterThanOrEqualTo(0));
+
+            assertThat("For item " + itemData.getName(), itemData.getMpBonus(), greaterThanOrEqualTo(0));
+
+            assertThat("For item " + itemData.getName(), itemData.getCategory(), is(empty()));
+            assertThat("For item " + itemData.getName(), itemData.getBaseAttributeDefend(), hasSize(6));
+            assertThat("For item " + itemData.getName(), itemData.getHtml(), not(isEmptyOrNullString()));
+
+            assertThat("For item " + itemData.getName(), itemData.getEnchanted(), allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(20)));
+            assertThat("For item " + itemData.getName(), itemData.getEnchantEnable(), greaterThanOrEqualTo(0));
+
+            assertThat("For item " + itemData.getName(), itemData.getUnequipSkill(), notNullValue());
+            assertThat("For item " + itemData.getName(), itemData.getItemEquipOption(), notNullValue());
+
+            testAttackAttribute(itemData);
+
+            testAttack(itemData);
+            testDualFhitRate(itemData);
+            testDamage(itemData);
+
+            testDrop(itemData);
+            testPrivateStore(itemData);
+
             testCrystal(itemData);
             testCapsuledItems(itemData);
             testMagicSkill(itemData);
             testPrice(itemData);
 
-            testShield(itemData);
+            testShieldDefense(itemData);
             testArmorType(itemData);
             testWeaponType(itemData);
             testEtcItemType(itemData);
+        }
+    }
+
+    private void testAttackAttribute(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getBaseAttributeAttack(), notNullValue());
+
+        if (itemData.getBaseAttributeAttack().getType() != AttributeType.NONE) {
+            assertThat("For item " + itemData.getName(), itemData.getBaseAttributeAttack().getValue(), greaterThan(0));
+        }
+    }
+
+    private void testAttack(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getAttackRange(), greaterThanOrEqualTo(0));
+        assertThat("For item " + itemData.getName(), itemData.getDamageRange(), notNullValue());
+        assertThat("For item " + itemData.getName(), itemData.getAttackSpeed(), greaterThanOrEqualTo(0));
+
+        if (!itemData.getDamageRange().isEmpty()) {
+            assertThat("For item " + itemData.getName(), itemData.getAttackSpeed(), greaterThan(0));
+        }
+    }
+
+    private void testDualFhitRate(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getDualFhitRate(), greaterThanOrEqualTo(0));
+        if (itemData.getDualFhitRate() > 0) {
+            assertThat("For item " + itemData.getName(), itemData.getWeaponType(),
+                    anyOf(is(WeaponType.DUAL), is(WeaponType.DUALFIST), is(WeaponType.DUALDAGGER)));
+        }
+    }
+
+    private void testDamage(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getPhysicalDamage(), greaterThanOrEqualTo(0));
+        assertThat("For item " + itemData.getName(), itemData.getRandomDamage(), greaterThanOrEqualTo(0));
+        assertThat("For item " + itemData.getName(), itemData.getCritical(), greaterThanOrEqualTo(0));
+        assertThat("For item " + itemData.getName(), itemData.getMagicalDamage(), greaterThanOrEqualTo(0));
+
+    }
+
+    private void testPrivateStore(ItemData itemData) {
+        if (itemData.isPrivateStore()) {
+            assertTrue("For item " + itemData.getName(), itemData.isTrade());
+        }
+    }
+
+    private void testDrop(ItemData itemData) {
+        if (itemData.isDrop()) {
+            assertThat("For item " + itemData.getName(), itemData.getDropPeriod(), greaterThan(0));
         }
     }
 
@@ -105,7 +205,7 @@ public class ItemDatasHolderTest {
         assertThat("For item " + itemData.getName(), itemData.getCrystalType(), is(notNullValue()));
         assertThat("For item " + itemData.getName(), itemData.getCrystalCount(), greaterThanOrEqualTo(0));
 
-        if(itemData.getCrystalType() == CrystalType.CRYSTAL_FREE) {
+        if (itemData.getCrystalType() == CrystalType.CRYSTAL_FREE) {
             assertThat("For item " + itemData.getName(), itemData.getCrystalCount(), is(0));
         }
     }
@@ -113,19 +213,19 @@ public class ItemDatasHolderTest {
     private void testCapsuledItems(ItemData itemData) {
         assertThat("For item " + itemData.getName(), itemData.getCapsuledItems(), is(notNullValue()));
 
-        // TODO: 13.01.16 тест наличия предмета в списке, тест шансов, минимального кол-ва
         for (ItemData.CapsuledItemData capsuledItemData : itemData.getCapsuledItems()) {
             assertThat("For item " + itemData.getName(), capsuledItemData.getItemName(), not(isEmptyOrNullString()));
 
-            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+            // test, that capsuled item present in ItemDatasHolder
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + capsuledItemData.getItemName(),
                     itemDatasHolder.getItemData(), hasValue(hasProperty("name", equalTo(capsuledItemData.getItemName()))));
 
-            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + capsuledItemData.getItemName(),
                     capsuledItemData.getMaxCount(), greaterThanOrEqualTo(0));
-            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + capsuledItemData.getItemName(),
                     capsuledItemData.getMinCount(), allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(capsuledItemData.getMaxCount())));
 
-            assertThat("For item " + itemData.getName() + ", Capsuled item " + itemData.getName(),
+            assertThat("For item " + itemData.getName() + ", Capsuled item " + capsuledItemData.getItemName(),
                     capsuledItemData.getChance(), allOf(greaterThan(0.0), lessThanOrEqualTo(100.0)));
         }
     }
@@ -153,11 +253,13 @@ public class ItemDatasHolderTest {
         assertThat("For item " + itemData.getName(), itemData.getItemMultiSkillList(), everyItem(not(isEmptyOrNullString())));
     }
 
-    private void testShield(ItemData itemData) {
+    private void testShieldDefense(ItemData itemData) {
+        assertThat("For item " + itemData.getName(), itemData.getShieldDefense(), greaterThanOrEqualTo(0));
+        assertThat("For item " + itemData.getName(), itemData.getShieldDefenseRate(), greaterThanOrEqualTo(0));
+
         if (itemData.getShieldDefenseRate() > 0 || itemData.getShieldDefense() > 0) {
             assertTrue("For item " + itemData.getName(), itemData.getWeaponType() == WeaponType.NONE
                     && itemData.getEtcItemType() == EtcItemType.NONE);
-            assertThat("For item " + itemData.getName(), itemData.getShieldDefense(), greaterThanOrEqualTo(0));
             assertThat("For item " + itemData.getName(), itemData.getShieldDefenseRate(), greaterThan(0));
         }
     }

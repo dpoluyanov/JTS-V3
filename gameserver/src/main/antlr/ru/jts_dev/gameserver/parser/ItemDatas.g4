@@ -3,6 +3,7 @@ grammar ItemDatas;
 import Lang;
 
 @header {
+import ru.jts_dev.gameserver.constants.AttributeType;
 import ru.jts_dev.gameserver.constants.ConsumeType;
 import ru.jts_dev.gameserver.constants.CrystalType;
 import ru.jts_dev.gameserver.constants.DefaultAction;
@@ -10,7 +11,9 @@ import ru.jts_dev.gameserver.constants.ItemClass;
 import ru.jts_dev.gameserver.constants.ItemTypes.*;
 import ru.jts_dev.gameserver.constants.MaterialType;
 import ru.jts_dev.gameserver.constants.SlotBitType;
+import ru.jts_dev.gameserver.parser.data.item.ItemData.AttributeAttack;
 import ru.jts_dev.gameserver.parser.data.item.ItemData.CapsuledItemData;
+import ru.jts_dev.gameserver.parser.data.item.condition.*;
 }
 
 file : (item | set)+;
@@ -142,41 +145,195 @@ item :
     'item_end'
     ;
 
-can_move : 'can_move' '=' int_object;
-is_premium : 'is_premium' '=' int_object;
+can_move
+    returns[boolean value]: 'can_move' '=' bo=bool_object {$ctx.value = $bo.value;};
+is_premium
+    returns[boolean value]: 'is_premium' '=' bo=bool_object {$ctx.value = $bo.value;};
 
-is_olympiad_can_use : 'is_olympiad_can_use' '=' int_object;
-use_condition : 'use_condition' '=' (empty_list | '{' condition (';' condition)* '}');
-equip_condition : 'equip_condition' '=' (empty_list | '{' condition (';' condition)* '}');
-item_equip_option : 'item_equip_option' '=' (empty_list | identifier_list);
-condition : '{' identifier_object (';' (int_object | int_list | identifier_list | category_list))? '}';
+is_olympiad_can_use
+    returns[boolean value]: 'is_olympiad_can_use' '=' bo=bool_object {$ctx.value = $bo.value;};
 
-for_npc : 'for_npc' '=' int_object;
-unequip_skill : 'unequip_skill' '=' identifier_list;
+use_condition
+    returns[List<Condition> value = new ArrayList<>()]:
+    'use_condition' '='
+    (empty_list
+    | '{' c=condition {$ctx.value.add($c.value);} (';' c=condition {$ctx.value.add($c.value);})* '}');
 
-base_attribute_attack : 'base_attribute_attack' '=' attack_attribute;
-attack_attribute : '{' attribute ';' int_object '}';
-attribute : NONE | FIRE | EARTH;
+equip_condition
+    returns[List<Condition> value = new ArrayList<>()]:
+    'equip_condition' '='
+    (empty_list
+    | '{' c=condition {$ctx.value.add($c.value);} (';' c=condition {$ctx.value.add($c.value);})* '}');
 
-html : 'html' '=' name_object;
+item_equip_option
+    returns[List<String> value]: 'item_equip_option' '=' il=identifier_list {$ctx.value = $il.value;};
 
-base_attribute_defend : 'base_attribute_defend' '=' int_list;
+condition
+    returns[Condition value]:
+    '{' (ecr_c=ec_race_condition {$ctx.value = $ecr_c.value;}
+    | ute_c=uc_transmode_exclude_condition {$ctx.value = $ute_c.value;}
+    | ecc_c=ec_category_condition {$ctx.value = $ecc_c.value;}
+    | ucc_c=uc_category_condition {$ctx.value = $ucc_c.value;}
+    | ucr_c=uc_race_condition {$ctx.value = $ucr_c.value;}
+    | ech_c=ec_hero_condition {$ctx.value = $ech_c.value;}
+    | eccast_c=ec_castle_condition {$ctx.value = $eccast_c.value;}
+    | ecs_c=ec_sex_condition {$ctx.value = $ecs_c.value;}
+    | eca_c=ec_agit_condition {$ctx.value = $eca_c.value;}
+    | eccn_c=ec_castle_num_condition {$ctx.value = $eccn_c.value;}
+    | ecacad_c=ec_academy_condition {$ctx.value = $ecacad_c.value;}
+    | ecsc_c=ec_social_class_condition {$ctx.value = $ecsc_c.value;}
+    | ucl_c=uc_level_condition {$ctx.value = $ucl_c.value;}
+    | ucrl_c=uc_required_level_condition {$ctx.value = $ucrl_c.value;}
+    | ecrl_c=ec_required_level_condition {$ctx.value = $ecrl_c.value;}
+    | ucrp_c=uc_restart_point_condition {$ctx.value = $ucrp_c.value;}
+    | ecn_c=ec_nobless_condition {$ctx.value = $ecn_c.value;}
+    | eccl_c=ec_clan_leader_condition {$ctx.value = $eccl_c.value;}
+    | ecsj_c=ec_subjob_condition {$ctx.value = $ecsj_c.value;}
+    | ucti_c=uc_transmode_include_condition {$ctx.value = $ucti_c.value;}
+    | ucin_c=uc_inzone_num_condition {$ctx.value = $ucin_c.value;}
+    | ecin_c=ec_inzone_num_condition {$ctx.value = $ecin_c.value;}
+    | ecchao_c=ec_chao_condtion {$ctx.value = $ecchao_c.value;}
+    | ucsf_c=uc_in_residence_siege_field_condition {$ctx.value = $ucsf_c.value;}
+    | ecf_c=ec_fortress_condition {$ctx.value = $ecf_c.value;}
+    | ecan_c=ec_agit_num_condition {$ctx.value = $ecan_c.value;}
+    | io=identifier_object {System.out.println($io.value);}
+     )
+    '}';
 
-category : 'category' '=' empty_list;
+ec_race_condition
+    returns[EcRace value]:
+    'ec_race' ';' il=int_list {$ctx.value = new EcRace($il.value);};
+uc_race_condition
+    returns[UcRace value]:
+    'uc_race' ';' il=int_list {$ctx.value = new UcRace($il.value);};
 
-enchant_enable : 'enchant_enable' '=' int_object;
-elemental_enable : 'elemental_enable' '=' int_object;
-enchanted : 'enchanted' '=' int_object;
+uc_transmode_exclude_condition
+    returns[UcTransmodeExclude value]:
+    'uc_transmode_exclude' ';' il=identifier_list {$ctx.value = new UcTransmodeExclude($il.value);};
+ec_category_condition
+    returns[EcCategory value]:
+    'ec_category' ';' cl=category_list {$ctx.value = new EcCategory($cl.value);};
 
-mp_consume : 'mp_consume' '=' int_object;
-magical_damage : 'magical_damage' '=' int_object;
-durability : 'durability' '=' int_object;
-damaged : 'damaged' '=' int_object;
-magic_weapon : 'magic_weapon' '=' int_object;
+uc_category_condition
+    returns[UcCategory value]:
+    'uc_category' ';' cl=category_list {$ctx.value = new UcCategory($cl.value);};
 
-physical_defense : 'physical_defense' '=' int_object;
-magical_defense : 'magical_defense' '=' int_object;
-mp_bonus : 'mp_bonus' '=' int_object;
+ec_hero_condition
+    returns[EcHero value]:
+    'ec_hero' ';'  bo=bool_object {$ctx.value = new EcHero($bo.value);};
+
+ec_castle_condition
+    returns[EcCastle value]:
+    'ec_castle' ';'  bo=bool_object {$ctx.value = new EcCastle($bo.value);};
+
+ec_sex_condition
+    returns[EcSex value]:
+    'ec_sex' ';' io=int_object {$ctx.value = new EcSex($io.value);};
+ec_agit_condition
+    returns[EcAgit value]:
+    'ec_agit' ';' bo=bool_object {$ctx.value = new EcAgit($bo.value);};
+ec_castle_num_condition
+    returns[EcCastleNum value]:
+    'ec_castle_num' ';' '{' io=int_object '}' {$ctx.value = new EcCastleNum($io.value);};
+ec_academy_condition
+    returns[EcAcademy value]:
+    'ec_academy' ';' bo=bool_object {$ctx.value = new EcAcademy($bo.value);};
+ec_social_class_condition
+    returns[EcSocialClass value]:
+    'ec_social_class' ';' bo=byte_object {$ctx.value = new EcSocialClass($bo.value);};
+uc_level_condition
+    returns[UcLevel value]:
+    'uc_level' ';' '{' min=int_object ';' max=int_object '}' {$ctx.value = new UcLevel($min.value, $max.value);};
+uc_required_level_condition
+    returns[UcRequiredLevel value]:
+    'uc_requiredlevel' ';' io=int_object {$ctx.value = new UcRequiredLevel($io.value);};
+ec_required_level_condition
+    returns[EcRequiredLevel value]:
+    'ec_requiredlevel' ';' io=int_object {$ctx.value = new EcRequiredLevel($io.value);};
+uc_restart_point_condition
+    returns[UcRestartPoint value]:
+    'uc_restart_point' ';' io=int_object {$ctx.value = new UcRestartPoint($io.value);};
+ec_nobless_condition
+    returns[EcNobless value]:
+    'ec_nobless' ';' bo=bool_object {$ctx.value = new EcNobless($bo.value);};
+ec_clan_leader_condition
+    returns[EcClanLeader value]:
+    'ec_clan_leader' ';' bo=bool_object {$ctx.value = new EcClanLeader($bo.value);};
+ec_subjob_condition
+    returns[EcSubjob value]:
+    'ec_subjob' ';' bo=bool_object {$ctx.value = new EcSubjob($bo.value);};
+uc_transmode_include_condition
+    returns[UcTransmodeInclude value]:
+    'uc_transmode_include' ';' il=identifier_list {$ctx.value = new UcTransmodeInclude($il.value);};
+uc_inzone_num_condition
+    returns[UcInzoneNum value]:
+    'uc_inzone_num' ';' il=int_list {$ctx.value = new UcInzoneNum($il.value);};
+ec_inzone_num_condition
+    returns[EcInzoneNum value]:
+    'ec_inzone_num' ';' il=int_list {$ctx.value = new EcInzoneNum($il.value);};
+ec_chao_condtion
+    returns[EcChao value]:
+    'ec_chao' ';' bo=bool_object {$ctx.value = new EcChao($bo.value);};
+uc_in_residence_siege_field_condition
+    returns[UcInResidenceSiegeFlag value]:
+    'uc_in_residence_siege_field' {$ctx.value = new UcInResidenceSiegeFlag();};
+ec_fortress_condition
+    returns[EcFortress value]:
+    'ec_fortress' ';' bo=bool_object {$ctx.value = new EcFortress($bo.value);};
+ec_agit_num_condition
+    returns[EcAgitNum value]:
+    'ec_agit_num' ';' '{' io=int_object '}' {$ctx.value = new EcAgitNum($io.value);};
+
+for_npc
+    returns[boolean value]: 'for_npc' '=' bo=bool_object {$ctx.value = $bo.value;};
+unequip_skill
+    returns[List<String> value]: 'unequip_skill' '=' il=identifier_list {$ctx.value = $il.value;};
+
+base_attribute_attack
+    returns[AttributeAttack value]: 'base_attribute_attack' '=' aa=attack_attribute {$ctx.value = $aa.value;};
+attack_attribute
+    returns[AttributeAttack value]
+    :'{' attribute ';' io=int_object '}' {$ctx.value = new AttributeAttack($attribute.value, $io.value);};
+
+attribute
+    returns[AttributeType value]:
+    NONE {$ctx.value = AttributeType.NONE;}
+    | FIRE {$ctx.value = AttributeType.FIRE;}
+    | EARTH {$ctx.value = AttributeType.EARTH;};
+
+html
+    returns[String value]: 'html' '=' no=name_object {$ctx.value = $no.value;};
+
+base_attribute_defend
+    returns[List<Integer> value]: 'base_attribute_defend' '=' il=int_list {$ctx.value = $il.value;};
+
+category
+    returns[List<String> value = new ArrayList<>();]: 'category' '=' empty_list;
+
+enchant_enable
+    returns[int value]: 'enchant_enable' '=' io=int_object {$ctx.value = $io.value;};
+elemental_enable
+    returns[boolean value]: 'elemental_enable' '=' bo=bool_object {$ctx.value = $bo.value;};
+enchanted
+    returns[int value]: 'enchanted' '=' io=int_object {$ctx.value = $io.value;};
+
+mp_consume
+    returns[int value]: 'mp_consume' '=' io=int_object {$ctx.value = $io.value;};
+magical_damage
+    returns[int value]: 'magical_damage' '=' io=int_object {$ctx.value = $io.value;};
+durability
+    returns[int value]: 'durability' '=' io=int_object {$ctx.value = $io.value;};
+damaged
+    returns[boolean value]: 'damaged' '=' bo=bool_object {$ctx.value = $bo.value;};
+magic_weapon
+    returns[boolean value]: 'magic_weapon' '=' bo=bool_object {$ctx.value = $bo.value;};
+
+physical_defense
+    returns[int value]: 'physical_defense' '=' io=int_object {$ctx.value = $io.value;};
+magical_defense
+    returns[int value]: 'magical_defense' '=' io=int_object {$ctx.value = $io.value;};
+mp_bonus
+    returns[int value]: 'mp_bonus' '=' io=int_object {$ctx.value = $io.value;};
 
 weapon_type_wrapper
     returns [WeaponType value]: 'weapon_type' '=' wt=weapon_type { $ctx.value = $wt.value; };
@@ -201,31 +358,48 @@ weapon_type
     | DUALDAGGER { $ctx.value = WeaponType.DUALDAGGER; }
     ;
 
-is_trade : 'is_trade' '=' int_object;
-is_drop : 'is_drop' '=' int_object;
-is_destruct : 'is_destruct' '=' int_object;
-is_private_store : 'is_private_store' '=' int_object;
-keep_type : 'keep_type' '=' int_object;
+is_trade
+    returns [boolean value]: 'is_trade' '=' bo=bool_object {$ctx.value=$bo.value;};
+is_drop
+    returns [boolean value]: 'is_drop' '=' bo=bool_object {$ctx.value=$bo.value;};
+is_destruct
+    returns [boolean value]: 'is_destruct' '=' bo=bool_object {$ctx.value=$bo.value;};
+is_private_store
+    returns [boolean value]: 'is_private_store' '=' bo=bool_object {$ctx.value=$bo.value;};
+keep_type
+    returns [byte value]: 'keep_type' '=' bo=byte_object {$ctx.value=$bo.value;};
 
-physical_damage : 'physical_damage' '=' int_object;
-random_damage : 'random_damage' '=' int_object;
-critical : 'critical' '=' int_object;
-hit_modify : 'hit_modify' '=' double_object;
-attack_range : 'attack_range' '=' int_object;
-damage_range : 'damage_range' '=' int_list;
+physical_damage
+    returns[int value]: 'physical_damage' '=' io=int_object {$ctx.value=$io.value;};
+random_damage
+    returns[int value]: 'random_damage' '=' io=int_object {$ctx.value=$io.value;};
+critical
+    returns[int value]: 'critical' '=' io=int_object {$ctx.value=$io.value;};
+hit_modify
+    returns[double value]: 'hit_modify' '=' d=double_object {$ctx.value=$d.value;};
 
-attack_speed : 'attack_speed' '=' int_object;
+attack_range
+    returns[int value]: 'attack_range' '=' io=int_object {$ctx.value=$io.value;};
 
-avoid_modify : 'avoid_modify' '=' int_object;
+damage_range
+    returns[List<Integer> value]: 'damage_range' '=' il=int_list {$ctx.value = $il.value;};
 
-dual_fhit_rate : 'dual_fhit_rate' '=' int_object;
+attack_speed
+    returns[int value]: 'attack_speed' '=' io=int_object {$ctx.value = $io.value;};
+
+avoid_modify
+    returns[int value]: 'avoid_modify' '=' io=int_object {$ctx.value=$io.value;};
+
+dual_fhit_rate
+    returns[int value]: 'dual_fhit_rate' '=' io = int_object {$ctx.value=$io.value;};
 
 shield_defense
     returns[int value]: 'shield_defense' '=' io=int_object {$ctx.value = $io.value;};
 shield_defense_rate
     returns[int value]: 'shield_defense_rate' '=' io=int_object {$ctx.value = $io.value;};
 
-reuse_delay : 'reuse_delay' '=' int_object;
+reuse_delay
+    returns[int value]: 'reuse_delay' '=' io=int_object {$ctx.value = $io.value;};
 
 initial_count
     returns[int value]: 'initial_count' '=' io=int_object {$ctx.value=$io.value;};
