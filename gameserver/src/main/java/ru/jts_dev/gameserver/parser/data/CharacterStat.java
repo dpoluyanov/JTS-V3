@@ -3,6 +3,7 @@ package ru.jts_dev.gameserver.parser.data;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class CharacterStat implements Cloneable {
     @Column
     private String statName;
 
-    @Column
+    @ElementCollection
     // INT, STR, CON, MEN, DEX, WIT
     private List<Integer> stats;
 

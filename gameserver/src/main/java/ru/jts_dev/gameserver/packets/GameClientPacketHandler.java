@@ -5,18 +5,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
+import static ru.jts_dev.gameserver.packets.Opcode.CLIENT_SWITCH_OPCODE;
 
 /**
  * @author Camelion
@@ -28,35 +26,51 @@ public class GameClientPacketHandler {
     @Autowired
     private ApplicationContext context;
 
-    @Autowired
-    // proxy copies of packets, used only for parse @Opcode Annotation
-    private List<IncomingMessageWrapper> packetProxies;
-
     private Map<Integer, Object> packets;
 
+    /**
+     * Find beans with {@link Opcode} annotation, and put it to {@link #packets} map
+     * where key is 'first' (or single) part of packet identifier {@see IncomingMessageWrapper}
+     * and value is a bean name of packet or {@link Map} with 'second' part of
+     * packet identifier as key, and packet bean name as value
+     */
     @PostConstruct
     private void postConstruct() {
-        packets = new TreeMap<>();
-        for (IncomingMessageWrapper packetProxy : packetProxies) {
-            Opcode opcode = AnnotationUtils.findAnnotation(packetProxy.getClass(), Opcode.class);
+        String[] packetBeanNames = context.getBeanNamesForAnnotation(Opcode.class);
 
-            assert opcode != null : "opcode annotation not present for " + packetProxy.getClass();
+        packets = new HashMap<>(0xFF, 1.0f);
+        for (String beanName : packetBeanNames) {
+            Opcode opcode = context.findAnnotationOnBean(beanName, Opcode.class);
+
+            assert opcode != null : "opcode annotation not present for bean " + beanName;
 
             int firstOpcode = opcode.first();
             int secondOpcode = opcode.second();
             if (secondOpcode != Integer.MIN_VALUE) {
-                Map<Integer, Object> secondOpcodesMap = (Map<Integer, Object>) packets.getOrDefault(firstOpcode, new HashMap<Integer, Object>());
+                Map<Integer, Object> secondOpcodesMap =
+                        (Map<Integer, Object>) packets.getOrDefault(firstOpcode, new HashMap<Integer, Object>());
 
                 assert !secondOpcodesMap.containsKey(secondOpcode)
-                        : "duplicate second opcode for " + packetProxy.getClass() + ", " + secondOpcodesMap.get(secondOpcode);
+                        : "duplicate second opcode for " + beanName + ", old is " + secondOpcodesMap.get(secondOpcode);
 
-                secondOpcodesMap.put(secondOpcode, packetProxy.getClass());
+                secondOpcodesMap.put(secondOpcode, beanName);
                 packets.putIfAbsent(firstOpcode, secondOpcodesMap);
             }
-            packets.putIfAbsent(firstOpcode, packetProxy.getClass());
+
+            assert firstOpcode == CLIENT_SWITCH_OPCODE || !packets.containsKey(firstOpcode)
+                    : "duplicate first opcode for " + beanName + ", old is " + packets.get(firstOpcode);
+
+            packets.putIfAbsent(firstOpcode, beanName);
         }
     }
 
+    /**
+     * Handle incoming packet by first bytes (opcode)
+     *
+     * @param buf          - packet data
+     * @param connectionId - client connectionId from Spring Integration
+     * @return - handled packet
+     */
     public IncomingMessageWrapper handle(ByteBuf buf, @Header(CONNECTION_ID) String connectionId) {
         if (buf.readableBytes() == 0)
             throw new RuntimeException("At least 1 readable byte excepted in buffer");
@@ -69,8 +83,8 @@ public class GameClientPacketHandler {
         IncomingMessageWrapper msg;
 
         Object node = packets.get(opcode);
-        if (node instanceof Class) {
-            msg = context.getBean((Class<IncomingMessageWrapper>) node);
+        if (node instanceof String) {
+            msg = context.getBean((String) node, IncomingMessageWrapper.class);
         } else { // (node instanceof Map)
             opcode = buf.readUnsignedShort();
 
@@ -78,7 +92,7 @@ public class GameClientPacketHandler {
                 throw new RuntimeException("Invalid second packet opcode: " + String.format("0x%02X", (byte) opcode));
 
             node = ((Map) node).get(opcode);
-            msg = context.getBean((Class<IncomingMessageWrapper>) node);
+            msg = context.getBean((String) node, IncomingMessageWrapper.class);
         }
 
         ByteBuf data = buf.slice();

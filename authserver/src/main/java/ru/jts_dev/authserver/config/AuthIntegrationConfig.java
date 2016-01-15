@@ -22,12 +22,12 @@ import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionFactory;
 import org.springframework.messaging.MessageChannel;
 import ru.jts_dev.authserver.model.AuthSession;
-import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.LoginClientPacketHandler;
-import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.authserver.packets.out.Init;
 import ru.jts_dev.authserver.service.AuthSessionService;
 import ru.jts_dev.authserver.util.Encoder;
+import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.tcp.ProtocolByteArrayLengthHeaderSerializer;
 
 import java.nio.ByteOrder;
@@ -207,7 +207,7 @@ public class AuthIntegrationConfig {
         msg.prepare();
         msg.run();
 
-        if (msg.getPayload().readableBytes() > 0) {
+        if (log.isDebugEnabled() && msg.getPayload().readableBytes() > 0) {
             final StringBuilder leftStr = new StringBuilder("[");
             msg.getPayload().forEachByte(
                     msg.getPayload().readerIndex(),

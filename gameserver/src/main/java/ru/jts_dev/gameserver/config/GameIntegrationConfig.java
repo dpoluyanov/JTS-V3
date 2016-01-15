@@ -107,7 +107,7 @@ public class GameIntegrationConfig {
         msg.prepare();
         msg.run();
 
-        if (msg.getPayload().readableBytes() > 0) {
+        if (log.isDebugEnabled() && msg.getPayload().readableBytes() > 0) {
             final StringBuilder leftStr = new StringBuilder("[");
             msg.getPayload().forEachByte(
                     msg.getPayload().readerIndex(),

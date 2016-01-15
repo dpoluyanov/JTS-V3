@@ -197,10 +197,6 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         data.setCanMove(ctx.can_move().value);
         data.setPremium(ctx.is_premium().value);
 
-
-
-        // TODO: 09.01.16 fill item data from parsed values
-
         assert !itemData.containsKey(itemId) : "Duplicate ItemId " + itemId;
 
         itemData.put(itemId, data);

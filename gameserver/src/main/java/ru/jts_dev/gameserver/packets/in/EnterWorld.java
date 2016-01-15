@@ -38,7 +38,6 @@ public class EnterWorld extends IncomingMessageWrapper {
 
     @Override
     public void prepare() {
-
     }
 
     @Override

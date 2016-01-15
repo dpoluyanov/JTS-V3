@@ -91,7 +91,8 @@ public class Encoder {
 
     public ByteBuf appendPadding(ByteBuf buf) {
         if (buf.readableBytes() % BLOWFISH_BLOCK_SIZE != 0) {
-            buf.writeBytes(new byte[BLOWFISH_BLOCK_SIZE - buf.readableBytes() % BLOWFISH_BLOCK_SIZE]);
+            int padding = BLOWFISH_BLOCK_SIZE - buf.readableBytes() % BLOWFISH_BLOCK_SIZE;
+            buf.writeZero(padding);
         }
 
         return buf;
@@ -102,7 +103,7 @@ public class Encoder {
                           // TODO: 08.12.15 spring integration bug with ingoring defaultValue in header
                           @Header(value = STATIC_KEY_HEADER, required = false) String static_key) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
-            throw new IndexOutOfBoundsException("data.length must be multiply of 8");
+            throw new IndexOutOfBoundsException("data.length must be multiply of " + BLOWFISH_BLOCK_SIZE);
 
         BlowfishEngine blowfishEngine = new BlowfishEngine();
         if (static_key != null && static_key.equals("true")) {
@@ -126,7 +127,7 @@ public class Encoder {
     @Transformer
     public byte[] decrypt(byte[] data, @Header(CONNECTION_ID) String connectionId) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
-            throw new IndexOutOfBoundsException("data.length must be multiply of 8");
+            throw new IndexOutOfBoundsException("data.length must be multiply of " + BLOWFISH_BLOCK_SIZE);
 
         AuthSession gameSession = authSessionService.getSessionBy(connectionId);
 

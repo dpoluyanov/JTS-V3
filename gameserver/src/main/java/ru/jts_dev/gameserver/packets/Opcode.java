@@ -14,20 +14,21 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Opcode {
+    int CLIENT_SWITCH_OPCODE = 0xD0;
 
     /**
      * Alias for {@link #first}.
      *
      * @see #first
      */
-    @AliasFor("first") int value() default 0xD0; // switch opcode
+    @AliasFor("first") int value() default CLIENT_SWITCH_OPCODE; // switch opcode
 
     /**
      * first packet opcode (byte)
      *
      * @return - expected opcode
      */
-    @AliasFor("value") int first() default 0xD0; // switch opcode
+    @AliasFor("value") int first() default CLIENT_SWITCH_OPCODE; // switch opcode
 
     /**
      * second packet opcode (short)
