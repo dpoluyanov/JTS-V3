@@ -30,8 +30,8 @@ public class CharacterSelected extends OutgoingMessageWrapper {
         putInt(0); // clanId
         putInt(0x00); // ??
         putInt(character.getSex());
-        putInt(character.getStat().getRaceId());
-        putInt(character.getStat().getClassId());
+        putInt(character.getStat().getRace().getId());
+        putInt(character.getStat().getClass_().getId());
         putInt(0x01); // active ??
         putInt((int) character.getVector3D().getX());
         putInt((int) character.getVector3D().getY());
@@ -54,7 +54,7 @@ public class CharacterSelected extends OutgoingMessageWrapper {
         putInt(0x00); // Game Time
         putInt(0x00);
 
-        putInt(character.getStat().getClassId());
+        putInt(character.getStat().getClass_().getId());
 
         putInt(0x00);
         putInt(0x00);

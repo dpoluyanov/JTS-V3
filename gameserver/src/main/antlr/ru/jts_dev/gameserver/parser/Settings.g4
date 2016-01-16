@@ -35,7 +35,7 @@ initial_start_point :
     ;
 
 start_point
-    returns[List<CharacterClass> klasses, List<Vector3D> points]:
+    returns[List<CharacterClass> klasses = new ArrayList<>(), List<Vector3D> points = new ArrayList<>()]:
     'point_begin'
     (point {$ctx.points.add($point.value);})+
     classes {$ctx.klasses = $classes.value;}
@@ -81,14 +81,14 @@ character_stat
 character_race_class
     returns[CharacterRace race, CharacterClass klass]:
     HUMAN_FIGHTER {$ctx.race = CharacterRace.HUMAN; $ctx.klass = CharacterClass.HUMAN_FIGHTER;}
-    | HUMAN_MAGICAN {$ctx.race = CharacterRace.HUMAN; $ctx.klass = CharacterClass.HUMAN_MAGICAN;}
+    | HUMAN_MAGICAN {$ctx.race = CharacterRace.HUMAN; $ctx.klass = CharacterClass.HUMAN_MAGICIAN;}
     | ELF_FIGHTER {$ctx.race = CharacterRace.ELF; $ctx.klass = CharacterClass.ELF_FIGHTER;}
-    | ELF_MAGICAN {$ctx.race = CharacterRace.ELF; $ctx.klass = CharacterClass.ELF_MAGICAN;}
+    | ELF_MAGICAN {$ctx.race = CharacterRace.ELF; $ctx.klass = CharacterClass.ELF_MAGICIAN;}
     | DARKELF_FIGHTER {$ctx.race = CharacterRace.DARKELF; $ctx.klass = CharacterClass.DARKELF_FIGHTER;}
-    | DARKELF_MAGICAN {$ctx.race = CharacterRace.DARKELF; $ctx.klass = CharacterClass.DARKELF_MAGICAN;}
+    | DARKELF_MAGICAN {$ctx.race = CharacterRace.DARKELF; $ctx.klass = CharacterClass.DARKELF_MAGICIAN;}
     | ORC_FIGHTER {$ctx.race = CharacterRace.ORC; $ctx.klass = CharacterClass.ORC_FIGHTER;}
     | ORC_SHAMAN {$ctx.race = CharacterRace.ORC; $ctx.klass = CharacterClass.ORC_SHAMAN;}
-    | DWARP_APPRENTICE {$ctx.race = CharacterRace.DWARF; $ctx.klass = CharacterClass.DWARP_APPRENTICE;}
+    | DWARF_APPRENTICE {$ctx.race = CharacterRace.DWARF; $ctx.klass = CharacterClass.DWARF_APPRENTICE;}
     | KAMAEL_M_SOLDIER {$ctx.race = CharacterRace.KAMAEL; $ctx.klass = CharacterClass.KAMAEL_M_SOLDIER;}
     | KAMAEL_F_SOLDIER {$ctx.race = CharacterRace.KAMAEL; $ctx.klass = CharacterClass.KAMAEL_F_SOLDIER;}
     ;
@@ -101,6 +101,6 @@ DARKELF_FIGHTER: 'darkelf_fighter';
 DARKELF_MAGICAN: 'darkelf_magician';
 ORC_FIGHTER: 'orc_fighter';
 ORC_SHAMAN: 'orc_shaman';
-DWARP_APPRENTICE: 'dwarf_apprentice';
+DWARF_APPRENTICE: 'dwarf_apprentice';
 KAMAEL_M_SOLDIER : 'kamael_m_soldier';
 KAMAEL_F_SOLDIER : 'kamael_f_soldier';

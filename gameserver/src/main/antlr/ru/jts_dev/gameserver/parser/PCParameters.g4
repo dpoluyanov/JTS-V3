@@ -1,4 +1,4 @@
-grammar PCParameters;
+grammar PcParameters;
 
 import Lang;
 

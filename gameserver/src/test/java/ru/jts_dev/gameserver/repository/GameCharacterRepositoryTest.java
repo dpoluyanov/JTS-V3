@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.jts_dev.gameserver.GameServerApplication;
+import ru.jts_dev.gameserver.constants.CharacterClass;
+import ru.jts_dev.gameserver.constants.CharacterRace;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
@@ -38,12 +40,12 @@ public class GameCharacterRepositoryTest extends Assert {
     public void testExistsByName() throws Exception {
         // ready
         GameCharacter character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setName("Test1");
         repository.save(character);
 
         character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setName("Test2");
         repository.save(character);
 
@@ -61,17 +63,17 @@ public class GameCharacterRepositoryTest extends Assert {
     public void testCountByAccountName() throws Exception {
         // ready
         GameCharacter character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
         repository.save(character);
 
         character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
         repository.save(character);
 
         character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test2");
         repository.save(character);
 
@@ -86,19 +88,19 @@ public class GameCharacterRepositoryTest extends Assert {
     public void testFindAllByAccountName() throws Exception {
         // ready
         GameCharacter character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
         character.setName("killer");
         repository.save(character);
 
         character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
         character.setName("bruce");
         repository.save(character);
 
         character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test2");
         character.setName("leena");
         repository.save(character);
@@ -120,7 +122,7 @@ public class GameCharacterRepositoryTest extends Assert {
     public void testUpdateLastUsed() throws Exception {
         // ready
         GameCharacter character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
         repository.save(character);
 
@@ -130,7 +132,7 @@ public class GameCharacterRepositoryTest extends Assert {
 
         // ready
         character = new GameCharacter();
-        character.setStat(new CharacterStat(0, 0, "testStat", new ArrayList<>(6)));
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
         repository.save(character);
 

@@ -6,8 +6,8 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 import java.util.List;
 
 import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
-import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.HEIGHT;
-import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.RADIUS;
+import static ru.jts_dev.gameserver.parser.impl.PcParametersHolder.HEIGHT;
+import static ru.jts_dev.gameserver.parser.impl.PcParametersHolder.RADIUS;
 
 /**
  * @author Camelion
@@ -33,10 +33,10 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // Vehicle Object Id
         putInt(character.getObjectId());
         putString(character.getName());
-        putInt(character.getStat().getRaceId());
+        putInt(character.getStat().getRace().getId());
         putInt(character.getSex());
 
-        putInt(character.getStat().getClassId());
+        putInt(character.getStat().getClass_().getId());
 
         putInt(character.getLevel());
         putLong(character.getExp());
@@ -209,7 +209,7 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // mount npcid
         putShort(0); // inverntory limit
 
-        putInt(character.getStat().getClassId());
+        putInt(character.getStat().getClass_().getId());
         putInt(0x00); // special effects? circles around player...
         putInt(0); // max CP
         putInt(0); // current CP

@@ -9,7 +9,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
-import ru.jts_dev.gameserver.parser.impl.PCParametersHolder;
+import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
@@ -17,7 +17,7 @@ import ru.jts_dev.gameserver.time.GameTimeService;
 import java.util.List;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
-import static ru.jts_dev.gameserver.parser.impl.PCParametersHolder.toPCParameterName;
+import static ru.jts_dev.gameserver.parser.impl.PcParametersHolder.toPCParameterName;
 
 /**
  * @author Camelion
@@ -34,7 +34,7 @@ public class EnterWorld extends IncomingMessageWrapper {
     @Autowired
     private PlayerService playerService;
     @Autowired
-    private PCParametersHolder parametersData;
+    private PcParametersHolder parametersData;
 
     @Override
     public void prepare() {
