@@ -49,7 +49,7 @@ kamael_m_soldier_equipment : KAMAEL_M_SOLDIER '=' equipment_array;
 kamael_f_soldier_equipment : KAMAEL_F_SOLDIER '=' equipment_array;
 
 equipment_array: '{' equipment (';' equipment) *'}';
-equipment: '{' NAME ';' int_object '}';
+equipment: '{' name_object ';' int_object '}';
 
 initial_start_point :
     'initial_start_point_begin'
@@ -68,6 +68,7 @@ point : 'point' '=' vector3D_object;
 
 class_ : 'class' '=' identifier_list;
 
+// todo remove this cheat
 identifier_object returns [String value]
     @after {$ctx.value = $text;}
     : HUMAN_FIGHTER | HUMAN_MAGICAN | ELF_FIGHTER | ELF_MAGICAN | DARKELF_FIGHTER | DARKELF_MAGICAN

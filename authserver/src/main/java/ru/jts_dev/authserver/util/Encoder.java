@@ -10,6 +10,7 @@ import ru.jts_dev.authserver.service.AuthSessionService;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.Objects;
 
 import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 
@@ -100,7 +101,7 @@ public class Encoder {
 
     @Transformer
     public byte[] encrypt(byte[] data, @Header(CONNECTION_ID) String connectionId,
-                          // TODO: 08.12.15 spring integration bug with ingoring defaultValue in header
+                          // TODO: 08.12.15 spring integration bug with ignoring defaultValue in header
                           @Header(value = STATIC_KEY_HEADER, required = false) String static_key) throws IOException {
         if (data.length % BLOWFISH_BLOCK_SIZE != 0)
             throw new IndexOutOfBoundsException("data.length must be multiply of " + BLOWFISH_BLOCK_SIZE);
@@ -111,8 +112,8 @@ public class Encoder {
         } else {
             AuthSession gameSession = authSessionService.getSessionBy(connectionId);
 
-            if (gameSession == null)
-                throw new NullPointerException("gameSession is null for " + connectionId);
+            // perform null check
+            Objects.requireNonNull(gameSession, "gameSession is null for " + connectionId);
 
             blowfishEngine.init(true, gameSession.getBlowfishKey());
         }

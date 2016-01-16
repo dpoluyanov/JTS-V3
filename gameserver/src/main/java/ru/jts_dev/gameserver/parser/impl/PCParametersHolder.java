@@ -4,8 +4,9 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -24,13 +25,12 @@ import java.util.Map;
 
 /**
  * @author Camelion
- * @since 05.01.16
+ * @since 16.01.16
  */
 @Component
 public class PCParametersHolder extends PCParametersBaseListener {
     public static final int RADIUS = 0; // collision radius index
     public static final int HEIGHT = 1; // collision height index
-
     public static final String FFIGHTER = "FFighter";
     public static final String MFIGHTER = "MFighter";
     public static final String FMAGIC = "FMagic";
@@ -51,6 +51,7 @@ public class PCParametersHolder extends PCParametersBaseListener {
     public static final String MDWARF_FIGHTER = "MDwarfFighter";
     public static final String FKAMAEL_SOLDIER = "FKamaelSoldier";
     public static final String MKAMAEL_SOLDIER = "MKamaelSoldier";
+    private static final Logger log = LoggerFactory.getLogger(PCParametersHolder.class);
     @Autowired
     private ApplicationContext context;
     private Map<String, List<Double>> collisionBoxes = new HashMap<>();
@@ -61,7 +62,6 @@ public class PCParametersHolder extends PCParametersBaseListener {
      * @return - String representation of sex and stat name
      */
     // TODO: 05.01.16 replace with enum
-    @Cacheable(cacheNames = "pcParameterName", key = "#statName + \"_\" + #sex")
     public static String toPCParameterName(int sex, String statName) {
         String name = "";
         switch (statName) {
@@ -120,6 +120,7 @@ public class PCParametersHolder extends PCParametersBaseListener {
 
     @PostConstruct
     private void parse() throws IOException {
+        log.info("Loading data file: pc_parameter.txt");
         Resource file = context.getResource("scripts/pc_parameter.txt");
         try (InputStream is = file.getInputStream()) {
             ANTLRInputStream input = new ANTLRInputStream(is);
@@ -132,4 +133,5 @@ public class PCParametersHolder extends PCParametersBaseListener {
             walker.walk(this, tree);
         }
     }
+
 }

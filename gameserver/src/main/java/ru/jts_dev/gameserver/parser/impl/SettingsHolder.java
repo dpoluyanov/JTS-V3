@@ -5,6 +5,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -29,11 +31,11 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 // TODO: 05.01.16 handle initial equipment
 @Component
 public class SettingsHolder extends SettingsBaseListener {
+    private static final Logger log = LoggerFactory.getLogger(SettingsHolder.class);
     private final Map<String, List<Vector3D>> initialStartPoints = new HashMap<>();
     private final List<CharacterStat> minimumStats = new ArrayList<>();
     private final List<CharacterStat> recommendedStats = new ArrayList<>();
     private final List<CharacterStat> maximumStats = new ArrayList<>();
-
     @Autowired
     private ApplicationContext context;
 
@@ -150,6 +152,7 @@ public class SettingsHolder extends SettingsBaseListener {
 
     @PostConstruct
     private void parse() throws IOException {
+        log.info("Loading data file: setting.txt");
         Resource file = context.getResource("scripts/setting.txt");
         try (InputStream is = file.getInputStream()) {
             ANTLRInputStream input = new ANTLRInputStream(is);

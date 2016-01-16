@@ -4,8 +4,11 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.constants.ItemClass;
@@ -31,9 +34,9 @@ import java.util.Map;
  */
 @Component
 public class ItemDatasHolder extends ItemDatasBaseListener {
+    private static final Logger log = LoggerFactory.getLogger(ItemDatasHolder.class);
     private final Map<Integer, SetData> setsData = new HashMap<>();
     private final Map<Integer, ItemData> itemData = new HashMap<>();
-
     @Autowired
     private ApplicationContext context;
 
@@ -204,6 +207,7 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
 
     @PostConstruct
     private void parse() throws IOException {
+        log.info("Loading data file: itemdata.txt");
         Resource file = context.getResource("scripts/itemdata.txt");
         try (InputStream is = file.getInputStream()) {
             ANTLRInputStream input = new ANTLRInputStream(is);

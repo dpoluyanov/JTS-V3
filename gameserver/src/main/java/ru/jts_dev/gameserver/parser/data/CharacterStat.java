@@ -5,7 +5,10 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 
 /**
  * @author Camelion
@@ -67,7 +70,7 @@ public class CharacterStat implements Cloneable {
     @Column
     private String statName;
 
-    @ElementCollection
+    @ElementCollection(fetch = EAGER)
     // INT, STR, CON, MEN, DEX, WIT
     private List<Integer> stats;
 

@@ -30,9 +30,11 @@ public class GameClientPacketHandler {
 
     /**
      * Find beans with {@link Opcode} annotation, and put it to {@link #packets} map
-     * where key is 'first' (or single) part of packet identifier {@see IncomingMessageWrapper}
+     * where key is 'first' (or single) part of packet identifier
      * and value is a bean name of packet or {@link Map} with 'second' part of
      * packet identifier as key, and packet bean name as value
+     *
+     * @see IncomingMessageWrapper
      */
     @PostConstruct
     private void postConstruct() {
