@@ -37,9 +37,9 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
             putInt(0x00); // ??
 
             putInt(character.getSex()); // Sex
-            putInt(character.getStat().getRaceId()); // Race
+            putInt(character.getStat().getRace().getId()); // Race
 
-            putInt(character.getStat().getClassId()); // Class ID
+            putInt(character.getStat().getClass_().getId()); // Class ID
 
             putInt(0x01); // activate char? (0x00 not active)
 
@@ -103,7 +103,7 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
 
             putInt(0x00); // days left before
 
-            putInt(character.getStat().getClassId()); // Class Id
+            putInt(character.getStat().getClass_().getId()); // Class Id
 
             putInt(character.isLastUsed() ? 0x01 : 0x00); //c3 auto-select char (0x01 - this char is active)
 

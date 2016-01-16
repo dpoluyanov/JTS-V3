@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.constants.CharacterClass;
+import ru.jts_dev.gameserver.constants.CharacterRace;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
@@ -21,6 +23,7 @@ import ru.jts_dev.gameserver.service.GameSessionService;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Random;
@@ -28,8 +31,6 @@ import java.util.Set;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.*;
-import static ru.jts_dev.gameserver.parser.data.CharacterStat.RACE_HUMAN;
-import static ru.jts_dev.gameserver.parser.data.CharacterStat.RACE_KAMAEL;
 
 /**
  * @author Camelion
@@ -60,26 +61,12 @@ public class CharacterCreate extends IncomingMessageWrapper {
     @Length(max = 16, message = REASON_16_ENG_CHARS)
     @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = REASON_INCORRECT_NAME)
     private String name;
-    @Range(min = RACE_HUMAN, max = RACE_KAMAEL)
-    private int raceId;
+    @NotNull
+    private CharacterRace race;
     @Range(min = 0, max = 1)
     private int sex;
-    // TODO: 26.12.15 move to our validator
-    /*
-    @Digits.List({
-            @Digits(integer = CLASS_HUMAN_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_HUMAN_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ELF_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_DARKELF_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_DARKELF_MAGICIAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ORC_FIGHTER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_ORC_SHAMAN, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_DWARF_APPRENTICE, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_KAMAEL_M_SOLDIER, fraction = 0, message = REASON_CREATION_FAILED),
-            @Digits(integer = CLASS_KAMAEL_M_SOLDIER, fraction = 0, message = REASON_CREATION_FAILED),
-    })*/
-    private int classId;
+    @NotNull
+    private CharacterClass class_;
 
     // not validated
     private int _int;
@@ -100,9 +87,9 @@ public class CharacterCreate extends IncomingMessageWrapper {
     @Override
     public void prepare() {
         name = readString();
-        raceId = readInt(); // race
+        race = readIntAs(CharacterRace.class); // race
         sex = readInt();
-        classId = readInt();
+        class_ = readIntAs(CharacterClass.class); // class
         _int = readInt(); // int
         str = readInt(); // str
         con = readInt(); // con
@@ -145,13 +132,13 @@ public class CharacterCreate extends IncomingMessageWrapper {
     private GameCharacter newCharacterWith(String accountName) {
         // find stat or throw RuntimeException with stat not found exception
         CharacterStat stat = (CharacterStat) settingsData.getRecommendedStats().stream().filter(
-                s -> s.getRaceId() == raceId && s.getClassId() == s.getClassId())
+                s -> s.getRace() == race && s.getClass_() == class_)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Character stat for race " + raceId
-                        + " and class " + classId + " not found")).clone();
+                .orElseThrow(() -> new RuntimeException("Character stat for race " + race
+                        + " and class " + class_ + " not found")).clone();
 
         // find initial start points
-        List<Vector3D> startPoints = settingsData.getInitialStartPoints().get(stat.getStatName());
+        List<Vector3D> startPoints = settingsData.getInitialStartPoints().get(class_);
 
         GameCharacter character = new GameCharacter();
 

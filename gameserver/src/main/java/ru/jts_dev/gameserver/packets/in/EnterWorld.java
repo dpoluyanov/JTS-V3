@@ -55,7 +55,7 @@ public class EnterWorld extends IncomingMessageWrapper {
         // send UserInfo
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        String pcParameterName = toPCParameterName(character.getSex(), character.getStat().getStatName());
+        String pcParameterName = toPCParameterName(character.getSex(), character.getStat().getClass_());
         assert parametersData.getCollisionBoxes().containsKey(pcParameterName);
 
         List<Double> collisions = parametersData.getCollisionBoxes().get(pcParameterName);

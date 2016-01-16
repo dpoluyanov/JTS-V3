@@ -31,8 +31,8 @@ public class NewCharacterSuccess extends OutgoingMessageWrapper {
         putInt(recommendedStats.size()); // stats count
 
         for (int i = 0; i < maximumStats.size(); i++) {
-            putInt(recommendedStats.get(i).getRaceId());
-            putInt(recommendedStats.get(i).getClassId());
+            putInt(recommendedStats.get(i).getRace().getId());
+            putInt(recommendedStats.get(i).getClass_().getId());
 
             // STR
             putInt(maximumStats.get(i).getForType(STR));

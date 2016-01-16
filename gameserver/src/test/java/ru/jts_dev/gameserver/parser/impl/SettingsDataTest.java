@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
+import static ru.jts_dev.gameserver.constants.CharacterClass.*;
 
 /**
  * @author Camelion

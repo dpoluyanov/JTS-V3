@@ -83,4 +83,13 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
             throw new RuntimeException("connectionId header not present in headers");
         return (String) getHeaders().get(IpHeaders.CONNECTION_ID);
     }
+
+    public <E extends Enum<?>> E readIntAs(Class<E> enumClass) {
+        int value = readInt();
+
+        if (value < 0 || value > enumClass.getEnumConstants().length)
+            throw new IndexOutOfBoundsException("value " + value + " not in enum constants of " + enumClass.getName());
+
+        return enumClass.getEnumConstants()[value];
+    }
 }

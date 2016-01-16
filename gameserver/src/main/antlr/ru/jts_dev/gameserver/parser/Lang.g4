@@ -53,25 +53,25 @@ identifier_list
     returns[List<String> value]
     @init{ $ctx.value = new ArrayList<>();}: empty_list
     | '{' io=identifier_object { $ctx.value.add($io.value); }
-    (';' io=identifier_object { $ctx.value.add($io.value); })* '}';
+    (SEMICOLON io=identifier_object { $ctx.value.add($io.value); })* '}';
 
 int_list
     returns [List<Integer> value]
     @init{ $ctx.value = new ArrayList<>(); }: empty_list
     | '{' io=int_object { $ctx.value.add($io.value); }
-    (';' io=int_object {$ctx.value.add($io.value);})* '}';
+    (SEMICOLON io=int_object {$ctx.value.add($io.value);})* '}';
 
 double_list
     returns [List<Double> value]
     @init { $ctx.value = new ArrayList<>(); }: empty_list
     | '{' d=double_object { $ctx.value.add(Double.valueOf($d.text)); }
-    (';' d=double_object { $ctx.value.add(Double.valueOf($d.text)); })* '}';
+    (SEMICOLON d=double_object { $ctx.value.add(Double.valueOf($d.text)); })* '}';
 
 category_list
     returns [List<String> value]
     @init { $ctx.value = new ArrayList<>(); }: empty_list
     | '{' co=category_object { $ctx.value.add($co.text); }
-    (';' co=category_object { $ctx.value.add($co.text); })* '}';
+    (SEMICOLON co=category_object { $ctx.value.add($co.text); })* '}';
 
 CATEGORY : '@' NAME;
 
@@ -96,6 +96,8 @@ NON_ZERO_DIGIT: [1-9];
 
 fragment
 ZERO_DIGIT: [0];
+
+SEMICOLON : ';';
 
 // Constants
 NONE : 'none';

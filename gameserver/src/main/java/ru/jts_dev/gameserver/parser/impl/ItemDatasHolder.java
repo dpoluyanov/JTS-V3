@@ -1,14 +1,13 @@
 package ru.jts_dev.gameserver.parser.impl;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.PredictionMode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.gameserver.constants.ItemClass;
@@ -56,8 +55,8 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
      */
     @Override
     public void exitSet(SetContext ctx) {
-        int setId = Integer.valueOf(ctx.int_object().getText());
-        int slotChest = Integer.valueOf(ctx.slot_chest().int_object().getText());
+        int setId = ctx.int_object().value;
+        int slotChest = ctx.slot_chest().int_object().value;
         SetData data = new SetData(setId, slotChest);
 
         if (ctx.slot_legs() != null)

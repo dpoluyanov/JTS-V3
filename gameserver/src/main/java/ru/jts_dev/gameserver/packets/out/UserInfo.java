@@ -158,15 +158,15 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // pvp flag: 0-non-pvp 1-pvp = violett name
         putInt(0); // karma
 
-        putInt(0); // run speed
-        putInt(0); //walk speed
+        putInt(10); // run speed
+        putInt(20); // walk speed
         putInt(0); // swim run speed
         putInt(0); // swim walk speed
         putInt(0);
         putInt(0);
         putInt(0); // fly speed
         putInt(0); // fly speed
-        putDouble(0); // move multiplier
+        putDouble(1); // move multiplier
         putDouble(0); // attack speed multiplier
 
         putDouble(collisions.get(RADIUS)); // collision radius
