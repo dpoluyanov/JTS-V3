@@ -30,6 +30,7 @@ import java.util.*;
 @Component
 public class SettingsHolder extends SettingsBaseListener {
     private static final Logger log = LoggerFactory.getLogger(SettingsHolder.class);
+    private final Map<CharacterClass, Map<String, Integer>> initialEquipments = new HashMap<>();
     private final Map<CharacterClass, List<Vector3D>> initialStartPoints = new EnumMap<>(CharacterClass.class);
     private final List<CharacterStat> minimumStats = new ArrayList<>();
     private final List<CharacterStat> recommendedStats = new ArrayList<>();
@@ -39,6 +40,10 @@ public class SettingsHolder extends SettingsBaseListener {
 
     public Map<CharacterClass, List<Vector3D>> getInitialStartPoints() {
         return Collections.unmodifiableMap(initialStartPoints);
+    }
+
+    public Map<CharacterClass, Map<String, Integer>> getInitialEquipments() {
+        return Collections.unmodifiableMap(initialEquipments);
     }
 
     public List<CharacterStat> getMinimumStats() {
@@ -76,6 +81,22 @@ public class SettingsHolder extends SettingsBaseListener {
 
             classes.stream().forEach(cls -> initialStartPoints.put(cls, Collections.unmodifiableList(points)));
         }
+    }
+
+    /**
+     * fills map with initial character equipment
+     *
+     * @param ctx - parsed context
+     */
+    @Override
+    public void exitInitial_equipment(SettingsParser.Initial_equipmentContext ctx) {
+        for (SettingsParser.Character_equipmentContext cectx : ctx.character_equipment()) {
+            CharacterClass klass = cectx.klass;
+            Map<String, Integer> equipment = cectx.equipmentMap;
+
+            initialEquipments.put(klass, Collections.unmodifiableMap(equipment));
+        }
+        super.exitInitial_equipment(ctx);
     }
 
     @PostConstruct

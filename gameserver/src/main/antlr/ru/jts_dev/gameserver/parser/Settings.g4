@@ -7,6 +7,9 @@ import ru.jts_dev.gameserver.constants.CharacterClass;
 import ru.jts_dev.gameserver.constants.CharacterRace;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
 import ru.jts_dev.gameserver.parser.data.CharacterStat.*;
+
+import java.util.Map;
+import java.util.HashMap;
 }
 
 file : initial_equipment initial_custom_equipment initial_start_point .*? minimum_stat maximum_stat recommended_stat .*?;
@@ -23,10 +26,20 @@ initial_custom_equipment :
     'initial_custom_equipment_end'
     ;
 
-character_equipment : character_race_class '=' equipment_array;
+character_equipment
+    returns[CharacterClass klass, Map<String, Integer> equipmentMap]:
+    crc=character_race_class '=' ea=equipment_array {$ctx.klass = $crc.klass; $ctx.equipmentMap = $ea.value;};
 
-equipment_array: '{' equipment (';' equipment) *'}';
-equipment: '{' name_object ';' int_object '}';
+// todo may be need replace with Multimap?
+equipment_array
+    returns[Map<String, Integer> value = new HashMap<>();]:
+    '{'
+    e=equipment {$ctx.value.put($e.name, $e.count);}
+    (';' e=equipment {$ctx.value.put($e.name, $e.count);})*
+    '}';
+equipment
+    returns[String name, int count]:
+    '{' no=name_object ';' io=int_object '}' {$ctx.name = $no.value; $ctx.count=$io.value;};
 
 initial_start_point :
     'initial_start_point_begin'
