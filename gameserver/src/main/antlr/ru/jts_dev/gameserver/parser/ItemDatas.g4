@@ -260,8 +260,8 @@ ec_clan_leader_condition
     returns[EcClanLeader value]:
     'ec_clan_leader' ';' bo=bool_object {$ctx.value = new EcClanLeader($bo.value);};
 ec_subjob_condition
-    returns[EcSubjob value]:
-    'ec_subjob' ';' bo=bool_object {$ctx.value = new EcSubjob($bo.value);};
+    returns[EcSubJob value]:
+    'ec_subjob' ';' bo=bool_object {$ctx.value = new EcSubJob($bo.value);};
 uc_transmode_include_condition
     returns[UcTransmodeInclude value]:
     'uc_transmode_include' ';' il=identifier_list {$ctx.value = new UcTransmodeInclude($il.value);};
