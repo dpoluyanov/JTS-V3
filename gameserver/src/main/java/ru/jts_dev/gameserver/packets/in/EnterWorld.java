@@ -5,14 +5,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
-import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.ExBasicActionList;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
 import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
 import ru.jts_dev.gameserver.service.BroadcastService;
-import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
 
@@ -32,8 +30,6 @@ public class EnterWorld extends IncomingMessageWrapper {
     @Autowired
     private GameTimeService timeService;
     @Autowired
-    private GameSessionService sessionService;
-    @Autowired
     private BroadcastService broadcastService;
     @Autowired
     private PlayerService playerService;
@@ -46,26 +42,25 @@ public class EnterWorld extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        GameSession session = sessionService.getSessionBy(getConnectionId());
+        GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        // TODO: 03.01.16 ItemList packet, ShortCutInit, BookMarkInfo, BasicAction, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
+        // TODO: 03.01.16 ItemList packet, ShortCutInit, BookMarkInfo, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
         // TODO: 03.01.16 System Message : Welcome to Lineage, SkillCoolTime, ExVoteSystemInfo, Spawn player,
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
 
-        broadcastService.send(session, ExBasicActionList.BASIC_ACTION_LIST);
+        broadcastService.send(character, ExBasicActionList.BASIC_ACTION_LIST);
 
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
-        broadcastService.send(session, new ClientSetTime(gameTimeInMinutes));
+        broadcastService.send(character, new ClientSetTime(gameTimeInMinutes));
 
         // TODO: 04.01.16 broadcast CharInfo, send UserInfo
         // send UserInfo
-        GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
         String pcParameterName = toPCParameterName(character.getSex(), character.getStat().getClass_());
         assert parametersData.getCollisionBoxes().containsKey(pcParameterName);
 
         List<Double> collisions = parametersData.getCollisionBoxes().get(pcParameterName);
 
-        broadcastService.send(session, new UserInfo(character, collisions));
+        broadcastService.send(character, new UserInfo(character, collisions));
     }
 }
