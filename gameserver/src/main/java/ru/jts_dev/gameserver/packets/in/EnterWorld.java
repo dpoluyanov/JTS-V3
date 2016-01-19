@@ -55,7 +55,7 @@ public class EnterWorld extends IncomingMessageWrapper {
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
 
         Collection<Action> actions = userBasicActionsHolder.getActionsData().values();
-        broadcastService.send(session, new ExBasicActionList(actions));
+        broadcastService.send(character, new ExBasicActionList(actions));
 
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
         broadcastService.send(character, new ClientSetTime(gameTimeInMinutes));
