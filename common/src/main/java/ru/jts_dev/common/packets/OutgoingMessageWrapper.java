@@ -46,8 +46,8 @@ public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
      *
      * @param b - boolean value for writing
      */
-    protected void putByte(boolean b) {
-        buffer.writeByte(b ? 0x01 : 0x00);
+    protected void putBoolean(boolean b) {
+        buffer.writeBoolean(b);
     }
 
     protected void putShort(int s) {

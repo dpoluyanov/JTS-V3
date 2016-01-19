@@ -1,7 +1,7 @@
 package ru.jts_dev.authserver.packets.out;
 
-import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.messaging.GameServerInfo;
+import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 
 import java.util.Set;
 
@@ -26,13 +26,13 @@ public class ServerList extends OutgoingMessageWrapper {
             putByte(server.getServerId());
             putBytes(server.getAddress().getAddress());
             putInt(server.getPort());
-            putByte(server.isAgeLimit());
-            putByte(server.isPvp());
+            putBoolean(server.isAgeLimit());
+            putBoolean(server.isPvp());
             putShort(server.getOnlinePlayers());
             putShort(server.getMaxPlayers());
-            putByte(server.isEnabled());
+            putBoolean(server.isEnabled());
             putInt(server.getServerType());
-            putByte(server.isBracketsEnabled());
+            putBoolean(server.isBracketsEnabled());
         }
     }
 }
