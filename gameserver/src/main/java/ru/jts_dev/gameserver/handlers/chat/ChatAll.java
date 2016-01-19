@@ -6,7 +6,7 @@ import ru.jts_dev.gameserver.handlers.ChatHandlerParams;
 import ru.jts_dev.gameserver.handlers.CommandHandler;
 import ru.jts_dev.gameserver.handlers.HandlerParams;
 import ru.jts_dev.gameserver.handlers.NumericCommand;
-import ru.jts_dev.gameserver.model.ChatType;
+import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.out.Say2;
 import ru.jts_dev.gameserver.service.BroadcastService;

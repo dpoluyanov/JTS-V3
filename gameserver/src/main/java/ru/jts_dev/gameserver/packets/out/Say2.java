@@ -1,7 +1,7 @@
 package ru.jts_dev.gameserver.packets.out;
 
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
-import ru.jts_dev.gameserver.model.ChatType;
+import ru.jts_dev.gameserver.constants.ChatType;
 
 import javax.validation.Payload;
 import java.util.ArrayList;

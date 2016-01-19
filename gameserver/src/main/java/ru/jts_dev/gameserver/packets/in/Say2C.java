@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.handlers.ChatCommandManager;
 import ru.jts_dev.gameserver.handlers.ChatHandlerParams;
-import ru.jts_dev.gameserver.model.ChatType;
+import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ActionFailed;

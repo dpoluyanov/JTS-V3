@@ -1,0 +1,189 @@
+﻿action_begin	id=0		handler=[SIT_STAND]		/*앉기/서기*/	action_end
+action_begin	id=1		handler=[WALK_RUN]		/*걷기/뛰기*/	action_end
+action_begin	id=2		handler=[ATTACK]		/*공격*/	action_end
+action_begin	id=3		handler=[TRADE]		/*교환*/	action_end
+action_begin	id=4		handler=[CLIENT_ACTION]		/*다음타겟*/	action_end
+action_begin	id=5		handler=[CLIENT_ACTION]		/*줍기*/	action_end
+action_begin	id=6		handler=[CLIENT_ACTION]		/*어시스트*/	action_end
+action_begin	id=7				/*초대*/	action_end
+action_begin	id=8				/*탈퇴*/	action_end
+action_begin	id=9				/*추방*/	action_end
+action_begin	id=10		handler=[PRIVATE_STORE]		/*개인상점 - 판매*/	action_end
+action_begin	id=11				/*파티매칭*/	action_end
+action_begin	id=12		handler=[SOCIAL_ACTION]	option=2	/*인사*/	action_end
+action_begin	id=13		handler=[SOCIAL_ACTION]	option=3	/*승리*/	action_end
+action_begin	id=14		handler=[SOCIAL_ACTION]	option=4	/*진격*/	action_end
+action_begin	id=15		handler=[PET_ACTION]	option=change_mode	/*이동모드 전환*/	action_end
+action_begin	id=16		handler=[PET_ACTION]	option=attack	/*공격*/	action_end
+action_begin	id=17		handler=[PET_ACTION]	option=stop	/*중단*/	action_end
+action_begin	id=18		handler=[PET_ACTION]	option=get_item	/*수집*/	action_end
+action_begin	id=19		handler=[PET_DEPOSIT]		/*펫 되돌리기*/	action_end
+action_begin	id=20		handler=[PET_ACTION]	option=skill	/*특수스킬*/	action_end
+action_begin	id=21		handler=[SUMMON_ACTION]	option=change_mode	/*이동모드 전환*/	action_end
+action_begin	id=22		handler=[SUMMON_ACTION]	option=attack	/*공격*/	action_end
+action_begin	id=23		handler=[SUMMON_ACTION]	option=stop	/*중단*/	action_end
+action_begin	id=24		handler=[SOCIAL_ACTION]	option=6	/*긍정*/	action_end
+action_begin	id=25		handler=[SOCIAL_ACTION]	option=5	/*부정*/	action_end
+action_begin	id=26		handler=[SOCIAL_ACTION]	option=7	/*격식인사*/	action_end
+action_begin	id=27		handler=[SUMMON_ACTION]	option=skill	/*특수스킬*/	action_end
+action_begin	id=28		handler=[PRIVATE_BUY]		/*개인상점 - 구매*/	action_end
+action_begin	id=29		handler=[SOCIAL_ACTION]	option=8	/*글쎄요*/	action_end
+action_begin	id=30		handler=[SOCIAL_ACTION]	option=9	/*대기1*/	action_end
+action_begin	id=31		handler=[SOCIAL_ACTION]	option=10	/*웃음*/	action_end
+action_begin	id=32		handler=[SUMMON_ACTION]	option=skill	/*모드 전환*/	action_end
+action_begin	id=33		handler=[SOCIAL_ACTION]	option=11	/*박수*/	action_end
+action_begin	id=34		handler=[SOCIAL_ACTION]	option=12	/*춤*/	action_end
+action_begin	id=35		handler=[SOCIAL_ACTION]	option=13	/*슬픔*/	action_end
+action_begin	id=36		handler=[SUMMON_ACTION]	option=skill	/*톡식 스모크*/	action_end
+action_begin	id=37		handler=[MAKE_ITEM]		/*드워프공방*/	action_end
+action_begin	id=38		handler=[RIDE]		/*타기/내리기*/	action_end
+action_begin	id=39		handler=[SUMMON_ACTION]	option=skill	/*패러사이트 버스트*/	action_end
+action_begin	id=40				/*추천하기*/	action_end
+action_begin	id=41		handler=[SUMMON_ACTION]	option=skill	/*와일드 캐논*/	action_end
+action_begin	id=42		handler=[SUMMON_ACTION]	option=skill	/*셀프 데미지 실드*/	action_end
+action_begin	id=43		handler=[SUMMON_ACTION]	option=skill	/*하이드로 스크류*/	action_end
+action_begin	id=44		handler=[SUMMON_ACTION]	option=skill	/*붐 어택*/	action_end
+action_begin	id=45		handler=[SUMMON_ACTION]	option=skill	/*마스터 리차지*/	action_end
+action_begin	id=46		handler=[SUMMON_ACTION]	option=skill	/*메가 스톰 스트라이크*/	action_end
+action_begin	id=47		handler=[SUMMON_ACTION]	option=skill	/*스틸 블러드*/	action_end
+action_begin	id=48		handler=[SUMMON_ACTION]	option=skill	/*메크 캐논*/	action_end
+action_begin	id=49		handler=[PET_ACTION]	option=skill	/*윌드 탬퍼*/	action_end
+action_begin	id=50				/*파티장 변경*/	action_end
+action_begin	id=51		handler=[MAKE_ITEM2]		/*일반공방*/	action_end
+action_begin	id=52		handler=[SUMMON_DESPAWN]		/*소환 해제*/	action_end
+action_begin	id=53		handler=[SUMMON_ACTION]	option=move	/*이동*/	action_end
+action_begin	id=54		handler=[PET_ACTION]	option=move	/*이동*/	action_end
+action_begin	id=55				/*녹화시작/녹화종료*/	action_end
+action_begin	id=56				/*연합초대*/	action_end
+action_begin	id=57				/*상점검색*/	action_end
+action_begin	id=58				/*결투신청*/	action_end
+action_begin	id=59				/*결투포기*/	action_end
+action_begin	id=60				/*파티결투신청*/	action_end
+action_begin	id=61		handler=[PACKAGE_PRIVATE_STORE]		/*일괄판매*/	action_end
+action_begin	id=62		handler=[SOCIAL_ACTION]	option=14	/*유혹*/	action_end
+action_begin	id=63				/*미니게임*/	action_end
+action_begin	id=64		handler=[TELEPORT_BOOKMARK]		/*텔레포트북마크*/	action_end
+action_begin	id=65		handler=[BOT_REPORT]		/*봇신고*/	action_end
+action_begin	id=66		handler=[SOCIAL_ACTION]	option=15	/*부끄러움*/	action_end
+action_begin	id=67		handler=[AIRSHIP_ACTION]	option=wheel	/*조종*/	action_end
+action_begin	id=68		handler=[AIRSHIP_ACTION]	option=leave_wheel	/*조종해제*/	action_end
+action_begin	id=69		handler=[AIRSHIP_ACTION]	option=start_ship	/*출발*/	action_end
+action_begin	id=70		handler=[AIRSHIP_ACTION]	option=leave_ship	/*탑승해제*/	action_end
+action_begin	id=71		handler=[COUPLE_ACTION]	option=16	/*맞절*/	action_end
+action_begin	id=72		handler=[COUPLE_ACTION]	option=17	/*하이파이브*/	action_end
+action_begin	id=73		handler=[COUPLE_ACTION]	option=18	/*커플댄스*/	action_end
+action_begin	id=1000		handler=[SUMMON_ACTION]	option=skill	/*시즈 해머*/	action_end
+action_begin	id=1001		handler=[PET_ACTION]	option=skill	/*얼티밋 범버스틱 버스터*/	action_end
+action_begin	id=1002		handler=[PET_ACTION]	option=skill	/*하스틀필링*/	action_end
+action_begin	id=1003		handler=[PET_ACTION]	option=skill	/*와일드 스턴*/	action_end
+action_begin	id=1004		handler=[PET_ACTION]	option=skill	/*와일드 디펜스*/	action_end
+action_begin	id=1005		handler=[PET_ACTION]	option=skill	/*브라이트 버스트*/	action_end
+action_begin	id=1006		handler=[PET_ACTION]	option=skill	/*브라이트 힐*/	action_end
+action_begin	id=1007		handler=[SUMMON_ACTION]	option=skill	/*블레싱 오브 퀸*/	action_end
+action_begin	id=1008		handler=[SUMMON_ACTION]	option=skill	/*기프트 오브 퀸*/	action_end
+action_begin	id=1009		handler=[SUMMON_ACTION]	option=skill	/*큐어 오브 퀸*/	action_end
+action_begin	id=1010		handler=[SUMMON_ACTION]	option=skill	/*블레싱 오브 세라핌*/	action_end
+action_begin	id=1011		handler=[SUMMON_ACTION]	option=skill	/*기프트 오브 세라핌*/	action_end
+action_begin	id=1012		handler=[SUMMON_ACTION]	option=skill	/*큐어 오브 세라핌*/	action_end
+action_begin	id=1013		handler=[SUMMON_ACTION]	option=skill	/*커스 오브 셰이드*/	action_end
+action_begin	id=1014		handler=[SUMMON_ACTION]	option=skill	/*매스 커스 오브 셰이드*/	action_end
+action_begin	id=1015		handler=[SUMMON_ACTION]	option=skill	/*셰이드 새크리파이스*/	action_end
+action_begin	id=1016		handler=[SUMMON_ACTION]	option=skill	/*커스트 블로우*/	action_end
+action_begin	id=1017		handler=[SUMMON_ACTION]	option=skill	/*커스트 스트라이크*/	action_end
+action_begin	id=1018		handler=[SUMMON_ACTION]	option=skill	/*커스트 드레인 에너지*/	action_end
+action_begin	id=1019		handler=[SUMMON_ACTION]	option=skill	/*캣 더 캣 스킬 2*/	action_end
+action_begin	id=1020		handler=[SUMMON_ACTION]	option=skill	/*뮤 더 캣 스킬 2*/	action_end
+action_begin	id=1021		handler=[SUMMON_ACTION]	option=skill	/*카이 더 캣 스킬 2*/	action_end
+action_begin	id=1022		handler=[SUMMON_ACTION]	option=skill	/*유니콘 박서 스킬 2*/	action_end
+action_begin	id=1023		handler=[SUMMON_ACTION]	option=skill	/*유니콘 미라쥬 스킬 2*/	action_end
+action_begin	id=1024		handler=[SUMMON_ACTION]	option=skill	/*유니콘 메로우 스킬 2*/	action_end
+action_begin	id=1025		handler=[SUMMON_ACTION]	option=skill	/*섀도우 스킬 1*/	action_end
+action_begin	id=1026		handler=[SUMMON_ACTION]	option=skill	/*섀도우 스킬 2*/	action_end
+action_begin	id=1027		handler=[SUMMON_ACTION]	option=skill	/*실루엣 스킬 2*/	action_end
+action_begin	id=1028		handler=[SUMMON_ACTION]	option=skill	/*되살아난 자 스킬 1*/	action_end
+action_begin	id=1029		handler=[SUMMON_ACTION]	option=skill	/*되살아난 자 스킬 2*/	action_end
+action_begin	id=1030		handler=[SUMMON_ACTION]	option=skill	/*부패한 자 스킬 2*/	action_end
+action_begin	id=1031		handler=[SUMMON_ACTION]	option=skill	/*슬래쉬*/	action_end
+action_begin	id=1032		handler=[SUMMON_ACTION]	option=skill	/*스핀 슬래쉬*/	action_end
+action_begin	id=1033		handler=[SUMMON_ACTION]	option=skill	/*홀드 오브 킹*/	action_end
+action_begin	id=1034		handler=[SUMMON_ACTION]	option=skill	/*후핑*/	action_end
+action_begin	id=1035		handler=[SUMMON_ACTION]	option=skill	/*타이들 웨이브*/	action_end
+action_begin	id=1036		handler=[SUMMON_ACTION]	option=skill	/*콥스 버스트*/	action_end
+action_begin	id=1037		handler=[SUMMON_ACTION]	option=skill	/*커터*/	action_end
+action_begin	id=1038		handler=[SUMMON_ACTION]	option=skill	/*포스 오브 커스*/	action_end
+action_begin	id=1039		handler=[SUMMON_ACTION]	option=skill	/*스우프 미들 샷*/	action_end
+action_begin	id=1040		handler=[SUMMON_ACTION]	option=skill	/*스우프 롱 샷*/	action_end
+action_begin	id=1041		handler=[PET_ACTION]	option=skill	/*바이트 어택*/	action_end
+action_begin	id=1042		handler=[PET_ACTION]	option=skill	/*모올*/	action_end
+action_begin	id=1043		handler=[PET_ACTION]	option=skill	/*울프 로어*/	action_end
+action_begin	id=1044		handler=[PET_ACTION]	option=skill	/*어웨이커닝*/	action_end
+action_begin	id=1045		handler=[PET_ACTION]	option=skill	/*울프 하울링*/	action_end
+action_begin	id=1046		handler=[PET_ACTION]	option=skill	/*스트라이더 로어*/	action_end
+action_begin	id=1047		handler=[SUMMON_ACTION]	option=skill	/*디바인 비스트 바이트*/	action_end
+action_begin	id=1048		handler=[SUMMON_ACTION]	option=skill	/*디바인 비스트 스턴 어택*/	action_end
+action_begin	id=1049		handler=[SUMMON_ACTION]	option=skill	/*디바인 비스트  파이어 브레스*/	action_end
+action_begin	id=1050		handler=[SUMMON_ACTION]	option=skill	/*디바인 비스트 로어*/	action_end
+action_begin	id=1051		handler=[SUMMON_ACTION]	option=skill	/*블레스 더 바디*/	action_end
+action_begin	id=1052		handler=[SUMMON_ACTION]	option=skill	/*블레스 더 소울*/	action_end
+action_begin	id=1053		handler=[SUMMON_ACTION]	option=skill	/*헤이스트*/	action_end
+action_begin	id=1054		handler=[SUMMON_ACTION]	option=skill	/*아큐멘*/	action_end
+action_begin	id=1055		handler=[SUMMON_ACTION]	option=skill	/*클레리티*/	action_end
+action_begin	id=1056		handler=[SUMMON_ACTION]	option=skill	/*엠파워*/	action_end
+action_begin	id=1057		handler=[SUMMON_ACTION]	option=skill	/*와일드 매직*/	action_end
+action_begin	id=1058		handler=[SUMMON_ACTION]	option=skill	/*데스 위스퍼*/	action_end
+action_begin	id=1059		handler=[SUMMON_ACTION]	option=skill	/*포커스*/	action_end
+action_begin	id=1060		handler=[SUMMON_ACTION]	option=skill	/*가이던스*/	action_end
+action_begin	id=1061		handler=[PET_ACTION]	option=skill	/*데스 블로우*/	action_end
+action_begin	id=1062		handler=[PET_ACTION]	option=skill	/*더블 어택*/	action_end
+action_begin	id=1063		handler=[PET_ACTION]	option=skill	/*스핀 어택*/	action_end
+action_begin	id=1064		handler=[PET_ACTION]	option=skill	/*미티어 샤워*/	action_end
+action_begin	id=1065		handler=[PET_ACTION]	option=skill	/*어웨이커닝*/	action_end
+action_begin	id=1066		handler=[PET_ACTION]	option=skill	/*썬더 볼트*/	action_end
+action_begin	id=1067		handler=[PET_ACTION]	option=skill	/*플래쉬*/	action_end
+action_begin	id=1068		handler=[PET_ACTION]	option=skill	/*라이트닝 웨이브*/	action_end
+action_begin	id=1069		handler=[PET_ACTION]	option=skill	/*플래어*/	action_end
+action_begin	id=1070		handler=[PET_ACTION]	option=skill	/*버프 컨트롤*/	action_end
+action_begin	id=1071		handler=[SUMMON_ACTION]	option=skill	/*파워 스트라이커*/	action_end
+action_begin	id=1072		handler=[PET_ACTION]	option=skill	/*피어싱 어택*/	action_end
+action_begin	id=1073		handler=[PET_ACTION]	option=skill	/*훨 윈드*/	action_end
+action_begin	id=1074		handler=[PET_ACTION]	option=skill	/*랜스 스매쉬*/	action_end
+action_begin	id=1075		handler=[PET_ACTION]	option=skill	/*배틀 크라이*/	action_end
+action_begin	id=1076		handler=[PET_ACTION]	option=skill	/*파워 스매쉬*/	action_end
+action_begin	id=1077		handler=[PET_ACTION]	option=skill	/*애너지 버스터*/	action_end
+action_begin	id=1078		handler=[PET_ACTION]	option=skill	/*쇼크 웨이프*/	action_end
+action_begin	id=1079		handler=[PET_ACTION]	option=skill	/*하울*/	action_end
+action_begin	id=1080		handler=[SUMMON_ACTION]	option=skill	/*피닉스 러시*/	action_end
+action_begin	id=1081		handler=[SUMMON_ACTION]	option=skill	/*피닉스 클랜스*/	action_end
+action_begin	id=1082		handler=[SUMMON_ACTION]	option=skill	/*피닉스 플레임 패더*/	action_end
+action_begin	id=1083		handler=[SUMMON_ACTION]	option=skill	/*피닉스 플레임 비크*/	action_end
+action_begin	id=1084		handler=[PET_ACTION]	option=skill	/*상태 전환*/	action_end
+action_begin	id=1086		handler=[SUMMON_ACTION]	option=skill	/*팬서 캔슬*/	action_end
+action_begin	id=1087		handler=[SUMMON_ACTION]	option=skill	/*팬서 다크 클로*/	action_end
+action_begin	id=1088		handler=[SUMMON_ACTION]	option=skill	/*팬서 페이탈 클로*/	action_end
+action_begin	id=1089		handler=[PET_ACTION]	option=skill	/*꼬리치기*/	action_end
+action_begin	id=1090		handler=[PET_ACTION]	option=skill	/*스트라이더 바이트*/	action_end
+action_begin	id=1091		handler=[PET_ACTION]	option=skill	/*스트라이더 피어*/	action_end
+action_begin	id=1092		handler=[PET_ACTION]	option=skill	/*스트라이더 대시*/	action_end
+action_begin	id=1093 	handler=[PET_ACTION]	option=skill	/*마구엔 스트라이크*/	action_end
+action_begin	id=1094 	handler=[PET_ACTION]	option=skill	/*마구엔 윈드 워크*/	action_end
+action_begin	id=1095 	handler=[PET_ACTION]	option=skill	/*마구엔 파워 스트라이크*/	action_end
+action_begin	id=1096 	handler=[PET_ACTION]	option=skill	/*엘리트 마구엔 윈드 워크*/	action_end
+action_begin	id=1097 	handler=[PET_ACTION]	option=skill	/*마구엔 귀향*/	action_end
+action_begin	id=1098 	handler=[PET_ACTION]	option=skill	/*마구엔 파티 귀향*/	action_end
+//해외 브랜치
+action_begin	id=5000	handler=[PET_ACTION]	option=skill	/*따듯한 손길*/	action_end
+action_begin	id=5001	handler=[PET_ACTION]	option=skill	/*장미빛 유혹*/	action_end
+action_begin	id=5002	handler=[PET_ACTION]	option=skill	/*치명적인 유혹*/	action_end
+action_begin	id=5003	handler=[PET_ACTION]	option=skill	/*썬더 볼트*/	action_end
+action_begin	id=5004	handler=[PET_ACTION]	option=skill	/*플래쉬*/	action_end
+action_begin	id=5005	handler=[PET_ACTION]	option=skill	/*라이트닝 웨이브*/	action_end
+action_begin	id=5006	handler=[PET_ACTION]	option=skill	/*버프 컨트롤*/	action_end
+action_begin	id=5007	handler=[PET_ACTION]	option=skill	/*피어싱 어택*/	action_end
+action_begin	id=5008	handler=[PET_ACTION]	option=skill	/*스핀 어택*/	action_end
+action_begin	id=5009	handler=[PET_ACTION]	option=skill	/*스매쉬*/	action_end
+action_begin	id=5010	handler=[PET_ACTION]	option=skill	/*발화*/	action_end
+action_begin	id=5011	handler=[PET_ACTION]	option=skill	/*파워 스매쉬*/	action_end
+action_begin	id=5012	handler=[PET_ACTION]	option=skill	/*애너지 버스터*/	action_end
+action_begin	id=5013	handler=[PET_ACTION]	option=skill	/*쇼크 웨이브*/	action_end
+action_begin	id=5014	handler=[PET_ACTION]	option=skill	/*발화*/	action_end
+action_begin	id=5015	handler=[PET_ACTION]	option=skill	/*상태 전환*/	action_end

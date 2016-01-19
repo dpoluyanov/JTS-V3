@@ -47,7 +47,7 @@ public class CharacterStat implements Cloneable {
     }
 
     public int getForType(int type) {
-        assert type >= stats.size() : "Unknown stat type: " + type + " possible 0-5, INT, STR, CON, MEN, DEX, WIT";
+        assert type >=0 && type < stats.size() : "Unknown stat type: " + type + " possible 0-5, INT, STR, CON, MEN, DEX, WIT";
 
         return stats.get(type);
     }

@@ -1,6 +1,5 @@
 package ru.jts_dev.gameserver.packets.in;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
@@ -24,6 +23,6 @@ public class RequestKeyMapping extends IncomingMessageWrapper {
     @Override
     public void run() {
         // TODO: 03.01.16
-        throw new UnsupportedOperationException("Not release yet");
+        throw new UnsupportedOperationException("Not released yet");
     }
 }

@@ -8,6 +8,9 @@ import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.REASON_CREATION_FAILED;
 
@@ -70,6 +73,9 @@ public class GameCharacter {
 
     @Embedded
     private CharacterStat stat;
+
+    @OneToMany
+    private List<GameItem> inventory = new ArrayList<>();
 
     @Transient
     private String connectionId;
@@ -196,7 +202,6 @@ public class GameCharacter {
         this.moving = moving;
     }
 
-
     public AiObject getAiObject() {
         return aiObject;
     }
@@ -269,12 +274,12 @@ public class GameCharacter {
         this.lastUsed = lastUsed;
     }
 
-    public void setStat(CharacterStat stat) {
-        this.stat = stat;
-    }
-
     public CharacterStat getStat() {
         return stat;
+    }
+
+    public void setStat(CharacterStat stat) {
+        this.stat = stat;
     }
 
     public String getConnectionId() {
@@ -283,5 +288,9 @@ public class GameCharacter {
 
     public void setConnectionId(String connectionId) {
         this.connectionId = connectionId;
+    }
+
+    public List<GameItem> getInventory() {
+        return Collections.synchronizedList(inventory);
     }
 }
