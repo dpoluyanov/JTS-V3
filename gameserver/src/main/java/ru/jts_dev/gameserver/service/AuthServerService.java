@@ -2,11 +2,11 @@ package ru.jts_dev.gameserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.common.messaging.GameServerInfo;
 import ru.jts_dev.gameserver.config.GameServerConfig;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -25,7 +25,7 @@ public class AuthServerService {
     /**
      * send game server status to auth server
      */
-    @Scheduled(fixedDelay = 1000)
+    @PostConstruct
     public void register() throws UnknownHostException {
         byte serverId = gameServerConfig.getServerId();
         String host = gameServerConfig.getHost();
