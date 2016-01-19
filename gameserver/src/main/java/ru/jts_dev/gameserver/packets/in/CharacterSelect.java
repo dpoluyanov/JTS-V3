@@ -10,6 +10,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelected;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService.CharacterSelectedEvent;
 
@@ -27,6 +28,8 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 public class CharacterSelect extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
+    @Autowired
+    private BroadcastService broadcastService;
 
     @Autowired
     private GameCharacterRepository repository;
@@ -63,6 +66,6 @@ public class CharacterSelect extends IncomingMessageWrapper {
 
         publisher.publishEvent(new CharacterSelectedEvent(getConnectionId(), character));
 
-        sessionService.send(session, new CharacterSelected(character, session.getPlayKey()));
+        broadcastService.send(session, new CharacterSelected(character, session.getPlayKey()));
     }
 }

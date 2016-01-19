@@ -12,7 +12,7 @@ import ru.jts_dev.gameserver.model.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ActionFailed;
-import ru.jts_dev.gameserver.service.GameSessionService;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -30,7 +30,7 @@ public class Say2C extends IncomingMessageWrapper {
     @Autowired
     private ChatCommandManager chatCommandManager;
     @Autowired
-    private GameSessionService sessionService;
+    private BroadcastService broadcastService;
     @Autowired
     private PlayerService playerService;
 
@@ -54,14 +54,14 @@ public class Say2C extends IncomingMessageWrapper {
 
         if (type == null) {
             log.warn("Say2: Invalid type: {} Player : {} text: {}", type, character.getName(), text);
-            sessionService.send(character, ActionFailed.PACKET);
+            broadcastService.send(character, ActionFailed.PACKET);
             // TODO character.logout();
             return;
         }
 
         if (text.isEmpty()) {
             log.warn(character.getName() + ": sending empty text. Possible packet hack!");
-            sessionService.send(character, ActionFailed.PACKET);
+            broadcastService.send(character, ActionFailed.PACKET);
             // TODO character.logout();
             return;
         }

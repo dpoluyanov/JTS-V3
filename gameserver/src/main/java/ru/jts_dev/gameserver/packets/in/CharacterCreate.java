@@ -19,6 +19,7 @@ import ru.jts_dev.gameserver.packets.out.CharacterCreateSuccess;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
 import ru.jts_dev.gameserver.parser.impl.SettingsHolder;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import javax.validation.ConstraintViolation;
@@ -48,6 +49,8 @@ public class CharacterCreate extends IncomingMessageWrapper {
     private GameSessionService sessionService;
     @Autowired
     private GameCharacterRepository characterRepository;
+    @Autowired
+    private BroadcastService broadcastService;
 
     @Autowired
     private SettingsHolder settingsData;
@@ -114,18 +117,18 @@ public class CharacterCreate extends IncomingMessageWrapper {
 
             assert ERRORS.containsKey(error.getMessage()) : "Unknown error message " + error.getMessage();
 
-            sessionService.send(session, ERRORS.get(error.getMessage()));
+            broadcastService.send(session, ERRORS.get(error.getMessage()));
         }
         // TODO: 25.12.15 validate race & class compatibility
         // TODO: 22.12.15 move this checks to our validator, or annotation with error message
         else if (characterRepository.existsByName(name)) {
-            sessionService.send(session, ERRORS.get(REASON_NAME_ALREADY_EXISTS));
+            broadcastService.send(session, ERRORS.get(REASON_NAME_ALREADY_EXISTS));
         } else if (characterRepository.countByAccountName(login) >= MAX_CHARACTERS_ON_ACCOUNT) {
-            sessionService.send(session, ERRORS.get(REASON_TOO_MANY_CHARACTERS));
+            broadcastService.send(session, ERRORS.get(REASON_TOO_MANY_CHARACTERS));
         } else {
             characterRepository.save(newCharacterWith(login));
 
-            sessionService.send(session, CharacterCreateSuccess.PACKET);
+            broadcastService.send(session, CharacterCreateSuccess.PACKET);
         }
     }
 

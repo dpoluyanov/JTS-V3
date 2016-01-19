@@ -7,6 +7,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.VersionCheck;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -19,10 +20,12 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Scope(SCOPE_PROTOTYPE)
 @Opcode(0x0E)
 public class RequestProtocolVersion extends IncomingMessageWrapper {
-    private int version;
-
     @Autowired
     private GameSessionService sessionService;
+    @Autowired
+    private BroadcastService broadcastService;
+
+    private int version;
 
     @Override
     public void prepare() {
@@ -38,6 +41,6 @@ public class RequestProtocolVersion extends IncomingMessageWrapper {
             throw new IndexOutOfBoundsException("client part of key must be 8 byte");
 
         // TODO: 13.12.15 check protocol version compatibility
-        sessionService.send(session, new VersionCheck(key));
+        broadcastService.send(session, new VersionCheck(key));
     }
 }

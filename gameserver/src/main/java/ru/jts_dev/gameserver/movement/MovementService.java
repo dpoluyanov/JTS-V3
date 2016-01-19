@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.out.MoveToLocation;
 import ru.jts_dev.gameserver.packets.out.StopMove;
-import ru.jts_dev.gameserver.service.GameSessionService;
+import ru.jts_dev.gameserver.service.BroadcastService;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +25,7 @@ public class MovementService {
     private final ScheduledExecutorService scheduler;
 
     @Autowired
-    private GameSessionService sessionService;
+    private BroadcastService broadcastService;
 
     @Autowired
     public MovementService(ScheduledExecutorService scheduler) {
@@ -67,11 +67,11 @@ public class MovementService {
             if (character.isMoving()) {
                 double speed = 100.0D; // TODO speed
                 Vector3D temp = character.getVector3D().add(speed * MOVE_SPEED_MULTIPLIER, direction);
-                sessionService.send(character, new MoveToLocation(character, temp));
+                broadcastService.send(character, new MoveToLocation(character, temp));
                 character.setVector3D(temp);
 
                 if (start.distance(character.getVector3D()) >= distance) {
-                    sessionService.send(character, new StopMove(character));
+                    broadcastService.send(character, new StopMove(character));
                     character.setVector3D(end);
                     character.setMoving(false);
                 } else {

@@ -9,7 +9,7 @@ import ru.jts_dev.gameserver.handlers.NumericCommand;
 import ru.jts_dev.gameserver.model.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.out.Say2;
-import ru.jts_dev.gameserver.service.GameSessionService;
+import ru.jts_dev.gameserver.service.BroadcastService;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 public class ChatAll extends CommandHandler<Integer> {
     @Autowired
-    private GameSessionService sessionService;
+    private BroadcastService broadcastService;
 
     @NumericCommand(0)
     public boolean allChat(ChatHandlerParams<Integer> params) {
@@ -64,7 +64,7 @@ public class ChatAll extends CommandHandler<Integer> {
 					player.sendPacket(cs);
 				}
 			}*/
-            sessionService.send(character, cs);
+            broadcastService.send(character, cs);
         }
         return true;
     }

@@ -11,6 +11,7 @@ import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.ExBasicActionList;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
 import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
@@ -33,6 +34,8 @@ public class EnterWorld extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
     @Autowired
+    private BroadcastService broadcastService;
+    @Autowired
     private PlayerService playerService;
     @Autowired
     private PcParametersHolder parametersData;
@@ -49,10 +52,10 @@ public class EnterWorld extends IncomingMessageWrapper {
         // TODO: 03.01.16 System Message : Welcome to Lineage, SkillCoolTime, ExVoteSystemInfo, Spawn player,
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
 
-        sessionService.send(session, ExBasicActionList.BASIC_ACTION_LIST);
+        broadcastService.send(session, ExBasicActionList.BASIC_ACTION_LIST);
 
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
-        sessionService.send(session, new ClientSetTime(gameTimeInMinutes));
+        broadcastService.send(session, new ClientSetTime(gameTimeInMinutes));
 
         // TODO: 04.01.16 broadcast CharInfo, send UserInfo
         // send UserInfo
@@ -63,6 +66,6 @@ public class EnterWorld extends IncomingMessageWrapper {
 
         List<Double> collisions = parametersData.getCollisionBoxes().get(pcParameterName);
 
-        sessionService.send(session, new UserInfo(character, collisions));
+        broadcastService.send(session, new UserInfo(character, collisions));
     }
 }

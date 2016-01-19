@@ -11,6 +11,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import java.util.List;
@@ -34,6 +35,9 @@ public class AuthLogin extends IncomingMessageWrapper {
 
     @Autowired
     private GameSessionService sessionService;
+
+    @Autowired
+    private BroadcastService broadcastService;
 
     @Autowired
     private ApplicationEventPublisher publisher;
@@ -64,7 +68,7 @@ public class AuthLogin extends IncomingMessageWrapper {
         List<GameCharacter> characters = repository.findAllByAccountName(login);
 
         // TODO: 13.12.15 additional playkey check with authserver session keys
-        sessionService.send(session,
+        broadcastService.send(session,
                 new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
     }
 }

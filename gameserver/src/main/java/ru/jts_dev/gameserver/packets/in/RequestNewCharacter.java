@@ -8,6 +8,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.NewCharacterSuccess;
 import ru.jts_dev.gameserver.parser.impl.SettingsHolder;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -22,6 +23,8 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 public class RequestNewCharacter extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
+    @Autowired
+    private BroadcastService broadcastService;
 
     @Autowired
     private SettingsHolder settingsData;
@@ -36,7 +39,7 @@ public class RequestNewCharacter extends IncomingMessageWrapper {
         GameSession session = sessionService.getSessionBy(getConnectionId());
 
         // TODO: 14.12.15 connection close packet, if new character creation disabled for this server
-        sessionService.send(session, new NewCharacterSuccess(settingsData.getMaximumStats(),
+        broadcastService.send(session, new NewCharacterSuccess(settingsData.getMaximumStats(),
                 settingsData.getRecommendedStats(), settingsData.getMinimumStats()));
     }
 }

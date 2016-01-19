@@ -10,6 +10,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import java.util.List;
@@ -26,6 +27,8 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 public class GotoLobby extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
+    @Autowired
+    private BroadcastService broadcastService;
     @Autowired
     private GameCharacterRepository repository;
 
@@ -45,7 +48,7 @@ public class GotoLobby extends IncomingMessageWrapper {
 
         List<GameCharacter> characters = repository.findAllByAccountName(accountName);
 
-        sessionService.send(session,
+        broadcastService.send(session,
                 new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));
     }
 }
