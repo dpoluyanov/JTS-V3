@@ -76,4 +76,11 @@ public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
         }
         buffer.writeChar('\0');
     }
+
+    protected void putArray(int[] array) {
+        buffer.writeInt(array.length);
+        for (int i : array) {
+            buffer.writeInt(i);
+        }
+    }
 }

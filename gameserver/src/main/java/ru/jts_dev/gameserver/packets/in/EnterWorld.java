@@ -8,6 +8,7 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
+import ru.jts_dev.gameserver.packets.out.ExBasicActionList;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
 import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
 import ru.jts_dev.gameserver.service.GameSessionService;
@@ -47,6 +48,8 @@ public class EnterWorld extends IncomingMessageWrapper {
         // TODO: 03.01.16 ItemList packet, ShortCutInit, BookMarkInfo, BasicAction, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
         // TODO: 03.01.16 System Message : Welcome to Lineage, SkillCoolTime, ExVoteSystemInfo, Spawn player,
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
+
+        sessionService.send(session, ExBasicActionList.BASIC_ACTION_LIST);
 
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
         sessionService.send(session, new ClientSetTime(gameTimeInMinutes));
