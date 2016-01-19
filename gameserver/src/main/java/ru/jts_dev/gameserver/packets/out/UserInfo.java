@@ -158,8 +158,8 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0); // pvp flag: 0-non-pvp 1-pvp = violett name
         putInt(0); // karma
 
-        putInt(10); // run speed
-        putInt(20); // walk speed
+        putInt(100); // run speed
+        putInt(100); // walk speed
         putInt(0); // swim run speed
         putInt(0); // swim walk speed
         putInt(0);
@@ -228,7 +228,7 @@ public class UserInfo extends OutgoingMessageWrapper {
         putInt(0xFFFFFF); // name color
 
         // new c5
-        putByte(0); // running ? 0x01 : 0x00 changes the Speed display on Status Window
+        putByte(0x01); // running ? 0x01 : 0x00 changes the Speed display on Status Window
 
         putInt(0); // pledge class changes the text above CP on Status Window
         putInt(0); // pledge type

@@ -19,6 +19,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class MovementService {
+    private static final long MOVE_TASK_INTERVAL_MILLIS = 200L;
+    private static final long MOVE_SPEED_MULTIPLIER = 200L;
+
     private final ScheduledExecutorService scheduler;
 
     @Autowired
@@ -32,9 +35,6 @@ public class MovementService {
     public void moveTo(GameCharacter character, Vector3D end) {
         Vector3D start = character.getVector3D();
 
-        // TODO speed
-        float speed = 100;
-
         Line line = new Line(start, end, 1.0D);
         double distance = start.distance(end);
         Vector3D direction = line.getDirection();
@@ -42,9 +42,31 @@ public class MovementService {
         character.setVector3D(start);
         character.setMoving(true);
 
-        scheduler.schedule((Runnable) () -> {
+        scheduler.schedule(new MoveTask(character, start, end, direction, distance), MOVE_TASK_INTERVAL_MILLIS,
+                TimeUnit.MILLISECONDS);
+    }
+
+    private final class MoveTask implements Runnable {
+        private final GameCharacter character;
+        private final Vector3D start;
+        private final Vector3D end;
+        private final Vector3D direction;
+        private final double distance;
+
+        private MoveTask(GameCharacter character,
+                         Vector3D start, Vector3D end, Vector3D direction, double distance) {
+            this.character = character;
+            this.start = start;
+            this.end = end;
+            this.direction = direction;
+            this.distance = distance;
+        }
+
+        @Override
+        public void run() {
             if (character.isMoving()) {
-                Vector3D temp = character.getVector3D().add(speed, direction);
+                double speed = 100.0D; // TODO speed
+                Vector3D temp = character.getVector3D().add(speed * MOVE_SPEED_MULTIPLIER, direction);
                 sessionService.send(character, new MoveToLocation(character, temp));
                 character.setVector3D(temp);
 
@@ -52,8 +74,12 @@ public class MovementService {
                     sessionService.send(character, new StopMove(character));
                     character.setVector3D(end);
                     character.setMoving(false);
+                } else {
+                    scheduler.schedule(
+                            new MoveTask(character, start, end, direction, distance),
+                            MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
                 }
             }
-        }, 500L, TimeUnit.MILLISECONDS);
+        }
     }
 }
