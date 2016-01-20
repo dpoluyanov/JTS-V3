@@ -1,16 +1,21 @@
 package ru.jts_dev.gameserver.movement;
 
+import io.netty.util.HashedWheelTimer;
+import io.netty.util.Timeout;
+import io.netty.util.TimerTask;
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.MoveToLocation;
 import ru.jts_dev.gameserver.packets.out.StopMove;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
+import ru.jts_dev.gameserver.service.GameSessionService;
+import ru.jts_dev.gameserver.service.PlayerService;
 
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,19 +25,25 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MovementService {
     private static final long MOVE_TASK_INTERVAL_MILLIS = 200L;
-    private static final long MOVE_SPEED_MULTIPLIER = 2L;
-
-    private final ScheduledExecutorService scheduler;
+    private static final long MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000L;
 
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private HashedWheelTimer timer;
 
     @Autowired
-    public MovementService(ScheduledExecutorService scheduler) {
-        this.scheduler = scheduler;
+    private GameSessionService sessionService;
+    @Autowired
+    private PlayerService playerService;
+    @Autowired
+    private BroadcastService broadcastService;
+
+    public void moveTo(String connectionId, Vector3D end) {
+        GameSession session = sessionService.getSessionBy(connectionId);
+        GameCharacter character = playerService.getCharacterBy(connectionId);
+        moveTo(session, character, end);
     }
 
-    public void moveTo(GameCharacter character, Vector3D end) {
+    public void moveTo(GameSession session, GameCharacter character, Vector3D end) {
         Vector3D start = character.getVector3D();
 
         Line line = new Line(start, end, 1.0D);
@@ -42,19 +53,21 @@ public class MovementService {
         character.setVector3D(start);
         character.setMoving(true);
 
-        scheduler.schedule(new MoveTask(character, start, end, direction, distance), MOVE_TASK_INTERVAL_MILLIS,
-                TimeUnit.MILLISECONDS);
+        MoveTask moveTask = new MoveTask(session, character, start, end, direction, distance);
+        timer.newTimeout(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
     }
 
-    private final class MoveTask implements Runnable {
+    private final class MoveTask implements TimerTask {
+        private final GameSession session;
         private final GameCharacter character;
         private final Vector3D start;
         private final Vector3D end;
         private final Vector3D direction;
         private final double distance;
 
-        private MoveTask(GameCharacter character,
+        private MoveTask(GameSession session, GameCharacter character,
                          Vector3D start, Vector3D end, Vector3D direction, double distance) {
+            this.session = session;
             this.character = character;
             this.start = start;
             this.end = end;
@@ -63,21 +76,20 @@ public class MovementService {
         }
 
         @Override
-        public void run() {
+        public void run(Timeout timeout) {
             if (character.isMoving()) {
                 double speed = 100.0D; // TODO speed
                 Vector3D temp = character.getVector3D().add(speed * MOVE_SPEED_MULTIPLIER, direction);
-                broadcastService.send(character, new MoveToLocation(character, temp));
+                broadcastService.send(session, new MoveToLocation(character, temp));
                 character.setVector3D(temp);
 
                 if (start.distance(character.getVector3D()) >= distance) {
-                    broadcastService.send(character, new StopMove(character));
+                    broadcastService.send(session, new StopMove(character));
                     character.setVector3D(end);
                     character.setMoving(false);
                 } else {
-                    scheduler.schedule(
-                            new MoveTask(character, start, end, direction, distance),
-                            MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
+                    MoveTask moveTask = new MoveTask(session, character, start, end, direction, distance);
+                    timer.newTimeout(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
                 }
             }
         }
