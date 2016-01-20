@@ -1,5 +1,6 @@
 package ru.jts_dev.gameserver.config;
 
+import io.netty.util.HashedWheelTimer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,5 +17,11 @@ public class ThreadPoolConfig {
     public ScheduledExecutorService scheduledExecutorService() {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
         return scheduler;
+    }
+
+    @Bean
+    public HashedWheelTimer hashedWheelTimer() {
+        HashedWheelTimer timer = new HashedWheelTimer();
+        return timer;
     }
 }
