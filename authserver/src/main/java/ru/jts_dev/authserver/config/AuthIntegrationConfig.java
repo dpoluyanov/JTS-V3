@@ -171,6 +171,7 @@ public class AuthIntegrationConfig {
                 .transform(ByteBuf.class, buf -> {
                     byte[] data = new byte[buf.readableBytes()];
                     buf.readBytes(data);
+                    buf.release();
                     return data;
                 })
                 .transform(encoder, "encrypt")
@@ -223,5 +224,7 @@ public class AuthIntegrationConfig {
                     + msg.getClass().getSimpleName() + " buffer: "
                     + leftStr.toString());
         }
+
+        msg.release();
     }
 }

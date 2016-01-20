@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MovementService {
     private static final long MOVE_TASK_INTERVAL_MILLIS = 200L;
-    private static final long MOVE_SPEED_MULTIPLIER = 200L;
+    private static final long MOVE_SPEED_MULTIPLIER = 2L;
 
     private final ScheduledExecutorService scheduler;
 

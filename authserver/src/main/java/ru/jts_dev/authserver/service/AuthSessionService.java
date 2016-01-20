@@ -15,6 +15,7 @@ import java.security.KeyPairGenerator;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Camelion
@@ -24,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthSessionService {
     private Map<String, AuthSession> sessions = new ConcurrentHashMap<>();
 
-    private volatile int sessionId = 0;
+    private final AtomicInteger sessionId = new AtomicInteger(0);
 
     @Autowired
     private Random random;
@@ -45,8 +46,7 @@ public class AuthSessionService {
     private AuthSession createSession(String connectionId) {
         byte[] key = new byte[Encoder.BLOWFISH_KEY_SIZE];
         random.nextBytes(key);
-        // TODO: 04.12.15 ++sessionId is possible Integer overflow bug
-        return context.getBean(AuthSession.class, connectionId, ++sessionId, keyPairGenerator.generateKeyPair(), key,
+        return context.getBean(AuthSession.class, connectionId, sessionId.getAndIncrement(), keyPairGenerator.generateKeyPair(), key,
                 random.nextInt(), random.nextInt(), random.nextInt(), random.nextInt());
     }
 

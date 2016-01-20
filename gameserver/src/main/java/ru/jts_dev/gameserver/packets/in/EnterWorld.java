@@ -18,7 +18,6 @@ import ru.jts_dev.gameserver.time.GameTimeService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 import static ru.jts_dev.gameserver.parser.impl.PcParametersHolder.toPCParameterName;
@@ -44,6 +43,7 @@ public class EnterWorld extends IncomingMessageWrapper {
 
     @Override
     public void prepare() {
+        // Do nothing
     }
 
     @Override

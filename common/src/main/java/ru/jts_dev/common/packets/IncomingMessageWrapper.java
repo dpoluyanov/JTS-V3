@@ -92,4 +92,14 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
 
         return enumClass.getEnumConstants()[value];
     }
+
+    /**
+     * free buffer after preparing packet and release Netty ByteBuf
+     *
+     * @see #prepare()
+     * @see ByteBuf#release()
+     */
+    public void release() {
+        getPayload().release();
+    }
 }

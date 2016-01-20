@@ -123,6 +123,7 @@ public class GameIntegrationConfig {
                     + msg.getClass().getSimpleName() + " buffer: "
                     + leftStr.toString());
         }
+        msg.release();
     }
 
     /**
@@ -185,6 +186,7 @@ public class GameIntegrationConfig {
                 .transform(ByteBuf.class, buf -> {
                     byte[] data = new byte[buf.readableBytes()];
                     buf.readBytes(data);
+                    buf.release();
                     return data;
                 })
                 .channel(tcpOutChannel())
