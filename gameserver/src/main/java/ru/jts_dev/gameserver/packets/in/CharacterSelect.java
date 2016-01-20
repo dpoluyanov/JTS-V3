@@ -10,7 +10,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelected;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
-import ru.jts_dev.gameserver.service.BroadcastService;
+import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService.CharacterSelectedEvent;
 
@@ -29,7 +29,7 @@ public class CharacterSelect extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
     @Autowired
-    private BroadcastService broadcastService;
+    private BroadcastServiceTemp broadcastService;
 
     @Autowired
     private GameCharacterRepository repository;

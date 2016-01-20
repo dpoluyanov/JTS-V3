@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.out.MoveToLocation;
 import ru.jts_dev.gameserver.packets.out.StopMove;
-import ru.jts_dev.gameserver.service.BroadcastService;
+import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +25,7 @@ public class MovementService {
     private final ScheduledExecutorService scheduler;
 
     @Autowired
-    private BroadcastService broadcastService;
+    private BroadcastServiceTemp broadcastService;
 
     @Autowired
     public MovementService(ScheduledExecutorService scheduler) {

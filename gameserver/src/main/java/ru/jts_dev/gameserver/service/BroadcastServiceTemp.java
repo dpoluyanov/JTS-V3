@@ -13,7 +13,7 @@ import ru.jts_dev.gameserver.model.GameSession;
  * @since 19.01.2016
  */
 @Service
-public class BroadcastService {
+public class BroadcastServiceTemp {
     @Autowired
     private GameSessionService sessionService;
     @Autowired

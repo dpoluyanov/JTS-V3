@@ -7,7 +7,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.LeaveWorld;
-import ru.jts_dev.gameserver.service.BroadcastService;
+import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -23,7 +23,7 @@ public class Logout extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
     @Autowired
-    private BroadcastService broadcastService;
+    private BroadcastServiceTemp broadcastService;
 
     @Override
     public void prepare() {
