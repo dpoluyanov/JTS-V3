@@ -1,6 +1,7 @@
 package ru.jts_dev.gameserver.handlers;
 
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.model.GameSession;
 
 import java.util.*;
 
@@ -11,6 +12,7 @@ import java.util.*;
  * @author Yorie, AN3O
  */
 public class HandlerParams<TCommandType> {
+    protected final GameSession session;
     protected final GameCharacter character;
     protected final ArrayList<String> args = new ArrayList<>();
     protected final Map<String, String> queryArgs = new HashMap<>();
@@ -21,10 +23,21 @@ public class HandlerParams<TCommandType> {
      * @param command   Command ID.
      * @param args      Additional parameters.
      */
-    public HandlerParams(GameCharacter character, TCommandType command, List<String> args, Map<String, String> queryArgs) {
-        this(character, command);
+    public HandlerParams(GameSession session, GameCharacter character, TCommandType command, List<String> args,
+                         Map<String, String> queryArgs) {
+        this(session, character, command);
         this.args.addAll(args);
         this.args.trimToSize();
+
+        if (queryArgs != null) {
+            this.queryArgs.putAll(queryArgs);
+        }
+    }
+
+    public HandlerParams(GameSession session, GameCharacter character, TCommandType command, String[] args,
+                         Map<String, String> queryArgs) {
+        this(session, character, command);
+        Collections.addAll(this.args, args);
 
         if (queryArgs != null) {
             this.queryArgs.putAll(queryArgs);
@@ -35,18 +48,10 @@ public class HandlerParams<TCommandType> {
      * @param character Active character.
      * @param command   Command ID.
      */
-    public HandlerParams(GameCharacter character, TCommandType command) {
+    public HandlerParams(GameSession session, GameCharacter character, TCommandType command) {
+        this.session = session;
         this.character = character;
         this.command = command;
-    }
-
-    public HandlerParams(GameCharacter character, TCommandType command, String[] args, Map<String, String> queryArgs) {
-        this(character, command);
-        Collections.addAll(this.args, args);
-
-        if (queryArgs != null) {
-            queryArgs.putAll(queryArgs);
-        }
     }
 
     /**
@@ -146,6 +151,10 @@ public class HandlerParams<TCommandType> {
             }
         }
         return list;
+    }
+
+    public GameSession getSession() {
+        return session;
     }
 
     /**

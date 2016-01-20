@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.ExBasicActionList;
@@ -13,6 +14,7 @@ import ru.jts_dev.gameserver.parser.data.action.Action;
 import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
 import ru.jts_dev.gameserver.parser.impl.UserBasicActionsHolder;
 import ru.jts_dev.gameserver.service.BroadcastService;
+import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
 
@@ -35,6 +37,8 @@ public class EnterWorld extends IncomingMessageWrapper {
     @Autowired
     private BroadcastService broadcastService;
     @Autowired
+    private GameSessionService sessionService;
+    @Autowired
     private PlayerService playerService;
     @Autowired
     private PcParametersHolder parametersData;
@@ -48,6 +52,7 @@ public class EnterWorld extends IncomingMessageWrapper {
 
     @Override
     public void run() {
+        GameSession session = sessionService.getSessionBy(getConnectionId());
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
         // TODO: 03.01.16 ItemList packet, ShortCutInit, BookMarkInfo, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
@@ -55,10 +60,10 @@ public class EnterWorld extends IncomingMessageWrapper {
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
 
         Collection<Action> actions = userBasicActionsHolder.getActionsData().values();
-        broadcastService.send(character, new ExBasicActionList(actions));
+        broadcastService.send(session, new ExBasicActionList(actions));
 
         long gameTimeInMinutes = timeService.getGameTimeInMinutes();
-        broadcastService.send(character, new ClientSetTime(gameTimeInMinutes));
+        broadcastService.send(session, new ClientSetTime(gameTimeInMinutes));
 
         // TODO: 04.01.16 broadcast CharInfo, send UserInfo
         // send UserInfo
@@ -68,6 +73,6 @@ public class EnterWorld extends IncomingMessageWrapper {
 
         List<Double> collisions = parametersData.getCollisionBoxes().get(pcParameterName);
 
-        broadcastService.send(character, new UserInfo(character, collisions));
+        broadcastService.send(session, new UserInfo(character, collisions));
     }
 }

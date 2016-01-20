@@ -63,7 +63,6 @@ public class CharacterSelect extends IncomingMessageWrapper {
         }
 
         GameCharacter character = characters.get(characterIndex);
-        character.setConnectionId(getConnectionId());
 
         publisher.publishEvent(new CharacterSelectedEvent(getConnectionId(), character));
 

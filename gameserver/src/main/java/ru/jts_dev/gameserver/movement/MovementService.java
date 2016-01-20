@@ -13,8 +13,6 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.MoveToLocation;
 import ru.jts_dev.gameserver.packets.out.StopMove;
 import ru.jts_dev.gameserver.service.BroadcastService;
-import ru.jts_dev.gameserver.service.GameSessionService;
-import ru.jts_dev.gameserver.service.PlayerService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,17 +29,7 @@ public class MovementService {
     private HashedWheelTimer timer;
 
     @Autowired
-    private GameSessionService sessionService;
-    @Autowired
-    private PlayerService playerService;
-    @Autowired
     private BroadcastService broadcastService;
-
-    public void moveTo(String connectionId, Vector3D end) {
-        GameSession session = sessionService.getSessionBy(connectionId);
-        GameCharacter character = playerService.getCharacterBy(connectionId);
-        moveTo(session, character, end);
-    }
 
     public void moveTo(GameSession session, GameCharacter character, Vector3D end) {
         Vector3D start = character.getVector3D();

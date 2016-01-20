@@ -2,12 +2,13 @@ package ru.jts_dev.gameserver.handlers.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.handlers.ChatHandlerParams;
 import ru.jts_dev.gameserver.handlers.CommandHandler;
 import ru.jts_dev.gameserver.handlers.HandlerParams;
 import ru.jts_dev.gameserver.handlers.NumericCommand;
-import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.Say2;
 import ru.jts_dev.gameserver.service.BroadcastService;
 
@@ -26,6 +27,7 @@ public class ChatAll extends CommandHandler<Integer> {
 
     @NumericCommand(0)
     public boolean allChat(ChatHandlerParams<Integer> params) {
+        GameSession session = params.getSession();
         GameCharacter character = params.getCharacter();
 
         // Probably voiced command
@@ -64,7 +66,7 @@ public class ChatAll extends CommandHandler<Integer> {
 					player.sendPacket(cs);
 				}
 			}*/
-            broadcastService.send(character, cs);
+            broadcastService.send(session, cs);
         }
         return true;
     }

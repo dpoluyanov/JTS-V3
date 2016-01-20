@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.handlers.ChatCommandManager;
 import ru.jts_dev.gameserver.handlers.ChatHandlerParams;
-import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ActionFailed;
 import ru.jts_dev.gameserver.service.BroadcastService;
+import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -32,6 +34,8 @@ public class Say2C extends IncomingMessageWrapper {
     @Autowired
     private BroadcastService broadcastService;
     @Autowired
+    private GameSessionService sessionService;
+    @Autowired
     private PlayerService playerService;
 
     private String text;
@@ -47,6 +51,7 @@ public class Say2C extends IncomingMessageWrapper {
 
     @Override
     public void run() {
+        GameSession session = sessionService.getSessionBy(getConnectionId());
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
         if (character == null) {
             return;
@@ -54,18 +59,18 @@ public class Say2C extends IncomingMessageWrapper {
 
         if (type == null) {
             log.warn("Say2: Invalid type: {} Player : {} text: {}", type, character.getName(), text);
-            broadcastService.send(character, ActionFailed.PACKET);
+            broadcastService.send(session, ActionFailed.PACKET);
             // TODO character.logout();
             return;
         }
 
         if (text.isEmpty()) {
             log.warn(character.getName() + ": sending empty text. Possible packet hack!");
-            broadcastService.send(character, ActionFailed.PACKET);
+            broadcastService.send(session, ActionFailed.PACKET);
             // TODO character.logout();
             return;
         }
 
-        chatCommandManager.execute(new ChatHandlerParams<>(character, type.ordinal(), text, target));
+        chatCommandManager.execute(new ChatHandlerParams<>(session, character, type.ordinal(), text, target));
     }
 }

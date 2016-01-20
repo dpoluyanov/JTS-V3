@@ -282,14 +282,6 @@ public class GameCharacter {
         this.stat = stat;
     }
 
-    public String getConnectionId() {
-        return connectionId;
-    }
-
-    public void setConnectionId(String connectionId) {
-        this.connectionId = connectionId;
-    }
-
     public List<GameItem> getInventory() {
         return Collections.synchronizedList(inventory);
     }

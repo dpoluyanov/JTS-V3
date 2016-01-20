@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.movement.MovementService;
 import ru.jts_dev.gameserver.packets.Opcode;
+import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -20,6 +22,13 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Scope(SCOPE_PROTOTYPE)
 @Opcode(0x0F)
 public class MoveBackwardToLocation extends IncomingMessageWrapper {
+    @Autowired
+    private MovementService movementService;
+    @Autowired
+    private GameSessionService sessionService;
+    @Autowired
+    private PlayerService playerService;
+
     private int targetX;
     private int targetY;
     private int targetZ;
@@ -27,11 +36,6 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
     private int originY;
     private int originZ;
     private int movementType;
-
-    @Autowired
-    private MovementService movementService;
-    @Autowired
-    private PlayerService playerService;
 
     @Override
     public void prepare() {
@@ -50,9 +54,10 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
             targetZ += 27;
 
         // TODO: 06.01.16
+        GameSession session = sessionService.getSessionBy(getConnectionId());
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
         Vector3D end = new Vector3D(targetX, targetY, targetZ);
 
-        movementService.moveTo(character, end);
+        movementService.moveTo(session, character, end);
     }
 }

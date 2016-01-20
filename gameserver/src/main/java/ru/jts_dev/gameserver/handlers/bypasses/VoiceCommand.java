@@ -30,7 +30,8 @@ public class VoiceCommand extends CommandHandler<String> {
             List<String> args = params.getArgs().size() > 1 ? params.getArgs().subList(1, params.getArgs().size()) : Collections.<String>emptyList();
 
             if (!command.isEmpty()) {
-                voicedHandlerManager.execute(new HandlerParams<>(params.getCharacter(), command, args, Collections.<String, String>emptyMap()));
+                voicedHandlerManager.execute(new HandlerParams<>(params.getSession(), params.getCharacter(), command,
+                        args, Collections.<String, String>emptyMap()));
             }
         }
         return false;
