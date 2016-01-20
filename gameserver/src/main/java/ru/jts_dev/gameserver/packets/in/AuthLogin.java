@@ -11,7 +11,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class AuthLogin extends IncomingMessageWrapper {
     private GameSessionService sessionService;
 
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private BroadcastService broadcastService;
 
     @Autowired
     private ApplicationEventPublisher publisher;

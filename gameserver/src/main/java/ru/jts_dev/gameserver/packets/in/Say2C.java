@@ -12,7 +12,7 @@ import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ActionFailed;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -30,7 +30,7 @@ public class Say2C extends IncomingMessageWrapper {
     @Autowired
     private ChatCommandManager chatCommandManager;
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private BroadcastService broadcastService;
     @Autowired
     private PlayerService playerService;
 

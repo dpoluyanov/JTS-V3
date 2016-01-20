@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.repository.ServerVariablesRepository;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.time.events.DayNightStateChanged;
 import ru.jts_dev.gameserver.variables.server.ServerVariable;
 import ru.jts_dev.gameserver.variables.server.ServerVariableKey;
@@ -40,14 +40,14 @@ public class GameTimeService {
     private final Logger logger = LoggerFactory.getLogger(GameTimeService.class);
 
     private final GameServerConfig gameServerConfig;
-    private final BroadcastServiceTemp broadcastService;
+    private final BroadcastService broadcastService;
     private final ServerVariablesRepository serverVariablesRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     private ZonedDateTime dateTime = MIN_DATE_TIME;
 
     @Autowired
-    public GameTimeService(GameServerConfig gameServerConfig, BroadcastServiceTemp broadcastService,
+    public GameTimeService(GameServerConfig gameServerConfig, BroadcastService broadcastService,
                            ServerVariablesRepository serverVariablesRepository, ApplicationEventPublisher eventPublisher) {
         this.gameServerConfig = gameServerConfig;
         this.broadcastService = broadcastService;

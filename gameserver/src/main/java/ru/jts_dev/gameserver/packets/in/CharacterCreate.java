@@ -19,7 +19,7 @@ import ru.jts_dev.gameserver.packets.out.CharacterCreateSuccess;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
 import ru.jts_dev.gameserver.parser.impl.SettingsHolder;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import javax.validation.ConstraintViolation;
@@ -50,7 +50,7 @@ public class CharacterCreate extends IncomingMessageWrapper {
     @Autowired
     private GameCharacterRepository characterRepository;
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private BroadcastService broadcastService;
 
     @Autowired
     private SettingsHolder settingsData;

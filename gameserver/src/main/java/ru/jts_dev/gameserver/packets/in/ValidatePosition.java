@@ -8,7 +8,7 @@ import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ValidateLocation;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -22,7 +22,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Opcode(0x59)
 public class ValidatePosition extends IncomingMessageWrapper {
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private BroadcastService broadcastService;
     @Autowired
     private PlayerService playerService;
 

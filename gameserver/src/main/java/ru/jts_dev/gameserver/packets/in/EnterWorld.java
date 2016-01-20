@@ -12,7 +12,7 @@ import ru.jts_dev.gameserver.packets.out.UserInfo;
 import ru.jts_dev.gameserver.parser.data.action.Action;
 import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
 import ru.jts_dev.gameserver.parser.impl.UserBasicActionsHolder;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.time.GameTimeService;
 
@@ -33,7 +33,7 @@ public class EnterWorld extends IncomingMessageWrapper {
     @Autowired
     private GameTimeService timeService;
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private BroadcastService broadcastService;
     @Autowired
     private PlayerService playerService;
     @Autowired

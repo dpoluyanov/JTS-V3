@@ -8,7 +8,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.NewCharacterSuccess;
 import ru.jts_dev.gameserver.parser.impl.SettingsHolder;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
@@ -24,7 +24,7 @@ public class RequestNewCharacter extends IncomingMessageWrapper {
     @Autowired
     private GameSessionService sessionService;
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private BroadcastService broadcastService;
 
     @Autowired
     private SettingsHolder settingsData;

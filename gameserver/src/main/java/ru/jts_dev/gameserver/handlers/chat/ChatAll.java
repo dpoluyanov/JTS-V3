@@ -9,7 +9,7 @@ import ru.jts_dev.gameserver.handlers.NumericCommand;
 import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.packets.out.Say2;
-import ru.jts_dev.gameserver.service.BroadcastServiceTemp;
+import ru.jts_dev.gameserver.service.BroadcastService;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 public class ChatAll extends CommandHandler<Integer> {
     @Autowired
-    private BroadcastServiceTemp broadcastService;
+    private BroadcastService broadcastService;
 
     @NumericCommand(0)
     public boolean allChat(ChatHandlerParams<Integer> params) {
