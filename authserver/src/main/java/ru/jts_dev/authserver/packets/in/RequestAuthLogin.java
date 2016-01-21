@@ -10,11 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.authserver.model.Account;
 import ru.jts_dev.authserver.model.AuthSession;
-import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.authserver.packets.out.LoginFail;
 import ru.jts_dev.authserver.packets.out.LoginOk;
 import ru.jts_dev.authserver.repositories.AccountRepository;
 import ru.jts_dev.authserver.service.AuthSessionService;
+import ru.jts_dev.authserver.service.BroadcastService;
+import ru.jts_dev.common.packets.IncomingMessageWrapper;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
@@ -33,6 +34,9 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
 
     @Autowired
     private AuthSessionService authSessionService;
+
+    @Autowired
+    private BroadcastService broadcastService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -60,10 +64,10 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
         byte[] decrypted;
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA/ECB/nopadding");
-            rsaCipher.init(Cipher.DECRYPT_MODE, session.getRSAKeyPair().getPrivate());
+            rsaCipher.init(Cipher.DECRYPT_MODE, session.getRsaKeyPair().getPrivate());
             decrypted = rsaCipher.doFinal(data, 0x00, 0x80);
         } catch (Exception e) {
-            session.send(null);
+            broadcastService.send(session, null);
             return;
         }
 
@@ -76,7 +80,7 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
             } else {
                 log.trace("Account with login '" + login + "' not found in database");
 
-                session.send(new LoginFail(REASON_USER_OR_PASS_WRONG));
+                broadcastService.send(session, new LoginFail(REASON_USER_OR_PASS_WRONG));
                 connectionFactory.closeConnection(getConnectionId());
                 return;
             }
@@ -87,11 +91,11 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
         if (!passwordEncoder.matches(password, account.getPasswordHash())) {
             log.trace("Password don't match for account '" + login + "'");
 
-            session.send(new LoginFail(REASON_USER_OR_PASS_WRONG));
+            broadcastService.send(session, new LoginFail(REASON_USER_OR_PASS_WRONG));
             connectionFactory.closeConnection(getConnectionId());
             return;
         }
 
-        session.send(new LoginOk(session.getLoginKey1(), session.getLoginKey2()));
+        broadcastService.send(session, new LoginOk(session.getLoginKey1(), session.getLoginKey2()));
     }
 }

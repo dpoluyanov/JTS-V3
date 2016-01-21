@@ -131,7 +131,7 @@ public class AuthIntegrationConfig {
         String connectionId = event.getConnectionId();
 
         AuthSession gameSession = authSessionService.getSessionBy(connectionId);
-        byte[] scrambledModulus = scrambleModulus(((RSAPublicKey) gameSession.getRSAKeyPair().getPublic()).getModulus());
+        byte[] scrambledModulus = scrambleModulus(((RSAPublicKey) gameSession.getRsaKeyPair().getPublic()).getModulus());
         byte[] blowfishKey = gameSession.getBlowfishKey();
 
         OutgoingMessageWrapper msg = new Init(gameSession.getSessionId(), scrambledModulus, blowfishKey);

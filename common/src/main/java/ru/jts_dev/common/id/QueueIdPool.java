@@ -17,16 +17,16 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Component
 @Scope(SCOPE_PROTOTYPE)
 public final class QueueIdPool implements IdPool {
-    private final Queue<Integer> queue = new ConcurrentLinkedQueue<>(
+    private final Queue<Integer> pool = new ConcurrentLinkedQueue<>(
             IntStream.rangeClosed(0, Integer.MAX_VALUE).boxed().collect(Collectors.toList()));
 
     @Override
     public int borrow() {
-        return queue.poll();
+        return pool.poll();
     }
 
     @Override
-    public void release(int objectId) {
-        queue.offer(objectId);
+    public void release(int id) {
+        pool.offer(id);
     }
 }

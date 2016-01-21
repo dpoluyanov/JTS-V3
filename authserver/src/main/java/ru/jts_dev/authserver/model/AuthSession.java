@@ -1,39 +1,26 @@
 package ru.jts_dev.authserver.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.integration.ip.IpHeaders;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.stereotype.Component;
-import ru.jts_dev.common.packets.OutgoingMessageWrapper;
-
 import java.security.KeyPair;
-
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 /**
  * @author Camelion
  * @since 03.12.15
  */
-@Component
-@Scope(SCOPE_PROTOTYPE)
 public class AuthSession {
-    public final KeyPair RSAKeyPair;
-    private final byte[] blowfishKey;
+    private final String connectionId;
     private final int sessionId;
+    private final KeyPair rsaKeyPair;
+    private final byte[] blowfishKey;
     private final int loginKey1;
     private final int loginKey2;
     private final int gameKey1;
     private final int gameKey2;
-    private String connectionId;
-    @Autowired
-    private MessageChannel packetChannel;
 
-    public AuthSession(String connectionId, int sessionId, KeyPair RSAKeyPair, byte[] blowfishKey,
+    public AuthSession(String connectionId, int sessionId, KeyPair rsaKeyPair, byte[] blowfishKey,
                        int loginKey1, int loginKey2, int gameKey1, int gameKey2) {
         this.connectionId = connectionId;
         this.sessionId = sessionId;
-        this.RSAKeyPair = RSAKeyPair;
+        this.rsaKeyPair = rsaKeyPair;
         this.blowfishKey = blowfishKey;
         this.loginKey1 = loginKey1;
         this.loginKey2 = loginKey2;
@@ -41,8 +28,12 @@ public class AuthSession {
         this.gameKey2 = gameKey2;
     }
 
-    public KeyPair getRSAKeyPair() {
-        return RSAKeyPair;
+    public String getConnectionId() {
+        return connectionId;
+    }
+
+    public KeyPair getRsaKeyPair() {
+        return rsaKeyPair;
     }
 
     public byte[] getBlowfishKey() {
@@ -51,11 +42,6 @@ public class AuthSession {
 
     public int getSessionId() {
         return sessionId;
-    }
-
-    public void send(OutgoingMessageWrapper msg) {
-        msg.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
-        packetChannel.send(msg);
     }
 
     public int getLoginKey2() {

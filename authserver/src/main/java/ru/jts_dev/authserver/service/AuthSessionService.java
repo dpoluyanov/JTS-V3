@@ -1,7 +1,6 @@
 package ru.jts_dev.authserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -26,8 +25,6 @@ public class AuthSessionService {
     private final Map<String, AuthSession> sessions = new ConcurrentHashMap<>();
 
     @Autowired
-    private ApplicationContext context;
-    @Autowired
     private Random random;
     @Autowired
     private KeyPairGenerator keyPairGenerator;
@@ -44,7 +41,7 @@ public class AuthSessionService {
     private AuthSession createSession(String connectionId) {
         byte[] key = new byte[Encoder.BLOWFISH_KEY_SIZE];
         random.nextBytes(key);
-        return context.getBean(AuthSession.class, connectionId, idPool.borrow(), keyPairGenerator.generateKeyPair(), key,
+        return new AuthSession(connectionId, idPool.borrow(), keyPairGenerator.generateKeyPair(), key,
                 random.nextInt(), random.nextInt(), random.nextInt(), random.nextInt());
     }
 

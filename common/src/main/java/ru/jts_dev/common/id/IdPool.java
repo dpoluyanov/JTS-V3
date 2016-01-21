@@ -7,5 +7,5 @@ package ru.jts_dev.common.id;
 public interface IdPool {
     int borrow();
 
-    void release(int objectId);
+    void release(int id);
 }
