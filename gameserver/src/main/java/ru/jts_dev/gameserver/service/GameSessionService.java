@@ -74,7 +74,7 @@ public class GameSessionService {
         ByteBuf decryptKey = copiedBuffer(encryptKey).order(ByteOrder.LITTLE_ENDIAN);
 
         // and pass keys to a game session object
-        return context.getBean(GameSession.class, connection, encryptKey, decryptKey);
+        return new GameSession(connection, encryptKey, decryptKey);
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)

@@ -55,7 +55,7 @@ public class EnterWorld extends IncomingMessageWrapper {
         GameSession session = sessionService.getSessionBy(getConnectionId());
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        // TODO: 03.01.16 ItemList packet, ShortCutInit, BookMarkInfo, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
+        // TODO: 03.01.16 ItemList packet, ShortCutInit, BookMarkInfo, BasicAction, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
         // TODO: 03.01.16 System Message : Welcome to Lineage, SkillCoolTime, ExVoteSystemInfo, Spawn player,
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
 
