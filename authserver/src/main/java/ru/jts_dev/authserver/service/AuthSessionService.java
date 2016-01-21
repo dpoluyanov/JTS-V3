@@ -10,12 +10,12 @@ import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.authserver.model.AuthSession;
 import ru.jts_dev.authserver.util.Encoder;
+import ru.jts_dev.common.id.IdPool;
 
 import java.security.KeyPairGenerator;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Camelion
@@ -23,18 +23,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Service
 public class AuthSessionService {
-    private Map<String, AuthSession> sessions = new ConcurrentHashMap<>();
-
-    private final AtomicInteger sessionId = new AtomicInteger(0);
-
-    @Autowired
-    private Random random;
-
-    @Autowired
-    private KeyPairGenerator keyPairGenerator;
+    private final Map<String, AuthSession> sessions = new ConcurrentHashMap<>();
 
     @Autowired
     private ApplicationContext context;
+    @Autowired
+    private Random random;
+    @Autowired
+    private KeyPairGenerator keyPairGenerator;
+    @Autowired
+    private IdPool idPool;
 
     public AuthSession getSessionBy(String connectionId) {
         if (!sessions.containsKey(connectionId))
@@ -46,7 +44,7 @@ public class AuthSessionService {
     private AuthSession createSession(String connectionId) {
         byte[] key = new byte[Encoder.BLOWFISH_KEY_SIZE];
         random.nextBytes(key);
-        return context.getBean(AuthSession.class, connectionId, sessionId.getAndIncrement(), keyPairGenerator.generateKeyPair(), key,
+        return context.getBean(AuthSession.class, connectionId, idPool.borrow(), keyPairGenerator.generateKeyPair(), key,
                 random.nextInt(), random.nextInt(), random.nextInt(), random.nextInt());
     }
 
@@ -58,6 +56,7 @@ public class AuthSessionService {
 
     @EventListener
     private void tcpConnectionEventListener(TcpConnectionCloseEvent event) {
-        sessions.remove(event.getConnectionId());
+        AuthSession session = sessions.remove(event.getConnectionId());
+        idPool.release(session.getSessionId());
     }
 }
