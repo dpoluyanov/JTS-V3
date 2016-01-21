@@ -2,7 +2,6 @@ package ru.jts_dev.gameserver.service;
 
 import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
@@ -32,11 +31,9 @@ public class GameSessionService {
             (byte) 0xc8, (byte) 0x27, (byte) 0x93, (byte) 0x01, (byte) 0xa1, (byte) 0x6c, (byte) 0x31, (byte) 0x97
     };
 
-    private Map<String, GameSession> sessions = new ConcurrentHashMap<>();
-    private Map<String, String> accounts = new ConcurrentHashMap<>();
+    private final Map<String, GameSession> sessions = new ConcurrentHashMap<>();
+    private final Map<String, String> accounts = new ConcurrentHashMap<>();
 
-    @Autowired
-    private ApplicationContext context;
     @Autowired
     private Random random;
 
