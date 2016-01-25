@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.stream.IntStream;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 /**
  * @author Java-man
@@ -21,12 +24,21 @@ public class IdPoolTest {
 
     @Test
     public void testIdBorrow() throws Exception {
-        int id = idPool.borrow();
-        assertThat(id, is(0));
+        IntStream.rangeClosed(0, 10_000).forEach(value -> {
+            int id = idPool.borrow();
+            assertThat(id, equalTo(value));
+        });
+
+        IntStream.rangeClosed(0, 10_000).parallel().forEach(value -> {
+            int id = idPool.borrow();
+            assertThat(id, greaterThanOrEqualTo(10_000));
+        });
     }
 
     @Test
     public void testIdRelease() throws Exception {
-        idPool.release(0);
+        IntStream.rangeClosed(0, 20_000).parallel().forEach(value -> {
+            idPool.release(value);
+        });
     }
 }

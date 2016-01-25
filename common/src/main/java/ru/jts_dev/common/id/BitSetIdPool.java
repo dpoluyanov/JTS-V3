@@ -23,7 +23,7 @@ public final class BitSetIdPool implements IdPool {
 
     private final BitSetAllocator allocator = new BitSetAllocator(Integer.MAX_VALUE);
     private final Lock lock = new ReentrantLock();
-    private Condition availableCond = lock.newCondition();
+    private final Condition availableCond = lock.newCondition();
 
     private int allocate() throws AllocationException {
         lock.lock();

@@ -1,7 +1,6 @@
 package ru.jts_dev.common.id;
 
-import ru.jts_dev.common.bitset.SparseBitSet;
-
+import java.util.BitSet;
 import java.util.concurrent.locks.Condition;
 
 /**
@@ -9,7 +8,7 @@ import java.util.concurrent.locks.Condition;
  * @since 25.01.2016
  */
 public final class BitSetAllocator {
-    private final SparseBitSet bits;
+    private final BitSet bits;
 
     private final int bitSetSize;
     private int bitsAvailable;
@@ -21,7 +20,7 @@ public final class BitSetAllocator {
         }
         this.bitSetSize = bitSetSize;
         bitsAvailable = bitSetSize;
-        bits = new SparseBitSet(bitSetSize);
+        bits = new BitSet(bitSetSize);
     }
 
     public int getBitsAvailable() {
