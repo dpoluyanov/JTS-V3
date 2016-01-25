@@ -1,8 +1,6 @@
 package ru.jts_dev.gameserver.packets.in;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.config.GameServerConfig;
 import ru.jts_dev.gameserver.model.GameCharacter;
@@ -15,14 +13,10 @@ import ru.jts_dev.gameserver.service.GameSessionService;
 
 import java.util.List;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
-
 /**
  * @author Camelion
  * @since 20.12.15
  */
-@Component
-@Scope(SCOPE_PROTOTYPE)
 @Opcode(second = 0x36)
 public class GotoLobby extends IncomingMessageWrapper {
     @Autowired

@@ -2,8 +2,6 @@ package ru.jts_dev.gameserver.packets.in;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
@@ -16,14 +14,10 @@ import ru.jts_dev.gameserver.service.PlayerService.CharacterSelectedEvent;
 
 import java.util.List;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
-
 /**
  * @author Camelion
  * @since 03.01.16
  */
-@Component
-@Scope(SCOPE_PROTOTYPE)
 @Opcode(0x12)
 public class CharacterSelect extends IncomingMessageWrapper {
     @Autowired

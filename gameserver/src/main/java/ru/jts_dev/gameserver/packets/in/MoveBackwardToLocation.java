@@ -2,8 +2,6 @@ package ru.jts_dev.gameserver.packets.in;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
@@ -12,14 +10,10 @@ import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
-
 /**
  * @author Java-man
  * @since 17.12.2015
  */
-@Component
-@Scope(SCOPE_PROTOTYPE)
 @Opcode(0x0F)
 public class MoveBackwardToLocation extends IncomingMessageWrapper {
     @Autowired

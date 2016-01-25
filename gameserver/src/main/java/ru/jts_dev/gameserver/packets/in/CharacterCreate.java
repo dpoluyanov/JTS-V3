@@ -7,8 +7,6 @@ import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.constants.CharacterClass;
 import ru.jts_dev.gameserver.constants.CharacterRace;
@@ -30,15 +28,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.*;
 
 /**
  * @author Camelion
  * @since 20.12.15
  */
-@Component
-@Scope(SCOPE_PROTOTYPE)
 @Opcode(0x0C)
 public class CharacterCreate extends IncomingMessageWrapper {
     private static final Logger log = LoggerFactory.getLogger(CharacterCreate.class);

@@ -3,8 +3,6 @@ package ru.jts_dev.gameserver.packets.in;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.constants.ChatType;
 import ru.jts_dev.gameserver.handlers.ChatCommandManager;
@@ -17,14 +15,10 @@ import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
-
 /**
  * @author Java-man
  * @since 10.01.2016
  */
-@Component
-@Scope(SCOPE_PROTOTYPE)
 @Opcode(0x10)
 public class Say2C extends IncomingMessageWrapper {
     protected final Logger log = LoggerFactory.getLogger(getClass());
