@@ -1,6 +1,5 @@
 package ru.jts_dev.gameserver.packets.out;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
@@ -12,12 +11,12 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 public class StopMove extends OutgoingMessageWrapper {
     private final int objectId;
     private final Vector3D location;
-    private final Rotation rotation;
+    private final int heading;
 
-    public StopMove(GameCharacter character) {
+    public StopMove(GameCharacter character, int heading) {
         objectId = character.getObjectId();
         location = character.getVector3D();
-        rotation = character.getRotation();
+        this.heading = heading;
     }
 
     @Override
@@ -29,6 +28,6 @@ public class StopMove extends OutgoingMessageWrapper {
         putInt((int) location.getX());
         putInt((int) location.getY());
         putInt((int) location.getZ());
-        putInt((int) rotation.getAngle());
+        putInt(heading);
     }
 }

@@ -1,7 +1,6 @@
 package ru.jts_dev.gameserver.packets.in.movement;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
@@ -11,6 +10,7 @@ import ru.jts_dev.gameserver.packets.out.movement.StartRotating;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
+import ru.jts_dev.gameserver.util.RotationUtils;
 
 /**
  * @author Java-man
@@ -24,14 +24,16 @@ public class StartRotatingC extends IncomingMessageWrapper {
     private PlayerService playerService;
     @Autowired
     private BroadcastService broadcastService;
+    @Autowired
+    private RotationUtils rotationUtils;
 
-    private int degree;
+    private int heading;
     private int side;
 
     @Override
     public void prepare() {
-        degree = readInt();
-        side = readInt();
+        heading = readInt();
+        side = readInt(); // side (1 = right, -1 = left)
     }
 
     @Override
@@ -39,8 +41,12 @@ public class StartRotatingC extends IncomingMessageWrapper {
         GameSession session = sessionService.getSessionBy(getConnectionId());
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        character.setRotation(new Rotation(Vector3D.ZERO, degree));
-        // TODO broadcastService.broadcast(character, new StartRotating(character, degree, side, 0));
-        broadcastService.send(session, new StartRotating(character, degree, side, 0));
+        Rotation oldRotation = character.getRotation();
+        double angle = rotationUtils.convertClientHeadingToAngle(heading);
+        // TODO check that
+        Rotation newRotation = rotationUtils.clientRotation(oldRotation, angle, side);
+        character.setRotation(newRotation);
+        // TODO broadcastService.broadcast(character, new StartRotating(character, heading, side, 0));
+        broadcastService.send(session, new StartRotating(character, heading, side, 0));
     }
 }

@@ -25,7 +25,7 @@ public class StartRotating extends OutgoingMessageWrapper {
         putByte(0x7a);
         putInt(charId);
         putInt(degree);
-        putInt(side);
+        putInt(side); // side (1 = right, -1 = left)
         putInt(speed);
     }
 }

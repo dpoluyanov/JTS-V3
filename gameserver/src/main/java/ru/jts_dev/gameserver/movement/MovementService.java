@@ -13,6 +13,7 @@ import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.MoveToLocation;
 import ru.jts_dev.gameserver.packets.out.StopMove;
 import ru.jts_dev.gameserver.service.BroadcastService;
+import ru.jts_dev.gameserver.util.RotationUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,9 +28,10 @@ public class MovementService {
 
     @Autowired
     private HashedWheelTimer timer;
-
     @Autowired
     private BroadcastService broadcastService;
+    @Autowired
+    private RotationUtils rotationUtils;
 
     public void moveTo(GameSession session, GameCharacter character, Vector3D end) {
         Vector3D start = character.getVector3D();
@@ -72,7 +74,8 @@ public class MovementService {
                 character.setVector3D(temp);
 
                 if (start.distance(character.getVector3D()) >= distance) {
-                    broadcastService.send(session, new StopMove(character));
+                    int clientHeading = rotationUtils.convertAngleToClientHeading(character.getRotation().getAngle());
+                    broadcastService.send(session, new StopMove(character, clientHeading));
                     character.setVector3D(end);
                     character.setMoving(false);
                 } else {
