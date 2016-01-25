@@ -49,9 +49,8 @@ dependencies {
     //compile('org.springframework.boot:spring-boot-starter-mail')
     //compile('org.springframework.boot:spring-boot-starter-remote-shell')
 
+    // math library
     compile("org.apache.commons:commons-math3:${apacheMathVersion}")
-
-    compile 'org.apache.commons:commons-compress:1.10'
 
     // html compressor
     compile('com.googlecode.htmlcompressor:htmlcompressor:1.5.2')
