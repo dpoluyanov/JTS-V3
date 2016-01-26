@@ -21,7 +21,7 @@ public final class QueueIdPool implements IdPool {
     }
 
     @Override
-    public void release(int id) {
+    public void release(final int id) {
         pool.offer(id);
     }
 }

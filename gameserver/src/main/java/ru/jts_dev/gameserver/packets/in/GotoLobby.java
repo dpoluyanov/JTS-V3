@@ -36,11 +36,9 @@ public class GotoLobby extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        GameSession session = sessionService.getSessionBy(getConnectionId());
-
-        String accountName = sessionService.getAccountBy(getConnectionId());
-
-        List<GameCharacter> characters = repository.findAllByAccountName(accountName);
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
+        final String accountName = sessionService.getAccountBy(getConnectionId());
+        final List<GameCharacter> characters = repository.findAllByAccountName(accountName);
 
         broadcastService.send(session,
                 new CharacterSelectionInfo(characters, session.getPlayKey(), gameServerConfig.isCharCreationDisabled()));

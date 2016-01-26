@@ -27,42 +27,42 @@ public class NewCharacterSuccess extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putInt(0x0D);
-        putInt(recommendedStats.size()); // stats count
+        writeInt(0x0D);
+        writeInt(recommendedStats.size()); // stats count
 
         for (int i = 0; i < maximumStats.size(); i++) {
-            putInt(recommendedStats.get(i).getRace().getId());
-            putInt(recommendedStats.get(i).getClass_().getId());
+            writeInt(recommendedStats.get(i).getRace().getId());
+            writeInt(recommendedStats.get(i).getClass_().getId());
 
             // STR
-            putInt(maximumStats.get(i).getForType(STR));
-            putInt(recommendedStats.get(i).getForType(STR));
-            putInt(minimumStats.get(i).getForType(STR));
+            writeInt(maximumStats.get(i).getForType(STR));
+            writeInt(recommendedStats.get(i).getForType(STR));
+            writeInt(minimumStats.get(i).getForType(STR));
 
             // DEX
-            putInt(maximumStats.get(i).getForType(DEX));
-            putInt(recommendedStats.get(i).getForType(DEX));
-            putInt(minimumStats.get(i).getForType(DEX));
+            writeInt(maximumStats.get(i).getForType(DEX));
+            writeInt(recommendedStats.get(i).getForType(DEX));
+            writeInt(minimumStats.get(i).getForType(DEX));
 
             // CON
-            putInt(maximumStats.get(i).getForType(CON));
-            putInt(recommendedStats.get(i).getForType(CON));
-            putInt(minimumStats.get(i).getForType(CON));
+            writeInt(maximumStats.get(i).getForType(CON));
+            writeInt(recommendedStats.get(i).getForType(CON));
+            writeInt(minimumStats.get(i).getForType(CON));
 
             // INT
-            putInt(maximumStats.get(i).getForType(INT));
-            putInt(recommendedStats.get(i).getForType(INT));
-            putInt(minimumStats.get(i).getForType(INT));
+            writeInt(maximumStats.get(i).getForType(INT));
+            writeInt(recommendedStats.get(i).getForType(INT));
+            writeInt(minimumStats.get(i).getForType(INT));
 
             // WIT
-            putInt(maximumStats.get(i).getForType(WIT));
-            putInt(recommendedStats.get(i).getForType(WIT));
-            putInt(minimumStats.get(i).getForType(WIT));
+            writeInt(maximumStats.get(i).getForType(WIT));
+            writeInt(recommendedStats.get(i).getForType(WIT));
+            writeInt(minimumStats.get(i).getForType(WIT));
 
             // WIT
-            putInt(maximumStats.get(i).getForType(MEN));
-            putInt(recommendedStats.get(i).getForType(MEN));
-            putInt(minimumStats.get(i).getForType(MEN));
+            writeInt(maximumStats.get(i).getForType(MEN));
+            writeInt(recommendedStats.get(i).getForType(MEN));
+            writeInt(minimumStats.get(i).getForType(MEN));
         }
     }
 }

@@ -2,7 +2,6 @@ package ru.jts_dev.gameserver.packets.out;
 
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
-import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
 
@@ -11,57 +10,52 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
  * @since 03.01.16
  */
 public class CharacterSelected extends OutgoingMessageWrapper {
-    private GameCharacter character;
-    private int playKey;
+    private static final int ZEROS_LENGTH = 84;
+    private final GameCharacter character;
+    private final int playKey;
 
-    public CharacterSelected(GameCharacter character, int playKey) {
+    public CharacterSelected(final GameCharacter character, final int playKey) {
         this.character = character;
         this.playKey = playKey;
     }
 
     @Override
     public void write() {
-        putByte(0x0B);
+        writeByte(0x0B);
 
-        putString(character.getName());
-        putInt(character.getObjectId());
-        putString(""); // title
-        putInt(playKey);
-        putInt(0); // clanId
-        putInt(0x00); // ??
-        putInt(character.getSex());
-        putInt(character.getStat().getRace().getId());
-        putInt(character.getStat().getClass_().getId());
-        putInt(0x01); // active ??
-        putInt((int) character.getVector3D().getX());
-        putInt((int) character.getVector3D().getY());
-        putInt((int) character.getVector3D().getZ());
+        writeString(character.getName());
+        writeInt(character.getObjectId());
+        writeString(""); // title
+        writeInt(playKey);
+        writeInt(0); // clanId
+        writeInt(0x00); // ??
+        writeInt(character.getSex());
+        writeInt(character.getStat().getRace().getId());
+        writeInt(character.getStat().getClass_().getId());
+        writeInt(0x01); // active ??
+        writeInt((int) character.getVector3D().getX());
+        writeInt((int) character.getVector3D().getY());
+        writeInt((int) character.getVector3D().getZ());
 
-        putDouble(0x00); // hp
-        putDouble(0x00); // mp
-        putInt(character.getSp());
-        putLong(character.getExp());
-        putInt(character.getLevel());
-        putInt(0x00); // karma
-        putInt(0x00);
-        putInt(character.getStat().getForType(INT)); // INT
-        putInt(character.getStat().getForType(STR)); // STR
-        putInt(character.getStat().getForType(CON)); // CON
-        putInt(character.getStat().getForType(MEN)); // MEN
-        putInt(character.getStat().getForType(DEX)); // DEX
-        putInt(character.getStat().getForType(WIT)); // WIT
+        writeDouble(0x00); // hp
+        writeDouble(0x00); // mp
+        writeInt(character.getSp());
+        writeLong(character.getExp());
+        writeInt(character.getLevel());
+        writeInt(0x00); // karma
+        writeInt(0x00); // pk kills
+        writeInt(character.getStat().getForType(INT)); // INT
+        writeInt(character.getStat().getForType(STR)); // STR
+        writeInt(character.getStat().getForType(CON)); // CON
+        writeInt(character.getStat().getForType(MEN)); // MEN
+        writeInt(character.getStat().getForType(DEX)); // DEX
+        writeInt(character.getStat().getForType(WIT)); // WIT
 
-        putInt(0x00); // Game Time
-        putInt(0x00);
+        writeInt(0x00); // Game Time
+        writeInt(0x00);
 
-        putInt(character.getStat().getClass_().getId());
+        writeInt(character.getStat().getClass_().getId());
 
-        putInt(0x00);
-        putInt(0x00);
-        putInt(0x00);
-        putInt(0x00);
-
-        putBytes(new byte[64]);
-        putInt(0x00);
+        writeZero(ZEROS_LENGTH);
     }
 }

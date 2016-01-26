@@ -12,27 +12,40 @@ import java.util.Set;
 public class ServerList extends OutgoingMessageWrapper {
     private final Set<GameServerInfo> gameServers;
 
-    public ServerList(Set<GameServerInfo> gameServers) {
+    public ServerList(final Set<GameServerInfo> gameServers) {
         this.gameServers = gameServers;
     }
 
     @Override
     public void write() {
-        putByte(0x04);
-        putByte(gameServers.size() % Byte.MAX_VALUE);
-        putByte(0x00); // TODO: 09.12.15 Last Server
+        writeByte(0x04);
+        writeByte(gameServers.size());
+        writeByte(0x00); // TODO: 09.12.15 Last Server
 
-        for (GameServerInfo server : gameServers) {
-            putByte(server.getServerId());
-            putBytes(server.getAddress().getAddress());
-            putInt(server.getPort());
-            putBoolean(server.isAgeLimit());
-            putBoolean(server.isPvp());
-            putShort(server.getOnlinePlayers());
-            putShort(server.getMaxPlayers());
-            putBoolean(server.isEnabled());
-            putInt(server.getServerType());
-            putBoolean(server.isBracketsEnabled());
+        for (final GameServerInfo server : gameServers) {
+            writeByte(server.getServerId());
+            writeBytes(server.getAddress().getAddress());
+            writeInt(server.getPort());
+            writeBoolean(server.isAgeLimit());
+            writeBoolean(server.isPvp());
+            writeShort(server.getOnlinePlayers());
+            writeShort(server.getMaxPlayers());
+            writeBoolean(server.isEnabled());
+            writeInt(server.getServerType());
+            writeBoolean(server.isBracketsEnabled());
         }
+
+        writeShort(0x00);
+
+        // TODO: 26.01.16 characters on server
+        writeByte(0); //writeByte(charactersPerServerSize);
+        // iter(charactersPerServer) {
+        //     writeByte(serverId);
+        //     writeByte(charactersCount);
+        //     writeByte(charactersToDeleteFromThisServerSize);
+        //     iter(charactersToDeleteFromThisServer) {
+        //         writeInt(deleteTimeInSeconds);
+        //     }
+        //}
     }
 }

@@ -6,8 +6,8 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
  * @author Camelion
  * @since 08.12.15
  */
-public class GGAuth extends OutgoingMessageWrapper {
-    private int sessionId;
+public final class GGAuth extends OutgoingMessageWrapper {
+    private final int sessionId;
 
     public GGAuth(int sessionId) {
         this.sessionId = sessionId;
@@ -15,11 +15,11 @@ public class GGAuth extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x0B);
-        putInt(sessionId);
-        putInt(0x00);
-        putInt(0x00);
-        putInt(0x00);
-        putInt(0x00);
+        writeByte(0x0B);
+        writeInt(sessionId);
+        writeInt(0x00);
+        writeInt(0x00);
+        writeInt(0x00);
+        writeInt(0x00);
     }
 }

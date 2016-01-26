@@ -43,7 +43,7 @@ dependencies {
     compile("org.hibernate:hibernate-entitymanager:${hibernateVersion}")
     compile("org.hibernate:hibernate-java8:${hibernateVersion}")
 
-    compile('org.apache.activemq:artemis-jms-server:1.1.0')
+    compile("org.apache.activemq:artemis-jms-server:${artemisJmsServerVersion}")
 
     runtime('org.hsqldb:hsqldb')
     runtime('mysql:mysql-connector-java')

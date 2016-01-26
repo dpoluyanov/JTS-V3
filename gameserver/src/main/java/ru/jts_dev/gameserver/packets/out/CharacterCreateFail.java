@@ -35,7 +35,7 @@ public class CharacterCreateFail extends OutgoingMessageWrapper implements Paylo
 
     @Override
     public void write() {
-        putByte(0x10);
-        putInt(errorCode);
+        writeByte(0x10);
+        writeInt(errorCode);
     }
 }

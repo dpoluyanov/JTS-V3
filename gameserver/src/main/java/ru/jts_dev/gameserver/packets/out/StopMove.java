@@ -21,13 +21,13 @@ public class StopMove extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x47);
+        writeByte(0x47);
 
-        putInt(objectId);
+        writeInt(objectId);
 
-        putInt((int) location.getX());
-        putInt((int) location.getY());
-        putInt((int) location.getZ());
-        putInt(heading);
+        writeInt((int) location.getX());
+        writeInt((int) location.getY());
+        writeInt((int) location.getZ());
+        writeInt(heading);
     }
 }

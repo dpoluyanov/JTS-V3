@@ -11,7 +11,7 @@ import ru.jts_dev.gameserver.packets.Opcode;
 public class RequestShortCutReg extends IncomingMessageWrapper {
     @Override
     public void prepare() {
-
+        // TODO: 26.01.16 check data structure
     }
 
     @Override

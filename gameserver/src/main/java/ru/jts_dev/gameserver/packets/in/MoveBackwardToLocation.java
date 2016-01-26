@@ -15,7 +15,7 @@ import ru.jts_dev.gameserver.service.PlayerService;
  * @since 17.12.2015
  */
 @Opcode(0x0F)
-public class MoveBackwardToLocation extends IncomingMessageWrapper {
+public final class MoveBackwardToLocation extends IncomingMessageWrapper {
     @Autowired
     private MovementService movementService;
     @Autowired
@@ -23,6 +23,7 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
     @Autowired
     private PlayerService playerService;
 
+    public static final int MAGIC_NUMBER = 27;
     private int targetX;
     private int targetY;
     private int targetZ;
@@ -44,13 +45,15 @@ public class MoveBackwardToLocation extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        if (movementType == 1)
-            targetZ += 27;
+        // TODO: 26.01.16 check (and remove?) this magic
+        if (movementType == 1) {
+            targetZ += MAGIC_NUMBER;
+        }
 
         // TODO: 06.01.16
-        GameSession session = sessionService.getSessionBy(getConnectionId());
-        GameCharacter character = playerService.getCharacterBy(getConnectionId());
-        Vector3D end = new Vector3D(targetX, targetY, targetZ);
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
+        final GameCharacter character = playerService.getCharacterBy(getConnectionId());
+        final Vector3D end = new Vector3D(targetX, targetY, targetZ);
 
         movementService.moveTo(session, character, end);
     }

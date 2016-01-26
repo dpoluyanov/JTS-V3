@@ -26,7 +26,7 @@ public class LoginFail extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x0A);
-        putInt(errorCode);
+        writeByte(0x0A);
+        writeInt(errorCode);
     }
 }

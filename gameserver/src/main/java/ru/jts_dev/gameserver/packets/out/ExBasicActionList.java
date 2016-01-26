@@ -18,12 +18,12 @@ public class ExBasicActionList extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0xFE);
-        putShort(0x5F);
+        writeByte(0xFE);
+        writeShort(0x5F);
 
-        putInt(actions.size());
+        writeInt(actions.size());
         for (Action action : actions) {
-            putInt(action.getId());
+            writeInt(action.getId());
         }
     }
 }

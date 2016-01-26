@@ -48,7 +48,7 @@ public class ProtocolByteArrayLengthHeaderSerializer extends ByteArrayLengthHead
     }
 
     @Override
-    protected int readHeader(InputStream inputStream) throws IOException {
+    protected int readHeader(InputStream inputStream) throws IOException, RuntimeException, SoftEndOfStreamException {
         byte[] lengthPart = new byte[this.headerSize];
         try {
             int status = read(inputStream, lengthPart, true);
@@ -56,7 +56,7 @@ public class ProtocolByteArrayLengthHeaderSerializer extends ByteArrayLengthHead
                 throw new SoftEndOfStreamException("Stream closed between payloads");
             }
             int messageLength;
-            switch (this.headerSize) {
+            switch (headerSize) {
                 case HEADER_SIZE_INT:
                     messageLength = ByteBuffer.wrap(lengthPart).order(LITTLE_ENDIAN).getInt();
                     if (messageLength < 0) {
@@ -77,10 +77,7 @@ public class ProtocolByteArrayLengthHeaderSerializer extends ByteArrayLengthHead
 
             messageLength -= headerSize; // substract header size from data
             return messageLength;
-        } catch (SoftEndOfStreamException e) {
-            throw e;
-        } catch (IOException | RuntimeException e) {
-            publishEvent(e, lengthPart, -1);
+        } catch (final SoftEndOfStreamException e) {
             throw e;
         }
     }

@@ -15,13 +15,13 @@ public class VersionCheck extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x2E);
-        putByte(0x01); // 0 - wrong protocol, 1 protocol ok
-        putBytes(key);
-        putInt(0x01);
-        putInt(0x01); // TODO: 13.12.15 serverId?
-        putByte(0x00);
+        writeByte(0x2E);
+        writeByte(0x01); // 0 - wrong protocol, 1 protocol ok
+        writeBytes(key);
+        writeInt(0x01);
+        writeInt(0x01); // TODO: 13.12.15 serverId?
+        writeByte(0x00);
         // TODO: 13.12.15 obfuscation: https://github.com/l2jfree/svn/blob/15e8c48533246d30712806a099f09d17b522f86b/branches/genesis/l2jfree-core/src/main/java/com/l2jfree/gameserver/network/client/packets/sendable/characterless/VersionCheck.java
-        putInt(0x00); // Seed (obfuscation key)
+        writeInt(0x00); // Seed (obfuscation key)
     }
 }

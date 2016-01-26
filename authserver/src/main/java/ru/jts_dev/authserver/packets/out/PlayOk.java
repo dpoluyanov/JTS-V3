@@ -6,7 +6,7 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
  * @author Camelion
  * @since 11.12.15
  */
-public class PlayOk extends OutgoingMessageWrapper {
+public final class PlayOk extends OutgoingMessageWrapper {
     private final int key1;
     private final int key2;
 
@@ -17,8 +17,8 @@ public class PlayOk extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x07);
-        putInt(key1);
-        putInt(key2);
+        writeByte(0x07);
+        writeInt(key1);
+        writeInt(key2);
     }
 }

@@ -14,10 +14,7 @@ public final class BitSetAllocator {
     private int bitsAvailable;
     private Condition availableCond;
 
-    public BitSetAllocator(int bitSetSize) {
-        if (bitSetSize < 0) {
-            throw new RuntimeException("bitSetSize must be >= 0");
-        }
+    public BitSetAllocator(final int bitSetSize) {
         this.bitSetSize = bitSetSize;
         bitsAvailable = bitSetSize;
         bits = new BitSet(bitSetSize);

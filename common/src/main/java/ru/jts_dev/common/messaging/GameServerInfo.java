@@ -10,6 +10,7 @@ import java.util.Objects;
  */
 // TODO: 09.12.15 move to Spring Configuration and send from game server
 public class GameServerInfo implements Serializable {
+    private static final long serialVersionUID = -4579722245610189116L;
     private final int serverId;
     private final InetAddress address;
     private final int port;
@@ -21,64 +22,64 @@ public class GameServerInfo implements Serializable {
     private int serverType;
     private boolean bracketsEnabled;
 
-    public GameServerInfo(int serverId, InetAddress address, int port) {
+    public GameServerInfo(final int serverId, final InetAddress address, final int port) {
         this.serverId = serverId;
         this.address = address;
         this.port = port;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    public final boolean equals(final Object obj) {
+        if (this == obj)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
-        GameServerInfo that = (GameServerInfo) o;
-        return getServerId() == that.getServerId();
+        final GameServerInfo gameServerInfo = (GameServerInfo) obj;
+        return serverId == gameServerInfo.serverId;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getServerId());
+    public final int hashCode() {
+        return Objects.hash(serverId);
     }
 
-    public int getServerId() {
+    public final int getServerId() {
         return serverId;
     }
 
-    public InetAddress getAddress() {
+    public final InetAddress getAddress() {
         return address;
     }
 
-    public int getPort() {
+    public final int getPort() {
         return port;
     }
 
-    public boolean isAgeLimit() {
+    public final boolean isAgeLimit() {
         return ageLimit;
     }
 
-    public boolean isPvp() {
+    public final boolean isPvp() {
         return pvp;
     }
 
-    public int getOnlinePlayers() {
+    public final int getOnlinePlayers() {
         return onlinePlayers;
     }
 
-    public int getMaxPlayers() {
+    public final int getMaxPlayers() {
         return maxPlayers;
     }
 
-    public boolean isEnabled() {
+    public final boolean isEnabled() {
         return enabled;
     }
 
-    public int getServerType() {
+    public final int getServerType() {
         return serverType;
     }
 
-    public boolean isBracketsEnabled() {
+    public final boolean isBracketsEnabled() {
         return bracketsEnabled;
     }
 }

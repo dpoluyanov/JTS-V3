@@ -16,12 +16,11 @@ public class FinishRotating extends OutgoingMessageWrapper {
 
     @Override
     public final void write() {
-        putByte(0xFE);
-        putShort(0xC1);
+        writeByte(0x61);
 
-        putInt(charId);
-        putInt(degree);
-        putInt(speed);
-        putInt(0x00); // TODO
+        writeInt(charId);
+        writeInt(degree);
+        writeInt(speed);
+        writeByte(0x00); // TODO
     }
 }

@@ -27,7 +27,7 @@ public class Logout extends IncomingMessageWrapper {
     @Override
     public void run() {
         // client close session by himself
-        GameSession session = sessionService.getSessionBy(getConnectionId());
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
         broadcastService.send(session, LeaveWorld.PACKET);
         sessionService.forcedClose(session);
     }

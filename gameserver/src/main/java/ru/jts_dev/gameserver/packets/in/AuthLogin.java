@@ -11,6 +11,7 @@ import ru.jts_dev.gameserver.packets.out.CharacterSelectionInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
+import ru.jts_dev.gameserver.service.GameSessionService.AccountEvent;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class AuthLogin extends IncomingMessageWrapper {
     private GameServerConfig gameServerConfig;
 
     @Override
-    public void prepare() {
+    public final void prepare() {
         login = readString();
         playKey2 = readInt();
         playKey1 = readInt();
@@ -53,13 +54,13 @@ public class AuthLogin extends IncomingMessageWrapper {
     }
 
     @Override
-    public void run() {
-        GameSession session = sessionService.getSessionBy(getConnectionId());
+    public final void run() {
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
         session.setPlayKey(playKey1);
 
-        publisher.publishEvent(new GameSessionService.AccountEvent(getConnectionId(), login));
+        publisher.publishEvent(new AccountEvent(getConnectionId(), login));
 
-        List<GameCharacter> characters = repository.findAllByAccountName(login);
+        final List<GameCharacter> characters = repository.findAllByAccountName(login);
 
         // TODO: 13.12.15 additional playkey check with authserver session keys
         broadcastService.send(session,

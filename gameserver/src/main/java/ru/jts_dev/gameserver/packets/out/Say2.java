@@ -78,33 +78,33 @@ public class Say2 extends OutgoingMessageWrapper implements Payload {
 
     @Override
     public void write() {
-        putByte(0x4a);
+        writeByte(0x4a);
 
-        putInt(objectId);
-        putInt(textType);
+        writeInt(objectId);
+        writeInt(textType);
 
         if (textType == 11) {
-            putInt(charId);
-            putInt(npcString);
+            writeInt(charId);
+            writeInt(npcString);
         } else {
             if (charName != null) {
-                putString(charName);
-                putInt(npcString);
-                putString(text);
-                putByte(friendType);
-                putByte(level);
+                writeString(charName);
+                writeInt(npcString);
+                writeString(text);
+                writeByte(friendType);
+                writeByte(level);
             } else if (npcString == -1) {
-                putString("");
-                putInt(npcString);
-                putString(text);
-                putByte(friendType);
-                putByte(level);
+                writeString("");
+                writeInt(npcString);
+                writeString(text);
+                writeByte(friendType);
+                writeByte(level);
             } else {
-                putString("");
-                putInt(npcString);
+                writeString("");
+                writeInt(npcString);
                 if (parameters != null) {
                     // SSSSS
-                    parameters.forEach(this::putString);
+                    parameters.forEach(this::writeString);
                 }
             }
         }

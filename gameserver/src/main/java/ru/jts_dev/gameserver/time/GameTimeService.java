@@ -83,7 +83,7 @@ public class GameTimeService {
         if (oldHour != newHour) {
             // update time for all players
             long gameTimeInMinutes = getGameTimeInMinutes();
-            broadcastService.sendToAll(new ClientSetTime(gameTimeInMinutes));
+            broadcastService.sendToAll(new ClientSetTime((int) gameTimeInMinutes));
 
             boolean nowDay = isNowDay();
 

@@ -18,16 +18,18 @@ public class BroadcastService {
     @Autowired
     private MessageChannel packetChannel;
 
-    public void send(String connectionId, OutgoingMessageWrapper message) {
+    public void send(final String connectionId, final OutgoingMessageWrapper message) {
         message.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
         packetChannel.send(message);
     }
 
-    public void send(GameSession session, OutgoingMessageWrapper message) {
+    public void send(final GameSession session, final OutgoingMessageWrapper message) {
         send(session.getConnectionId(), message);
     }
 
-    public void sendToAll(OutgoingMessageWrapper message) {
-        sessionService.getSessions().values().forEach(gameSession -> send(gameSession.getConnectionId(), message));
+    public void sendToAll(final OutgoingMessageWrapper message) {
+        sessionService.getSessions().values()
+                .parallelStream()
+                .forEach(gameSession -> send(gameSession.getConnectionId(), message));
     }
 }

@@ -14,8 +14,8 @@ public class CharacterCreateSuccess extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x0F);
+        writeByte(0x0F);
 
-        putInt(0x01);
+        writeInt(0x01);
     }
 }

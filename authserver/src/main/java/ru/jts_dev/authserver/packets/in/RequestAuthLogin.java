@@ -29,8 +29,9 @@ import static ru.jts_dev.authserver.packets.out.LoginFail.REASON_USER_OR_PASS_WR
  */
 @Component
 @Scope(SCOPE_PROTOTYPE)
-public class RequestAuthLogin extends IncomingMessageWrapper {
+public final class RequestAuthLogin extends IncomingMessageWrapper {
     private static final Logger log = LoggerFactory.getLogger(RequestAuthLogin.class);
+    private static final int LENGTH = 128;
 
     @Autowired
     private AuthSessionService authSessionService;
@@ -54,7 +55,7 @@ public class RequestAuthLogin extends IncomingMessageWrapper {
 
     @Override
     public void prepare() {
-        data = readBytes(128);
+        data = readBytes(LENGTH);
     }
 
     @Override

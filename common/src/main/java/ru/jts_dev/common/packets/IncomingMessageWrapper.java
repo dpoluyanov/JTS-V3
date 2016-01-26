@@ -11,24 +11,25 @@ import org.springframework.messaging.MessageHeaders;
  * @since 06.12.15
  */
 public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnable {
+    public static final char EOS = '\0';
     private final MessageHeaders headers;
-    private ByteBuf buffer;
+    private ByteBuf payload;
 
-    public IncomingMessageWrapper() {
+    protected IncomingMessageWrapper() {
         headers = new MutableMessageHeaders(null);
     }
 
     @Override
-    public ByteBuf getPayload() {
-        return buffer;
+    public final ByteBuf getPayload() {
+        return payload;
     }
 
-    public void setPayload(ByteBuf buffer) {
-        this.buffer = buffer;
+    public final void setPayload(final ByteBuf payload) {
+        this.payload = payload;
     }
 
     @Override
-    public MessageHeaders getHeaders() {
+    public final MessageHeaders getHeaders() {
         return headers;
     }
 
@@ -38,54 +39,54 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
     public abstract void prepare();
 
 
-    public byte readByte() {
-        if (buffer.readableBytes() < Byte.BYTES)
-            throw new IndexOutOfBoundsException("At least 1 byte1 must be readable in buffer");
+    public final byte readByte() {
+        if (payload.readableBytes() < Byte.BYTES)
+            throw new IndexOutOfBoundsException("At least 1 byte1 must be readable in payload");
 
-        return buffer.readByte();
+        return payload.readByte();
     }
 
-    public int readShort() {
-        if (buffer.readableBytes() < Short.BYTES)
-            throw new IndexOutOfBoundsException("At least 2 bytes must be readable in buffer");
+    public final int readShort() {
+        if (payload.readableBytes() < Short.BYTES)
+            throw new IndexOutOfBoundsException("At least 2 bytes must be readable in payload");
 
-        return buffer.readShort();
+        return payload.readShort();
     }
 
-    public int readInt() {
-        if (buffer.readableBytes() < Integer.BYTES)
-            throw new IndexOutOfBoundsException("At least 4 bytes must be readable in buffer");
+    public final int readInt() {
+        if (payload.readableBytes() < Integer.BYTES)
+            throw new IndexOutOfBoundsException("At least 4 bytes must be readable in payload");
 
-        return buffer.readInt();
+        return payload.readInt();
     }
 
-    public String readString() {
-        final StringBuilder sb = new StringBuilder();
+    public final String readString() {
+        final StringBuilder sb = new StringBuilder(32);
         char ch;
-        while ((ch = buffer.readChar()) != '\0') {
+        while ((ch = payload.readChar()) != EOS) {
             sb.append(ch);
         }
         return sb.toString();
     }
 
-    public byte[] readBytes(int length) {
-        if (buffer.readableBytes() < length)
-            throw new IndexOutOfBoundsException("At least 4 bytes must be readable in buffer");
+    public final byte[] readBytes(final int length) {
+        if (payload.readableBytes() < length)
+            throw new IndexOutOfBoundsException("At least 4 bytes must be readable in payload");
 
-        byte[] data = new byte[length];
-        buffer.readBytes(data);
+        final byte[] data = new byte[length];
+        payload.readBytes(data);
 
         return data;
     }
 
-    public String getConnectionId() {
-        if (!getHeaders().containsKey(IpHeaders.CONNECTION_ID))
+    public final String getConnectionId() {
+        if (!headers.containsKey(IpHeaders.CONNECTION_ID))
             throw new RuntimeException("connectionId header not present in headers");
-        return (String) getHeaders().get(IpHeaders.CONNECTION_ID);
+        return (String) headers.get(IpHeaders.CONNECTION_ID);
     }
 
-    public <E extends Enum<?>> E readIntAs(Class<E> enumClass) {
-        int value = readInt();
+    public final <E extends Enum<?>> E readIntAs(final Class<E> enumClass) {
+        final int value = readInt();
 
         if (value < 0 || value > enumClass.getEnumConstants().length)
             throw new IndexOutOfBoundsException("value " + value + " not in enum constants of " + enumClass.getName());
@@ -94,12 +95,12 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
     }
 
     /**
-     * free buffer after preparing packet and release Netty ByteBuf
+     * free payload after preparing packet and release Netty ByteBuf
      *
      * @see #prepare()
      * @see ByteBuf#release()
      */
-    public void release() {
-        getPayload().release();
+    public final void release() {
+        payload.release();
     }
 }

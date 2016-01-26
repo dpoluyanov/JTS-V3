@@ -13,7 +13,7 @@ public class MoveToLocation extends OutgoingMessageWrapper {
     private final Vector3D location;
     private final Vector3D end;
 
-    public MoveToLocation(GameCharacter character, Vector3D end) {
+    public MoveToLocation(final GameCharacter character, final Vector3D end) {
         objectId = character.getObjectId();
         location = character.getVector3D();
         this.end = end;
@@ -21,16 +21,16 @@ public class MoveToLocation extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x2F);
+        writeByte(0x2F);
 
-        putInt(objectId);
+        writeInt(objectId);
 
-        putInt((int) end.getX());
-        putInt((int) end.getY());
-        putInt((int) end.getZ());
+        writeInt((int) end.getX());
+        writeInt((int) end.getY());
+        writeInt((int) end.getZ());
 
-        putInt((int) location.getX());
-        putInt((int) location.getY());
-        putInt((int) location.getZ());
+        writeInt((int) location.getX());
+        writeInt((int) location.getY());
+        writeInt((int) location.getZ());
     }
 }

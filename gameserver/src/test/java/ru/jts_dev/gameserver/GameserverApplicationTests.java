@@ -11,10 +11,10 @@ import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
 @SpringApplicationConfiguration(classes = GameServerApplication.class)
 public class GameserverApplicationTests {
 
-	@Autowired
-	private PcParametersHolder PcParametersHolder;
+    @Autowired
+    private PcParametersHolder PcParametersHolder;
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 }

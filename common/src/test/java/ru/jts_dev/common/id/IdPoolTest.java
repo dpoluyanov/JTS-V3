@@ -3,6 +3,7 @@ package ru.jts_dev.common.id;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,7 +23,8 @@ public class IdPoolTest {
     @Autowired
     private IdPool idPool;
 
-    @Test
+    @DirtiesContext
+    @Test(timeout = 700L)
     public void testIdBorrow() throws Exception {
         IntStream.rangeClosed(0, 10_000).forEach(value -> {
             int id = idPool.borrow();
@@ -37,6 +39,8 @@ public class IdPoolTest {
 
     @Test
     public void testIdRelease() throws Exception {
+        IntStream.rangeClosed(0, 20_000).forEach(value -> idPool.borrow());
+
         IntStream.rangeClosed(0, 20_000).parallel().forEach(value -> {
             idPool.release(value);
         });

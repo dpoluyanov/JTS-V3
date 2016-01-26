@@ -8,6 +8,7 @@ import org.springframework.messaging.MessageHeaders;
 import java.nio.ByteOrder;
 
 import static io.netty.buffer.Unpooled.buffer;
+import static ru.jts_dev.common.packets.IncomingMessageWrapper.EOS;
 
 /**
  * @author Camelion
@@ -17,18 +18,18 @@ public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
     private final ByteBuf buffer;
     private final MessageHeaders headers;
 
-    public OutgoingMessageWrapper() {
+    protected OutgoingMessageWrapper() {
         buffer = buffer().order(ByteOrder.LITTLE_ENDIAN);
         headers = new MutableMessageHeaders(null);
     }
 
     @Override
-    public ByteBuf getPayload() {
+    public final ByteBuf getPayload() {
         return buffer;
     }
 
     @Override
-    public MessageHeaders getHeaders() {
+    public final MessageHeaders getHeaders() {
         return headers;
     }
 
@@ -37,50 +38,47 @@ public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
      */
     public abstract void write();
 
-    protected void putByte(int b) {
-        buffer.writeByte(b);
+    protected final void writeByte(final int i) {
+        buffer.writeByte(i);
     }
 
     /**
      * write boolean to byte, true == 0x01, false = 0x00
      *
-     * @param b - boolean value for writing
+     * @param bool - boolean value for writing
      */
-    protected void putBoolean(boolean b) {
-        buffer.writeBoolean(b);
+    protected final void writeBoolean(final boolean bool) {
+        buffer.writeBoolean(bool);
     }
 
-    protected void putShort(int s) {
-        buffer.writeShort(s);
+    protected final void writeShort(final int i) {
+        buffer.writeShort(i);
     }
 
-    protected void putInt(int i) {
+    protected final void writeInt(final int i) {
         buffer.writeInt(i);
     }
 
-    protected void putLong(long l) {
+    protected final void writeLong(final long l) {
         buffer.writeLong(l);
     }
 
-    protected void putDouble(double d) {
+    protected final void writeDouble(final double d) {
         buffer.writeDouble(d);
     }
 
-    protected void putBytes(byte[] data) {
+    protected final void writeBytes(final byte... data) {
         buffer.writeBytes(data);
     }
 
-    protected void putString(String str) {
-        for (int i = 0; i < str.length(); i++) {
-            buffer.writeChar(str.charAt(i));
-        }
-        buffer.writeChar('\0');
+    protected final void writeZero(final int length) {
+        buffer.writeZero(length);
     }
 
-    protected void putArray(int[] array) {
-        buffer.writeInt(array.length);
-        for (int i : array) {
-            buffer.writeInt(i);
+    protected final void writeString(final CharSequence cs) {
+        for (int i = 0; i < cs.length(); i++) {
+            buffer.writeChar(cs.charAt(i));
         }
+        buffer.writeChar(EOS);
     }
 }

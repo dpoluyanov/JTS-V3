@@ -41,10 +41,10 @@ public class ValidatePosition extends IncomingMessageWrapper {
     @Override
     public void run() {
         // TODO
-        GameSession session = sessionService.getSessionBy(getConnectionId());
-        GameCharacter character = playerService.getCharacterBy(getConnectionId());
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
+        final GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        int clientHeading = rotationUtils.convertAngleToClientHeading(character.getRotation().getAngle());
+        final int clientHeading = rotationUtils.convertAngleToClientHeading(character.getRotation().getAngle());
         broadcastService.send(session, new ValidateLocation(character, clientHeading));
     }
 }

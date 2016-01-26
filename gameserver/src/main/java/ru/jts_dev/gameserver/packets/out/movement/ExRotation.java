@@ -13,8 +13,9 @@ public class ExRotation extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x0F);
-        putInt(charObjId);
-        putInt(degree);
+        writeByte(0xFE);
+        writeShort(0xC1);
+        writeInt(charObjId);
+        writeInt(degree);
     }
 }

@@ -18,7 +18,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  */
 @Component
 @Scope(SCOPE_PROTOTYPE)
-public final class BitSetIdPool implements IdPool {
+public class BitSetIdPool implements IdPool {
     private final Logger logger = LoggerFactory.getLogger(BitSetIdPool.class);
 
     private final BitSetAllocator allocator = new BitSetAllocator(Integer.MAX_VALUE);

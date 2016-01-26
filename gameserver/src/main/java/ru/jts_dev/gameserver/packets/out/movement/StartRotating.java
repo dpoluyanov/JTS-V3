@@ -22,10 +22,10 @@ public class StartRotating extends OutgoingMessageWrapper {
 
     @Override
     public final void write() {
-        putByte(0x7a);
-        putInt(charId);
-        putInt(degree);
-        putInt(side); // side (1 = right, -1 = left)
-        putInt(speed);
+        writeByte(0x7a);
+        writeInt(charId);
+        writeInt(degree);
+        writeInt(side); // side (1 = right, -1 = left)
+        writeInt(speed);
     }
 }

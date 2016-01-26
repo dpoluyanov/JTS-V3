@@ -79,6 +79,7 @@ dependencies {
 dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testRuntime('org.hsqldb:hsqldb')
+    testRuntime("org.apache.activemq:artemis-jms-server:${artemisJmsServerVersion}")
 }
 
 compileJava.dependsOn(processResources)

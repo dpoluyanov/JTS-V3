@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.not;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {HtmRepositoryConfig.class, HtmRepository.class, CacheConfig.class})
-//@SpringApplicationConfiguration(classes = GameServerApplication.class)
 public class HtmRepositoryTest {
     @Autowired
     private HtmRepository htmRepository;

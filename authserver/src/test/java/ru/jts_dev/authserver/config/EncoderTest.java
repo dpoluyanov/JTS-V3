@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.jts_dev.authserver.service.AuthSessionService;
 import ru.jts_dev.authserver.util.Encoder;
 import ru.jts_dev.common.config.UtilsConfig;
+import ru.jts_dev.common.id.BitSetIdPool;
+import ru.jts_dev.common.id.IdPool;
 
 import java.util.Random;
 
@@ -26,7 +28,8 @@ import static org.hamcrest.Matchers.not;
         Encoder.class,
         UtilsConfig.class,
         AuthSessionService.class,
-        KeyGenerationConfig.class
+        KeyGenerationConfig.class,
+        BitSetIdPool.class
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class EncoderTest extends Assert {

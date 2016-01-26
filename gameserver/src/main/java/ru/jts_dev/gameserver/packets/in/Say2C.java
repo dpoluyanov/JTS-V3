@@ -39,17 +39,14 @@ public class Say2C extends IncomingMessageWrapper {
     @Override
     public void prepare() {
         text = readString();
-        type = ChatType.values()[readInt()];
+        type = readIntAs(ChatType.class);
         target = type == ChatType.TELL ? readString() : null;
     }
 
     @Override
     public void run() {
-        GameSession session = sessionService.getSessionBy(getConnectionId());
-        GameCharacter character = playerService.getCharacterBy(getConnectionId());
-        if (character == null) {
-            return;
-        }
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
+        final GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
         if (type == null) {
             log.warn("Say2: Invalid type: {} Player : {} text: {}", type, character.getName(), text);

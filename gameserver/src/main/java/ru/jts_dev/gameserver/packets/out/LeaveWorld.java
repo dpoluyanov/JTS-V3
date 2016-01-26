@@ -14,6 +14,6 @@ public class LeaveWorld extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x84);
+        writeByte(0x84);
     }
 }

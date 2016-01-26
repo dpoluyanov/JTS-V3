@@ -23,103 +23,106 @@ public class CharacterSelectionInfo extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x09);
-        putInt(characters.size());
+        writeByte(0x09);
+        writeInt(characters.size());
 
-        putInt(MAX_CHARACTERS_CREATE_SIZE);
-        putByte(charCreationDisabled ? 0x01 : 0x00); // enable character creation restriction?
+        writeInt(MAX_CHARACTERS_CREATE_SIZE);
+        writeByte(charCreationDisabled ? 0x01 : 0x00); // enable character creation restriction?
         for (GameCharacter character : characters) {
-            putString(character.getName()); // Name
-            putInt(character.getObjectId()); // Char ID(objectID)
-            putString(character.getLogin()); // Login account name
-            putInt(playKey); // Session ID
-            putInt(0x00); // Clan ID
-            putInt(0x00); // ??
+            writeString(character.getName()); // Name
+            writeInt(character.getObjectId()); // Char ID(objectID)
+            writeString(character.getLogin()); // Login account name
+            writeInt(playKey); // Session ID
+            writeInt(0x00); // Clan ID
+            writeInt(0x00); // ??
 
-            putInt(character.getSex()); // Sex
-            putInt(character.getStat().getRace().getId()); // Race
+            writeInt(character.getSex()); // Sex
+            writeInt(character.getStat().getRace().getId()); // Race
 
-            putInt(character.getStat().getClass_().getId()); // Class ID
+            writeInt(character.getStat().getClass_().getId()); // Class ID
 
-            putInt(0x01); // activate char? (0x00 not active)
+            writeInt(0x01); // activate char? (0x00 not active)
 
-            putInt((int) character.getVector3D().getX()); // x
-            putInt((int) character.getVector3D().getY()); // y
-            putInt((int) character.getVector3D().getZ()); // z
+            writeInt((int) character.getVector3D().getX()); // x
+            writeInt((int) character.getVector3D().getY()); // y
+            writeInt((int) character.getVector3D().getZ()); // z
 
-            putDouble(character.getHp()); // hp cur
-            putDouble(character.getMp()); // mp cur
+            writeDouble(character.getHp()); // hp cur
+            writeDouble(character.getMp()); // mp cur
 
-            putInt(character.getSp()); // SP
-            putLong(character.getExp()); // EXP
-            putInt(character.getLevel()); // LEVEL
+            writeInt(character.getSp()); // SP
+            writeLong(character.getExp()); // EXP
+            writeDouble(0x00); // TODO: 26.01.16 exp percent
+            writeInt(character.getLevel());
 
-            putInt(0x00); // karma
-            putInt(0x00); // PK Kills
-            putInt(0x00); // PVP Kills
+            writeInt(0x00); // karma
+            writeInt(0x00); // PK Kills
+            writeInt(0x00); // PVP Kills
 
-            putInt(0x00);
-            putInt(0x00);
-            putInt(0x00);
-            putInt(0x00);
-            putInt(0x00);
-            putInt(0x00);
-            putInt(0x00);
+            writeInt(0x00);
+            writeInt(0x00);
+            writeInt(0x00);
+            writeInt(0x00);
+            writeInt(0x00);
+            writeInt(0x00);
+            writeInt(0x00);
 
-            putInt(0x00); // Hair
-            putInt(0x00); // REarning
-            putInt(0x00); // LEarning slot
-            putInt(0x00); // Necklacke
-            putInt(0x00); // RFinger
-            putInt(0x00); // LFinger
-            putInt(0x00); // Head
-            putInt(0x00); // RHand
-            putInt(0x00); // LHand
-            putInt(0x00); // Gloves
-            putInt(0x00); // Chest
-            putInt(0x00); // Legs
-            putInt(0x00); // Feet
-            putInt(0x00); // Back
-            putInt(0x00); // LRHand
-            putInt(0x00); // Hair
-            putInt(0x00); // Hair 2
+            writeInt(0x00); // Hair
+            writeInt(0x00); // REarning
+            writeInt(0x00); // LEarning slot
+            writeInt(0x00); // Necklacke
+            writeInt(0x00); // RFinger
+            writeInt(0x00); // LFinger
+            writeInt(0x00); // Head
+            writeInt(0x00); // RHand
+            writeInt(0x00); // LHand
+            writeInt(0x00); // Gloves
+            writeInt(0x00); // Chest
+            writeInt(0x00); // Legs
+            writeInt(0x00); // Feet
+            writeInt(0x00); // Back
+            writeInt(0x00); // LRHand
+            writeInt(0x00); // Hair
+            writeInt(0x00); // Hair 2
 
-            putInt(0x00); // Bracelet
-            putInt(0x00); // Bracelet
-            putInt(0x00); // Deco 1
-            putInt(0x00); // Deco 2
-            putInt(0x00); // Deco 3
-            putInt(0x00); // Deco 4
-            putInt(0x00); // Deco 5
-            putInt(0x00); // Deco 6
-            putInt(0x00); // Belt
+            writeInt(0x00); // Bracelet
+            writeInt(0x00); // Bracelet
+            writeInt(0x00); // Deco 1
+            writeInt(0x00); // Deco 2
+            writeInt(0x00); // Deco 3
+            writeInt(0x00); // Deco 4
+            writeInt(0x00); // Deco 5
+            writeInt(0x00); // Deco 6
+            writeInt(0x00); // Belt
 
-            putInt(character.getHairStyle()); // Hair style
-            putInt(character.getHairColor()); // Hair color
-            putInt(character.getFace()); // Face
+            writeInt(character.getHairStyle()); // Hair style
+            writeInt(character.getHairColor()); // Hair color
+            writeInt(character.getFace()); // Face
 
-            putDouble(character.getMaxHp()); // hp max
-            putDouble(character.getMaxMp()); // mp max
+            writeDouble(character.getMaxHp()); // hp max
+            writeDouble(character.getMaxMp()); // mp max
 
-            putInt(0x00); // days left before
+            writeInt(0x00); // days left before
 
-            putInt(character.getStat().getClass_().getId()); // Class Id
+            writeInt(character.getStat().getClass_().getId()); // Class Id
 
-            putInt(character.isLastUsed() ? 0x01 : 0x00); //c3 auto-select char (0x01 - this char is active)
+            writeInt(character.isLastUsed() ? 0x01 : 0x00); //c3 auto-select char (0x01 - this char is active)
 
-            putByte(0x00); // EnchantEffect
+            writeByte(0x00); // EnchantEffect
 
-            putShort(0x00); // Augmentation Id
-            putShort(0x00); // this is for augmentation too
+            writeShort(0x00); // Augmentation Id
+            writeShort(0x00); // this is for augmentation too
 
-            putInt(0x00); // Transformation ID
+            writeInt(0x00); // Transformation ID
 
-            putInt(0); // npdid - 16024 Tame Tiny Baby Kookaburra A9E89C
-            putInt(0); // level
-            putInt(0); // ?
-            putInt(0); // food? - 1200
-            putInt(0); // max Hp
-            putInt(0); // cur Hp
+            writeInt(0); // npdid - 16024 Tame Tiny Baby Kookaburra A9E89C
+            writeInt(0); // level
+            writeInt(0); // ?
+            writeInt(0); // food? - 1200
+            writeInt(0); // max Hp
+            writeInt(0); // cur Hp
+
+            writeInt(0x00); // vitality points
         }
     }
 }

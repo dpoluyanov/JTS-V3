@@ -4,7 +4,9 @@ import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.devtools.restart.RestartScope;
 import org.springframework.context.ApplicationContext;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.authserver.packets.in.AuthGameGuard;
@@ -26,12 +28,12 @@ public class LoginClientPacketHandler {
     @Autowired
     private ApplicationContext context;
 
-    public IncomingMessageWrapper handle(ByteBuf buf, @Header(CONNECTION_ID) String connectionId) {
+    public final IncomingMessageWrapper handle(final ByteBuf buf, @Header(CONNECTION_ID) final String connectionId) {
         if (buf.readableBytes() == 0)
             throw new RuntimeException("At least 1 readable byte excepted in buffer");
 
-        int opcode = buf.readByte();
-        IncomingMessageWrapper msg;
+        final int opcode = buf.readByte();
+        final IncomingMessageWrapper msg;
         switch (opcode) {
             case 0x00:
                 msg = context.getBean(RequestAuthLogin.class);
@@ -49,11 +51,13 @@ public class LoginClientPacketHandler {
                 throw new RuntimeException("Invalid packet opcode: " + Integer.toHexString(opcode));
         }
 
-        ByteBuf data = buf.slice();
+        final ByteBuf data = buf.slice();
 
-        log.trace("received packet: " + msg.getClass().getSimpleName() + ", length: " + data.readableBytes());
+        Class<? extends IncomingMessageWrapper> packetClass = msg.getClass();
+        log.trace("received packet: {}, length: {}", packetClass.getSimpleName(), data.readableBytes());
 
-        msg.getHeaders().put(CONNECTION_ID, connectionId);
+        final MessageHeaders headers = msg.getHeaders();
+        headers.put(CONNECTION_ID, connectionId);
         msg.setPayload(data);
 
         return msg;

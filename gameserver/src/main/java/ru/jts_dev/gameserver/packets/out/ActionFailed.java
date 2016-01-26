@@ -14,6 +14,6 @@ public class ActionFailed extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x1F);
+        writeByte(0x1F);
     }
 }

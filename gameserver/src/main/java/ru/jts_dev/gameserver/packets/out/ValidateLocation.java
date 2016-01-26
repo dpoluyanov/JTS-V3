@@ -21,13 +21,13 @@ public class ValidateLocation extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        putByte(0x79);
+        writeByte(0x79);
 
-        putInt(objectId);
+        writeInt(objectId);
 
-        putInt((int) location.getX());
-        putInt((int) location.getY());
-        putInt((int) location.getZ());
-        putInt(heading);
+        writeInt((int) location.getX());
+        writeInt((int) location.getY());
+        writeInt((int) location.getZ());
+        writeInt(heading);
     }
 }
