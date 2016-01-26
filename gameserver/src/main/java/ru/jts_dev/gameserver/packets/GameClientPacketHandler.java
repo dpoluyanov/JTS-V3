@@ -22,6 +22,7 @@ import static ru.jts_dev.gameserver.packets.Opcode.CLIENT_SWITCH_OPCODE;
  */
 @Component
 public class GameClientPacketHandler {
+    private static final int BYTES_COUNT = -Byte.MIN_VALUE + Byte.MAX_VALUE;
     private static final Logger log = LoggerFactory.getLogger(GameClientPacketHandler.class);
     @Autowired
     private ApplicationContext context;
@@ -38,18 +39,18 @@ public class GameClientPacketHandler {
      */
     @PostConstruct
     private void postConstruct() {
-        String[] packetBeanNames = context.getBeanNamesForAnnotation(Opcode.class);
+        final String[] packetBeanNames = context.getBeanNamesForAnnotation(Opcode.class);
 
-        packets = new HashMap<>(0xFF, 1.0f);
-        for (String beanName : packetBeanNames) {
-            Opcode opcode = context.findAnnotationOnBean(beanName, Opcode.class);
+        packets = new HashMap<>(BYTES_COUNT, 1.0f);
+        for (final String beanName : packetBeanNames) {
+            final Opcode opcode = context.findAnnotationOnBean(beanName, Opcode.class);
 
             assert opcode != null : "opcode annotation not present for bean " + beanName;
 
-            int firstOpcode = opcode.first();
-            int secondOpcode = opcode.second();
+            final int firstOpcode = opcode.first();
+            final int secondOpcode = opcode.second();
             if (secondOpcode != Integer.MIN_VALUE) {
-                Map<Integer, Object> secondOpcodesMap =
+                final Map<Integer, Object> secondOpcodesMap =
                         (Map<Integer, Object>) packets.getOrDefault(firstOpcode, new HashMap<Integer, Object>());
 
                 assert !secondOpcodesMap.containsKey(secondOpcode)

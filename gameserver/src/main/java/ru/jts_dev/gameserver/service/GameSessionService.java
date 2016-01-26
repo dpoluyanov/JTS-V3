@@ -12,6 +12,7 @@ import org.springframework.integration.ip.tcp.connection.TcpConnectionEvent;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameSession;
 
+import javax.annotation.Nullable;
 import java.nio.ByteOrder;
 import java.util.Collections;
 import java.util.Map;
@@ -41,17 +42,36 @@ public class GameSessionService {
         return Collections.unmodifiableMap(sessions);
     }
 
+    /**
+     * Note: this method can return null.
+     * Always check returned value with null, and break, if check not passed.
+     * <pre>
+     *     GameSession gameSession = sessionService.getSessionById(getConnectionId());
+     *     if(gameSession == null) return;
+     * </pre>
+     *
+     * @param connectionId - connection identifier of session
+     * @return stored GameSession or {@code null}
+     */
+    @Nullable
     public GameSession getSessionBy(String connectionId) {
-        if (!sessions.containsKey(connectionId))
-            throw new NullPointerException("gameSession is null for " + connectionId);
-
-        return sessions.get(connectionId);
+        return sessions.getOrDefault(connectionId, null);
     }
 
+    /**
+     * Note: this method can return null.
+     * Always check returned value with null, and break, if check not passed.
+     * <pre>
+     *     String account = sessionService.getAccountBy(getConnectionId());
+     *     if(account == null) return;
+     * </pre>
+     *
+     * @param connectionId - connection identifier of session
+     * @return stored GameSession or {@code null}
+     */
+    @Nullable
     public String getAccountBy(String connectionId) {
-        if (!accounts.containsKey(connectionId))
-            throw new NullPointerException("accounts is null for " + connectionId);
-        return accounts.get(connectionId);
+        return accounts.getOrDefault(connectionId, null);
     }
 
     public void forcedClose(GameSession session) {

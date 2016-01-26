@@ -14,6 +14,8 @@ import ru.jts_dev.gameserver.constants.CharacterClass;
 import ru.jts_dev.gameserver.parser.PcParametersBaseListener;
 import ru.jts_dev.gameserver.parser.PcParametersLexer;
 import ru.jts_dev.gameserver.parser.PcParametersParser;
+import ru.jts_dev.gameserver.parser.PcParametersParser.Collision_statContext;
+import ru.jts_dev.gameserver.parser.PcParametersParser.Pc_collision_box_tableContext;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -108,8 +110,8 @@ public class PcParametersHolder extends PcParametersBaseListener {
     }
 
     @Override
-    public void exitPc_collision_box_table(PcParametersParser.Pc_collision_box_tableContext ctx) {
-        for (PcParametersParser.Collision_statContext csctx : ctx.collision_stat()) {
+    public void exitPc_collision_box_table(Pc_collision_box_tableContext ctx) {
+        for (Collision_statContext csctx : ctx.collision_stat()) {
             String pcClassName = csctx.pc_name().getText();
 
             List<Double> collisions = csctx.double_list().value;

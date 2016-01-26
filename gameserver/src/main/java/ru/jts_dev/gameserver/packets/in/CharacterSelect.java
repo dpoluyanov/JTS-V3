@@ -1,5 +1,7 @@
 package ru.jts_dev.gameserver.packets.in;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 @Opcode(0x12)
 public class CharacterSelect extends IncomingMessageWrapper {
+    private static final Logger logger = LoggerFactory.getLogger(CharacterSelect.class);
     @Autowired
     private GameSessionService sessionService;
     @Autowired
@@ -45,7 +48,7 @@ public class CharacterSelect extends IncomingMessageWrapper {
     public void prepare() {
         characterIndex = readInt();
         unk1 = readShort();
-        if(unk1 > 0) {
+        if (unk1 > 0) {
             x = readInt();
             y = readInt();
             z = readInt();

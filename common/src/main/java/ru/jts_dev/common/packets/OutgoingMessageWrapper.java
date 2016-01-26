@@ -15,21 +15,31 @@ import static ru.jts_dev.common.packets.IncomingMessageWrapper.EOS;
  * @since 30.11.15
  */
 public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
-    private final ByteBuf buffer;
-    private final MessageHeaders headers;
+    /* package */ boolean static_;
+    /* package */ ByteBuf buffer;
+    /* package */ MessageHeaders headers;
 
     protected OutgoingMessageWrapper() {
         buffer = buffer().order(ByteOrder.LITTLE_ENDIAN);
         headers = new MutableMessageHeaders(null);
     }
 
+    /* package */ OutgoingMessageWrapper(final boolean static_) {
+        this();
+        this.static_ = static_;
+    }
+
     @Override
     public final ByteBuf getPayload() {
+        if (static_)
+            throw new UnsupportedOperationException("getPayload() not supported for static message");
         return buffer;
     }
 
     @Override
     public final MessageHeaders getHeaders() {
+        if (static_)
+            throw new UnsupportedOperationException("getHeaders() not supported for static message");
         return headers;
     }
 
@@ -45,10 +55,10 @@ public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
     /**
      * write boolean to byte, true == 0x01, false = 0x00
      *
-     * @param bool - boolean value for writing
+     * @param b - boolean value for writing
      */
-    protected final void writeBoolean(final boolean bool) {
-        buffer.writeBoolean(bool);
+    protected final void writeBoolean(final boolean b) {
+        buffer.writeBoolean(b);
     }
 
     protected final void writeShort(final int i) {
@@ -80,5 +90,9 @@ public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
             buffer.writeChar(cs.charAt(i));
         }
         buffer.writeChar(EOS);
+    }
+
+    public final boolean isStatic() {
+        return static_;
     }
 }

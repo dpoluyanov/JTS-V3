@@ -20,8 +20,10 @@ import org.springframework.integration.ip.tcp.TcpSendingMessageHandler;
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionFactory;
 import org.springframework.messaging.MessageChannel;
+import ru.jts_dev.common.Exceptions.ThrowingFunction;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
+import ru.jts_dev.common.packets.StaticOutgoingMessageWrapper;
 import ru.jts_dev.common.tcp.ProtocolByteArrayLengthHeaderSerializer;
 import ru.jts_dev.gameserver.packets.GameClientPacketHandler;
 import ru.jts_dev.gameserver.packets.out.VersionCheck;
@@ -121,7 +123,7 @@ public class GameIntegrationConfig {
 
             log.debug(msg.getPayload().readableBytes() + " byte(s) left in "
                     + msg.getClass().getSimpleName() + " buffer: "
-                    + leftStr.toString());
+                    + leftStr);
         }
         msg.release();
     }
@@ -171,6 +173,15 @@ public class GameIntegrationConfig {
     public IntegrationFlow sendFlow() {
         return IntegrationFlows
                 .from(packetChannel())
+                .route(OutgoingMessageWrapper.class, msg -> msg.isStatic(),
+                        invoker -> invoker
+                                .subFlowMapping("true",
+                                        sf -> sf.transform(StaticOutgoingMessageWrapper.class,
+                                                msg -> (ThrowingFunction<StaticOutgoingMessageWrapper, OutgoingMessageWrapper>)
+                                                        elem -> msg.clone()))
+                                .subFlowMapping("false",
+                                        sf -> sf.transform(OutgoingMessageWrapper.class, msg -> msg))
+                )
                 .transform(OutgoingMessageWrapper.class, msg -> {
                     msg.write();
                     return msg;

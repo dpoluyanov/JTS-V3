@@ -70,6 +70,7 @@ dependencies {
     //Everything Routing (Event Bus)
     //compile "io.projectreactor:reactor-bus:$reactorVersion"
 
+    //todo not needed at compile time, should be used only for tests.
     compile("org.apache.activemq:artemis-jms-server:${artemisJmsServerVersion}")
 
     runtime('org.hsqldb:hsqldb')
@@ -81,7 +82,6 @@ dependencies {
 dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testRuntime('org.hsqldb:hsqldb')
-    testRuntime("org.apache.activemq:artemis-jms-server:${artemisJmsServerVersion}")
 }
 
 compileJava.dependsOn(processResources)

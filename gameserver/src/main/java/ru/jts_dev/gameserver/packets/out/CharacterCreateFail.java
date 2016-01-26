@@ -1,8 +1,8 @@
 package ru.jts_dev.gameserver.packets.out;
 
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
+import ru.jts_dev.common.packets.StaticOutgoingMessageWrapper;
 
-import javax.validation.Payload;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Camelion
  * @since 21.12.15
  */
-public class CharacterCreateFail extends OutgoingMessageWrapper implements Payload {
+public class CharacterCreateFail extends StaticOutgoingMessageWrapper {
     // "Your character creation has failed."
     public static final String REASON_CREATION_FAILED = "REASON_CREATION_FAILED";
     // "You cannot create another character. Please delete the existing character and try again."
@@ -29,7 +29,7 @@ public class CharacterCreateFail extends OutgoingMessageWrapper implements Paylo
     // where no previous character exists. Please choose another server."
     public static final String REASON_CHOOSE_ANOTHER_SVR = "REASON_INCORRECT_NAME";
 
-    public static Map<String, OutgoingMessageWrapper> ERRORS = new HashMap<>();
+    public static final Map<String, OutgoingMessageWrapper> ERRORS = new HashMap<>(10);
 
     static {
         ERRORS.put(REASON_CREATION_FAILED, new CharacterCreateFail(0x00));
@@ -43,7 +43,7 @@ public class CharacterCreateFail extends OutgoingMessageWrapper implements Paylo
 
     private final int errorCode;
 
-    private CharacterCreateFail(int errorCode) {
+    private CharacterCreateFail(final int errorCode) {
         this.errorCode = errorCode;
     }
 

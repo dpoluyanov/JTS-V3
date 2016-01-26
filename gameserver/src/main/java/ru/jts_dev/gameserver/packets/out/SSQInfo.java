@@ -1,6 +1,6 @@
 package ru.jts_dev.gameserver.packets.out;
 
-import ru.jts_dev.common.packets.OutgoingMessageWrapper;
+import ru.jts_dev.common.packets.StaticOutgoingMessageWrapper;
 
 /**
  * Seven Signs Info
@@ -24,12 +24,11 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
  * @author Java-man
  * @since 26.01.2016
  */
-public class SSQInfo extends OutgoingMessageWrapper {
+public class SSQInfo extends StaticOutgoingMessageWrapper {
     public static final SSQInfo NOTHING = new SSQInfo(0);
+    private final int state;
 
-    private int state;
-
-    private SSQInfo(int state) {
+    private SSQInfo(final int state) {
         this.state = state;
     }
 
