@@ -7,6 +7,7 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterSelected;
+import ru.jts_dev.gameserver.packets.out.SSQInfo;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
@@ -53,7 +54,6 @@ public class CharacterSelect extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        // TODO: 03.01.16 send SsqInfo packet
         final GameSession session = sessionService.getSessionBy(getConnectionId());
 
         final String account = sessionService.getAccountBy(getConnectionId());
@@ -69,6 +69,8 @@ public class CharacterSelect extends IncomingMessageWrapper {
         final GameCharacter character = characters.get(characterIndex);
 
         publisher.publishEvent(new CharacterSelectedEvent(getConnectionId(), character));
+
+        broadcastService.send(session, SSQInfo.NOTHING);
 
         final int minutesPassed = (int) timeService.minutesPassedSinceDayBeginning();
         broadcastService.send(session, new CharacterSelected(character, session.getPlayKey(), minutesPassed));
