@@ -32,15 +32,20 @@ public class CharacterSelect extends IncomingMessageWrapper {
     private ApplicationEventPublisher publisher;
 
     private int characterIndex;
-    private int unk1, unk2, unk3, unk4;
+    private int unk1;
+    private int x;
+    private int y;
+    private int z;
 
     @Override
     public void prepare() {
         characterIndex = readInt();
         unk1 = readShort();
-        unk2 = readShort();
-        unk3 = readShort();
-        unk4 = readShort();
+        if(unk1 > 0) {
+            x = readInt();
+            y = readInt();
+            z = readInt();
+        }
     }
 
     @Override
@@ -56,10 +61,23 @@ public class CharacterSelect extends IncomingMessageWrapper {
             return;
         }
 
+        logger.debug(toString());
+
         GameCharacter character = characters.get(characterIndex);
 
         publisher.publishEvent(new CharacterSelectedEvent(getConnectionId(), character));
 
         broadcastService.send(session, new CharacterSelected(character, session.getPlayKey()));
+    }
+
+    @Override
+    public String toString() {
+        return "CharacterSelect{" +
+                "characterIndex=" + characterIndex +
+                ", unk1=" + unk1 +
+                ", x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
     }
 }
