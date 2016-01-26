@@ -1,6 +1,8 @@
 package ru.jts_dev.common.packets;
 
 import io.netty.buffer.ByteBuf;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.integration.ip.IpHeaders;
 import org.springframework.integration.support.MutableMessageHeaders;
 import org.springframework.messaging.Message;
@@ -12,6 +14,9 @@ import org.springframework.messaging.MessageHeaders;
  */
 public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnable {
     public static final char EOS = '\0';
+
+    protected static final Logger logger = LoggerFactory.getLogger(IncomingMessageWrapper.class);
+
     private final MessageHeaders headers;
     private ByteBuf payload;
 

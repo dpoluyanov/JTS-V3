@@ -39,12 +39,6 @@ public class HandlerManager<TCommandType, THandlerType extends ICommandHandler<T
     protected final Map<TCommandType, Method> methods = new HashMap<>();
     protected final Set<TCommandType> disabledCommands = new HashSet<>();
 
-    protected HandlerManager() {
-        if (!getClass().isAnnotationPresent(HandlerList.class)) {
-            log.error("Class [{}] should be annotated with [{}]!.", getClass().getName(), HandlerList.class.getName());
-        }
-    }
-
     /**
      * Receives handler class type and tries to create instance of it.
      *

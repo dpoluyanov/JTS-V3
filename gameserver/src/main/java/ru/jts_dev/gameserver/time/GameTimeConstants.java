@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
  */
 public final class GameTimeConstants {
     public static final ZonedDateTime MIN_DATE_TIME = ZonedDateTime
-            .of(LocalDate.ofYearDay(0, 1), LocalTime.of(0, 0), ZoneId.systemDefault());
+            .of(LocalDate.ofYearDay(0, 1), LocalTime.MIN, ZoneId.systemDefault());
 
     private GameTimeConstants() {
     }
