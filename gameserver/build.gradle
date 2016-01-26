@@ -70,6 +70,8 @@ dependencies {
     //Everything Routing (Event Bus)
     //compile "io.projectreactor:reactor-bus:$reactorVersion"
 
+    compile("org.apache.activemq:artemis-jms-server:${artemisJmsServerVersion}")
+
     runtime('org.hsqldb:hsqldb')
     runtime('mysql:mysql-connector-java')
 
