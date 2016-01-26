@@ -4,6 +4,8 @@ import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.stereotype.Component;
 
+import static org.apache.commons.math3.geometry.euclidean.threed.RotationConvention.VECTOR_OPERATOR;
+
 /**
  * @author Java-man
  * @since 26.01.2016
@@ -32,12 +34,12 @@ public final class RotationUtils {
     }
 
     public Rotation rotateOnLeft(Rotation rotation, double angle) {
-        Vector3D axis = rotation.getAxis();
-        return rotation.applyTo(new Rotation(axis, angle));
+        Vector3D axis = rotation.getAxis(VECTOR_OPERATOR);
+        return rotation.applyTo(new Rotation(axis, angle, VECTOR_OPERATOR));
     }
 
     public Rotation rotateOnRight(Rotation rotation, double angle) {
-        Vector3D axis = rotation.getAxis();
-        return rotation.applyInverseTo(new Rotation(axis, angle));
+        Vector3D axis = rotation.getAxis(VECTOR_OPERATOR);
+        return rotation.applyInverseTo(new Rotation(axis, angle, VECTOR_OPERATOR));
     }
 }
