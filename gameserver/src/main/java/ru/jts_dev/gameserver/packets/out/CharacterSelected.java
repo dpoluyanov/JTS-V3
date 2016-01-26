@@ -11,12 +11,15 @@ import static ru.jts_dev.gameserver.parser.data.CharacterStat.*;
  */
 public class CharacterSelected extends OutgoingMessageWrapper {
     private static final int ZEROS_LENGTH = 84;
+
     private final GameCharacter character;
     private final int playKey;
+    private final int minutesPassed;
 
-    public CharacterSelected(final GameCharacter character, final int playKey) {
+    public CharacterSelected(final GameCharacter character, final int playKey, final int minutesPassed) {
         this.character = character;
         this.playKey = playKey;
+        this.minutesPassed = minutesPassed;
     }
 
     @Override
@@ -51,7 +54,7 @@ public class CharacterSelected extends OutgoingMessageWrapper {
         writeInt(character.getStat().getForType(DEX)); // DEX
         writeInt(character.getStat().getForType(WIT)); // WIT
 
-        writeInt(0x00); // Game Time
+        writeInt(minutesPassed); // Game Time
         writeInt(0x00);
 
         writeInt(character.getStat().getClass_().getId());

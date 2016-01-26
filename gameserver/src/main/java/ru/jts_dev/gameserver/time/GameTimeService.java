@@ -16,6 +16,7 @@ import ru.jts_dev.gameserver.variables.server.ServerVariableKey;
 import ru.jts_dev.gameserver.variables.server.ServerVariableType;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -47,8 +48,8 @@ public class GameTimeService {
     private ZonedDateTime dateTime = MIN_DATE_TIME;
 
     @Autowired
-    public GameTimeService(GameServerConfig gameServerConfig, BroadcastService broadcastService,
-                           ServerVariablesRepository serverVariablesRepository, ApplicationEventPublisher eventPublisher) {
+    public GameTimeService(final GameServerConfig gameServerConfig, final BroadcastService broadcastService,
+                           final ServerVariablesRepository serverVariablesRepository, final ApplicationEventPublisher eventPublisher) {
         this.gameServerConfig = gameServerConfig;
         this.broadcastService = broadcastService;
         this.serverVariablesRepository = serverVariablesRepository;
@@ -57,11 +58,11 @@ public class GameTimeService {
 
     @PostConstruct
     private void loadDateTime() {
-        ServerVariableKey key = new ServerVariableKey(gameServerConfig.getServerId(), ServerVariableType.SERVER_TIME);
-        ServerVariable serverTime = serverVariablesRepository.findOne(key);
+        final ServerVariableKey key = new ServerVariableKey(gameServerConfig.getServerId(), ServerVariableType.SERVER_TIME);
+        final ServerVariable serverTime = serverVariablesRepository.findOne(key);
 
         if (serverTime != null) {
-            String value = serverTime.getValue();
+            final String value = serverTime.getValue();
             dateTime = ZonedDateTime.parse(value);
         }
 
@@ -70,29 +71,29 @@ public class GameTimeService {
 
     @Scheduled(initialDelay = 10_000, fixedRate = 10_000)
     private void updateGameClock() {
-        int oldHour = dateTime.getHour();
-        int oldDay = dateTime.getDayOfYear();
-        boolean wasDay = isNowDay();
+        final int oldHour = dateTime.getHour();
+        final int oldDay = dateTime.getDayOfYear();
+        final boolean wasDay = isNowDay();
 
         dateTime = dateTime.plusMinutes(1L);
 
         saveNewGameTimeInDatabase();
 
-        int newHour = dateTime.getHour();
+        final int newHour = dateTime.getHour();
 
         if (oldHour != newHour) {
             // update time for all players
-            long gameTimeInMinutes = getGameTimeInMinutes();
-            broadcastService.sendToAll(new ClientSetTime((int) gameTimeInMinutes));
+            final long minutesPassed = minutesPassed();
+            broadcastService.sendToAll(new ClientSetTime((int) minutesPassed));
 
-            boolean nowDay = isNowDay();
+            final boolean nowDay = isNowDay();
 
             // check if day night state changed
             if (wasDay != nowDay) {
                 eventPublisher.publishEvent(new DayNightStateChanged(nowDay));
             }
 
-            int newDay = dateTime.getDayOfYear();
+            final int newDay = dateTime.getDayOfYear();
 
             // check if a whole nowDay passed
             if (oldDay != newDay)
@@ -100,17 +101,22 @@ public class GameTimeService {
         }
     }
 
-    public long getGameTimeInMinutes() {
+    public long minutesPassed() {
         return MIN_DATE_TIME.until(dateTime, ChronoUnit.MINUTES);
     }
 
+    public long minutesPassedSinceDayBeginning() {
+        final ZonedDateTime dayBeginning = dateTime.with(LocalTime.MIN);
+        return dayBeginning.until(dateTime, ChronoUnit.MINUTES);
+    }
+
     public boolean isNowDay() {
-        int hour = dateTime.getHour();
+        final int hour = dateTime.getHour();
         return hour >= SUNRISE_HOUR || hour < SUNSET_HOUR;
     }
 
     private void saveNewGameTimeInDatabase() {
-        ServerVariableKey key = new ServerVariableKey(gameServerConfig.getServerId(), ServerVariableType.SERVER_TIME);
+        final ServerVariableKey key = new ServerVariableKey(gameServerConfig.getServerId(), ServerVariableType.SERVER_TIME);
         ServerVariable serverTime = serverVariablesRepository.findOne(key);
 
         if (serverTime == null) {
@@ -119,7 +125,7 @@ public class GameTimeService {
             serverTime.setServerVariableType(ServerVariableType.SERVER_TIME);
         }
 
-        String dateTimeStr = dateTime.toString();
+        final String dateTimeStr = dateTime.toString();
         serverTime.setValue(dateTimeStr);
 
         serverVariablesRepository.save(serverTime);

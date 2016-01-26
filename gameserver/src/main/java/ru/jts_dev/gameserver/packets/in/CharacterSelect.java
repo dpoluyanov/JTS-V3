@@ -11,6 +11,7 @@ import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService.CharacterSelectedEvent;
+import ru.jts_dev.gameserver.time.GameTimeService;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class CharacterSelect extends IncomingMessageWrapper {
     private GameSessionService sessionService;
     @Autowired
     private BroadcastService broadcastService;
+    @Autowired
+    private GameTimeService timeService;
 
     @Autowired
     private GameCharacterRepository repository;
@@ -51,10 +54,10 @@ public class CharacterSelect extends IncomingMessageWrapper {
     @Override
     public void run() {
         // TODO: 03.01.16 send SsqInfo packet
-        GameSession session = sessionService.getSessionBy(getConnectionId());
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
 
-        String account = sessionService.getAccountBy(getConnectionId());
-        List<GameCharacter> characters = repository.findAllByAccountName(account);
+        final String account = sessionService.getAccountBy(getConnectionId());
+        final List<GameCharacter> characters = repository.findAllByAccountName(account);
 
         if (characterIndex < 0 || characters.isEmpty() || characters.size() <= characterIndex) {
             sessionService.forcedClose(session);
@@ -63,11 +66,12 @@ public class CharacterSelect extends IncomingMessageWrapper {
 
         logger.debug(toString());
 
-        GameCharacter character = characters.get(characterIndex);
+        final GameCharacter character = characters.get(characterIndex);
 
         publisher.publishEvent(new CharacterSelectedEvent(getConnectionId(), character));
 
-        broadcastService.send(session, new CharacterSelected(character, session.getPlayKey()));
+        final int minutesPassed = (int) timeService.minutesPassedSinceDayBeginning();
+        broadcastService.send(session, new CharacterSelected(character, session.getPlayKey(), minutesPassed));
     }
 
     @Override

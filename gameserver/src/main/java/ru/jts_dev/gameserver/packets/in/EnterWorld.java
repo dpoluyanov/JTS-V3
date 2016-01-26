@@ -57,8 +57,8 @@ public class EnterWorld extends IncomingMessageWrapper {
         Collection<Action> actions = userBasicActionsHolder.getActionsData().values();
         broadcastService.send(session, new ExBasicActionList(actions));
 
-        long gameTimeInMinutes = timeService.getGameTimeInMinutes();
-        broadcastService.send(session, new ClientSetTime((int) gameTimeInMinutes));
+        long minutesPassed = timeService.minutesPassed();
+        broadcastService.send(session, new ClientSetTime((int) minutesPassed));
 
         // TODO: 04.01.16 broadcast CharInfo, send UserInfo
         // send UserInfo

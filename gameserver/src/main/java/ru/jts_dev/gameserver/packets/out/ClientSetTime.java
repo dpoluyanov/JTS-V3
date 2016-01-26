@@ -7,17 +7,17 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
  * @since 03.01.2016
  */
 public class ClientSetTime extends OutgoingMessageWrapper {
-    private final int gameTimeInMinutes;
+    private final int minutesPassed;
 
-    public ClientSetTime(int gameTimeInMinutes) {
-        this.gameTimeInMinutes = gameTimeInMinutes;
+    public ClientSetTime(final int minutesPassed) {
+        this.minutesPassed = minutesPassed;
     }
 
     @Override
     public void write() {
         writeByte(0xF2);
 
-        writeInt(gameTimeInMinutes); // time in client minutes
+        writeInt(minutesPassed); // time in client minutes
         writeInt(6); //constant to match the server time (this determines the speed of the client clock)
     }
 }
