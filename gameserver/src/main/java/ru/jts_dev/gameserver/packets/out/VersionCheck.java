@@ -8,9 +8,11 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
  */
 public class VersionCheck extends OutgoingMessageWrapper {
     private final byte[] key;
+    private final byte serverId;
 
-    public VersionCheck(byte[] key) {
+    public VersionCheck(byte[] key, byte serverId) {
         this.key = key;
+        this.serverId = serverId;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class VersionCheck extends OutgoingMessageWrapper {
         writeByte(0x01); // 0 - wrong protocol, 1 protocol ok
         writeBytes(key);
         writeInt(0x01);
-        writeInt(0x01); // TODO: 13.12.15 serverId?
+        writeInt(serverId);
         writeByte(0x00);
         // TODO: 13.12.15 obfuscation: https://github.com/l2jfree/svn/blob/15e8c48533246d30712806a099f09d17b522f86b/branches/genesis/l2jfree-core/src/main/java/com/l2jfree/gameserver/network/client/packets/sendable/characterless/VersionCheck.java
         writeInt(0x00); // Seed (obfuscation key)
