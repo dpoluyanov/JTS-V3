@@ -159,8 +159,8 @@ public class UserInfo extends OutgoingMessageWrapper {
         writeInt(0); // pvp flag: 0-non-pvp 1-pvp = violett name
         writeInt(0); // karma
 
-        writeInt(100); // run speed
-        writeInt(100); // walk speed
+        writeInt(200); // run speed
+        writeInt(200); // walk speed
         writeInt(0); // swim run speed
         writeInt(0); // swim walk speed
         writeInt(0);

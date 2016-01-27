@@ -37,11 +37,11 @@ public class MovementService {
         final Line line = new Line(start, end, 1.0D);
         final double distance = start.distance(end);
         final Vector3D direction = line.getDirection();
-        character.setRotation(new Rotation(start, direction));
+        character.setRotation(new Rotation(start, end));
         character.setVector3D(start);
         character.setMoving(true);
 
-        final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance);
+        final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance, true);
         scheduledExecutorService.schedule(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
     }
 
@@ -52,23 +52,26 @@ public class MovementService {
         private final Vector3D end;
         private final Vector3D direction;
         private final double distance;
+        private final boolean first;
 
-        private MoveTask(final GameSession session, final GameCharacter character,
-                         final Vector3D start, final Vector3D end, final Vector3D direction, final double distance) {
+        private MoveTask(final GameSession session, final GameCharacter character, final Vector3D start,
+                         final Vector3D end, final Vector3D direction, final double distance, final boolean first) {
             this.session = session;
             this.character = character;
             this.start = start;
             this.end = end;
             this.direction = direction;
             this.distance = distance;
+            this.first = first;
         }
 
         @Override
         public void run() {
             if (character.isMoving()) {
-                final double speed = 100.0D; // TODO speed
+                final double speed = 200.0D; // TODO speed
                 final Vector3D temp = character.getVector3D().add(speed * MOVE_SPEED_MULTIPLIER, direction);
-                broadcastService.send(session, new MoveToLocation(character, temp));
+                if (first)
+                    broadcastService.send(session, new MoveToLocation(character, end));
                 character.setVector3D(temp);
 
                 if (start.distance(character.getVector3D()) >= distance) {
@@ -77,7 +80,7 @@ public class MovementService {
                     character.setVector3D(end);
                     character.setMoving(false);
                 } else {
-                    final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance);
+                    final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance, false);
                     scheduledExecutorService.schedule(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
                 }
             }
