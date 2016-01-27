@@ -2,6 +2,7 @@ package ru.jts_dev.gameserver.packets.out;
 
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.movement.MovementService;
 
 import java.util.List;
 

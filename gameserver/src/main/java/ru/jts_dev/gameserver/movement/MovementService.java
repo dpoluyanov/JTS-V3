@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MovementService {
     private static final long MOVE_TASK_INTERVAL_MILLIS = 200L;
-    private static final double MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000.0D;
+    public static final double MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000.0D;
 
     @Autowired
     private ScheduledExecutorService scheduledExecutorService;

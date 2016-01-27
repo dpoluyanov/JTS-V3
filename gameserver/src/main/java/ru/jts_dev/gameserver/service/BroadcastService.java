@@ -37,9 +37,9 @@ public class BroadcastService {
     }
 
     public final void send(final String connectionId, OutgoingMessageWrapper message) {
-        if (message instanceof StaticOutgoingMessageWrapper && message.isStatic()) {
-            message = checkedMessageCloneException.apply((StaticOutgoingMessageWrapper) message);
-            send(connectionId, message);
+        if (message.isStatic() && message instanceof StaticOutgoingMessageWrapper) {
+            send(connectionId, checkedMessageCloneException.apply((StaticOutgoingMessageWrapper) message));
+            logger.trace("Clone {} packet", message.getClass().getSimpleName());
             return;
         }
         message.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
