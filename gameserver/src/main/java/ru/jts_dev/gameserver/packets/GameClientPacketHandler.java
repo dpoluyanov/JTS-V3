@@ -100,7 +100,7 @@ public class GameClientPacketHandler {
 
         ByteBuf data = buf.slice();
 
-        log.trace("received packet: " + msg.getClass().getSimpleName() + ", length: " + data.readableBytes());
+        log.debug("received packet: " + msg.getClass().getSimpleName() + ", length: " + data.readableBytes());
 
         msg.getHeaders().put(CONNECTION_ID, connectionId);
         msg.setPayload(data);

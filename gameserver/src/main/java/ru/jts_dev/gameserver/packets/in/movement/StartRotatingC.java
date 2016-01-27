@@ -1,6 +1,5 @@
 package ru.jts_dev.gameserver.packets.in.movement;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameCharacter;
@@ -41,11 +40,11 @@ public class StartRotatingC extends IncomingMessageWrapper {
         GameSession session = sessionService.getSessionBy(getConnectionId());
         GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        Rotation oldRotation = character.getRotation();
+        /*Rotation oldRotation = character.getRotation();
         double angle = rotationUtils.convertClientHeadingToAngle(heading);
         // TODO check that
         Rotation newRotation = rotationUtils.clientRotation(oldRotation, angle, side);
-        character.setRotation(newRotation);
+        character.setRotation(newRotation);*/
         // TODO broadcastService.broadcast(character, new StartRotating(character, heading, side, 0));
         broadcastService.send(session, new StartRotating(character, heading, side, 0));
     }

@@ -1,6 +1,5 @@
 package ru.jts_dev.gameserver.packets.in;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import static org.apache.commons.math3.geometry.euclidean.threed.RotationConvention.VECTOR_OPERATOR;
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.*;
 
 /**
@@ -145,7 +143,8 @@ public class CharacterCreate extends IncomingMessageWrapper {
 
         final Vector3D startPoint = startPoints.get(random.nextInt(startPoints.size()));
         character.setVector3D(startPoint);
-        character.setRotation(new Rotation(startPoint, 0.0D, VECTOR_OPERATOR));
+        character.setAngle(0);
+        //character.setRotation(new Rotation(startPoint, 0.0D, VECTOR_OPERATOR));
 
         return character;
     }

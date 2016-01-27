@@ -1,7 +1,6 @@
 package ru.jts_dev.gameserver.movement;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,9 @@ public class MovementService {
         final Line line = new Line(start, end, 1.0D);
         final double distance = start.distance(end);
         final Vector3D direction = line.getDirection();
-        character.setRotation(new Rotation(start, end));
+        final double angle = Vector3D.angle(start, end);
+        //character.setRotation(new Rotation(start, end));
+        character.setAngle(angle);
         character.setVector3D(start);
         character.setMoving(true);
 
@@ -75,7 +76,7 @@ public class MovementService {
                 character.setVector3D(temp);
 
                 if (start.distance(character.getVector3D()) >= distance) {
-                    final int clientHeading = rotationUtils.convertAngleToClientHeading(character.getRotation().getAngle());
+                    final int clientHeading = rotationUtils.convertAngleToClientHeading(character.getAngle());
                     broadcastService.send(session, new StopMove(character, clientHeading));
                     character.setVector3D(end);
                     character.setMoving(false);

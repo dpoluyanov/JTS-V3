@@ -44,7 +44,7 @@ public class ValidatePosition extends IncomingMessageWrapper {
         final GameSession session = sessionService.getSessionBy(getConnectionId());
         final GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        final int clientHeading = rotationUtils.convertAngleToClientHeading(character.getRotation().getAngle());
+        final int clientHeading = rotationUtils.convertAngleToClientHeading(character.getAngle());
         broadcastService.send(session, new ValidateLocation(character, clientHeading));
     }
 }

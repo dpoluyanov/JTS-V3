@@ -1,6 +1,5 @@
 package ru.jts_dev.gameserver.model;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Range;
 import ru.jts_dev.gameserver.ai.AiObject;
@@ -87,7 +86,7 @@ public class GameCharacter {
     @Transient
     private Vector3D vector3D = new Vector3D(0, 0, 0);
     @Transient
-    private Rotation rotation;
+    private double angle;
     @Transient
     private boolean moving;
 
@@ -186,12 +185,12 @@ public class GameCharacter {
         this.vector3D = vector3D;
     }
 
-    public Rotation getRotation() {
-        return rotation;
+    public double getAngle() {
+        return angle;
     }
 
-    public void setRotation(Rotation rotation) {
-        this.rotation = rotation;
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 
     public boolean isMoving() {
