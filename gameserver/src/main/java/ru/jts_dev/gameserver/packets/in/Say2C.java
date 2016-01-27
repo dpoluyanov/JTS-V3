@@ -19,7 +19,7 @@ import ru.jts_dev.gameserver.service.PlayerService;
  * @author Java-man
  * @since 10.01.2016
  */
-@Opcode(0x10)
+@Opcode(0x49)
 public class Say2C extends IncomingMessageWrapper {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
