@@ -1,8 +1,5 @@
 package ru.jts_dev.gameserver.movement;
 
-import io.netty.util.HashedWheelTimer;
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -15,6 +12,7 @@ import ru.jts_dev.gameserver.packets.out.StopMove;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.util.RotationUtils;
 
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,30 +22,30 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MovementService {
     private static final long MOVE_TASK_INTERVAL_MILLIS = 200L;
-    private static final long MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000L;
+    private static final double MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000.0D;
 
     @Autowired
-    private HashedWheelTimer timer;
+    private ScheduledExecutorService scheduledExecutorService;
     @Autowired
     private BroadcastService broadcastService;
     @Autowired
     private RotationUtils rotationUtils;
 
-    public void moveTo(GameSession session, GameCharacter character, Vector3D end) {
-        Vector3D start = character.getVector3D();
+    public void moveTo(final GameSession session, final GameCharacter character, final Vector3D end) {
+        final Vector3D start = character.getVector3D();
 
-        Line line = new Line(start, end, 1.0D);
-        double distance = start.distance(end);
-        Vector3D direction = line.getDirection();
+        final Line line = new Line(start, end, 1.0D);
+        final double distance = start.distance(end);
+        final Vector3D direction = line.getDirection();
         character.setRotation(new Rotation(start, direction));
         character.setVector3D(start);
         character.setMoving(true);
 
-        MoveTask moveTask = new MoveTask(session, character, start, end, direction, distance);
-        timer.newTimeout(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
+        final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance);
+        scheduledExecutorService.schedule(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
     }
 
-    private final class MoveTask implements TimerTask {
+    private final class MoveTask implements Runnable {
         private final GameSession session;
         private final GameCharacter character;
         private final Vector3D start;
@@ -55,8 +53,8 @@ public class MovementService {
         private final Vector3D direction;
         private final double distance;
 
-        private MoveTask(GameSession session, GameCharacter character,
-                         Vector3D start, Vector3D end, Vector3D direction, double distance) {
+        private MoveTask(final GameSession session, final GameCharacter character,
+                         final Vector3D start, final Vector3D end, final Vector3D direction, final double distance) {
             this.session = session;
             this.character = character;
             this.start = start;
@@ -66,21 +64,21 @@ public class MovementService {
         }
 
         @Override
-        public void run(Timeout timeout) {
+        public void run() {
             if (character.isMoving()) {
-                double speed = 100.0D; // TODO speed
-                Vector3D temp = character.getVector3D().add(speed * MOVE_SPEED_MULTIPLIER, direction);
+                final double speed = 100.0D; // TODO speed
+                final Vector3D temp = character.getVector3D().add(speed * MOVE_SPEED_MULTIPLIER, direction);
                 broadcastService.send(session, new MoveToLocation(character, temp));
                 character.setVector3D(temp);
 
                 if (start.distance(character.getVector3D()) >= distance) {
-                    int clientHeading = rotationUtils.convertAngleToClientHeading(character.getRotation().getAngle());
+                    final int clientHeading = rotationUtils.convertAngleToClientHeading(character.getRotation().getAngle());
                     broadcastService.send(session, new StopMove(character, clientHeading));
                     character.setVector3D(end);
                     character.setMoving(false);
                 } else {
-                    MoveTask moveTask = new MoveTask(session, character, start, end, direction, distance);
-                    timer.newTimeout(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
+                    final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance);
+                    scheduledExecutorService.schedule(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
                 }
             }
         }

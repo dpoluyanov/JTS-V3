@@ -23,7 +23,7 @@ public final class MoveBackwardToLocation extends IncomingMessageWrapper {
     @Autowired
     private PlayerService playerService;
 
-    public static final int MAGIC_NUMBER = 27;
+    public static final int MAGIC_NUMBER = 20;
     private int targetX;
     private int targetY;
     private int targetZ;
