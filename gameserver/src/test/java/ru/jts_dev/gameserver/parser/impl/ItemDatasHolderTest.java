@@ -11,6 +11,7 @@ import ru.jts_dev.gameserver.constants.ItemTypes.ArmorType;
 import ru.jts_dev.gameserver.constants.ItemTypes.EtcItemType;
 import ru.jts_dev.gameserver.constants.ItemTypes.WeaponType;
 import ru.jts_dev.gameserver.parser.data.item.ItemData;
+import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
 import ru.jts_dev.gameserver.parser.data.item.SetData;
 
 import java.util.Arrays;

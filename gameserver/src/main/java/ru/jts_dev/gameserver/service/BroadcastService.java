@@ -11,15 +11,18 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.packets.StaticOutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameSession;
 
+import java.util.stream.Stream;
+
 /**
  * @author Java-man
  * @since 19.01.2016
  */
 @Service
 public class BroadcastService {
+    private static final int THRESHOLD = 25;
     private static final Logger logger = LoggerFactory.getLogger(BroadcastService.class);
     private static final ThrowingFunction<StaticOutgoingMessageWrapper, OutgoingMessageWrapper>
-            checkedMessageCloneException = msg -> msg.clone();
+            checkedMessageCloneException = StaticOutgoingMessageWrapper::clone;
 
     @Autowired
     private GameSessionService sessionService;
@@ -27,9 +30,9 @@ public class BroadcastService {
     private MessageChannel packetChannel;
 
     public final void sendToAll(final OutgoingMessageWrapper message) {
-        sessionService.getSessions().values()
-                .parallelStream()
-                .forEach(gameSession -> send(gameSession.getConnectionId(), message));
+        Stream<GameSession> stream = sessionService.getSessions().size() > THRESHOLD ?
+                sessionService.getSessions().values().parallelStream() : sessionService.getSessions().values().stream();
+        stream.forEach(gameSession -> send(gameSession.getConnectionId(), message));
     }
 
     public final void send(final GameSession session, final OutgoingMessageWrapper message) {

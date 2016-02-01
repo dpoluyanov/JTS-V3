@@ -6,7 +6,7 @@ import java.util.List;
  * @author Camelion
  * @since 14.01.16
  */
-public class EcRace extends Condition {
+public class EcRace implements Condition {
     private final List<Integer> races;
 
     public EcRace(List<Integer> races) {

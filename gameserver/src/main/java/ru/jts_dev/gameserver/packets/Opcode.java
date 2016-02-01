@@ -23,9 +23,9 @@ public @interface Opcode {
     int CLIENT_SWITCH_OPCODE = 0xD0;
 
     /**
-     * Alias for {@link #first}.
+     * Alias for {@link #first()}.
      *
-     * @see #first
+     * @see #first()
      */
     @AliasFor("first") int value() default CLIENT_SWITCH_OPCODE; // switch opcode
 

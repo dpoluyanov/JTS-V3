@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.jts_dev.gameserver.constants.CharacterClass;
+import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -32,7 +34,7 @@ public class SettingsHolderTest {
      * @throws Exception
      */
     @Test
-    public void testParseRecommendedStats() throws Exception {
+    public final void testParseRecommendedStats() throws Exception {
         assertThat(settingsHolder.getRecommendedStats(), is(not(empty())));
         assertThat(settingsHolder.getRecommendedStats(), iterableWithSize(STATS_COUNT));
     }
@@ -44,7 +46,7 @@ public class SettingsHolderTest {
      * @throws Exception
      */
     @Test
-    public void testParseMaximumStats() throws Exception {
+    public final void testParseMaximumStats() throws Exception {
         assertThat(settingsHolder.getMaximumStats(), is(not(empty())));
         assertThat(settingsHolder.getMaximumStats(), iterableWithSize(STATS_COUNT));
     }
@@ -55,7 +57,7 @@ public class SettingsHolderTest {
      * @throws Exception
      */
     @Test
-    public void testParseMinimumStats() throws Exception {
+    public final void testParseMinimumStats() throws Exception {
         assertThat(settingsHolder.getMinimumStats(), is(not(empty())));
         assertThat(settingsHolder.getMinimumStats(), iterableWithSize(STATS_COUNT));
     }
@@ -67,7 +69,7 @@ public class SettingsHolderTest {
      * @throws Exception
      */
     @Test
-    public void testThatStatsHasSameSize() throws Exception {
+    public final void testThatStatsHasSameSize() throws Exception {
         assertThat(settingsHolder.getRecommendedStats().size(), allOf(
                 is(equalTo(settingsHolder.getMinimumStats().size())),
                 is(equalTo(settingsHolder.getMaximumStats().size()))
@@ -80,7 +82,7 @@ public class SettingsHolderTest {
      * @throws Exception
      */
     @Test
-    public void testParseInitialStartPoints() throws Exception {
+    public final void testParseInitialStartPoints() throws Exception {
         assertThat(settingsHolder.getInitialStartPoints().size(), greaterThan(0));
 
         assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(HUMAN_FIGHTER), is(not(empty()))));
@@ -102,7 +104,7 @@ public class SettingsHolderTest {
      * @throws Exception
      */
     @Test
-    public void testParseInitialEquipments() throws Exception {
+    public final void testParseInitialEquipments() throws Exception {
         assertThat(settingsHolder.getInitialEquipments().size(), equalTo(STATS_COUNT));
 
         assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(HUMAN_FIGHTER), notNullValue()));
@@ -126,8 +128,8 @@ public class SettingsHolderTest {
      * @see ItemDatasHolder#getItemData()
      */
     @Test
-    public void testInitialEquipmentExists() throws Exception {
-        for (Map.Entry<CharacterClass, Map<String, Integer>> entry : settingsHolder.getInitialEquipments().entrySet()) {
+    public final void testInitialEquipmentExists() throws Exception {
+        for (Entry<CharacterClass, Map<String, Integer>> entry : settingsHolder.getInitialEquipments().entrySet()) {
             assertThat(entry.getValue().size(), greaterThan(0));
         }
     }
@@ -138,9 +140,9 @@ public class SettingsHolderTest {
      * @throws Exception
      */
     @Test
-    public void testInitialEquipmentHasPositiveCount() throws Exception {
-        for (Map.Entry<CharacterClass, Map<String, Integer>> entry : settingsHolder.getInitialEquipments().entrySet()) {
-            for (String name : entry.getValue().keySet()) {
+    public final void testInitialEquipmentHasPositiveCount() throws Exception {
+        for (final Entry<CharacterClass, Map<String, Integer>> entry : settingsHolder.getInitialEquipments().entrySet()) {
+            for (final String name : entry.getValue().keySet()) {
                 assertThat("For class " + entry.getKey() + ", equipment " + name + " exist in itemdata",
                         itemDatasHolder.getItemData(), hasValue(hasProperty("name", equalTo(name))));
             }

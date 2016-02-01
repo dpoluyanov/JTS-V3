@@ -3,16 +3,20 @@ package ru.jts_dev.gameserver.parser.data.item;
 import ru.jts_dev.gameserver.constants.*;
 import ru.jts_dev.gameserver.constants.ItemTypes.ArmorType;
 import ru.jts_dev.gameserver.constants.ItemTypes.EtcItemType;
+import ru.jts_dev.gameserver.constants.ItemTypes.WeaponType;
 import ru.jts_dev.gameserver.parser.data.item.condition.Condition;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
+ * This class designed to be immutable, thread safe item template.
+ * Instances of this class can be shared between multiple characters without any limitations.
+ *
  * @author Camelion
  * @since 07.01.16
  */
-public class ItemData {
+public final class ItemData {
     private final int itemId;
     private final ItemClass itemClass;
     private final String name;
@@ -21,7 +25,7 @@ public class ItemData {
 
     private ArmorType armorType;
     private EtcItemType etcItemType;
-    private ItemTypes.WeaponType weaponType;
+    private WeaponType weaponType;
     private int delayShareGroup;
     private List<String> itemMultiSkillList;
     private int recipeId;
@@ -108,20 +112,35 @@ public class ItemData {
     private boolean isOlympiadCanUse;
     private boolean canMove;
     private boolean isPremium;
+    /**
+     * calculated from {@link #slotBitTypes}
+     */
+    private int slotBitTypeMask;
 
-    public ItemData(int itemId, ItemClass itemClass, String name, ItemClass itemType, List<SlotBitType> slotBitTypes) {
+    public ItemData(final int itemId, final ItemClass itemClass, final String name,
+                    final ItemClass itemType, final List<SlotBitType> slotBitTypes) {
         this.itemId = itemId;
         this.itemClass = itemClass;
         this.name = name;
         this.itemType = itemType;
         this.slotBitTypes = slotBitTypes;
+
+        slotBitTypeMask = calcSlotBitTypeMask();
+    }
+
+    private int calcSlotBitTypeMask() {
+        return slotBitTypes.size() == 1 ? slotBitTypes.get(0).mask()
+                : slotBitTypes
+                .stream()
+                .mapToInt(SlotBitType::mask)
+                .reduce((a, b) -> a | b).getAsInt();
     }
 
     public ArmorType getArmorType() {
         return armorType;
     }
 
-    public void setArmorType(ArmorType armorType) {
+    void setArmorType(ArmorType armorType) {
         this.armorType = armorType;
     }
 
@@ -129,15 +148,15 @@ public class ItemData {
         return etcItemType;
     }
 
-    public void setEtcItemType(EtcItemType etcItemType) {
+    void setEtcItemType(EtcItemType etcItemType) {
         this.etcItemType = etcItemType;
     }
 
-    public ItemTypes.WeaponType getWeaponType() {
+    public WeaponType getWeaponType() {
         return weaponType;
     }
 
-    public void setWeaponType(ItemTypes.WeaponType weaponType) {
+    void setWeaponType(WeaponType weaponType) {
         this.weaponType = weaponType;
     }
 
@@ -161,7 +180,7 @@ public class ItemData {
         return delayShareGroup;
     }
 
-    public void setDelayShareGroup(int delayShareGroup) {
+    void setDelayShareGroup(final int delayShareGroup) {
         this.delayShareGroup = delayShareGroup;
     }
 
@@ -169,7 +188,7 @@ public class ItemData {
         return shieldDefenseRate;
     }
 
-    public void setShieldDefenseRate(int shieldDefenseRate) {
+    void setShieldDefenseRate(final int shieldDefenseRate) {
         this.shieldDefenseRate = shieldDefenseRate;
     }
 
@@ -177,15 +196,15 @@ public class ItemData {
         return shieldDefense;
     }
 
-    public void setShieldDefense(int shieldDefense) {
+    void setShieldDefense(final int shieldDefense) {
         this.shieldDefense = shieldDefense;
     }
 
     public List<String> getItemMultiSkillList() {
-        return itemMultiSkillList;
+        return Collections.unmodifiableList(itemMultiSkillList);
     }
 
-    public void setItemMultiSkillList(List<String> itemMultiSkillList) {
+    void setItemMultiSkillList(final List<String> itemMultiSkillList) {
         this.itemMultiSkillList = itemMultiSkillList;
     }
 
@@ -193,19 +212,15 @@ public class ItemData {
         return recipeId;
     }
 
-    public void setRecipeId(int recipeId) {
+    void setRecipeId(final int recipeId) {
         this.recipeId = recipeId;
-    }
-
-    public void setBlessed(int blessed) {
-        this.blessed = blessed;
     }
 
     public int getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    void setWeight(final int weight) {
         this.weight = weight;
     }
 
@@ -213,7 +228,7 @@ public class ItemData {
         return defaultAction;
     }
 
-    public void setDefaultAction(DefaultAction defaultAction) {
+    void setDefaultAction(final DefaultAction defaultAction) {
         this.defaultAction = defaultAction;
     }
 
@@ -221,163 +236,167 @@ public class ItemData {
         return consumeType;
     }
 
-    public void setConsumeType(ConsumeType consumeType) {
+    void setConsumeType(final ConsumeType consumeType) {
         this.consumeType = consumeType;
-    }
-
-    public void setInitialCount(int initialCount) {
-        this.initialCount = initialCount;
     }
 
     public int getInitialCount() {
         return initialCount;
     }
 
-    public void setSoulshotCount(int soulshotCount) {
-        this.soulshotCount = soulshotCount;
-    }
-
-    public void setSpiritshotCount(int spiritshotCount) {
-        this.spiritshotCount = spiritshotCount;
+    void setInitialCount(final int initialCount) {
+        this.initialCount = initialCount;
     }
 
     public int getSoulshotCount() {
         return soulshotCount;
     }
 
+    void setSoulshotCount(final int soulshotCount) {
+        this.soulshotCount = soulshotCount;
+    }
+
     public int getSpiritshotCount() {
         return spiritshotCount;
     }
 
-    public void setReducedSoulshot(List<Integer> reducedSoulshot) {
-        this.reducedSoulshot = reducedSoulshot;
-    }
-
-    public void setReducedSpiritshot(List<Integer> reducedSpiritshot) {
-        this.reducedSpiritshot = reducedSpiritshot;
+    void setSpiritshotCount(final int spiritshotCount) {
+        this.spiritshotCount = spiritshotCount;
     }
 
     public List<Integer> getReducedSoulshot() {
-        return reducedSoulshot;
+        return Collections.unmodifiableList(reducedSoulshot);
+    }
+
+    void setReducedSoulshot(final List<Integer> reducedSoulshot) {
+        this.reducedSoulshot = reducedSoulshot;
     }
 
     public List<Integer> getReducedSpiritshot() {
-        return reducedSpiritshot;
+        return Collections.unmodifiableList(reducedSpiritshot);
+    }
+
+    void setReducedSpiritshot(final List<Integer> reducedSpiritshot) {
+        this.reducedSpiritshot = reducedSpiritshot;
     }
 
     public int getBlessed() {
         return blessed;
     }
 
-    public void setReducedMpConsume(List<Integer> reducedMpConsume) {
-        this.reducedMpConsume = reducedMpConsume;
+    void setBlessed(final int blessed) {
+        this.blessed = blessed;
     }
 
     public List<Integer> getReducedMpConsume() {
-        return reducedMpConsume;
+        return Collections.unmodifiableList(reducedMpConsume);
     }
 
-    public void setImmediateEffect(int immediateEffect) {
-        this.immediateEffect = immediateEffect;
+    void setReducedMpConsume(final List<Integer> reducedMpConsume) {
+        this.reducedMpConsume = reducedMpConsume;
     }
 
     public int getImmediateEffect() {
         return immediateEffect;
     }
 
-    public void setExImmediateEffect(int exImmediateEffect) {
-        this.exImmediateEffect = exImmediateEffect;
+    void setImmediateEffect(final int immediateEffect) {
+        this.immediateEffect = immediateEffect;
     }
 
     public int getExImmediateEffect() {
         return exImmediateEffect;
     }
 
-    public void setDropPeriod(int dropPeriod) {
-        this.dropPeriod = dropPeriod;
+    void setExImmediateEffect(final int exImmediateEffect) {
+        this.exImmediateEffect = exImmediateEffect;
     }
 
     public int getDropPeriod() {
         return dropPeriod;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    void setDropPeriod(final int dropPeriod) {
+        this.dropPeriod = dropPeriod;
     }
 
     public int getDuration() {
         return duration;
     }
 
-    public void setUseSkillDistime(int useSkillDistime) {
-        this.useSkillDistime = useSkillDistime;
+    void setDuration(final int duration) {
+        this.duration = duration;
     }
 
     public int getUseSkillDistime() {
         return useSkillDistime;
     }
 
-    public void setPeriod(int period) {
-        this.period = period;
+    void setUseSkillDistime(final int useSkillDistime) {
+        this.useSkillDistime = useSkillDistime;
     }
 
     public int getPeriod() {
         return period;
     }
 
-    public void setEquipReuseDelay(int equipReuseDelay) {
-        this.equipReuseDelay = equipReuseDelay;
+    void setPeriod(final int period) {
+        this.period = period;
     }
 
     public int getEquipReuseDelay() {
         return equipReuseDelay;
     }
 
-    public void setPrice(long price) {
-        this.price = price;
-    }
-
-    public void setDefaultPrice(long defaultPrice) {
-        this.defaultPrice = defaultPrice;
+    void setEquipReuseDelay(final int equipReuseDelay) {
+        this.equipReuseDelay = equipReuseDelay;
     }
 
     public long getPrice() {
         return price;
     }
 
+    void setPrice(final long price) {
+        this.price = price;
+    }
+
     public long getDefaultPrice() {
         return defaultPrice;
     }
 
-    public void setItemSkill(String itemSkill) {
-        this.itemSkill = itemSkill;
+    void setDefaultPrice(final long defaultPrice) {
+        this.defaultPrice = defaultPrice;
     }
 
     public String getItemSkill() {
         return itemSkill;
     }
 
-    public void setCriticalAttackSkill(String criticalAttackSkill) {
-        this.criticalAttackSkill = criticalAttackSkill;
+    void setItemSkill(final String itemSkill) {
+        this.itemSkill = itemSkill;
     }
 
     public String getCriticalAttackSkill() {
         return criticalAttackSkill;
     }
 
-    public void setAttackSkill(String attackSkill) {
-        this.attackSkill = attackSkill;
+    void setCriticalAttackSkill(final String criticalAttackSkill) {
+        this.criticalAttackSkill = criticalAttackSkill;
     }
 
     public String getAttackSkill() {
         return attackSkill;
     }
 
+    void setAttackSkill(final String attackSkill) {
+        this.attackSkill = attackSkill;
+    }
+
     public String getMagicSkill() {
         return magicSkill;
     }
 
-    public void setMagicSkill(String magicSkill) {
+    void setMagicSkill(final String magicSkill) {
         this.magicSkill = magicSkill;
     }
 
@@ -385,51 +404,51 @@ public class ItemData {
         return magicSkillUnknownValue;
     }
 
-    public void setMagicSkillUnknownValue(int magicSkillUnknownValue) {
+    void setMagicSkillUnknownValue(final int magicSkillUnknownValue) {
         this.magicSkillUnknownValue = magicSkillUnknownValue;
-    }
-
-    public void setItemSkillEnchantedFour(String itemSkillEnchantedFour) {
-        this.itemSkillEnchantedFour = itemSkillEnchantedFour;
     }
 
     public String getItemSkillEnchantedFour() {
         return itemSkillEnchantedFour;
     }
 
-    public void setCapsuledItems(List<CapsuledItemData> capsuledItems) {
-        this.capsuledItems = capsuledItems;
+    void setItemSkillEnchantedFour(final String itemSkillEnchantedFour) {
+        this.itemSkillEnchantedFour = itemSkillEnchantedFour;
     }
 
     public List<CapsuledItemData> getCapsuledItems() {
-        return capsuledItems;
+        return Collections.unmodifiableList(capsuledItems);
     }
 
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
+    void setCapsuledItems(final List<CapsuledItemData> capsuledItems) {
+        this.capsuledItems = capsuledItems;
     }
 
     public MaterialType getMaterialType() {
         return materialType;
     }
 
-    public void setCrystalType(CrystalType crystalType) {
-        this.crystalType = crystalType;
+    void setMaterialType(final MaterialType materialType) {
+        this.materialType = materialType;
     }
 
     public CrystalType getCrystalType() {
         return crystalType;
     }
 
-    public void setCrystalCount(int crystalCount) {
-        this.crystalCount = crystalCount;
+    void setCrystalType(final CrystalType crystalType) {
+        this.crystalType = crystalType;
     }
 
     public int getCrystalCount() {
         return crystalCount;
     }
 
-    public void setIsTrade(boolean isTrade) {
+    void setCrystalCount(final int crystalCount) {
+        this.crystalCount = crystalCount;
+    }
+
+    void setIsTrade(final boolean isTrade) {
         this.isTrade = isTrade;
     }
 
@@ -441,7 +460,7 @@ public class ItemData {
         return isDrop;
     }
 
-    public void setIsDrop(boolean isDrop) {
+    void setIsDrop(final boolean isDrop) {
         this.isDrop = isDrop;
     }
 
@@ -449,7 +468,7 @@ public class ItemData {
         return isDestruct;
     }
 
-    public void setIsDestruct(boolean isDestruct) {
+    void setIsDestruct(final boolean isDestruct) {
         this.isDestruct = isDestruct;
     }
 
@@ -457,55 +476,55 @@ public class ItemData {
         return isPrivateStore;
     }
 
-    public void setIsPrivateStore(boolean isPrivateStore) {
+    void setIsPrivateStore(final boolean isPrivateStore) {
         this.isPrivateStore = isPrivateStore;
-    }
-
-    public void setKeepType(byte keepType) {
-        this.keepType = keepType;
     }
 
     public byte getKeepType() {
         return keepType;
     }
 
-    public void setPhysicalDamage(int physicalDamage) {
-        this.physicalDamage = physicalDamage;
-    }
-
-    public void setRandomDamage(int randomDamage) {
-        this.randomDamage = randomDamage;
+    void setKeepType(final byte keepType) {
+        this.keepType = keepType;
     }
 
     public int getPhysicalDamage() {
         return physicalDamage;
     }
 
+    void setPhysicalDamage(final int physicalDamage) {
+        this.physicalDamage = physicalDamage;
+    }
+
     public int getRandomDamage() {
         return randomDamage;
     }
 
-    public void setCritical(int critical) {
-        this.critical = critical;
+    void setRandomDamage(final int randomDamage) {
+        this.randomDamage = randomDamage;
     }
 
     public int getCritical() {
         return critical;
     }
 
-    public void setHitModify(double hitModify) {
-        this.hitModify = hitModify;
+    void setCritical(final int critical) {
+        this.critical = critical;
     }
 
     public double getHitModify() {
         return hitModify;
     }
 
+    void setHitModify(final double hitModify) {
+        this.hitModify = hitModify;
+    }
+
     public int getAvoidModify() {
         return avoidModify;
     }
 
-    public void setAvoidModify(int avoidModify) {
+    void setAvoidModify(final int avoidModify) {
         this.avoidModify = avoidModify;
     }
 
@@ -513,23 +532,23 @@ public class ItemData {
         return dualFhitRate;
     }
 
-    public void setDualFhitRate(int dualFhitRate) {
+    void setDualFhitRate(final int dualFhitRate) {
         this.dualFhitRate = dualFhitRate;
-    }
-
-    public void setAttackRange(int attackRange) {
-        this.attackRange = attackRange;
     }
 
     public int getAttackRange() {
         return attackRange;
     }
 
-    public List<Integer> getDamageRange() {
-        return damageRange;
+    void setAttackRange(final int attackRange) {
+        this.attackRange = attackRange;
     }
 
-    public void setDamageRange(List<Integer> damageRange) {
+    public List<Integer> getDamageRange() {
+        return Collections.unmodifiableList(damageRange);
+    }
+
+    void setDamageRange(final List<Integer> damageRange) {
         this.damageRange = damageRange;
     }
 
@@ -537,23 +556,23 @@ public class ItemData {
         return attackSpeed;
     }
 
-    public void setAttackSpeed(int attackSpeed) {
+    void setAttackSpeed(final int attackSpeed) {
         this.attackSpeed = attackSpeed;
-    }
-
-    public void setReuseDelay(int reuseDelay) {
-        this.reuseDelay = reuseDelay;
     }
 
     public int getReuseDelay() {
         return reuseDelay;
     }
 
+    void setReuseDelay(final int reuseDelay) {
+        this.reuseDelay = reuseDelay;
+    }
+
     public int getMpConsume() {
         return mpConsume;
     }
 
-    public void setMpConsume(int mpConsume) {
+    void setMpConsume(final int mpConsume) {
         this.mpConsume = mpConsume;
     }
 
@@ -561,7 +580,7 @@ public class ItemData {
         return magicalDamage;
     }
 
-    public void setMagicalDamage(int magicalDamage) {
+    void setMagicalDamage(final int magicalDamage) {
         this.magicalDamage = magicalDamage;
     }
 
@@ -569,7 +588,7 @@ public class ItemData {
         return durability;
     }
 
-    public void setDurability(int durability) {
+    void setDurability(final int durability) {
         this.durability = durability;
     }
 
@@ -577,7 +596,7 @@ public class ItemData {
         return damaged;
     }
 
-    public void setDamaged(boolean damaged) {
+    void setDamaged(final boolean damaged) {
         this.damaged = damaged;
     }
 
@@ -585,7 +604,7 @@ public class ItemData {
         return physicalDefense;
     }
 
-    public void setPhysicalDefense(int physicalDefense) {
+    void setPhysicalDefense(final int physicalDefense) {
         this.physicalDefense = physicalDefense;
     }
 
@@ -593,7 +612,7 @@ public class ItemData {
         return magicalDefense;
     }
 
-    public void setMagicalDefense(int magicalDefense) {
+    void setMagicalDefense(final int magicalDefense) {
         this.magicalDefense = magicalDefense;
     }
 
@@ -601,15 +620,15 @@ public class ItemData {
         return mpBonus;
     }
 
-    public void setMpBonus(int mpBonus) {
+    void setMpBonus(final int mpBonus) {
         this.mpBonus = mpBonus;
     }
 
     public List<String> getCategory() {
-        return category;
+        return Collections.unmodifiableList(category);
     }
 
-    public void setCategory(List<String> category) {
+    void setCategory(final List<String> category) {
         this.category = category;
     }
 
@@ -617,51 +636,51 @@ public class ItemData {
         return enchanted;
     }
 
-    public void setEnchanted(int enchanted) {
+    void setEnchanted(final int enchanted) {
         this.enchanted = enchanted;
     }
 
     public List<SlotBitType> getSlotBitTypes() {
-        return slotBitTypes;
+        return Collections.unmodifiableList(slotBitTypes);
     }
 
     public AttributeAttack getBaseAttributeAttack() {
         return baseAttributeAttack;
     }
 
-    public void setBaseAttributeAttack(AttributeAttack baseAttributeAttack) {
+    void setBaseAttributeAttack(AttributeAttack baseAttributeAttack) {
         this.baseAttributeAttack = baseAttributeAttack;
     }
 
     public List<Integer> getBaseAttributeDefend() {
-        return baseAttributeDefend;
+        return Collections.unmodifiableList(baseAttributeDefend);
     }
 
-    public void setBaseAttributeDefend(List<Integer> baseAttributeDefend) {
+    void setBaseAttributeDefend(final List<Integer> baseAttributeDefend) {
         this.baseAttributeDefend = baseAttributeDefend;
-    }
-
-    public void setHtml(String html) {
-        this.html = html;
     }
 
     public String getHtml() {
         return html;
     }
 
-    public void setMagicWeapon(boolean magicWeapon) {
-        this.magicWeapon = magicWeapon;
+    void setHtml(final String html) {
+        this.html = html;
     }
 
     public boolean isMagicWeapon() {
         return magicWeapon;
     }
 
+    void setMagicWeapon(final boolean magicWeapon) {
+        this.magicWeapon = magicWeapon;
+    }
+
     public int getEnchantEnable() {
         return enchantEnable;
     }
 
-    public void setEnchantEnable(int enchantEnable) {
+    void setEnchantEnable(final int enchantEnable) {
         this.enchantEnable = enchantEnable;
     }
 
@@ -669,15 +688,15 @@ public class ItemData {
         return elementalEnable;
     }
 
-    public void setElementalEnable(boolean elementalEnable) {
+    void setElementalEnable(final boolean elementalEnable) {
         this.elementalEnable = elementalEnable;
     }
 
     public List<String> getUnequipSkill() {
-        return unequipSkill;
+        return Collections.unmodifiableList(unequipSkill);
     }
 
-    public void setUnequipSkill(List<String> unequipSkill) {
+    void setUnequipSkill(final List<String> unequipSkill) {
         this.unequipSkill = unequipSkill;
     }
 
@@ -685,31 +704,31 @@ public class ItemData {
         return forNpc;
     }
 
-    public void setForNpc(boolean forNpc) {
+    void setForNpc(final boolean forNpc) {
         this.forNpc = forNpc;
     }
 
     public List<String> getItemEquipOption() {
-        return itemEquipOption;
+        return Collections.unmodifiableList(itemEquipOption);
     }
 
-    public void setItemEquipOption(List<String> itemEquipOption) {
+    void setItemEquipOption(final List<String> itemEquipOption) {
         this.itemEquipOption = itemEquipOption;
     }
 
     public List<Condition> getUseCondition() {
-        return useCondition;
+        return Collections.unmodifiableList(useCondition);
     }
 
-    public void setUseCondition(List<Condition> useCondition) {
+    void setUseCondition(final List<Condition> useCondition) {
         this.useCondition = useCondition;
     }
 
     public List<Condition> getEquipCondition() {
-        return equipCondition;
+        return Collections.unmodifiableList(equipCondition);
     }
 
-    public void setEquipCondition(List<Condition> equipCondition) {
+    void setEquipCondition(final List<Condition> equipCondition) {
         this.equipCondition = equipCondition;
     }
 
@@ -717,7 +736,7 @@ public class ItemData {
         return isOlympiadCanUse;
     }
 
-    public void setOlympiadCanUse(boolean olympiadCanUse) {
+    void setOlympiadCanUse(final boolean olympiadCanUse) {
         isOlympiadCanUse = olympiadCanUse;
     }
 
@@ -725,7 +744,7 @@ public class ItemData {
         return canMove;
     }
 
-    public void setCanMove(boolean canMove) {
+    void setCanMove(final boolean canMove) {
         this.canMove = canMove;
     }
 
@@ -733,8 +752,12 @@ public class ItemData {
         return isPremium;
     }
 
-    public void setPremium(boolean premium) {
+    void setPremium(final boolean premium) {
         isPremium = premium;
+    }
+
+    public int getSlotBitTypeMask() {
+        return slotBitTypeMask;
     }
 
     public static final class CapsuledItemData {
@@ -743,7 +766,7 @@ public class ItemData {
         private final int maxCount;
         private final double chance;
 
-        public CapsuledItemData(String itemName, int minCount, int maxCount, double chance) {
+        public CapsuledItemData(final String itemName, final int minCount, final int maxCount, final double chance) {
             this.itemName = itemName;
             this.minCount = minCount;
             this.maxCount = maxCount;
@@ -768,10 +791,10 @@ public class ItemData {
     }
 
     public static final class AttributeAttack {
-        private AttributeType type;
-        private int value;
+        private final AttributeType type;
+        private final int value;
 
-        public AttributeAttack(AttributeType type, int value) {
+        public AttributeAttack(final AttributeType type, final int value) {
             this.type = type;
             this.value = value;
         }

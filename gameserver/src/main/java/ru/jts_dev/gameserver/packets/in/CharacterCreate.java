@@ -4,14 +4,18 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.constants.CharacterClass;
 import ru.jts_dev.gameserver.constants.CharacterRace;
+import ru.jts_dev.gameserver.inventory.InventoryService;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.CharacterCreateSuccess;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
+import ru.jts_dev.gameserver.parser.data.item.ItemData;
+import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
 import ru.jts_dev.gameserver.parser.impl.SettingsHolder;
 import ru.jts_dev.gameserver.repository.GameCharacterRepository;
 import ru.jts_dev.gameserver.service.BroadcastService;
@@ -21,9 +25,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.*;
 
@@ -41,9 +43,12 @@ public class CharacterCreate extends IncomingMessageWrapper {
     private GameCharacterRepository characterRepository;
     @Autowired
     private BroadcastService broadcastService;
-
     @Autowired
     private SettingsHolder settingsData;
+    @Autowired
+    private ItemDatasHolder itemDatasHolder;
+    @Autowired
+    private InventoryService inventoryService;
 
     @Autowired
     private Validator validator;
@@ -120,9 +125,12 @@ public class CharacterCreate extends IncomingMessageWrapper {
         }
     }
 
-    private GameCharacter newCharacterWith(String accountName) {
+    private GameCharacter newCharacterWith(final String accountName) {
+        // has initial equipments for this class
+        assert settingsData.getInitialEquipments().containsKey(class_);
+
         // find stat or throw RuntimeException with stat not found exception
-        CharacterStat stat = (CharacterStat) settingsData.getRecommendedStats().stream().filter(
+        final CharacterStat stat = (CharacterStat) settingsData.getRecommendedStats().stream().filter(
                 st -> st.getRace() == race && st.getClass_() == class_)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Character stat for race " + race
@@ -145,6 +153,16 @@ public class CharacterCreate extends IncomingMessageWrapper {
         character.setVector3D(startPoint);
         character.setAngle(0);
         //character.setRotation(new Rotation(startPoint, 0.0D, VECTOR_OPERATOR));
+
+        // find initial equipment, and add items to character
+        final Map<String, Integer> initialEquipment = settingsData.getInitialEquipments().get(class_);
+        final List<Integer> items = itemDatasHolder.getItemData().values()
+                .parallelStream()
+                .filter(itemData -> initialEquipment.containsKey(itemData.getName()))
+                .mapToInt(ItemData::getItemId)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+
+        inventoryService.giveItems(character, items);
 
         return character;
     }

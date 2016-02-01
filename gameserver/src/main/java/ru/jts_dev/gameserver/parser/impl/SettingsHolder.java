@@ -15,6 +15,7 @@ import ru.jts_dev.gameserver.constants.CharacterClass;
 import ru.jts_dev.gameserver.parser.SettingsBaseListener;
 import ru.jts_dev.gameserver.parser.SettingsLexer;
 import ru.jts_dev.gameserver.parser.SettingsParser;
+import ru.jts_dev.gameserver.parser.SettingsParser.*;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +27,6 @@ import java.util.*;
  * @author Camelion
  * @since 15.12.15
  */
-// TODO: 05.01.16 handle initial equipment
 @Component
 public class SettingsHolder extends SettingsBaseListener {
     private static final Logger log = LoggerFactory.getLogger(SettingsHolder.class);
@@ -38,46 +38,46 @@ public class SettingsHolder extends SettingsBaseListener {
     @Autowired
     private ApplicationContext context;
 
-    public Map<CharacterClass, List<Vector3D>> getInitialStartPoints() {
+    public final Map<CharacterClass, List<Vector3D>> getInitialStartPoints() {
         return Collections.unmodifiableMap(initialStartPoints);
     }
 
-    public Map<CharacterClass, Map<String, Integer>> getInitialEquipments() {
+    public final Map<CharacterClass, Map<String, Integer>> getInitialEquipments() {
         return Collections.unmodifiableMap(initialEquipments);
     }
 
-    public List<CharacterStat> getMinimumStats() {
+    public final List<CharacterStat> getMinimumStats() {
         return Collections.unmodifiableList(minimumStats);
     }
 
-    public List<CharacterStat> getRecommendedStats() {
+    public final List<CharacterStat> getRecommendedStats() {
         return Collections.unmodifiableList(recommendedStats);
     }
 
-    public List<CharacterStat> getMaximumStats() {
+    public final List<CharacterStat> getMaximumStats() {
         return Collections.unmodifiableList(maximumStats);
     }
 
     @Override
-    public void exitMinimum_stat(SettingsParser.Minimum_statContext ctx) {
+    public final void exitMinimum_stat(final Minimum_statContext ctx) {
         minimumStats.addAll(ctx.value);
     }
 
     @Override
-    public void exitMaximum_stat(SettingsParser.Maximum_statContext ctx) {
+    public final void exitMaximum_stat(final Maximum_statContext ctx) {
         maximumStats.addAll(ctx.value);
     }
 
     @Override
-    public void exitRecommended_stat(SettingsParser.Recommended_statContext ctx) {
+    public final void exitRecommended_stat(final Recommended_statContext ctx) {
         recommendedStats.addAll(ctx.value);
     }
 
     @Override
-    public void exitInitial_start_point(SettingsParser.Initial_start_pointContext ctx) {
-        for (SettingsParser.Start_pointContext sctx : ctx.start_point()) {
-            List<Vector3D> points = sctx.points;
-            List<CharacterClass> classes = sctx.klasses;
+    public final void exitInitial_start_point(final Initial_start_pointContext ctx) {
+        for (final Start_pointContext sctx : ctx.start_point()) {
+            final List<Vector3D> points = sctx.points;
+            final List<CharacterClass> classes = sctx.klasses;
 
             classes.stream().forEach(cls -> initialStartPoints.put(cls, Collections.unmodifiableList(points)));
         }
@@ -89,10 +89,10 @@ public class SettingsHolder extends SettingsBaseListener {
      * @param ctx - parsed context
      */
     @Override
-    public void exitInitial_equipment(SettingsParser.Initial_equipmentContext ctx) {
-        for (SettingsParser.Character_equipmentContext cectx : ctx.character_equipment()) {
-            CharacterClass klass = cectx.klass;
-            Map<String, Integer> equipment = cectx.equipmentMap;
+    public final void exitInitial_equipment(final Initial_equipmentContext ctx) {
+        for (final Character_equipmentContext cectx : ctx.character_equipment()) {
+            final CharacterClass klass = cectx.klass;
+            final Map<String, Integer> equipment = cectx.equipmentMap;
 
             initialEquipments.put(klass, Collections.unmodifiableMap(equipment));
         }
@@ -102,15 +102,15 @@ public class SettingsHolder extends SettingsBaseListener {
     @PostConstruct
     private void parse() throws IOException {
         log.info("Loading data file: setting.txt");
-        Resource file = context.getResource("scripts/setting.txt");
+        final Resource file = context.getResource("scripts/setting.txt");
         try (InputStream is = file.getInputStream()) {
-            ANTLRInputStream input = new ANTLRInputStream(is);
-            SettingsLexer lexer = new SettingsLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            SettingsParser parser = new SettingsParser(tokens);
+            final ANTLRInputStream input = new ANTLRInputStream(is);
+            final SettingsLexer lexer = new SettingsLexer(input);
+            final CommonTokenStream tokens = new CommonTokenStream(lexer);
+            final SettingsParser parser = new SettingsParser(tokens);
 
-            ParseTree tree = parser.file();
-            ParseTreeWalker walker = new ParseTreeWalker();
+            final ParseTree tree = parser.file();
+            final ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(this, tree);
         }
     }

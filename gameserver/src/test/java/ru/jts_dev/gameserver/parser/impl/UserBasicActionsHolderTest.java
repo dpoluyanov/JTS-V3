@@ -9,6 +9,7 @@ import ru.jts_dev.gameserver.constants.ActionHandlerType;
 import ru.jts_dev.gameserver.parser.data.action.Action;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -33,7 +34,7 @@ public class UserBasicActionsHolderTest {
     public void testParseActionsData() throws Exception {
         assertThat(userBasicActionsHolder.getActionsData().size(), greaterThan(0));
 
-        for (Map.Entry<Integer, Action> entry : userBasicActionsHolder.getActionsData().entrySet()) {
+        for (final Entry<Integer, Action> entry : userBasicActionsHolder.getActionsData().entrySet()) {
             assertThat("For action " + entry.getKey(), entry.getKey(), greaterThanOrEqualTo(0));
             assertThat("For action " + entry.getKey(), entry.getKey(), equalTo(entry.getValue().getId()));
 

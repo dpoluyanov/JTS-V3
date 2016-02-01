@@ -6,7 +6,7 @@ import java.util.List;
  * @author Camelion
  * @since 14.01.16
  */
-public class UcRace extends Condition {
+public class UcRace implements Condition {
     private final List<Integer> races;
 
     public UcRace(List<Integer> races) {

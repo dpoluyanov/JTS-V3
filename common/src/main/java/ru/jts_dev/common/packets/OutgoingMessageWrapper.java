@@ -15,16 +15,16 @@ import static ru.jts_dev.common.packets.IncomingMessageWrapper.EOS;
  * @since 30.11.15
  */
 public abstract class OutgoingMessageWrapper implements Message<ByteBuf> {
-    /* package */ boolean static_;
-    /* package */ ByteBuf buffer;
-    /* package */ MessageHeaders headers;
+    boolean static_;
+    ByteBuf buffer;
+    MessageHeaders headers;
 
     protected OutgoingMessageWrapper() {
         buffer = buffer().order(ByteOrder.LITTLE_ENDIAN);
         headers = new MutableMessageHeaders(null);
     }
 
-    /* package */ OutgoingMessageWrapper(final boolean static_) {
+    OutgoingMessageWrapper(final boolean static_) {
         this();
         this.static_ = static_;
     }

@@ -6,7 +6,7 @@ import java.util.List;
  * @author Camelion
  * @since 14.01.16
  */
-public class UcInzoneNum extends Condition {
+public class UcInzoneNum implements Condition {
     private final List<Integer> instanceZones;
 
     public UcInzoneNum(List<Integer> instanceZones) {

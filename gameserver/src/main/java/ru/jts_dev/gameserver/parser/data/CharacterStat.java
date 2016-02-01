@@ -36,7 +36,7 @@ public class CharacterStat implements Cloneable {
     // INT, STR, CON, MEN, DEX, WIT
     private List<Integer> stats;
 
-    public CharacterStat(CharacterRace race, CharacterClass class_, List<Integer> stats) {
+    public CharacterStat(final CharacterRace race, final CharacterClass class_, final List<Integer> stats) {
         this.race = race;
         this.class_ = class_;
         this.stats = stats;
@@ -46,27 +46,27 @@ public class CharacterStat implements Cloneable {
     private CharacterStat() {
     }
 
-    public int getForType(int type) {
-        assert type >=0 && type < stats.size() : "Unknown stat type: " + type + " possible 0-5, INT, STR, CON, MEN, DEX, WIT";
+    public final int getForType(final int type) {
+        assert type >= 0 && type < stats.size() : "Unknown stat type: " + type + " possible 0-5, INT, STR, CON, MEN, DEX, WIT";
 
         return stats.get(type);
     }
 
     @Override
-    public Object clone() {
+    public final Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError(e);
         }
     }
 
-    public CharacterRace getRace() {
+    public final CharacterRace getRace() {
         return race;
     }
 
-    public CharacterClass getClass_() {
+    public final CharacterClass getClass_() {
         return class_;
     }
 }

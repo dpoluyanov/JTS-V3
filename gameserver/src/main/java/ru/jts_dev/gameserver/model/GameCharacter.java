@@ -3,13 +3,11 @@ package ru.jts_dev.gameserver.model;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Range;
 import ru.jts_dev.gameserver.ai.AiObject;
+import ru.jts_dev.gameserver.inventory.CharacterInventory;
 import ru.jts_dev.gameserver.parser.data.CharacterStat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.REASON_CREATION_FAILED;
 
@@ -21,7 +19,10 @@ import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.REASON_CREAT
 public class GameCharacter {
     @Id
     @GeneratedValue
-    private int objectId;
+    private int id;
+
+    @Transient
+    private int objectId; // should be auto-generated
 
     @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = "4-16 ENG symbols")
     @Column(unique = true)
@@ -73,8 +74,8 @@ public class GameCharacter {
     @Embedded
     private CharacterStat stat;
 
-    @OneToMany
-    private List<GameItem> inventory = new ArrayList<>();
+    @Embedded
+    private CharacterInventory inventory = new CharacterInventory();
 
     @Transient
     private String connectionId;
@@ -281,7 +282,7 @@ public class GameCharacter {
         this.stat = stat;
     }
 
-    public List<GameItem> getInventory() {
-        return Collections.synchronizedList(inventory);
+    public CharacterInventory getInventory() {
+        return inventory;
     }
 }

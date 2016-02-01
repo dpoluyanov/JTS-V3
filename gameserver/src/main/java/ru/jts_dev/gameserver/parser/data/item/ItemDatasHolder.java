@@ -1,7 +1,7 @@
-package ru.jts_dev.gameserver.parser.impl;
+package ru.jts_dev.gameserver.parser.data.item;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.PredictionMode;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.slf4j.Logger;
@@ -15,14 +15,16 @@ import ru.jts_dev.gameserver.constants.SlotBitType;
 import ru.jts_dev.gameserver.parser.ItemDatasBaseListener;
 import ru.jts_dev.gameserver.parser.ItemDatasLexer;
 import ru.jts_dev.gameserver.parser.ItemDatasParser;
+import ru.jts_dev.gameserver.parser.ItemDatasParser.ItemContext;
 import ru.jts_dev.gameserver.parser.ItemDatasParser.SetContext;
-import ru.jts_dev.gameserver.parser.data.item.ItemData;
-import ru.jts_dev.gameserver.parser.data.item.SetData;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Camelion
@@ -31,16 +33,16 @@ import java.util.*;
 @Component
 public class ItemDatasHolder extends ItemDatasBaseListener {
     private static final Logger log = LoggerFactory.getLogger(ItemDatasHolder.class);
-    private final Map<Integer, SetData> setsData = new HashMap<>();
-    private final Map<Integer, ItemData> itemData = new HashMap<>();
+    private final Map<Integer, SetData> setsData = new HashMap<>(250);
+    private final Map<Integer, ItemData> itemData = new HashMap<>(18000);
     @Autowired
     private ApplicationContext context;
 
-    public Map<Integer, SetData> getSetsData() {
+    public final Map<Integer, SetData> getSetsData() {
         return Collections.unmodifiableMap(setsData);
     }
 
-    public Map<Integer, ItemData> getItemData() {
+    public final Map<Integer, ItemData> getItemData() {
         return Collections.unmodifiableMap(itemData);
     }
 
@@ -51,10 +53,10 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
      * @param ctx - parsed {@link SetContext}
      */
     @Override
-    public void exitSet(SetContext ctx) {
-        int setId = ctx.int_object().value;
-        int slotChest = ctx.slot_chest().int_object().value;
-        SetData data = new SetData(setId, slotChest);
+    public final void exitSet(final SetContext ctx) {
+        final int setId = ctx.int_object().value;
+        final int slotChest = ctx.slot_chest().int_object().value;
+        final SetData data = new SetData(setId, slotChest);
 
         if (ctx.slot_legs() != null)
             data.setSlotLegs(ctx.slot_legs().int_list().value);
@@ -92,14 +94,14 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
     }
 
     @Override
-    public void exitItem(ItemDatasParser.ItemContext ctx) {
-        int itemId = ctx.item_id().value;
-        ItemClass itemClass = ctx.item_class().value;
-        String name = ctx.name_object().value;
-        ItemClass itemType = ctx.item_type().value;
-        List<SlotBitType> slotBitTypes = ctx.slot_bit_type_list().value;
+    public void exitItem(final ItemContext ctx) {
+        final int itemId = ctx.item_id().value;
+        final ItemClass itemClass = ctx.item_class().value;
+        final String name = ctx.name_object().value;
+        final ItemClass itemType = ctx.item_type().value;
+        final List<SlotBitType> slotBitTypes = ctx.slot_bit_type_list().value;
 
-        ItemData data = new ItemData(itemId, itemClass, name, itemType, slotBitTypes);
+        final ItemData data = new ItemData(itemId, itemClass, name, itemType, slotBitTypes);
         data.setArmorType(ctx.armor_type_wrapper().value);
         data.setEtcItemType(ctx.etcitem_type_wrapper().value);
         data.setWeaponType(ctx.weapon_type_wrapper().value);
@@ -204,15 +206,15 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
     @PostConstruct
     private void parse() throws IOException {
         log.info("Loading data file: itemdata.txt");
-        Resource file = context.getResource("scripts/itemdata.txt");
+        final Resource file = context.getResource("scripts/itemdata.txt");
         try (InputStream is = file.getInputStream()) {
-            ANTLRInputStream input = new ANTLRInputStream(is);
-            ItemDatasLexer lexer = new ItemDatasLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            ItemDatasParser parser = new ItemDatasParser(tokens);
+            final ANTLRInputStream input = new ANTLRInputStream(is);
+            final ItemDatasLexer lexer = new ItemDatasLexer(input);
+            final CommonTokenStream tokens = new CommonTokenStream(lexer);
+            final ItemDatasParser parser = new ItemDatasParser(tokens);
 
-            ParseTree tree = parser.file();
-            ParseTreeWalker walker = new ParseTreeWalker();
+            final ParseTree tree = parser.file();
+            final ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(this, tree);
         }
     }

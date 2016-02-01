@@ -4,7 +4,7 @@ package ru.jts_dev.gameserver.parser.data.item.condition;
  * @author Camelion
  * @since 14.01.16
  */
-public class UcLevel extends Condition {
+public class UcLevel implements Condition {
     private final int min;
     private final int max;
 

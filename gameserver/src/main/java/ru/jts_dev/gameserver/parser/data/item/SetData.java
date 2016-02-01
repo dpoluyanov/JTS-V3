@@ -1,13 +1,17 @@
 package ru.jts_dev.gameserver.parser.data.item;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
+ * This class designed to be immutable, thread safe set definition.
+ * Instances of this class can be shared between multiple characters without any limitations.
+ *
  * @author Camelion
  * @since 07.01.16
  */
-public class SetData {
+public final class SetData {
     private final int setId;
     private final int slotChest;
     private List<Integer> slotLegs = new ArrayList<>();
@@ -28,48 +32,48 @@ public class SetData {
     private List<Integer> menInc;
     private List<Integer> witInc;
 
-    public SetData(int setId, int slotChest) {
+    public SetData(final int setId, final int slotChest) {
         this.setId = setId;
         this.slotChest = slotChest;
     }
 
     public List<Integer> getSlotLegs() {
-        return slotLegs;
+        return Collections.unmodifiableList(slotLegs);
     }
 
-    public void setSlotLegs(List<Integer> slotLegs) {
+    void setSlotLegs(final List<Integer> slotLegs) {
         this.slotLegs = slotLegs;
     }
 
     public List<Integer> getSlotHead() {
-        return slotHead;
+        return Collections.unmodifiableList(slotHead);
     }
 
-    public void setSlotHead(List<Integer> slotHead) {
+    void setSlotHead(final List<Integer> slotHead) {
         this.slotHead = slotHead;
     }
 
     public List<Integer> getSlotGloves() {
-        return slotGloves;
+        return Collections.unmodifiableList(slotGloves);
     }
 
-    public void setSlotGloves(List<Integer> slotGloves) {
+    void setSlotGloves(List<Integer> slotGloves) {
         this.slotGloves = slotGloves;
     }
 
     public List<Integer> getSlotFeet() {
-        return slotFeet;
+        return Collections.unmodifiableList(slotFeet);
     }
 
-    public void setSlotFeet(List<Integer> slotFeet) {
+    void setSlotFeet(final List<Integer> slotFeet) {
         this.slotFeet = slotFeet;
     }
 
     public List<Integer> getSlotLhand() {
-        return slotLhand;
+        return Collections.unmodifiableList(slotLhand);
     }
 
-    public void setSlotLhand(List<Integer> slotLhand) {
+    void setSlotLhand(final List<Integer> slotLhand) {
         this.slotLhand = slotLhand;
     }
 
@@ -77,7 +81,7 @@ public class SetData {
         return slotAdditional;
     }
 
-    public void setSlotAdditional(String slotAdditional) {
+    void setSlotAdditional(final String slotAdditional) {
         this.slotAdditional = slotAdditional;
     }
 
@@ -85,7 +89,7 @@ public class SetData {
         return setSkill;
     }
 
-    public void setSetSkill(String setSkill) {
+    void setSetSkill(final String setSkill) {
         this.setSkill = setSkill;
     }
 
@@ -93,7 +97,7 @@ public class SetData {
         return setEffectSkill;
     }
 
-    public void setSetEffectSkill(String setEffectSkill) {
+    void setSetEffectSkill(final String setEffectSkill) {
         this.setEffectSkill = setEffectSkill;
     }
 
@@ -101,7 +105,7 @@ public class SetData {
         return setAdditionalEffectSkill;
     }
 
-    public void setSetAdditionalEffectSkill(String setAdditionalEffectSkill) {
+    void setSetAdditionalEffectSkill(final String setAdditionalEffectSkill) {
         this.setAdditionalEffectSkill = setAdditionalEffectSkill;
     }
 
@@ -109,7 +113,7 @@ public class SetData {
         return setAdditional2Condition;
     }
 
-    public void setSetAdditional2Condition(int setAdditional2Condition) {
+    void setSetAdditional2Condition(final int setAdditional2Condition) {
         this.setAdditional2Condition = setAdditional2Condition;
     }
 
@@ -117,55 +121,55 @@ public class SetData {
         return setAdditional2EffectSkill;
     }
 
-    public void setSetAdditional2EffectSkill(String setAdditional2EffectSkill) {
+    void setSetAdditional2EffectSkill(final String setAdditional2EffectSkill) {
         this.setAdditional2EffectSkill = setAdditional2EffectSkill;
     }
 
     public List<Integer> getStrInc() {
-        return strInc;
+        return Collections.unmodifiableList(strInc);
     }
 
-    public void setStrInc(List<Integer> strInc) {
+    void setStrInc(final List<Integer> strInc) {
         this.strInc = strInc;
     }
 
     public List<Integer> getConInc() {
-        return conInc;
+        return Collections.unmodifiableList(conInc);
     }
 
-    public void setConInc(List<Integer> conInc) {
+    void setConInc(final List<Integer> conInc) {
         this.conInc = conInc;
     }
 
     public List<Integer> getDexInc() {
-        return dexInc;
+        return Collections.unmodifiableList(dexInc);
     }
 
-    public void setDexInc(List<Integer> dexInc) {
+    void setDexInc(final List<Integer> dexInc) {
         this.dexInc = dexInc;
     }
 
     public List<Integer> getIntInc() {
-        return intInc;
+        return Collections.unmodifiableList(intInc);
     }
 
-    public void setIntInc(List<Integer> intInc) {
+    void setIntInc(final List<Integer> intInc) {
         this.intInc = intInc;
     }
 
     public List<Integer> getMenInc() {
-        return menInc;
+        return Collections.unmodifiableList(menInc);
     }
 
-    public void setMenInc(List<Integer> menInc) {
+    void setMenInc(final List<Integer> menInc) {
         this.menInc = menInc;
     }
 
     public List<Integer> getWitInc() {
-        return witInc;
+        return Collections.unmodifiableList(witInc);
     }
 
-    public void setWitInc(List<Integer> witInc) {
+    void setWitInc(final List<Integer> witInc) {
         this.witInc = witInc;
     }
 

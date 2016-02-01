@@ -2,11 +2,14 @@ package ru.jts_dev.gameserver.packets.in;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
+import ru.jts_dev.gameserver.inventory.InventoryService;
 import ru.jts_dev.gameserver.model.GameCharacter;
+import ru.jts_dev.gameserver.model.GameItem;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
 import ru.jts_dev.gameserver.packets.out.ClientSetTime;
 import ru.jts_dev.gameserver.packets.out.ExBasicActionList;
+import ru.jts_dev.gameserver.packets.out.ItemList;
 import ru.jts_dev.gameserver.packets.out.UserInfo;
 import ru.jts_dev.gameserver.parser.data.action.Action;
 import ru.jts_dev.gameserver.parser.impl.PcParametersHolder;
@@ -39,6 +42,8 @@ public class EnterWorld extends IncomingMessageWrapper {
     private PcParametersHolder parametersData;
     @Autowired
     private UserBasicActionsHolder userBasicActionsHolder;
+    @Autowired
+    private InventoryService inventoryService;
 
     @Override
     public void prepare() {
@@ -47,27 +52,28 @@ public class EnterWorld extends IncomingMessageWrapper {
 
     @Override
     public void run() {
-        GameSession session = sessionService.getSessionBy(getConnectionId());
-        GameCharacter character = playerService.getCharacterBy(getConnectionId());
+        final GameSession session = sessionService.getSessionBy(getConnectionId());
+        final GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
-        // TODO: 03.01.16 ItemList packet, ShortCutInit, BookMarkInfo, BasicAction, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
+        // TODO: 03.01.16 ExQuestItemList packet, ShortCutInit, BookMarkInfo, BasicAction, QuestList, EtcStatusUpdate, StorageMaxCount, FriendList,
         // TODO: 03.01.16 System Message : Welcome to Lineage, SkillCoolTime, ExVoteSystemInfo, Spawn player,
         // TODO: 03.01.16 HennaInfo, SkillList, broadcast CharInfo
 
-        Collection<Action> actions = userBasicActionsHolder.getActionsData().values();
+        final Collection<Action> actions = userBasicActionsHolder.getActionsData().values();
         broadcastService.send(session, new ExBasicActionList(actions));
 
-        long minutesPassed = timeService.minutesPassed();
+        final long minutesPassed = timeService.minutesPassed();
         broadcastService.send(session, new ClientSetTime((int) minutesPassed));
 
-        // TODO: 04.01.16 broadcast CharInfo, send UserInfo
-        // send UserInfo
-
-        String pcParameterName = toPCParameterName(character.getSex(), character.getStat().getClass_());
+        final String pcParameterName = toPCParameterName(character.getSex(), character.getStat().getClass_());
         assert parametersData.getCollisionBoxes().containsKey(pcParameterName);
 
-        List<Double> collisions = parametersData.getCollisionBoxes().get(pcParameterName);
+        final List<Double> collisions = parametersData.getCollisionBoxes().get(pcParameterName);
 
+        final List<GameItem> commonItems = InventoryService.getCommonItemsFrom(character);
+        broadcastService.send(session, new ItemList(commonItems, true));
+
+        // TODO: 04.01.16 broadcast CharInfo
         broadcastService.send(session, new UserInfo(character, collisions));
     }
 }

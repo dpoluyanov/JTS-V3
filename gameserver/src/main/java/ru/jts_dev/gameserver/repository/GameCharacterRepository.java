@@ -65,10 +65,10 @@ public interface GameCharacterRepository extends CrudRepository<GameCharacter, I
 
         @Before("execution(* GameCharacterRepository+.save(..)) && args(character))")
         public void updateLastUsedAdvice(GameCharacter character) {
+            character.setLastUsed(true);
+
             // perform update
             repository.updateLastUsed(character);
-
-            character.setLastUsed(true);
         }
     }
 }
