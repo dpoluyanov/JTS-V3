@@ -42,8 +42,8 @@ public final class BitSetAllocator {
     }
 
     public void markFree(int index) {
-        if (index < 0 || index >= bitSetSize) {
-            throw new RuntimeException("index must be >= 0 and < " + bitSetSize);
+        if (index <= 0 || index >= bitSetSize) {
+            throw new RuntimeException("index must be > 0 and < " + bitSetSize);
         }
         if (bits.get(index)) {
             ++bitsAvailable;
@@ -57,8 +57,8 @@ public final class BitSetAllocator {
     }
 
     public void markUsed(int index) {
-        if (index < 0 || index >= bitSetSize) {
-            throw new RuntimeException("index must be >= 0 and < " + bitSetSize);
+        if (index <= 0 || index >= bitSetSize) {
+            throw new RuntimeException("index must be > 0 and < " + bitSetSize);
         }
         if (!bits.get(index)) {
             --bitsAvailable;
@@ -67,7 +67,7 @@ public final class BitSetAllocator {
     }
 
     public int nextFreeIndex() {
-        int nextClear = bits.nextClearBit(0);
+        int nextClear = bits.nextClearBit(1);
         if (nextClear >= bitSetSize)
             return -1;
         return nextClear;
