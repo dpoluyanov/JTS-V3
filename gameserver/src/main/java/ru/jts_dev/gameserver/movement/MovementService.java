@@ -2,12 +2,14 @@ package ru.jts_dev.gameserver.movement;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.util.FastMath;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.out.MoveToLocation;
-import ru.jts_dev.gameserver.packets.out.StopMove;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.util.RotationUtils;
 
@@ -21,7 +23,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MovementService {
     private static final long MOVE_TASK_INTERVAL_MILLIS = 200L;
-    public static final double MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000.0D;
+    private static final double MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000.0D;
+
+    private static final Logger logger = LoggerFactory.getLogger(MovementService.class);
 
     @Autowired
     private ScheduledExecutorService scheduledExecutorService;
@@ -36,10 +40,16 @@ public class MovementService {
         final Line line = new Line(start, end, 1.0D);
         final double distance = start.distance(end);
         final Vector3D direction = line.getDirection();
-        final double angle = Vector3D.angle(start, end);
-        //character.setRotation(new Rotation(start, end));
-        character.setAngle(angle);
+        final double angle = Vector3D.angle(start, direction);
+        final double degree = FastMath.toDegrees(angle);
+        //final Rotation rotation = new Rotation(start, end);
+        //final double angle = rotation.getAngle();
+        logger.info("MovementService angle = {}", angle);
+        logger.info("MovementService degree = {}", degree);
         character.setVector3D(start);
+        final int clientHeading = rotationUtils.convertAngleToClientHeading((int) degree);
+        //broadcastService.send(session, new StartRotating(character, clientHeading, 0, 200));
+        character.setAngle(degree);
         character.setMoving(true);
 
         final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance, true);
@@ -76,8 +86,9 @@ public class MovementService {
                 character.setVector3D(temp);
 
                 if (start.distance(character.getVector3D()) >= distance) {
-                    final int clientHeading = rotationUtils.convertAngleToClientHeading(character.getAngle());
-                    broadcastService.send(session, new StopMove(character, clientHeading));
+                    final int clientHeading = rotationUtils.convertAngleToClientHeading((int) character.getAngle());
+                    logger.info("MovementService clientHeading = {}", clientHeading);
+                    //broadcastService.send(session, new StopMove(character, clientHeading));
                     character.setVector3D(end);
                     character.setMoving(false);
                 } else {

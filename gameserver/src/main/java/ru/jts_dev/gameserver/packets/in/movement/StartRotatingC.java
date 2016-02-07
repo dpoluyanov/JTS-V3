@@ -45,6 +45,8 @@ public class StartRotatingC extends IncomingMessageWrapper {
         // TODO check that
         Rotation newRotation = rotationUtils.clientRotation(oldRotation, angle, side);
         character.setRotation(newRotation);*/
+        double angle = rotationUtils.convertClientHeadingToAngle(heading);
+        character.setAngle(angle);
         // TODO broadcastService.broadcast(character, new StartRotating(character, heading, side, 0));
         broadcastService.send(session, new StartRotating(character, heading, side, 0));
     }
