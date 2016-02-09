@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.jts_dev.common.id.impl.bitset.BitSetIdPool;
 
 import java.util.stream.IntStream;
 
@@ -27,12 +28,12 @@ public class IdPoolTest {
     @Test(timeout = 700L)
     public void testIdBorrow() throws Exception {
         IntStream.rangeClosed(0, 10_000).forEach(value -> {
-            int id = idPool.borrow();
+            final int id = idPool.borrow();
             assertThat(id, equalTo(value));
         });
 
         IntStream.rangeClosed(0, 10_000).parallel().forEach(value -> {
-            int id = idPool.borrow();
+            final int id = idPool.borrow();
             assertThat(id, greaterThanOrEqualTo(10_000));
         });
     }
@@ -41,8 +42,6 @@ public class IdPoolTest {
     public void testIdRelease() throws Exception {
         IntStream.rangeClosed(0, 20_000).forEach(value -> idPool.borrow());
 
-        IntStream.rangeClosed(0, 20_000).parallel().forEach(value -> {
-            idPool.release(value);
-        });
+        IntStream.rangeClosed(0, 20_000).parallel().forEach(value -> idPool.release(value));
     }
 }

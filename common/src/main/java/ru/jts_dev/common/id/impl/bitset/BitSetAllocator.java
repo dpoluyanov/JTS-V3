@@ -1,4 +1,4 @@
-package ru.jts_dev.common.id;
+package ru.jts_dev.common.id.impl.bitset;
 
 import java.util.BitSet;
 import java.util.concurrent.locks.Condition;
@@ -7,14 +7,14 @@ import java.util.concurrent.locks.Condition;
  * @author Java-man
  * @since 25.01.2016
  */
-public final class BitSetAllocator {
+final class BitSetAllocator {
     private final BitSet bits;
 
     private final int bitSetSize;
     private int bitsAvailable;
     private Condition availableCond;
 
-    public BitSetAllocator(final int bitSetSize) {
+    BitSetAllocator(final int bitSetSize) {
         this.bitSetSize = bitSetSize;
         bitsAvailable = bitSetSize;
         bits = new BitSet(bitSetSize);
@@ -28,8 +28,8 @@ public final class BitSetAllocator {
         return bitSetSize;
     }
 
-    public int nextFreeIndex(Condition signalWhenAvail) {
-        int index = nextFreeIndex();
+    public int nextFreeIndex(final Condition signalWhenAvail) {
+        final int index = nextFreeIndex();
         if (index == -1) {
             availableCond = signalWhenAvail;
         }
@@ -41,7 +41,7 @@ public final class BitSetAllocator {
         bits.clear();
     }
 
-    public void markFree(int index) {
+    public void markFree(final int index) {
         if (index <= 0 || index >= bitSetSize) {
             throw new RuntimeException("index must be > 0 and < " + bitSetSize);
         }
@@ -56,7 +56,7 @@ public final class BitSetAllocator {
         }
     }
 
-    public void markUsed(int index) {
+    public void markUsed(final int index) {
         if (index <= 0 || index >= bitSetSize) {
             throw new RuntimeException("index must be > 0 and < " + bitSetSize);
         }
@@ -67,9 +67,10 @@ public final class BitSetAllocator {
     }
 
     public int nextFreeIndex() {
-        int nextClear = bits.nextClearBit(1);
+        final int nextClear = bits.nextClearBit(1);
         if (nextClear >= bitSetSize)
             return -1;
         return nextClear;
     }
 }
+

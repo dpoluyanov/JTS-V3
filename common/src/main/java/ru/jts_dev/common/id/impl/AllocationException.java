@@ -1,11 +1,11 @@
-package ru.jts_dev.common.id;
+package ru.jts_dev.common.id.impl;
 
 /**
  * @author Java-man
  * @since 25.01.2016
  */
 public class AllocationException extends RuntimeException {
-    public AllocationException(String message) {
+    public AllocationException(final String message) {
         super(message);
     }
 }

@@ -1,9 +1,11 @@
-package ru.jts_dev.common.id;
+package ru.jts_dev.common.id.impl.bitset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import ru.jts_dev.common.id.IdPool;
+import ru.jts_dev.common.id.impl.AllocationException;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -18,17 +20,17 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  */
 @Component
 @Scope(SCOPE_PROTOTYPE)
-public class BitSetIdPool implements IdPool {
+public final class BitSetIdPool implements IdPool {
     private final Logger logger = LoggerFactory.getLogger(BitSetIdPool.class);
 
     private final BitSetAllocator allocator = new BitSetAllocator(Integer.MAX_VALUE);
     private final Lock lock = new ReentrantLock();
     private final Condition availableCond = lock.newCondition();
 
-    private int allocate() throws AllocationException {
+    private int allocate() {
         lock.lock();
         try {
-            int index = allocator.nextFreeIndex();
+            final int index = allocator.nextFreeIndex();
             if (index == -1) {
                 throw new AllocationException("No available indexes in pool.");
             }
@@ -39,7 +41,7 @@ public class BitSetIdPool implements IdPool {
         }
     }
 
-    private int allocate(long time, TimeUnit unit) throws AllocationException, InterruptedException {
+    private int allocate(final long time, final TimeUnit unit) throws InterruptedException {
         lock.lock();
         try {
             int index = allocator.nextFreeIndex(availableCond);
@@ -57,7 +59,7 @@ public class BitSetIdPool implements IdPool {
         }
     }
 
-    private void releaseId(int id) {
+    private void releaseId(final int id) {
         lock.lock();
         try {
             allocator.markFree(id);
@@ -68,13 +70,13 @@ public class BitSetIdPool implements IdPool {
 
     @Override
     public int borrow() {
-        int id = allocate();
+        final int id = allocate();
         logger.debug("allocated id: {}", id);
         return id;
     }
 
     @Override
-    public void release(int id) {
+    public void release(final int id) {
         releaseId(id);
         logger.debug("released id: {}", id);
     }
