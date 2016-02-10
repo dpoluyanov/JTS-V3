@@ -47,7 +47,7 @@ public interface GameCharacterRepository extends CrudRepository<GameCharacter, I
     List<GameCharacter> findAllByAccountName(String accountName);
 
     /**
-     * Hit before for {@link GameCharacterRepository#save(Object)}
+     * Hit before {@link GameCharacterRepository#save(Object)}
      * set lastUsed field false for all accounts
      *
      * @param character - character, prepared to save

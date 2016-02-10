@@ -22,7 +22,7 @@ public class GameCharacter {
     private int id;
 
     @Transient
-    private int objectId; // should be auto-generated
+    private int objectId = 10; // should be auto-generated
 
     @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = "4-16 ENG symbols")
     @Column(unique = true)

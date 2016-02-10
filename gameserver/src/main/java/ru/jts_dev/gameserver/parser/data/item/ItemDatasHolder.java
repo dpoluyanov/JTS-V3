@@ -1,7 +1,9 @@
 package ru.jts_dev.gameserver.parser.data.item;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.atn.PredictionMode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.slf4j.Logger;
@@ -93,8 +95,15 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
         setsData.put(setId, data);
     }
 
+    /**
+     * parse itemdata set section
+     * {@see ItemDatas.g4} `item` rule
+     *
+     * @param ctx - parsed {@link ItemContext}
+     */
     @Override
     public void exitItem(final ItemContext ctx) {
+        long start = System.nanoTime();
         final int itemId = ctx.item_id().value;
         final ItemClass itemClass = ctx.item_class().value;
         final String name = ctx.name_object().value;
@@ -213,9 +222,17 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
             final CommonTokenStream tokens = new CommonTokenStream(lexer);
             final ItemDatasParser parser = new ItemDatasParser(tokens);
 
+            parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
+            parser.setErrorHandler(new BailErrorStrategy());
+            parser.setProfile(false);
+
+            long start = System.nanoTime();
             final ParseTree tree = parser.file();
+            log.info("ParseTime: " + (System.nanoTime() - start) / 1_000_000);
             final ParseTreeWalker walker = new ParseTreeWalker();
+            start = System.nanoTime();
             walker.walk(this, tree);
+            log.info("WalkTime: " + (System.nanoTime() - start) / 1_000_000);
         }
     }
 }

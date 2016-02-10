@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
@@ -53,6 +54,8 @@ public class AuthIntegrationConfig {
     private LoginClientPacketHandler clientPacketHandler;
     @Autowired
     private AuthSessionService authSessionService;
+    @Value("${authserver.port}")
+    private int authserverPort;
 
     /**
      * Server connection factory, for game client connections.
@@ -62,7 +65,7 @@ public class AuthIntegrationConfig {
      */
     @Bean
     public TcpNioServerConnectionFactory connectionFactory() {
-        TcpNioServerConnectionFactory serverConnectionFactory = new TcpNioServerConnectionFactory(2106);
+        TcpNioServerConnectionFactory serverConnectionFactory = new TcpNioServerConnectionFactory(authserverPort);
 
         serverConnectionFactory.setDeserializer(new ProtocolByteArrayLengthHeaderSerializer());
         serverConnectionFactory.setSerializer(new ProtocolByteArrayLengthHeaderSerializer());
@@ -154,7 +157,7 @@ public class AuthIntegrationConfig {
                     return msg;
                 })
                 .transform(OutgoingMessageWrapper.class, msg -> {
-                    encoder.appendPadding(msg.getPayload());
+                    encoder.appendBlowFishPadding(msg.getPayload());
                     return msg;
                 })
                 .route(OutgoingMessageWrapper.class, msg -> msg instanceof Init,
@@ -165,9 +168,7 @@ public class AuthIntegrationConfig {
                                                 .enrichHeaders(singletonMap(STATIC_KEY_HEADER, true)))
                                 .subFlowMapping("false",
                                         sf -> sf.transform(OutgoingMessageWrapper.class,
-                                                OutgoingMessageWrapper::getPayload)))
-                .transform(ByteBuf.class, buf -> encoder.appendChecksum(buf))
-                .transform(ByteBuf.class, buf -> encoder.appendPadding(buf))
+                                                msg -> encoder.appendChecksum(msg.getPayload()))))
                 .transform(ByteBuf.class, buf -> {
                     byte[] data = new byte[buf.readableBytes()];
                     buf.readBytes(data);
