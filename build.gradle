@@ -37,5 +37,5 @@ eclipse {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.10'
+    gradleVersion = '2.11'
 }

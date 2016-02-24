@@ -3,7 +3,6 @@ grammar ItemDatas;
 import Lang;
 
 @header {
-import ru.jts_dev.gameserver.constants.AttributeType;
 import ru.jts_dev.gameserver.constants.ConsumeType;
 import ru.jts_dev.gameserver.constants.CrystalType;
 import ru.jts_dev.gameserver.constants.DefaultAction;
@@ -11,14 +10,13 @@ import ru.jts_dev.gameserver.constants.ItemClass;
 import ru.jts_dev.gameserver.constants.ItemTypes.*;
 import ru.jts_dev.gameserver.constants.MaterialType;
 import ru.jts_dev.gameserver.constants.SlotBitType;
-import ru.jts_dev.gameserver.parser.data.item.ItemData.AttributeAttack;
 import ru.jts_dev.gameserver.parser.data.item.ItemData.CapsuledItemData;
 import ru.jts_dev.gameserver.parser.data.item.condition.*;
 }
 
 file : (item | set)+;
 
-set :
+set:
     'set_begin'
     int_object
     slot_chest
@@ -60,7 +58,7 @@ int_inc : 'int_inc' '=' int_list;
 men_inc : 'men_inc' '=' int_list;
 wit_inc : 'wit_inc' '=' int_list;
 
-item :
+item:
     'item_begin'
     item_class
     item_id
@@ -288,18 +286,6 @@ for_npc
     returns[boolean value]: 'for_npc' '=' bo=bool_object {$ctx.value = $bo.value;};
 unequip_skill
     returns[List<String> value]: 'unequip_skill' '=' il=identifier_list {$ctx.value = $il.value;};
-
-base_attribute_attack
-    returns[AttributeAttack value]: 'base_attribute_attack' '=' aa=attack_attribute {$ctx.value = $aa.value;};
-attack_attribute
-    returns[AttributeAttack value]
-    :'{' attribute ';' io=int_object '}' {$ctx.value = new AttributeAttack($attribute.value, $io.value);};
-
-attribute
-    returns[AttributeType value]:
-    NONE {$ctx.value = AttributeType.NONE;}
-    | FIRE {$ctx.value = AttributeType.FIRE;}
-    | EARTH {$ctx.value = AttributeType.EARTH;};
 
 html
     returns[String value]: 'html' '=' no=name_object {$ctx.value = $no.value;};
@@ -753,7 +739,3 @@ A: 'a';
 S80: 's80';
 S84: 's84';
 S: 's';
-
-// Attributes
-FIRE : 'fire';
-EARTH : 'earth';

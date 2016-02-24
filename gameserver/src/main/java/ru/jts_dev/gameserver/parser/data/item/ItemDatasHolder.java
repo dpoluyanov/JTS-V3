@@ -229,6 +229,8 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
             long start = System.nanoTime();
             final ParseTree tree = parser.file();
             log.info("ParseTime: " + (System.nanoTime() - start) / 1_000_000);
+
+
             final ParseTreeWalker walker = new ParseTreeWalker();
             start = System.nanoTime();
             walker.walk(this, tree);
