@@ -3,6 +3,9 @@ grammar Lang;
 @header {
 // For vector3D_object Rule
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
+import ru.jts_dev.gameserver.constants.AttributeType;
+import ru.jts_dev.gameserver.parser.data.item.ItemData.AttributeAttack;
 }
 
 identifier_object
@@ -10,7 +13,7 @@ identifier_object
     @after {$ctx.value = $text;} :
     // workaround about name conflicts (itemdata.txt)
     DAGGER | BOW | CROSSBOW | RAPIER | GLOVES | STEEL | LEATHER | ORIHARUKON | 'slot_lhand'
-    | NAME | NONE
+    | NAME | NONE | ORC
     ;
 
 bool_object
@@ -27,6 +30,12 @@ int_object
     returns [int value]
     @after {$ctx.value = Integer.valueOf($text);}:
     BOOLEAN | INTEGER;
+
+long_object
+    returns [long value]
+    @after {$ctx.value = Long.valueOf($text);}:
+    BOOLEAN | INTEGER;
+
 
 double_object
     returns [double value]
@@ -67,6 +76,22 @@ double_list
     | '{' d=double_object { $ctx.value.add(Double.valueOf($d.text)); }
     (SEMICOLON d=double_object { $ctx.value.add(Double.valueOf($d.text)); })* '}';
 
+base_attribute_attack
+    returns[AttributeAttack value]: 'base_attribute_attack' '=' aa=attack_attribute {$ctx.value = $aa.value;};
+attack_attribute
+    returns[AttributeAttack value]
+    :'{' attribute ';' io=int_object '}' {$ctx.value = new AttributeAttack($attribute.value, $io.value);};
+
+attribute
+    returns[AttributeType value]:
+    NONE {$ctx.value = AttributeType.NONE;}
+    | FIRE {$ctx.value = AttributeType.FIRE;}
+    | WATER {$ctx.value = AttributeType.WATER;}
+    | EARTH {$ctx.value = AttributeType.EARTH;}
+    | WIND {$ctx.value = AttributeType.WIND;}
+    | HOLY {$ctx.value = AttributeType.HOLY;}
+    | UNHOLY {$ctx.value = AttributeType.UNHOLY;};
+
 category_list
     returns [List<String> value]
     @init { $ctx.value = new ArrayList<>(); }: empty_list
@@ -78,6 +103,14 @@ CATEGORY : '@' NAME;
 BOOLEAN: BINARY_DIGIT;
 INTEGER: MINUS? DECIMAL;
 DOUBLE: INTEGER '.' DIGIT+;
+
+// Attributes
+FIRE : 'fire';
+WATER : 'water';
+EARTH : 'earth';
+WIND : 'wind';
+UNHOLY : 'unholy';
+HOLY : 'holy';
 
 fragment
 DECIMAL: ZERO_DIGIT | NON_ZERO_DIGIT DIGIT*;
@@ -101,6 +134,40 @@ SEMICOLON : ';';
 
 // Constants
 NONE : 'none';
+
+// npc race
+FAIRY : 'fairy';
+ANIMAL : 'animal';
+HUMANOID : 'humanoid';
+PLANT : 'plant';
+UNDEAD : 'undead';
+CONSTRUCT : 'construct';
+BEAST : 'beast';
+BUG : 'bug';
+ELEMENTAL : 'elemental';
+DEMONIC : 'demonic';
+GIANT: 'giant';
+DRAGON: 'dragon';
+DIVINE: 'divine';
+SUMMON: 'summon';
+PET: 'pet';
+HOLYTHING: 'holything';
+DWARF: 'dwarf';
+MERCHANT: 'merchant';
+ELF: 'elf';
+KAMAEL: 'kamael';
+ORC: 'orc';
+MERCENARY: 'mercenary';
+CASTLE_GUARD: 'castle_guard';
+HUMAN: 'human';
+BOSS: 'boss';
+ZZOLDAGU: 'zzoldagu';
+WORLD_TRAP: 'world_trap';
+MONRACE: 'monrace';
+DARKELF: 'darkelf';
+GUARD: 'guard';
+TELEPORTER: 'teleporter';
+WAREHOUSE_KEEPER: 'warehouse_keeper';
 
 // Weapon types
 SWORD : 'sword';

@@ -27,7 +27,7 @@ public class NewCharacterSuccess extends OutgoingMessageWrapper {
 
     @Override
     public void write() {
-        writeInt(0x0D);
+        writeByte(0x0D);
         writeInt(recommendedStats.size()); // stats count
 
         for (int i = 0; i < maximumStats.size(); i++) {

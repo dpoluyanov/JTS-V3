@@ -23,11 +23,11 @@ public final class Init extends OutgoingMessageWrapper {
         writeInt(sessionId);
         writeInt(0x0000c621);
         writeBytes(scrambledRSAKey);
-        writeInt(0x29DD954E);
-        writeInt(0x77C39CFC);
-        writeInt(0x97ADB620);
-        writeInt(0x07BDE0F7);
+        writeInt(0x00);
+        writeInt(0x00);
+        writeInt(0x00);
+        writeInt(0x00);
         writeBytes(blowfishKey);
-        writeByte(0x00);
+        writeInt(0x04);
     }
 }

@@ -43,14 +43,14 @@ public class EncoderTest extends Assert {
     public void testEncWithXor() throws Exception {
         byte[] data = new byte[32];
         random.nextBytes(data);
-        ByteBuf buf = buffer(32, 36);
+        ByteBuf buf = buffer(32, 48);
 
         ByteBuf raw = buf.copy(); // create copy of buf, because encoder due direct write to buf
 
         ByteBuf encoded = encoder.encWithXor(buf);
 
         // encoded array must be longer for 4 bytes
-        assertTrue(raw.writerIndex() + 4 == encoded.writerIndex());
+        assertTrue(raw.writerIndex() + 16 == encoded.writerIndex());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -70,7 +70,7 @@ public class EncoderTest extends Assert {
 
         assertThat(buf.readableBytes(), not(is(8)));
 
-        buf = encoder.appendPadding(buf);
+        buf = encoder.appendBlowFishPadding(buf);
 
         assertThat(buf.readableBytes(), is(8));
     }

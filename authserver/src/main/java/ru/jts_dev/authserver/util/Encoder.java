@@ -1,6 +1,8 @@
 package ru.jts_dev.authserver.util;
 
 import io.netty.buffer.ByteBuf;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.handler.annotation.Header;
@@ -11,6 +13,7 @@ import ru.jts_dev.authserver.service.AuthSessionService;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.Objects;
+import java.util.Random;
 
 import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 
@@ -28,10 +31,23 @@ public class Encoder {
     };
     public static final String STATIC_KEY_HEADER = "static_key";
     public static final int BLOWFISH_KEY_SIZE = 16;
+    private static final Logger log = LoggerFactory.getLogger(Encoder.class);
     private static final int BLOWFISH_BLOCK_SIZE = 8;
 
     @Autowired
     private AuthSessionService authSessionService;
+
+    @Autowired
+    private Random random;
+
+    public ByteBuf appendBlowFishPadding(ByteBuf buf) {
+        int padding = BLOWFISH_BLOCK_SIZE - buf.readableBytes() % BLOWFISH_BLOCK_SIZE;
+        byte[] stuff = new byte[padding];
+        random.nextBytes(stuff);
+        buf.writeBytes(stuff);
+
+        return buf;
+    }
 
     public ByteBuf validateChecksum(ByteBuf buf) {
         if (buf.readableBytes() % 4 != 0 || buf.readableBytes() <= 4) {
@@ -68,6 +84,8 @@ public class Encoder {
 
         buf.writeInt(checksum);
 
+        buf.writeZero(4); // for blowfish block
+
         return buf;
     }
 
@@ -78,6 +96,8 @@ public class Encoder {
         int edx;
         int ecx = 0; // Initial xor key
 
+        buf.writeLong(random.nextLong()); // 8 bytes padding
+
         for (int pos = 4; pos < buf.readableBytes(); pos += 4) {
             edx = buf.getInt(pos);
 
@@ -87,14 +107,8 @@ public class Encoder {
             buf.setInt(pos, edx);
         }
         buf.writeInt(ecx);
-        return buf;
-    }
 
-    public ByteBuf appendPadding(ByteBuf buf) {
-        if (buf.readableBytes() % BLOWFISH_BLOCK_SIZE != 0) {
-            int padding = BLOWFISH_BLOCK_SIZE - buf.readableBytes() % BLOWFISH_BLOCK_SIZE;
-            buf.writeZero(padding);
-        }
+        buf.writeInt(random.nextInt()); // 4 bytes for blowfish block
 
         return buf;
     }
@@ -108,18 +122,28 @@ public class Encoder {
 
         BlowfishEngine blowfishEngine = new BlowfishEngine();
         if (static_key != null && static_key.equals("true")) {
-            blowfishEngine.init(true, STATIC_BLOWFISH_KEY);
+            blowfishEngine.init(STATIC_BLOWFISH_KEY);
         } else {
             AuthSession gameSession = authSessionService.getSessionBy(connectionId);
 
             // perform null check
             Objects.requireNonNull(gameSession, "gameSession is null for " + connectionId);
 
-            blowfishEngine.init(true, gameSession.getBlowfishKey());
+            blowfishEngine.init(gameSession.getBlowfishKey());
+        }
+        if (log.isTraceEnabled() && data.length > 0) {
+            final StringBuilder leftStr = new StringBuilder("[");
+            for (byte b : data) {
+                leftStr.append(" ");
+                leftStr.append(String.format("%02X", b));
+            }
+            leftStr.append(" ]");
+
+            log.trace("Raw bytes before encrypt: " + leftStr);
         }
 
         for (int i = 0; i < data.length; i += BLOWFISH_BLOCK_SIZE) {
-            blowfishEngine.processBlock(data, i, data, i);
+            blowfishEngine.encryptBlock(data, i, data, i);
         }
 
         return data;
@@ -133,10 +157,10 @@ public class Encoder {
         AuthSession gameSession = authSessionService.getSessionBy(connectionId);
 
         BlowfishEngine blowfishEngine = new BlowfishEngine();
-        blowfishEngine.init(false, gameSession.getBlowfishKey());
+        blowfishEngine.init(gameSession.getBlowfishKey());
 
         for (int i = 0; i < data.length; i += BLOWFISH_BLOCK_SIZE) {
-            blowfishEngine.processBlock(data, i, data, i);
+            blowfishEngine.decryptBlock(data, i, data, i);
         }
 
         return data;
