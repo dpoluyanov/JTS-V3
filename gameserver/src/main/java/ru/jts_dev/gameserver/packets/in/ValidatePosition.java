@@ -3,10 +3,7 @@ package ru.jts_dev.gameserver.packets.in;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
-import ru.jts_dev.gameserver.model.GameCharacter;
-import ru.jts_dev.gameserver.model.GameSession;
 import ru.jts_dev.gameserver.packets.Opcode;
-import ru.jts_dev.gameserver.packets.out.ValidateLocation;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
@@ -41,10 +38,10 @@ public class ValidatePosition extends IncomingMessageWrapper {
     @Override
     public void run() {
         // TODO
-        final GameSession session = sessionService.getSessionBy(getConnectionId());
+        /*final GameSession session = sessionService.getSessionBy(getConnectionId());
         final GameCharacter character = playerService.getCharacterBy(getConnectionId());
 
         final int clientHeading = rotationUtils.convertAngleToClientHeading((int) character.getAngle());
-        broadcastService.send(session, new ValidateLocation(character, clientHeading));
+        broadcastService.send(session, new ValidateLocation(character, clientHeading));*/
     }
 }

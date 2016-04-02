@@ -13,7 +13,10 @@ import ru.jts_dev.gameserver.packets.out.MoveToLocation;
 import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.util.RotationUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,7 +28,7 @@ public class MovementService {
     private static final long MOVE_TASK_INTERVAL_MILLIS = 200L;
     private static final double MOVE_SPEED_MULTIPLIER = MOVE_TASK_INTERVAL_MILLIS / 1000.0D;
 
-    private static final Logger logger = LoggerFactory.getLogger(MovementService.class);
+    private final Logger logger = LoggerFactory.getLogger(MovementService.class);
 
     @Autowired
     private ScheduledExecutorService scheduledExecutorService;
@@ -33,6 +36,8 @@ public class MovementService {
     private BroadcastService broadcastService;
     @Autowired
     private RotationUtils rotationUtils;
+
+    private final Map<Integer, ScheduledFuture<?>> tasks = new HashMap<>();
 
     public void moveTo(final GameSession session, final GameCharacter character, final Vector3D end) {
         final Vector3D start = character.getVector3D();
@@ -53,7 +58,18 @@ public class MovementService {
         character.setMoving(true);
 
         final Runnable moveTask = new MoveTask(session, character, start, end, direction, distance, true);
-        scheduledExecutorService.schedule(moveTask, MOVE_TASK_INTERVAL_MILLIS, TimeUnit.MILLISECONDS);
+        ScheduledFuture<?> future = scheduledExecutorService.schedule(moveTask, MOVE_TASK_INTERVAL_MILLIS,
+                TimeUnit.MILLISECONDS);
+        tasks.put(character.getObjectId(), future);
+    }
+
+    public void stopMovement(final GameCharacter character)
+    {
+        ScheduledFuture<?> future = tasks.remove(character.getObjectId());
+        if(future != null)
+        {
+            future.cancel(true);
+        }
     }
 
     private final class MoveTask implements Runnable {

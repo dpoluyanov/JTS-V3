@@ -55,6 +55,7 @@ public final class MoveBackwardToLocation extends IncomingMessageWrapper {
         final GameCharacter character = playerService.getCharacterBy(getConnectionId());
         final Vector3D end = new Vector3D(targetX, targetY, targetZ);
 
+        movementService.stopMovement(character);
         movementService.moveTo(session, character, end);
     }
 }

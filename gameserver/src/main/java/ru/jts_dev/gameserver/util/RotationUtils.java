@@ -17,7 +17,6 @@ public final class RotationUtils {
         return (int) (angle * HEADING_PER_DEGREE);
     }
 
-
     public double convertClientHeadingToAngle(int heading) {
         return heading / HEADING_PER_DEGREE;
     }
