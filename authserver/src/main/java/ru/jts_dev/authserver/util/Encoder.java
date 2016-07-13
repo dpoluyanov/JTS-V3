@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import ru.jts_dev.authserver.model.AuthSession;
 import ru.jts_dev.authserver.service.AuthSessionService;
 
@@ -23,7 +24,7 @@ import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
  */
 @Component
 public class Encoder {
-    public static final byte[] STATIC_BLOWFISH_KEY = {
+    private static final byte[] STATIC_BLOWFISH_KEY = {
             (byte) 0x6b, (byte) 0x60, (byte) 0xcb, (byte) 0x5b,
             (byte) 0x82, (byte) 0xce, (byte) 0x90, (byte) 0xb1,
             (byte) 0xcc, (byte) 0x2b, (byte) 0x6c, (byte) 0x55,
@@ -34,11 +35,18 @@ public class Encoder {
     private static final Logger log = LoggerFactory.getLogger(Encoder.class);
     private static final int BLOWFISH_BLOCK_SIZE = 8;
 
-    @Autowired
-    private AuthSessionService authSessionService;
+    private final AuthSessionService authSessionService;
+
+    private final Random random;
 
     @Autowired
-    private Random random;
+    public Encoder(AuthSessionService authSessionService, Random random) {
+        Assert.notNull(authSessionService, "AuthService must not be null!");
+        Assert.notNull(random, "Random must not be null!");
+
+        this.authSessionService = authSessionService;
+        this.random = random;
+    }
 
     public ByteBuf appendBlowFishPadding(ByteBuf buf) {
         int padding = BLOWFISH_BLOCK_SIZE - buf.readableBytes() % BLOWFISH_BLOCK_SIZE;

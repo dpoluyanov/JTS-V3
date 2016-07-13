@@ -15,6 +15,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-integration')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
 
+    compile("org.springframework.integration:spring-integration-ip:${springVersion}")
+    compile("com.google.code.gson:gson:2.6.2")
+
     // Apache
     compile("org.apache.commons:commons-pool2:${commonsPoolVersion}")
 
@@ -26,7 +29,7 @@ dependencies {
     compile("io.netty:netty-buffer:${nettyVersion}")
 
     // object pool
-    compile 'com.googlecode.javaewah:JavaEWAH:1.1.5'
+    compile 'com.googlecode.javaewah:JavaEWAH:1.1.6'
 }
 
 dependencies {

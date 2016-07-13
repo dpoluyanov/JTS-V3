@@ -1,6 +1,7 @@
 package ru.jts_dev.authserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -24,12 +25,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthSessionService {
     private final Map<String, AuthSession> sessions = new ConcurrentHashMap<>();
 
+    private final Random random;
+    private final KeyPairGenerator keyPairGenerator;
+    private final IdPool idPool;
+
     @Autowired
-    private Random random;
-    @Autowired
-    private KeyPairGenerator keyPairGenerator;
-    @Autowired
-    private IdPool idPool;
+    public AuthSessionService(Random random, @Qualifier("bitSetIdPool") IdPool idPool, KeyPairGenerator keyPairGenerator) {
+        this.random = random;
+        this.idPool = idPool;
+        this.keyPairGenerator = keyPairGenerator;
+    }
 
     public AuthSession getSessionBy(String connectionId) {
         if (!sessions.containsKey(connectionId))

@@ -15,7 +15,7 @@ import java.security.spec.RSAKeyGenParameterSpec;
  */
 @Configuration
 public class KeyGenerationConfig {
-    public static byte[] scrambleModulus(BigInteger modulus) {
+    static byte[] scrambleModulus(BigInteger modulus) {
         byte[] scrambledMod = modulus.toByteArray();
 
         if (scrambledMod.length == 0x81 && scrambledMod[0] == 0x00) {

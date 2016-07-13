@@ -49,6 +49,9 @@ dependencies {
     //compile('org.springframework.boot:spring-boot-starter-mail')
     //compile('org.springframework.boot:spring-boot-starter-remote-shell')
 
+    compile('org.springframework.integration:spring-integration-ip')
+    compile("com.google.code.gson:gson:2.6.2")
+
     compile("com.google.guava:guava:${guavaVersion}")
 
     // math library
@@ -56,7 +59,7 @@ dependencies {
 
     // html compressor
     compile('com.googlecode.htmlcompressor:htmlcompressor:1.5.2')
-    compile('com.google.javascript:closure-compiler:v20151216')
+    compile('com.google.javascript:closure-compiler:v20160619')
     compile('com.yahoo.platform.yui:yuicompressor:2.4.8')
 
     // Hibernate

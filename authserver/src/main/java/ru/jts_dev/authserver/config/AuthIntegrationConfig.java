@@ -48,14 +48,20 @@ import static ru.jts_dev.authserver.util.Encoder.STATIC_KEY_HEADER;
 @IntegrationComponentScan
 public class AuthIntegrationConfig {
     private static final Logger log = LoggerFactory.getLogger(AuthIntegrationConfig.class);
-    @Autowired
-    private Encoder encoder;
-    @Autowired
-    private LoginClientPacketHandler clientPacketHandler;
-    @Autowired
-    private AuthSessionService authSessionService;
+
+    private final Encoder encoder;
+    private final LoginClientPacketHandler clientPacketHandler;
+    private final AuthSessionService authSessionService;
+
     @Value("${authserver.port}")
     private int authserverPort;
+
+    @Autowired
+    public AuthIntegrationConfig(AuthSessionService authSessionService, LoginClientPacketHandler clientPacketHandler, Encoder encoder) {
+        this.authSessionService = authSessionService;
+        this.clientPacketHandler = clientPacketHandler;
+        this.encoder = encoder;
+    }
 
     /**
      * Server connection factory, for game client connections.

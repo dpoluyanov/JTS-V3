@@ -25,8 +25,12 @@ import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
 public class LoginClientPacketHandler {
     private static final Logger log = LoggerFactory.getLogger(LoginClientPacketHandler.class);
 
+    private final ApplicationContext context;
+
     @Autowired
-    private ApplicationContext context;
+    public LoginClientPacketHandler(ApplicationContext context) {
+        this.context = context;
+    }
 
     public final IncomingMessageWrapper handle(final ByteBuf buf, @Header(CONNECTION_ID) final String connectionId) {
         if (buf.readableBytes() == 0)

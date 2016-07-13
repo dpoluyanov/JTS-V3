@@ -25,14 +25,17 @@ public class RequestServerLogin extends IncomingMessageWrapper {
     private int key2;
     private byte serverId;
 
-    @Autowired
-    private AuthSessionService authSessionService;
+    private final AuthSessionService authSessionService;
+    private final BroadcastService broadcastService;
+
+    private final AbstractConnectionFactory connectionFactory;
 
     @Autowired
-    private BroadcastService broadcastService;
-
-    @Autowired
-    private AbstractConnectionFactory connectionFactory;
+    public RequestServerLogin(BroadcastService broadcastService, AbstractConnectionFactory connectionFactory, AuthSessionService authSessionService) {
+        this.broadcastService = broadcastService;
+        this.connectionFactory = connectionFactory;
+        this.authSessionService = authSessionService;
+    }
 
     @Override
     public void prepare() {

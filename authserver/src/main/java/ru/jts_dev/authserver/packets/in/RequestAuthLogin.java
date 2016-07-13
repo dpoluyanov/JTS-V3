@@ -33,25 +33,29 @@ public final class RequestAuthLogin extends IncomingMessageWrapper {
     private static final Logger log = LoggerFactory.getLogger(RequestAuthLogin.class);
     private static final int LENGTH = 128;
 
-    @Autowired
-    private AuthSessionService authSessionService;
+    private final AuthSessionService authSessionService;
 
-    @Autowired
-    private BroadcastService broadcastService;
+    private final BroadcastService broadcastService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AccountRepository repository;
+    private final AccountRepository repository;
 
-    @Autowired
-    private AbstractConnectionFactory connectionFactory;
+    private final AbstractConnectionFactory connectionFactory;
 
     @Value("${authserver.accounts.autocreate}")
     private boolean accountsAutocreate;
 
     private byte[] data;
+
+    @Autowired
+    public RequestAuthLogin(PasswordEncoder passwordEncoder, AbstractConnectionFactory connectionFactory, AuthSessionService authSessionService, BroadcastService broadcastService, AccountRepository repository) {
+        this.passwordEncoder = passwordEncoder;
+        this.connectionFactory = connectionFactory;
+        this.authSessionService = authSessionService;
+        this.broadcastService = broadcastService;
+        this.repository = repository;
+    }
 
     @Override
     public void prepare() {

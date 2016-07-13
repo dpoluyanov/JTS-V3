@@ -13,10 +13,14 @@ import ru.jts_dev.common.packets.OutgoingMessageWrapper;
  */
 @Service
 public class BroadcastService {
-    @Autowired
-    private MessageChannel packetChannel;
+    private final MessageChannel packetChannel;
 
-    public void send(String connectionId, OutgoingMessageWrapper message) {
+    @Autowired
+    public BroadcastService(MessageChannel packetChannel) {
+        this.packetChannel = packetChannel;
+    }
+
+    private void send(String connectionId, OutgoingMessageWrapper message) {
         message.getHeaders().put(IpHeaders.CONNECTION_ID, connectionId);
         packetChannel.send(message);
     }

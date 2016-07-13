@@ -38,6 +38,9 @@ dependencies {
     //compile('org.springframework.boot:spring-boot-starter-remote-shell')
     //compile('org.springframework.boot:spring-boot-starter-validation')
 
+    compile('org.springframework.integration:spring-integration-ip')
+    compile("com.google.code.gson:gson:2.6.2")
+
     // Hibernate
     compile("org.hibernate:hibernate-core:${hibernateVersion}")
     compile("org.hibernate:hibernate-entitymanager:${hibernateVersion}")

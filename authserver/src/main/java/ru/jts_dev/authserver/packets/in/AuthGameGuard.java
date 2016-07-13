@@ -22,14 +22,18 @@ import static ru.jts_dev.authserver.packets.out.LoginFail.REASON_ACCESS_FAILED;
 @Scope(SCOPE_PROTOTYPE)
 public class AuthGameGuard extends IncomingMessageWrapper {
 
-    @Autowired
-    private AuthSessionService authSessionService;
-    @Autowired
-    private BroadcastService broadcastService;
-    @Autowired
-    private AbstractConnectionFactory connectionFactory;
+    private final AuthSessionService authSessionService;
+    private final BroadcastService broadcastService;
+    private final AbstractConnectionFactory connectionFactory;
 
     private int sessionId;
+
+    @Autowired
+    public AuthGameGuard(BroadcastService broadcastService, AbstractConnectionFactory connectionFactory, AuthSessionService authSessionService) {
+        this.broadcastService = broadcastService;
+        this.connectionFactory = connectionFactory;
+        this.authSessionService = authSessionService;
+    }
 
     @Override
     public void prepare() {

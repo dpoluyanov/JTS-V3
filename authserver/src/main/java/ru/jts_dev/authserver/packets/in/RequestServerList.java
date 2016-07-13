@@ -24,17 +24,19 @@ import static ru.jts_dev.authserver.packets.out.LoginFail.REASON_ACCESS_FAILED;
 public class RequestServerList extends IncomingMessageWrapper {
     private int loginKey1, loginKey2;
 
-    @Autowired
-    private AuthSessionService authSessionService;
+    private final AuthSessionService authSessionService;
+    private final BroadcastService broadcastService;
+    private final GameServerService gameServerService;
+
+    private final AbstractConnectionFactory connectionFactory;
 
     @Autowired
-    private BroadcastService broadcastService;
-
-    @Autowired
-    private GameServerService gameServerService;
-
-    @Autowired
-    private AbstractConnectionFactory connectionFactory;
+    public RequestServerList(BroadcastService broadcastService, AuthSessionService authSessionService, GameServerService gameServerService, AbstractConnectionFactory connectionFactory) {
+        this.broadcastService = broadcastService;
+        this.authSessionService = authSessionService;
+        this.gameServerService = gameServerService;
+        this.connectionFactory = connectionFactory;
+    }
 
     @Override
     public void prepare() {
