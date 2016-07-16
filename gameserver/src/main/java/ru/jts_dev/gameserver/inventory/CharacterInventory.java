@@ -34,7 +34,7 @@ import static javax.persistence.CascadeType.ALL;
  */
 @Embeddable
 public class CharacterInventory {
-    @OneToMany(cascade = ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = ALL)
     private List<GameItem> items = new ArrayList<>(8);
 
     final synchronized void giveItem(final GameItem item) {

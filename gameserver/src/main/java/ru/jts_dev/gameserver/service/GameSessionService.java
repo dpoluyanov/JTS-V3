@@ -35,10 +35,14 @@ public class GameSessionService {
     private final Map<String, GameSession> sessions = new ConcurrentHashMap<>();
     private final Map<String, String> accounts = new ConcurrentHashMap<>();
 
-    @Autowired
-    private Random random;
+    private final Random random;
 
-    public Map<String, GameSession> getSessions() {
+    @Autowired
+    public GameSessionService(Random random) {
+        this.random = random;
+    }
+
+    Map<String, GameSession> getSessions() {
         return Collections.unmodifiableMap(sessions);
     }
 

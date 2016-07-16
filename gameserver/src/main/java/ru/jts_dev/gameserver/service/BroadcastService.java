@@ -24,10 +24,14 @@ public class BroadcastService {
     private static final ThrowingFunction<StaticOutgoingMessageWrapper, OutgoingMessageWrapper>
             checkedMessageCloneException = StaticOutgoingMessageWrapper::clone;
 
+    private final GameSessionService sessionService;
+    private final MessageChannel packetChannel;
+
     @Autowired
-    private GameSessionService sessionService;
-    @Autowired
-    private MessageChannel packetChannel;
+    public BroadcastService(MessageChannel packetChannel, GameSessionService sessionService) {
+        this.packetChannel = packetChannel;
+        this.sessionService = sessionService;
+    }
 
     public final void sendToAll(final OutgoingMessageWrapper message) {
         Stream<GameSession> stream = sessionService.getSessions().size() > THRESHOLD ?

@@ -198,7 +198,7 @@ public class AuthIntegrationConfig {
                 .from(tcpInputChannel())
                 .transform(encoder, "decrypt")
                 .transform(byte[].class, b -> wrappedBuffer(b).order(ByteOrder.LITTLE_ENDIAN))
-                .transform(ByteBuf.class, b -> encoder.validateChecksum(b))
+                .transform(ByteBuf.class, encoder::validateChecksum)
                 .transform(clientPacketHandler, "handle")
                 .channel(incomingPacketExecutorChannel())
                 .get();
@@ -206,7 +206,7 @@ public class AuthIntegrationConfig {
 
     @Bean
     public MessageChannel incomingPacketExecutorChannel() {
-        // TODO: 07.12.15 investigate, may be should replace with spring TaskExecutor
+        // TODO: 07.12.15 investigate, may be should replaced with spring TaskExecutor
         return new ExecutorChannel(Executors.newCachedThreadPool());
     }
 
@@ -215,6 +215,7 @@ public class AuthIntegrationConfig {
         msg.prepare();
         msg.run();
 
+        //TODO: 14.07.16 Replace with spring AOP stuff, or helper class
         if (log.isDebugEnabled() && msg.getPayload().readableBytes() > 0) {
             final StringBuilder leftStr = new StringBuilder("[");
             msg.getPayload().forEachByte(

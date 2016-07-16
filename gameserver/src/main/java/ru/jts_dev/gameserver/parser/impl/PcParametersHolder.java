@@ -54,9 +54,13 @@ public class PcParametersHolder extends PcParametersBaseListener {
     public static final String FKAMAEL_SOLDIER = "FKamaelSoldier";
     public static final String MKAMAEL_SOLDIER = "MKamaelSoldier";
     private static final Logger log = LoggerFactory.getLogger(PcParametersHolder.class);
-    @Autowired
-    private ApplicationContext context;
+    private final ApplicationContext context;
     private Map<String, List<Double>> collisionBoxes = new HashMap<>();
+
+    @Autowired
+    public PcParametersHolder(ApplicationContext context) {
+        this.context = context;
+    }
 
     /**
      * @param sex      - male = 0, female = 1

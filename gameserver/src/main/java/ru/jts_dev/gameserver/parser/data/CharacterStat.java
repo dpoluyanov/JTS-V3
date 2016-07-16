@@ -32,7 +32,7 @@ public class CharacterStat implements Cloneable {
     @Column(name = "class")
     private CharacterClass class_;
 
-    @ElementCollection(fetch = EAGER)
+    @ElementCollection
     // INT, STR, CON, MEN, DEX, WIT
     private List<Integer> stats;
 

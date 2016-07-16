@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.jts_dev.common.id.IdPool;
 import ru.jts_dev.common.id.impl.AllocationException;
 
+import java.util.BitSet;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -25,32 +26,13 @@ public final class BitSetIdPool implements IdPool {
 
     private final BitSetAllocator allocator = new BitSetAllocator(Integer.MAX_VALUE);
     private final Lock lock = new ReentrantLock();
-    private final Condition availableCond = lock.newCondition();
 
     private int allocate() {
         lock.lock();
         try {
             final int index = allocator.nextFreeIndex();
             if (index == -1) {
-                throw new AllocationException("No available indexes in pool.");
-            }
-            allocator.markUsed(index);
-            return index;
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    private int allocate(final long time, final TimeUnit unit) throws InterruptedException {
-        lock.lock();
-        try {
-            int index = allocator.nextFreeIndex(availableCond);
-            if (index == -1) {
-                if (availableCond.await(time, unit)) {
-                    index = allocator.nextFreeIndex();
-                } else {
-                    throw new AllocationException("No available indexes in pool.");
-                }
+                throw new AllocationException("No available indexes in pool");
             }
             allocator.markUsed(index);
             return index;
@@ -79,5 +61,47 @@ public final class BitSetIdPool implements IdPool {
     public void release(final int id) {
         releaseId(id);
         logger.debug("released id: {}", id);
+    }
+
+    private static final class BitSetAllocator {
+        private final BitSet bits;
+
+        private final int bitSetSize;
+        private Condition availableCond;
+
+        BitSetAllocator(final int bitSetSize) {
+            this.bitSetSize = bitSetSize;
+            bits = new BitSet(bitSetSize);
+        }
+
+        public void clear() {
+            bits.clear();
+        }
+
+        void markFree(final int index) {
+            if (index <= 0 || index >= bitSetSize) {
+                throw new RuntimeException("index must be > 0 and < " + bitSetSize);
+            }
+            bits.clear(index);
+
+            if (availableCond != null) {
+                availableCond.signalAll();
+                availableCond = null;
+            }
+        }
+
+        void markUsed(final int index) {
+            if (index <= 0 || index >= bitSetSize) {
+                throw new RuntimeException("index must be > 0 and < " + bitSetSize);
+            }
+            bits.set(index);
+        }
+
+        int nextFreeIndex() {
+            final int nextClear = bits.nextClearBit(1);
+            if (nextClear >= bitSetSize)
+                return -1;
+            return nextClear;
+        }
     }
 }
