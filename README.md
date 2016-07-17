@@ -1,4 +1,7 @@
-Third version of JTS Project emulator, based on `https://github.com/Camelion/jts`
+Third version of JTS Project emulator
+
+Travis build status: [![Build Status](https://travis-ci.org/Camelion/JTS-V3.svg?branch=master)](https://travis-ci.org/Camelion/JTS-V3)
+
 
 **Developers:**
 * Java-Man
