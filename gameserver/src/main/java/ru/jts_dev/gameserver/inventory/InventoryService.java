@@ -27,12 +27,14 @@ import java.util.stream.Collectors;
 public class InventoryService {
     private static final Logger log = LoggerFactory.getLogger(InventoryService.class);
 
-    @Autowired
-    private ItemDatasHolder itemDatasHolder;
+    private final IdPool idPool;
+    private final ItemDatasHolder itemDatasHolder;
 
     @Autowired
-    @Qualifier("itemIdPool")
-    private IdPool idPool;
+    public InventoryService(@Qualifier("itemIdPool") IdPool idPool, ItemDatasHolder itemDatasHolder) {
+        this.idPool = idPool;
+        this.itemDatasHolder = itemDatasHolder;
+    }
 
     /**
      * Collect all items, that type not equals to {@link ItemClass#QUESTITEM}.

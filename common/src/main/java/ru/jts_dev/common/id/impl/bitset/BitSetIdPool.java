@@ -2,14 +2,14 @@ package ru.jts_dev.common.id.impl.bitset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.jts_dev.common.id.IdPool;
 import ru.jts_dev.common.id.impl.AllocationException;
 
+import javax.annotation.PostConstruct;
 import java.util.BitSet;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -23,9 +23,24 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Scope(SCOPE_PROTOTYPE)
 public final class BitSetIdPool implements IdPool {
     private final Logger logger = LoggerFactory.getLogger(BitSetIdPool.class);
-
-    private final BitSetAllocator allocator = new BitSetAllocator(Integer.MAX_VALUE);
     private final Lock lock = new ReentrantLock();
+
+    @Value("${jts.common.bitset.max-size:#{T(java.lang.Integer).MAX_VALUE}}")
+    private int bitSetSize;
+    private BitSetAllocator allocator;
+
+    @Override
+    public int borrow() {
+        final int id = allocate();
+        logger.debug("allocated id: {}", id);
+        return id;
+    }
+
+    @Override
+    public void release(final int id) {
+        releaseId(id);
+        logger.debug("released id: {}", id);
+    }
 
     private int allocate() {
         lock.lock();
@@ -50,56 +65,38 @@ public final class BitSetIdPool implements IdPool {
         }
     }
 
-    @Override
-    public int borrow() {
-        final int id = allocate();
-        logger.debug("allocated id: {}", id);
-        return id;
-    }
-
-    @Override
-    public void release(final int id) {
-        releaseId(id);
-        logger.debug("released id: {}", id);
+    @PostConstruct
+    private void postConstruct() {
+        // initialize allocator with given size
+        allocator = new BitSetAllocator(bitSetSize);
     }
 
     private static final class BitSetAllocator {
         private final BitSet bits;
-
         private final int bitSetSize;
-        private Condition availableCond;
 
         BitSetAllocator(final int bitSetSize) {
             this.bitSetSize = bitSetSize;
             bits = new BitSet(bitSetSize);
         }
 
-        public void clear() {
-            bits.clear();
-        }
-
         void markFree(final int index) {
-            if (index <= 0 || index >= bitSetSize) {
-                throw new RuntimeException("index must be > 0 and < " + bitSetSize);
+            if (index <= 0 || index > bitSetSize) {
+                throw new IndexOutOfBoundsException("index must be > 0 and <= " + bitSetSize + " current: " + index);
             }
             bits.clear(index);
-
-            if (availableCond != null) {
-                availableCond.signalAll();
-                availableCond = null;
-            }
         }
 
         void markUsed(final int index) {
-            if (index <= 0 || index >= bitSetSize) {
-                throw new RuntimeException("index must be > 0 and < " + bitSetSize);
+            if (index <= 0 || index > bitSetSize) {
+                throw new IndexOutOfBoundsException("index must be > 0 and <= " + bitSetSize + " current: " + index);
             }
             bits.set(index);
         }
 
         int nextFreeIndex() {
             final int nextClear = bits.nextClearBit(1);
-            if (nextClear >= bitSetSize)
+            if (nextClear > bitSetSize)
                 return -1;
             return nextClear;
         }

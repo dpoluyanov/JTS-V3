@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "jts.common.bitset.max-size",
+      "type": "java.lang.Integer",
+      "description": "Maximum number of ids, available in BitSetIdPool.",
+      "defaultValue": "Integer#MAX_VALUE"
+    }
+  ]
+}
