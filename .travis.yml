@@ -26,7 +26,7 @@ before_script:
   - sudo service x11-common stop || true
 
 script:
-  - ./gradlew clean && ./gradlew check --stacktrace && ./gradlew assembly
+  - ./gradlew clean && ./gradlew check --stacktrace && ./gradlew assemble
 
 env:
   global:
