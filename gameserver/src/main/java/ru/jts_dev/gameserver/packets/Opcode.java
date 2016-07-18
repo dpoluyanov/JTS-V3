@@ -27,14 +27,16 @@ public @interface Opcode {
      *
      * @see #first()
      */
-    @AliasFor("first") int value() default CLIENT_SWITCH_OPCODE; // switch opcode
+    @AliasFor("first")
+    int value() default CLIENT_SWITCH_OPCODE; // switch opcode
 
     /**
      * first packet opcode (byte)
      *
      * @return - expected opcode
      */
-    @AliasFor("value") int first() default CLIENT_SWITCH_OPCODE; // switch opcode
+    @AliasFor("value")
+    int first() default CLIENT_SWITCH_OPCODE; // switch opcode
 
     /**
      * second packet opcode (short)

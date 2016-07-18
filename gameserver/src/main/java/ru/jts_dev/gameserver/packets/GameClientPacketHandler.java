@@ -24,10 +24,15 @@ import static ru.jts_dev.gameserver.packets.Opcode.CLIENT_SWITCH_OPCODE;
 public class GameClientPacketHandler {
     private static final int BYTES_COUNT = -Byte.MIN_VALUE + Byte.MAX_VALUE;
     private static final Logger log = LoggerFactory.getLogger(GameClientPacketHandler.class);
-    @Autowired
-    private ApplicationContext context;
+
+    private final ApplicationContext context;
 
     private Map<Integer, Object> packets;
+
+    @Autowired
+    public GameClientPacketHandler(ApplicationContext context) {
+        this.context = context;
+    }
 
     /**
      * Find beans with {@link Opcode} annotation, and put it to {@link #packets} map

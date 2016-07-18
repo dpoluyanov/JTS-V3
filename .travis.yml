@@ -13,5 +13,4 @@ cache:
 
 
 script:
-  - ./gradlew check --info
-  - ./gradlew assemble --info
+  - ./gradlew check --info && ./gradlew assembly --info

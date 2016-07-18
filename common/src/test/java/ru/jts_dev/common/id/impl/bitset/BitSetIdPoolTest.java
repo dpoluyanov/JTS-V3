@@ -33,7 +33,7 @@ public class BitSetIdPoolTest {
     private IdPool idPool;
 
     @DirtiesContext
-    @Test(timeout = 500L)
+    @Test
     public void testIdBorrow() throws Exception {
         IntStream.rangeClosed(1, 10_000).forEach(value -> {
             final int id = idPool.borrow();

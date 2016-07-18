@@ -3,20 +3,14 @@ package ru.jts_dev.gameserver.inventory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.common.id.IdPool;
-import ru.jts_dev.common.id.impl.bitset.BitSetIdPool;
 import ru.jts_dev.gameserver.constants.ItemClass;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameItem;
 import ru.jts_dev.gameserver.parser.data.item.ItemData;
 import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
-import sun.security.jgss.ProviderList;
 
-import javax.inject.Provider;
 import java.util.List;
 import java.util.stream.Collectors;
 
