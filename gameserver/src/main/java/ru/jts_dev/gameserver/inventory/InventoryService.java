@@ -3,17 +3,20 @@ package ru.jts_dev.gameserver.inventory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import ru.jts_dev.common.id.IdPool;
+import ru.jts_dev.common.id.impl.bitset.BitSetIdPool;
 import ru.jts_dev.gameserver.constants.ItemClass;
 import ru.jts_dev.gameserver.model.GameCharacter;
 import ru.jts_dev.gameserver.model.GameItem;
 import ru.jts_dev.gameserver.parser.data.item.ItemData;
 import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
+import sun.security.jgss.ProviderList;
 
+import javax.inject.Provider;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +30,12 @@ import java.util.stream.Collectors;
 public class InventoryService {
     private static final Logger log = LoggerFactory.getLogger(InventoryService.class);
 
-    private final IdPool idPool;
+    private final IdPool itemIdPool;
     private final ItemDatasHolder itemDatasHolder;
 
     @Autowired
-    public InventoryService(@Qualifier("itemIdPool") IdPool idPool, ItemDatasHolder itemDatasHolder) {
-        this.idPool = idPool;
+    public InventoryService(IdPool itemIdPool, ItemDatasHolder itemDatasHolder) {
+        this.itemIdPool = itemIdPool;
         this.itemDatasHolder = itemDatasHolder;
     }
 
@@ -78,17 +81,12 @@ public class InventoryService {
         }
     }
 
-    @Bean
-    public IdPool itemIdPool(final ApplicationContext context) {
-        return (IdPool) context.getBean("bitSetIdPool");
-    }
-
     private GameItem createGameItem(final int itemId) {
         assert itemDatasHolder.getItemData().containsKey(itemId);
 
         final ItemData itemData = itemDatasHolder.getItemData().get(itemId);
 
-        final GameItem gameItem = new GameItem(idPool.borrow(), itemData);
+        final GameItem gameItem = new GameItem(itemIdPool.borrow(), itemData);
 
         log.trace("Created new item({}) with itemId {} and objectId {}",
                 gameItem.getItemData().getName(),

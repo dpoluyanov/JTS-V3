@@ -1,6 +1,12 @@
 {
   "properties": [
     {
+      "name": "authserver.port",
+      "type": "java.lang.Integer",
+      "description": "Description for authserver.port.",
+      "defaultValue": "2106"
+    },
+    {
       "name": "authserver.accounts.autocreate",
       "type": "java.lang.Boolean",
       "description": "Description for authserver.accounts.autocreate.",

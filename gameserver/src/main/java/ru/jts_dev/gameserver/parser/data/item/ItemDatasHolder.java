@@ -37,8 +37,12 @@ public class ItemDatasHolder extends ItemDatasBaseListener {
     private static final Logger log = LoggerFactory.getLogger(ItemDatasHolder.class);
     private final Map<Integer, SetData> setsData = new HashMap<>(250);
     private final Map<Integer, ItemData> itemData = new HashMap<>(18000);
+    private final ApplicationContext context;
+
     @Autowired
-    private ApplicationContext context;
+    public ItemDatasHolder(ApplicationContext context) {
+        this.context = context;
+    }
 
     public final Map<Integer, SetData> getSetsData() {
         return Collections.unmodifiableMap(setsData);

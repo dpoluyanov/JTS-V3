@@ -16,12 +16,19 @@ import static org.springframework.integration.ip.IpHeaders.CONNECTION_ID;
  */
 @Component
 public class Encoder {
+    private final GameSessionService sessionService;
+
     @Autowired
-    private GameSessionService sessionService;
+    public Encoder(GameSessionService sessionService) {
+        this.sessionService = sessionService;
+    }
 
     @Transformer
     public ByteBuf decrypt(ByteBuf data, @Header(CONNECTION_ID) String connectionId) {
         GameSession gameSession = sessionService.getSessionBy(connectionId);
+
+        assert gameSession != null : "GameSession for " + connectionId + " does not exist";
+
         ByteBuf key = gameSession.getDecryptKey();
 
         int temp = 0;
@@ -42,6 +49,9 @@ public class Encoder {
     @Transformer
     public ByteBuf encrypt(ByteBuf data, @Header(CONNECTION_ID) String connectionId) {
         GameSession gameSession = sessionService.getSessionBy(connectionId);
+
+        assert gameSession != null : "GameSession for " + connectionId + " does not exist";
+
         ByteBuf key = gameSession.getEncryptKey();
 
         int temp = 0;

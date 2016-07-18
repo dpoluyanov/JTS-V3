@@ -2,7 +2,7 @@ package ru.jts_dev.gameserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.orm.jpa.EntityScan;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -44,7 +44,7 @@ public class GameServerApplication implements ApplicationContextAware {
 
     /**
      * Search bean of {@code clazz} type, and return initialized instance of it.
-     * Can be used AFTER spring all spring bean initialization,
+     * Can be used AFTER spring beans initialization,
      * because {@code context} will be present after {@link SpringApplication#run(String...)} method.
      * Otherwise {@code NullPointerException} will be throwed.
      *

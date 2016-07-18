@@ -9,7 +9,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
-@EntityScan(basePackages = {"ru.jts_dev.common", "ru.jts_dev.authserver"})
+//@EntityScan(basePackages = {"ru.jts_dev.common", "ru.jts_dev.authserver"})
 @SpringBootApplication(scanBasePackages = {"ru.jts_dev.common", "ru.jts_dev.authserver"})
 public class AuthServerApplication implements CommandLineRunner {
     private final ConfigurableApplicationContext context;

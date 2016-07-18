@@ -46,11 +46,14 @@ public class GameIntegrationConfig {
     @Value("${gameserver.port}")
     private int port;
 
-    @Autowired
-    private GameClientPacketHandler clientPacketHandler;
+    private final GameClientPacketHandler clientPacketHandler;
+    private final Encoder encoder;
 
     @Autowired
-    private Encoder encoder;
+    public GameIntegrationConfig(GameClientPacketHandler clientPacketHandler, Encoder encoder) {
+        this.clientPacketHandler = clientPacketHandler;
+        this.encoder = encoder;
+    }
 
     @Bean
     public TcpNioServerConnectionFactory gameConnectionFactory() {

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.jts_dev.gameserver.GameServerApplication;
 import ru.jts_dev.gameserver.constants.CharacterClass;
@@ -23,7 +24,7 @@ import static org.hamcrest.Matchers.*;
  * @since 28.12.15
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = GameServerApplication.class)
+@SpringBootTest(classes = GameServerApplication.class)
 // TODO: 02.01.16 migrate @SpringApplicationConfiguration to @ContextConfiguration (currently not work Aspect injection points)
 //@ContextConfiguration(classes = {DatabaseTestConfig.class})
 public class GameCharacterRepositoryTest extends Assert {

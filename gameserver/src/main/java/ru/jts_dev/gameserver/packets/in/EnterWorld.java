@@ -30,20 +30,24 @@ import static ru.jts_dev.gameserver.parser.impl.PcParametersHolder.toPCParameter
  */
 @Opcode(0x11)
 public class EnterWorld extends IncomingMessageWrapper {
+    private final GameTimeService timeService;
+    private final BroadcastService broadcastService;
+    private final GameSessionService sessionService;
+    private final PlayerService playerService;
+    private final PcParametersHolder parametersData;
+    private final UserBasicActionsHolder userBasicActionsHolder;
+    private final InventoryService inventoryService;
+
     @Autowired
-    private GameTimeService timeService;
-    @Autowired
-    private BroadcastService broadcastService;
-    @Autowired
-    private GameSessionService sessionService;
-    @Autowired
-    private PlayerService playerService;
-    @Autowired
-    private PcParametersHolder parametersData;
-    @Autowired
-    private UserBasicActionsHolder userBasicActionsHolder;
-    @Autowired
-    private InventoryService inventoryService;
+    public EnterWorld(InventoryService inventoryService, GameTimeService timeService, PcParametersHolder parametersData, GameSessionService sessionService, PlayerService playerService, UserBasicActionsHolder userBasicActionsHolder, BroadcastService broadcastService) {
+        this.inventoryService = inventoryService;
+        this.timeService = timeService;
+        this.parametersData = parametersData;
+        this.sessionService = sessionService;
+        this.playerService = playerService;
+        this.userBasicActionsHolder = userBasicActionsHolder;
+        this.broadcastService = broadcastService;
+    }
 
     @Override
     public void prepare() {

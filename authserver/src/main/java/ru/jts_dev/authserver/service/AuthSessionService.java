@@ -30,7 +30,7 @@ public class AuthSessionService {
     private final IdPool idPool;
 
     @Autowired
-    public AuthSessionService(Random random, @Qualifier("bitSetIdPool") IdPool idPool, KeyPairGenerator keyPairGenerator) {
+    public AuthSessionService(Random random, IdPool idPool, KeyPairGenerator keyPairGenerator) {
         this.random = random;
         this.idPool = idPool;
         this.keyPairGenerator = keyPairGenerator;

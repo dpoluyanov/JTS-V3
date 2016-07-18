@@ -66,7 +66,7 @@ public class GameTimeService {
             dateTime = ZonedDateTime.parse(value);
         }
 
-        logger.info("Current time is {}.", dateTime);
+        logger.info("Current in-game time is {}.", dateTime);
     }
 
     @Scheduled(initialDelay = 10_000, fixedRate = 10_000)

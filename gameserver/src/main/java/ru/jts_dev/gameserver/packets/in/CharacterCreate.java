@@ -4,7 +4,6 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.gameserver.constants.CharacterClass;
 import ru.jts_dev.gameserver.constants.CharacterRace;
@@ -37,24 +36,16 @@ import static ru.jts_dev.gameserver.packets.out.CharacterCreateFail.*;
 public class CharacterCreate extends IncomingMessageWrapper {
     private static final int MAX_CHARACTERS_ON_ACCOUNT = 7;
 
-    @Autowired
-    private GameSessionService sessionService;
-    @Autowired
-    private GameCharacterRepository characterRepository;
-    @Autowired
-    private BroadcastService broadcastService;
-    @Autowired
-    private SettingsHolder settingsData;
-    @Autowired
-    private ItemDatasHolder itemDatasHolder;
-    @Autowired
-    private InventoryService inventoryService;
+    private final GameSessionService sessionService;
+    private final GameCharacterRepository characterRepository;
+    private final BroadcastService broadcastService;
+    private final SettingsHolder settingsData;
+    private final ItemDatasHolder itemDatasHolder;
+    private final InventoryService inventoryService;
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
 
-    @Autowired
-    private Random random;
+    private final Random random;
 
     @Length(max = 16, message = REASON_16_ENG_CHARS)
     @Pattern(regexp = "[A-Za-z0-9]{4,16}", message = REASON_INCORRECT_NAME)
@@ -81,6 +72,18 @@ public class CharacterCreate extends IncomingMessageWrapper {
     private int hairColor;
     @Range(min = 0, max = 2, message = REASON_CREATION_FAILED)
     private int face;
+
+    @Autowired
+    public CharacterCreate(GameCharacterRepository characterRepository, GameSessionService sessionService, ItemDatasHolder itemDatasHolder, InventoryService inventoryService, BroadcastService broadcastService, Random random, SettingsHolder settingsData, Validator validator) {
+        this.characterRepository = characterRepository;
+        this.sessionService = sessionService;
+        this.itemDatasHolder = itemDatasHolder;
+        this.inventoryService = inventoryService;
+        this.broadcastService = broadcastService;
+        this.random = random;
+        this.settingsData = settingsData;
+        this.validator = validator;
+    }
 
     @Override
     public void prepare() {
