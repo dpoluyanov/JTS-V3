@@ -29,7 +29,7 @@ script:
   - ./gradlew clean && ./gradlew check --stacktrace && ./gradlew assemble
 
 after_success:
-- ./gradlew jacocoTestReport coveralls
+- ./gradlew clean jacocoTestReport coveralls
 
 env:
   global:
