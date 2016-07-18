@@ -46,7 +46,7 @@ allprojects {
             tasks.withType(Test) {
                 maxParallelForks = 2
                 minHeapSize = '128m'
-                maxHeapSize = '512m'
+                maxHeapSize = '1G'
             }
         }
     }

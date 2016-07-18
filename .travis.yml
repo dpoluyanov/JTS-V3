@@ -17,5 +17,5 @@ script:
 
 env:
   global:
-    - GRADLE_OPTS="-Xmx512m"
-    - JAVA_OPTS="-Xmx512m"
+    - GRADLE_OPTS="-Xmx1G"
+    - JAVA_OPTS="-Xmx1G"
