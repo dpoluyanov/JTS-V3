@@ -10,6 +10,8 @@ apply plugin: 'propdeps-eclipse'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+test.testLogging.showStandardStreams = true
+
 jar {
     baseName = 'authserver'
     version = "${version}"
