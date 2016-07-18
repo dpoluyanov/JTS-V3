@@ -14,3 +14,7 @@ cache:
 
 script:
   - ./gradlew check --stacktrace && ./gradlew assembly --info
+
+env:
+  global:
+    - GRADLE_OPTS="-Xms512m"
