@@ -37,7 +37,7 @@ allprojects {
         maven { url "https://repo.spring.io/milestone" }
     }
 
-    /*
+
     if (System.env.TRAVIS == 'true') {
         allprojects {
             tasks.withType(GroovyCompile) {
@@ -46,9 +46,10 @@ allprojects {
             tasks.withType(Test) {
                 maxParallelForks = 2
                 minHeapSize = '128m'
+                maxHeapSize = '512m'
             }
         }
-    }*/
+    }
 }
 
 eclipse {
