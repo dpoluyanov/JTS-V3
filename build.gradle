@@ -21,12 +21,14 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.springframework.build.gradle:propdeps-plugin:+")
+        classpath("org.kt3k.gradle.plugin:coveralls-gradle-plugin:+")
     }
 }
 
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+
 
     version = '0.0.2-SNAPSHOT'
 
@@ -37,19 +39,23 @@ allprojects {
         maven { url "https://repo.spring.io/milestone" }
     }
 
-    /*
-    if (System.env.TRAVIS == 'true') {
-        allprojects {
-            tasks.withType(GroovyCompile) {
-                groovyOptions.fork = false
-            }
-            tasks.withType(Test) {
-                maxParallelForks = 2
-                minHeapSize = '128m'
-                maxHeapSize = '1G'
-            }
+
+}
+
+subprojects {
+    apply plugin: 'jacoco'
+    apply plugin: 'com.github.kt3k.coveralls'
+
+    jacocoTestReport {
+        reports {
+            xml.enabled = true // coveralls plugin depends on xml format report
+            html.enabled = true
         }
-    }*/
+    }
+
+    tasks.coveralls {
+        dependsOn 'check'
+    }
 }
 
 eclipse {

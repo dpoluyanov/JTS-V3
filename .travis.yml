@@ -28,6 +28,9 @@ before_script:
 script:
   - ./gradlew clean && ./gradlew check --stacktrace && ./gradlew assemble
 
+after_success:
+- ./gradlew jacocoTestReport coveralls
+
 env:
   global:
     - GRADLE_OPTS="-Xmx2G"
