@@ -1,5 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -38,8 +40,16 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-dependencies {
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
+
+tasks.coveralls {
+    dependsOn 'check'
+}
+
 
 bootRepackage.enabled = false
