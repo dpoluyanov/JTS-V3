@@ -12,11 +12,8 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-before_script:
- - "echo $JAVA_OPTS"
-
 script:
-  - ./gradlew check --stacktrace && ./gradlew assembly --info
+  - ./gradlew clean && ./gradlew check --stacktrace && ./gradlew assembly
 
 env:
   global:

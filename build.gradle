@@ -28,9 +28,8 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
 
-    ext {
-        version = '0.0.2-SNAPSHOT'
-    }
+    version = '0.0.2-SNAPSHOT'
+
 
     repositories {
         mavenCentral()
@@ -38,6 +37,7 @@ allprojects {
         maven { url "https://repo.spring.io/milestone" }
     }
 
+    /*
     if (System.env.TRAVIS == 'true') {
         allprojects {
             tasks.withType(GroovyCompile) {
@@ -48,7 +48,7 @@ allprojects {
                 minHeapSize = '128m'
             }
         }
-    }
+    }*/
 }
 
 eclipse {

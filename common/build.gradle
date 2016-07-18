@@ -4,7 +4,7 @@ apply plugin: 'spring-boot'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-test.testLogging.showStandardStreams = true
+//test.testLogging.showStandardStreams = true
 
 jar {
     baseName = 'common'
