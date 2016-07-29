@@ -26,6 +26,9 @@ dependencies {
     runtime project(":gameserver")
 
     // Spring
+    compile 'org.springframework:spring-core:5.0.0.M1'
+    compile 'org.springframework:spring-context:5.0.0.M1'
+
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -57,7 +60,14 @@ dependencies {
 }
 
 dependencies {
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M2'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M2'
+    testCompile 'org.junit.platform:junit-platform-runner:1.0.0-M2'
+
+    testCompile 'org.assertj:assertj-core:3.5.2'
+
+    testCompile 'org.springframework:spring-test:5.0.0.M1'
+
     testRuntime('org.hsqldb:hsqldb')
 }
 

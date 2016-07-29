@@ -66,29 +66,22 @@ public class BitSetIdPoolTest {
     @DirtiesContext
     @Test
     public void releaseZeroIdThrowsException() {
-        Throwable exception = expectThrows(IndexOutOfBoundsException.class, () -> {
-            idPool.release(0);
-        });
+        Throwable exception = expectThrows(IndexOutOfBoundsException.class, () -> idPool.release(0));
         assertThat(exception.getMessage()).isEqualTo("index must be > 0 and <= 20000 current: 0");
     }
 
     @DirtiesContext
     @Test
     public void releaseNegativeIdThrowsException() {
-        Throwable exception = expectThrows(IndexOutOfBoundsException.class, () -> {
-            idPool.release(-1);
-        });
+        Throwable exception = expectThrows(IndexOutOfBoundsException.class, () -> idPool.release(-1));
         assertThat(exception.getMessage()).isEqualTo("index must be > 0 and <= 20000 current: -1");
     }
 
     @DirtiesContext
     @Test
     public void throwsExceptionIfNoFreeIndexes() {
-        Throwable exception = expectThrows(AllocationException.class, () -> {
-            IntStream.rangeClosed(0, 20000).parallel().forEach(value -> {
-                idPool.borrow();
-            });
-        });
+        Throwable exception = expectThrows(AllocationException.class, () ->
+                IntStream.rangeClosed(0, 20000).parallel().forEach(value -> idPool.borrow()));
         assertThat(exception.getMessage()).isEqualTo("No available indexes in pool");
     }
 }

@@ -1,12 +1,9 @@
 package ru.jts_dev.authserver.config;
 
 import io.netty.buffer.ByteBuf;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.jts_dev.authserver.service.AuthSessionService;
 import ru.jts_dev.authserver.util.Encoder;
 import ru.jts_dev.common.config.UtilsConfig;
@@ -16,22 +13,23 @@ import java.util.Random;
 
 import static io.netty.buffer.Unpooled.buffer;
 import static io.netty.buffer.Unpooled.wrappedBuffer;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 
 /**
  * @author Camelion
  * @since 02.12.15
  */
-@ContextConfiguration(classes = {
+@SpringJUnitConfig({
         Encoder.class,
         UtilsConfig.class,
         AuthSessionService.class,
         KeyGenerationConfig.class,
         BitSetIdPool.class
 })
-@RunWith(SpringJUnit4ClassRunner.class)
-public class EncoderTest extends Assert {
+public class EncoderTest {
 
     @Autowired
     private Encoder encoder;
@@ -50,16 +48,16 @@ public class EncoderTest extends Assert {
         ByteBuf encoded = encoder.encWithXor(buf);
 
         // encoded array must be longer for 4 bytes
-        assertTrue(raw.writerIndex() + 16 == encoded.writerIndex());
+        assertThat(raw.writerIndex() + 16 == encoded.writerIndex());
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testEncWithXor_Exception() throws Exception {
         byte[] data = new byte[31];
         random.nextBytes(data);
         ByteBuf buf = wrappedBuffer(data);
 
-        encoder.encWithXor(buf);
+        expectThrows(IndexOutOfBoundsException.class, () -> encoder.encWithXor(buf));
     }
 
     @Test
@@ -68,10 +66,10 @@ public class EncoderTest extends Assert {
         random.nextBytes(data);
         ByteBuf buf = buffer(8).writeBytes(data);
 
-        assertThat(buf.readableBytes(), not(is(8)));
+        assertThat(buf.readableBytes()).isNotEqualTo(8);
 
         buf = encoder.appendBlowFishPadding(buf);
 
-        assertThat(buf.readableBytes(), is(8));
+        assertThat(buf.readableBytes()).isEqualTo(8);
     }
 }
