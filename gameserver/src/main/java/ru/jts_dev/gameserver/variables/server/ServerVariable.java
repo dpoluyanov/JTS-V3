@@ -1,7 +1,5 @@
 package ru.jts_dev.gameserver.variables.server;
 
-import ru.jts_dev.gameserver.variables.AbstractVariable;
-
 import javax.persistence.*;
 
 /**
@@ -10,7 +8,7 @@ import javax.persistence.*;
  */
 @Entity
 @IdClass(ServerVariableKey.class)
-public class ServerVariable extends AbstractVariable {
+public class ServerVariable {
     @Id
     private byte serverId;
 
@@ -18,11 +16,22 @@ public class ServerVariable extends AbstractVariable {
     @Enumerated(EnumType.STRING)
     private ServerVariableType serverVariableType;
 
+    @Column
+    private String value;
+
     public void setServerId(byte serverId) {
         this.serverId = serverId;
     }
 
     public void setServerVariableType(ServerVariableType serverVariableType) {
         this.serverVariableType = serverVariableType;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

@@ -1,29 +1,27 @@
 package ru.jts_dev.common.config;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Random;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Camelion
  * @since 15.07.16
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = UtilsConfig.class)
+@SpringJUnitConfig(UtilsConfig.class)
 public class UtilsConfigTest {
     @Autowired
     private Random random;
 
     @Test
     public void randomBeanMustBeDefined() {
-        assertThat(random, is(notNullValue()));
+        assertThat(random).isNotNull();
     }
 }

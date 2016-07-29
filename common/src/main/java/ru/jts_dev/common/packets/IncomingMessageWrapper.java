@@ -39,7 +39,6 @@ public abstract class IncomingMessageWrapper implements Message<ByteBuf>, Runnab
      */
     public abstract void prepare();
 
-
     public final byte readByte() {
         if (payload.readableBytes() < Byte.BYTES)
             throw new IndexOutOfBoundsException("At least 1 byte1 must be readable in payload");
