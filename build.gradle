@@ -30,8 +30,6 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'jacoco'
     apply plugin: 'java'
-    apply plugin: 'org.junit.platform.gradle.plugin'
-
 
     version = '0.0.2-SNAPSHOT'
 
@@ -49,6 +47,10 @@ allprojects {
             xml.enabled true
         }
     }
+}
+
+subprojects {
+    apply plugin: 'org.junit.platform.gradle.plugin'
 }
 
 apply plugin: 'com.github.kt3k.coveralls'
