@@ -35,8 +35,8 @@ dependencies {
 
     compile("io.netty:netty-buffer:${nettyVersion}")
 
-    // object pool
-    compile 'com.googlecode.javaewah:JavaEWAH:1.1.6'
+    // javolution
+    compile 'org.javolution:javolution-core-java:6.0.0'
 }
 
 dependencies {
