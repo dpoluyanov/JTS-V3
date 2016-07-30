@@ -36,14 +36,14 @@ public class FastBitSetIdPool implements IdPool {
     @Override
     public int borrow() {
         final int id = allocate();
-        logger.debug("allocated id: {}", id);
+        logger.trace("allocated id: {}", id);
         return id;
     }
 
     @Override
     public void release(final int id) {
         releaseId(id);
-        logger.debug("released id: {}", id);
+        logger.trace("released id: {}", id);
     }
 
     private int allocate() {
