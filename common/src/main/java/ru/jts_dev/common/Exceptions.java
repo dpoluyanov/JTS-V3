@@ -10,7 +10,7 @@ import java.util.function.Function;
  */
 public class Exceptions {
     /**
-     * Wraps any unchecked exception
+     * Wraps any cheked exception to uncheked
      *
      * @param <T>
      */

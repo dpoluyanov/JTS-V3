@@ -11,6 +11,7 @@ import java.util.Objects;
 // TODO: 09.12.15 move to Spring Configuration and send from game server
 public class GameServerInfo implements Serializable {
     private static final long serialVersionUID = -4579722245610189116L;
+
     private final int serverId;
     private final InetAddress address;
     private final int port;

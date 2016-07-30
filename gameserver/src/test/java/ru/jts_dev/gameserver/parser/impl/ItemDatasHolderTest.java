@@ -1,10 +1,11 @@
 package ru.jts_dev.gameserver.parser.impl;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.jts_dev.gameserver.constants.AttributeType;
 import ru.jts_dev.gameserver.constants.CrystalType;
 import ru.jts_dev.gameserver.constants.ItemTypes.ArmorType;
@@ -15,45 +16,74 @@ import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
 import ru.jts_dev.gameserver.parser.data.item.SetData;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertTrue;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 /**
  * @author Camelion
  * @since 07.01.16
  */
-@ContextConfiguration(classes = ItemDatasHolder.class)
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringJUnitConfig(classes = ItemDatasHolder.class)
 public class ItemDatasHolderTest {
 
     @Autowired
     private ItemDatasHolder itemDatasHolder;
 
     /**
-     * test loading sets data
-     *
-     * @throws Exception
+     * Generates tests for sets data checking
      */
-    @Test
-    public void testGetSetsData() throws Exception {
-        assertThat(itemDatasHolder.getSetsData().size(), is(greaterThan(0)));
-        for (SetData setData : itemDatasHolder.getSetsData().values()) {
-            assertThat(setData.getSlotChest(), greaterThan(0));
+    @TestFactory
+    public Stream<DynamicTest> testGetSetsData(@Autowired ItemDatasHolder itemDatasHolder) {
+        DynamicTest testSize = dynamicTest("At least one set data has been loaded",
+                () -> assumeTrue(itemDatasHolder.getSetsData().size() > 0));
 
-            assertThat(setData.getSlotAdditional(), is(not(isEmptyOrNullString())));
-            assertThat(setData.getSetSkill(), is(not(isEmptyOrNullString())));
-            assertThat(setData.getSetEffectSkill(), is(not(isEmptyOrNullString())));
-            assertThat(setData.getSetAdditionalEffectSkill(), is(not(isEmptyOrNullString())));
+        Stream<DynamicTest> dynamicTestList = itemDatasHolder.getSetsData().entrySet().stream().map(
+                (setData -> Stream.of(
+                        dynamicTest(format("[%d] slot chest must not be null", setData.getKey()),
+                                () -> assumeTrue(setData.getValue().getSlotChest() > 0)),
 
-            assertThat(setData.getStrInc(), hasSize(2));
-            assertThat(setData.getConInc(), hasSize(2));
-            assertThat(setData.getDexInc(), hasSize(2));
-            assertThat(setData.getIntInc(), hasSize(2));
-            assertThat(setData.getMenInc(), hasSize(2));
-            assertThat(setData.getWitInc(), hasSize(2));
-        }
+                        dynamicTest(format("[%d] slot additional must not be null", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSlotAdditional() == null)),
+                        dynamicTest(format("[%d] slot additional must not be empty", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSlotAdditional().isEmpty())),
+
+                        dynamicTest(format("[%d] set skill must not be null", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSetSkill() == null)),
+                        dynamicTest(format("[%d] set skill must not be empty", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSetSkill().isEmpty())),
+
+                        dynamicTest(format("[%d] set effect skill must not be null", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSetEffectSkill() == null)),
+                        dynamicTest(format("[%d] set effect skill not be empty", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSetEffectSkill().isEmpty())),
+
+                        dynamicTest(format("[%d] set additional effect skill must not be null", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSetAdditionalEffectSkill() == null)),
+                        dynamicTest(format("[%d] set additional effect skill not be empty", setData.getKey()),
+                                () -> assumeFalse(setData.getValue().getSetAdditionalEffectSkill().isEmpty())),
+
+                        dynamicTest(format("[%d] str increment list contains only two items", setData.getKey()),
+                                () -> assumeTrue(setData.getValue().getIntInc().size() == 2)),
+                        dynamicTest(format("[%d] con increment list contains only two items", setData.getKey()),
+                                () -> assumeTrue(setData.getValue().getIntInc().size() == 2)),
+                        dynamicTest(format("[%d] dex increment list contains only two items", setData.getKey()),
+                                () -> assumeTrue(setData.getValue().getIntInc().size() == 2)),
+                        dynamicTest(format("[%d] int increment list contains only two items", setData.getKey()),
+                                () -> assumeTrue(setData.getValue().getIntInc().size() == 2)),
+                        dynamicTest(format("[%d] men increment list contains only two items", setData.getKey()),
+                                () -> assumeTrue(setData.getValue().getIntInc().size() == 2)),
+                        dynamicTest(format("[%d] wit increment list contains only two items", setData.getKey()),
+                                () -> assumeTrue(setData.getValue().getIntInc().size() == 2))
+                )))
+                .reduce(Stream::concat)
+                .orElseGet(Stream::empty);
+
+        return Stream.concat(Stream.of(testSize), dynamicTestList);
     }
 
     /**
@@ -61,25 +91,33 @@ public class ItemDatasHolderTest {
      *
      * @throws Exception
      */
+    /*
     @Test
+    @DisplayName("")
     public void testGetItemData() throws Exception {
-        assertThat(itemDatasHolder.getItemData().size(), is(greaterThan(0)));
+        assertThat(itemDatasHolder.getItemData().size()).isGreaterThan(0);
+        assumeTrue(() -> true, "itemdata must be not null");
         for (ItemData itemData : itemDatasHolder.getItemData().values()) {
-            assertThat(itemData.getName(), not(isEmptyOrNullString()));
-            assertThat("For item " + itemData.getName(), itemData.getItemId(), greaterThan(0));
-            assertThat("For item " + itemData.getName(), itemData.getItemClass(), is(notNullValue()));
-            assertThat("For item " + itemData.getName(), itemData.getItemType(), is(notNullValue()));
-            assertThat("For item " + itemData.getName(), itemData.getDelayShareGroup(), greaterThanOrEqualTo(-1));
 
-            assertThat("For item " + itemData.getName(), itemData.getSlotBitTypes(), notNullValue());
+            assumeTrue(itemData.getName()).isNotNull().isNotEmpty();
+            assertThat(itemData.getItemId()).as("Item %s" + itemData.getName()).isGreaterThan(0);
+            assertThat(itemData.getItemClass()).as("Item %s" + itemData.getName()).isNotNull();
+            assertThat(itemData.getItemType()).as("Item %s" + itemData.getName()).isNotNull();
+
+            assertThat(itemData.getDelayShareGroup()).as("Item %s" + itemData.getName()).isGreaterThanOrEqualTo(-1);
+
+            assertThat(itemData.getSlotBitTypes()).as("Item %s" + itemData.getName()).isNotNull();
 
             testItemMultiSkillList(itemData); // TODO: 10.01.16 test exists skill name in skilldata.txt
-            assertThat(itemData.getRecipeId(), greaterThanOrEqualTo(0)); // TODO: 11.01.16 test exists in recipe.txt
-            assertThat("For item " + itemData.getName(), itemData.getBlessed(), anyOf(is(0), is(2)));
-            assertThat("For item " + itemData.getName(), itemData.getWeight(), greaterThanOrEqualTo(0));
-            assertThat("For item " + itemData.getName(), itemData.getDefaultAction(), notNullValue());
-            assertThat("For item " + itemData.getName(), itemData.getConsumeType(), notNullValue());
-            assertThat("For item " + itemData.getName(), itemData.getInitialCount(), greaterThanOrEqualTo(1));
+
+            assertThat(itemData.getRecipeId()).as("Item %s" + itemData.getName()).isGreaterThanOrEqualTo(0);// TODO: 11.01.16 test exists in recipe.txt
+
+            assertThat(itemData.getBlessed()).as("Item %s" + itemData.getName()).isIn(0, 2);
+            assertThat(itemData.getWeight()).as("Item %s" + itemData.getName()).isGreaterThanOrEqualTo(0);
+            assertThat(itemData.getDefaultAction()).as("Item %s" + itemData.getName()).isNotNull();
+
+            assertThat(itemData.getConsumeType()).as("Item %s" + itemData.getName()).isNotNull();
+            assertThat(itemData.getInitialCount()).as("Item %s" + itemData.getName()).isGreaterThanOrEqualTo(1);
 
             assertThat("For item " + itemData.getName(), itemData.getSoulshotCount(), greaterThanOrEqualTo(0));
             assertThat("For item " + itemData.getName(), itemData.getSpiritshotCount(), greaterThanOrEqualTo(0));
@@ -284,5 +322,5 @@ public class ItemDatasHolderTest {
             assertThat("For item " + itemData.getName(), itemData.getArmorType(), is(ArmorType.NONE));
             assertThat("For item " + itemData.getName(), itemData.getWeaponType(), is(WeaponType.NONE));
         }
-    }
+    }*/
 }

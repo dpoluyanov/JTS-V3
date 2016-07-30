@@ -16,11 +16,14 @@ import java.net.UnknownHostException;
  */
 @Service
 public class AuthServerService {
-    @Autowired
-    private JmsTemplate jmsTemplate;
+    private final JmsTemplate jmsTemplate;
+    private final GameServerConfig gameServerConfig;
 
     @Autowired
-    private GameServerConfig gameServerConfig;
+    public AuthServerService(JmsTemplate jmsTemplate, GameServerConfig gameServerConfig) {
+        this.jmsTemplate = jmsTemplate;
+        this.gameServerConfig = gameServerConfig;
+    }
 
     /**
      * send game server status to auth server

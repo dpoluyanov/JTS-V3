@@ -1,14 +1,14 @@
 package ru.jts_dev.gameserver.repository;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.jts_dev.gameserver.GameServerApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.jts_dev.gameserver.constants.CharacterClass;
 import ru.jts_dev.gameserver.constants.CharacterRace;
 import ru.jts_dev.gameserver.model.GameCharacter;
@@ -17,52 +17,39 @@ import ru.jts_dev.gameserver.parser.data.CharacterStat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * @author Camelion
  * @since 28.12.15
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = GameServerApplication.class)
-// TODO: 02.01.16 migrate @SpringApplicationConfiguration to @ContextConfiguration (currently not work Aspect injection points)
-//@ContextConfiguration(classes = {DatabaseTestConfig.class})
-public class GameCharacterRepositoryTest extends Assert {
+@Rollback
+@DataJpaTest
+@EntityScan(basePackages = "ru.jts_dev.gameserver")
+@EnableAspectJAutoProxy
+@TestPropertySource(properties = "logging.level.org.hibernate.type=trace")
+@SpringJUnitConfig(classes = {GameCharacterRepository.class, GameCharacterRepository.GameCharacterRepositoryAspects.class})
+public class GameCharacterRepositoryTest {
 
     @Autowired
     private GameCharacterRepository repository;
 
-    @After
-    public void tearDown() {
-        repository.deleteAll();
-    }
-
     @Test
+    @DisplayName("exists by name")
     public void testExistsByName() throws Exception {
-        // ready
         GameCharacter character = new GameCharacter();
         character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setName("Test1");
         repository.save(character);
 
-        character = new GameCharacter();
-        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
-        character.setName("Test2");
-        repository.save(character);
-
-        // go
         assertTrue(repository.existsByName("Test1"));
-        assertTrue(repository.existsByName("Test2"));
-
-        assertFalse(repository.existsByName("Test"));
-        assertFalse(repository.existsByName("t"));
-        assertFalse(repository.existsByName("test1"));
-        assertFalse(repository.existsByName("test2"));
+        assertFalse(repository.existsByName("BadName"));
     }
 
     @Test
+    @DisplayName("count by account name")
     public void testCountByAccountName() throws Exception {
-        // ready
         GameCharacter character = new GameCharacter();
         character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
@@ -73,21 +60,13 @@ public class GameCharacterRepositoryTest extends Assert {
         character.setAccountName("Test");
         repository.save(character);
 
-        character = new GameCharacter();
-        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
-        character.setAccountName("Test2");
-        repository.save(character);
-
-        // go
-        assertThat(repository.countByAccountName("Test"), is(2));
-        assertThat(repository.countByAccountName("Test2"), is(1));
-        assertThat(repository.countByAccountName("test"), is(0));
-        assertThat(repository.countByAccountName("NotExistAcc"), is(0));
+        assertTrue(repository.countByAccountName("Test") == 2);
+        assertTrue(repository.countByAccountName("BadName") == 0);
     }
 
     @Test
+    @DisplayName("find all by account name")
     public void testFindAllByAccountName() throws Exception {
-        // ready
         GameCharacter character = new GameCharacter();
         character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
@@ -100,36 +79,36 @@ public class GameCharacterRepositoryTest extends Assert {
         character.setName("bruce");
         repository.save(character);
 
-        character = new GameCharacter();
-        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
-        character.setAccountName("Test2");
-        character.setName("leena");
-        repository.save(character);
+        final List<GameCharacter> list = repository.findAllByAccountName("Test");
+        assertAll("all accounts has been present",
+                () -> assertTrue(list.stream().anyMatch(ch -> ch.getName().equals("killer"))),
+                () -> assertTrue(list.stream().anyMatch(ch -> ch.getName().equals("bruce"))),
+                () -> assertTrue(list.size() == 2)
+        );
 
-        // go
-        List<GameCharacter> list = repository.findAllByAccountName("Test");
-        assertThat(list, hasSize(2));
-        assertThat(list, hasItem(hasProperty("name", equalTo("killer"))));
-        assertThat(list, hasItem(hasProperty("name", equalTo("bruce"))));
-
-        list = repository.findAllByAccountName("Test2");
-        assertThat(list, hasSize(1));
-        assertThat(list, hasItem(hasProperty("name", equalTo("leena"))));
-
-        assertThat(repository.findAllByAccountName("EmptyAcc"), is(empty()));
+        assertTrue(repository.findAllByAccountName("BadAccName").isEmpty(), "not existing account name finds nothing");
     }
 
     @Test
-    public void testUpdateLastUsed() throws Exception {
-        // ready
+    @DisplayName("test last used updated for one character")
+    public void testUpdateLastUsed() {
         GameCharacter character = new GameCharacter();
         character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
         character.setAccountName("Test");
         repository.save(character);
 
-        // go
         List<GameCharacter> list = repository.findAllByAccountName("Test");
-        assertThat(list, hasItem(hasProperty("lastUsed", equalTo(true))));
+
+        assertTrue(list.stream().anyMatch(GameCharacter::isLastUsed), "last used should be updated");
+    }
+
+    @Test
+    @DisplayName("test last used was updated for all characters")
+    public void testUpdateLastUsedForAll() throws Exception {
+        GameCharacter character = new GameCharacter();
+        character.setStat(new CharacterStat(CharacterRace.HUMAN, CharacterClass.HUMAN_FIGHTER, new ArrayList<>(6)));
+        character.setAccountName("Test");
+        repository.save(character);
 
         // ready
         character = new GameCharacter();
@@ -138,9 +117,11 @@ public class GameCharacterRepositoryTest extends Assert {
         repository.save(character);
 
         // go
-        list = repository.findAllByAccountName("Test");
+        List<GameCharacter> list = repository.findAllByAccountName("Test");
 
-        assertThat(list, hasItem(hasProperty("lastUsed", equalTo(true))));
-        assertThat(list, hasItem(hasProperty("lastUsed", equalTo(false))));
+        assertAll("last used updates all characters on account",
+                () -> assertTrue(list.stream().anyMatch(ch -> ch.isLastUsed()), "should have character with lastUsed = true"),
+                () -> assertTrue(list.stream().anyMatch(ch -> !ch.isLastUsed()), "should have character with lastUsed = false")
+        );
     }
 }

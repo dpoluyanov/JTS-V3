@@ -22,7 +22,7 @@ public class BroadcastService {
     private static final int THRESHOLD = 25;
     private static final Logger logger = LoggerFactory.getLogger(BroadcastService.class);
     private static final ThrowingFunction<StaticOutgoingMessageWrapper, OutgoingMessageWrapper>
-            checkedMessageCloneException = StaticOutgoingMessageWrapper::clone;
+            uncheckedMessageCloneException = StaticOutgoingMessageWrapper::clone;
 
     private final GameSessionService sessionService;
     private final MessageChannel packetChannel;
@@ -45,7 +45,7 @@ public class BroadcastService {
 
     public final void send(final String connectionId, OutgoingMessageWrapper message) {
         if (message.isStatic() && message instanceof StaticOutgoingMessageWrapper) {
-            send(connectionId, checkedMessageCloneException.apply((StaticOutgoingMessageWrapper) message));
+            send(connectionId, uncheckedMessageCloneException.apply((StaticOutgoingMessageWrapper) message));
             logger.trace("Clone {} packet", message.getClass().getSimpleName());
             return;
         }

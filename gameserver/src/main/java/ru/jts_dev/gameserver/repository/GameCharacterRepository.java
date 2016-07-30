@@ -14,6 +14,8 @@ import ru.jts_dev.gameserver.model.GameCharacter;
 
 import java.util.List;
 
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+
 /**
  * @author Camelion
  * @since 21.12.15
@@ -47,21 +49,29 @@ public interface GameCharacterRepository extends CrudRepository<GameCharacter, I
     List<GameCharacter> findAllByAccountName(String accountName);
 
     /**
-     * Hit before {@link GameCharacterRepository#save(Object)}
-     * set lastUsed field false for all accounts
+     * Hits before {@link GameCharacterRepository#save(Object)}
+     * sets lastUsed field false for all characters
      *
      * @param character - character, prepared to save
      */
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Transactional
-    @Query("UPDATE GameCharacter c SET c.lastUsed = false WHERE c.accountName = ?#{#character.accountName}")
+    @Query("UPDATE GameCharacter c SET c.lastUsed = false WHERE c.accountName = :#{#character.accountName}")
     void updateLastUsed(@Param("character") GameCharacter character);
 
+    /**
+     * @author Camelion
+     * @since 30.07.16
+     */
     @Aspect
     @Component
-    class Aspects {
+    class GameCharacterRepositoryAspects {
+        private final GameCharacterRepository repository;
+
         @Autowired
-        private GameCharacterRepository repository;
+        public GameCharacterRepositoryAspects(GameCharacterRepository repository) {
+            this.repository = repository;
+        }
 
         @Before("execution(* GameCharacterRepository+.save(..)) && args(character))")
         public void updateLastUsedAdvice(GameCharacter character) {

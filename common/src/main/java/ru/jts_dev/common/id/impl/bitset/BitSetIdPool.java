@@ -88,9 +88,6 @@ public final class BitSetIdPool implements IdPool {
         }
 
         void markUsed(final int index) {
-            if (index <= 0 || index > bitSetSize) {
-                throw new IndexOutOfBoundsException("index must be > 0 and <= " + bitSetSize + " current: " + index);
-            }
             bits.set(index);
         }
 

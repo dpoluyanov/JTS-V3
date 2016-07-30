@@ -28,7 +28,7 @@ public class UtilsConfig {
      * Random random = context.getBean(Random.class);
      * ...
      * </pre>
-     * <p>
+     * <p
      * todo fix description
      *
      * @return ThreadLocalRandom for caller thread

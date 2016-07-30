@@ -1,26 +1,26 @@
 package ru.jts_dev.gameserver.parser.impl;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.jts_dev.gameserver.constants.CharacterClass;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import static ru.jts_dev.gameserver.constants.CharacterClass.*;
 
 /**
  * @author Camelion
  * @since 20.12.15
  */
-@ContextConfiguration(classes = {SettingsHolder.class, ItemDatasHolder.class})
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringJUnitConfig(classes = {SettingsHolder.class, ItemDatasHolder.class})
 public class SettingsHolderTest {
     private static final int STATS_COUNT = 11;
     @Autowired
@@ -29,123 +29,181 @@ public class SettingsHolderTest {
     private ItemDatasHolder itemDatasHolder;
 
     /**
-     * Assert that {@link SettingsHolder#recommendedStats} parsed correctly
-     *
-     * @throws Exception
+     * Assume that {@link SettingsHolder#recommendedStats} parsed correctly
      */
     @Test
-    public final void testParseRecommendedStats() throws Exception {
-        assertThat(settingsHolder.getRecommendedStats(), is(not(empty())));
-        assertThat(settingsHolder.getRecommendedStats(), iterableWithSize(STATS_COUNT));
+    @DisplayName("recommended stats has " + STATS_COUNT + " items")
+    public final void testParseRecommendedStats() {
+        assumeTrue(settingsHolder.getRecommendedStats().size() == STATS_COUNT);
     }
 
 
     /**
-     * Assert that {@link SettingsHolder#maximumStats} parsed correctly
-     *
-     * @throws Exception
+     * Assume that {@link SettingsHolder#maximumStats} parsed correctly
      */
     @Test
-    public final void testParseMaximumStats() throws Exception {
-        assertThat(settingsHolder.getMaximumStats(), is(not(empty())));
-        assertThat(settingsHolder.getMaximumStats(), iterableWithSize(STATS_COUNT));
+    @DisplayName("maximum stats has " + STATS_COUNT + " items")
+    public final void testParseMaximumStats() {
+        assumeTrue(settingsHolder.getMaximumStats().size() == STATS_COUNT);
     }
 
     /**
-     * Assert that {@link SettingsHolder#minimumStats} parsed correctly
-     *
-     * @throws Exception
+     * Assume that {@link SettingsHolder#minimumStats} parsed correctly
      */
     @Test
-    public final void testParseMinimumStats() throws Exception {
-        assertThat(settingsHolder.getMinimumStats(), is(not(empty())));
-        assertThat(settingsHolder.getMinimumStats(), iterableWithSize(STATS_COUNT));
+    @DisplayName("minimum stats has " + STATS_COUNT + " items")
+    public final void testParseMinimumStats() {
+        assumeTrue(settingsHolder.getMinimumStats().size() == STATS_COUNT);
     }
 
     /**
-     * assertThat {@link SettingsHolder#recommendedStats} size
+     * Assume that {@link SettingsHolder#recommendedStats} size
      * equals {@link SettingsHolder#minimumStats} and equals {@link SettingsHolder#maximumStats}
-     *
-     * @throws Exception
      */
     @Test
+    @DisplayName("minimum stats has " + STATS_COUNT + " items")
     public final void testThatStatsHasSameSize() throws Exception {
-        assertThat(settingsHolder.getRecommendedStats().size(), allOf(
-                is(equalTo(settingsHolder.getMinimumStats().size())),
-                is(equalTo(settingsHolder.getMaximumStats().size()))
-        ));
+        assumeTrue(settingsHolder.getRecommendedStats().size() == settingsHolder.getMinimumStats().size());
+        assumeTrue(settingsHolder.getRecommendedStats().size() == settingsHolder.getMaximumStats().size());
     }
 
     /**
-     * Assert that {@link SettingsHolder#initialStartPoints} parsed correctly
-     *
-     * @throws Exception
+     * Assume that {@link SettingsHolder#initialStartPoints} parsed correctly
      */
-    @Test
-    public final void testParseInitialStartPoints() throws Exception {
-        assertThat(settingsHolder.getInitialStartPoints().size(), greaterThan(0));
+    @TestFactory
+    public final Stream<DynamicTest> testParseInitialStartPoints() {
+        return Stream.of(
+                dynamicTest("at least one initial start point has been loaded",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().isEmpty())),
 
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(HUMAN_FIGHTER), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(HUMAN_MAGICIAN), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(ELF_FIGHTER), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(ELF_MAGICIAN), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(DARKELF_FIGHTER), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(DARKELF_MAGICIAN), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(ORC_FIGHTER), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(ORC_SHAMAN), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(DWARF_APPRENTICE), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(KAMAEL_M_SOLDIER), is(not(empty()))));
-        assertThat(settingsHolder.getInitialStartPoints(), hasEntry(equalTo(KAMAEL_F_SOLDIER), is(not(empty()))));
+                dynamicTest("initial start points contains " + HUMAN_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(HUMAN_FIGHTER))),
+                dynamicTest("initial start points for " + HUMAN_FIGHTER + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(HUMAN_FIGHTER).isEmpty())),
+
+                dynamicTest("initial start points contains " + HUMAN_MAGICIAN + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(HUMAN_MAGICIAN))),
+                dynamicTest("initial start points for " + HUMAN_MAGICIAN + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(HUMAN_MAGICIAN).isEmpty())),
+
+                dynamicTest("initial start points contains " + ELF_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(ELF_FIGHTER))),
+                dynamicTest("initial start points for " + ELF_FIGHTER + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(ELF_FIGHTER).isEmpty())),
+
+                dynamicTest("initial start points contains " + DARKELF_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(DARKELF_FIGHTER))),
+                dynamicTest("initial start points for " + DARKELF_FIGHTER + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(DARKELF_FIGHTER).isEmpty())),
+
+                dynamicTest("initial start points contains " + DARKELF_MAGICIAN + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(DARKELF_MAGICIAN))),
+                dynamicTest("initial start points for " + DARKELF_MAGICIAN + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(DARKELF_MAGICIAN).isEmpty())),
+
+                dynamicTest("initial start points contains " + ORC_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(ORC_FIGHTER))),
+                dynamicTest("initial start points for " + ORC_FIGHTER + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(ORC_FIGHTER).isEmpty())),
+
+                dynamicTest("initial start points contains " + ORC_SHAMAN + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(ORC_SHAMAN))),
+                dynamicTest("initial start points for " + ORC_SHAMAN + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(ORC_SHAMAN).isEmpty())),
+
+                dynamicTest("initial start points contains " + DWARF_APPRENTICE + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(DWARF_APPRENTICE))),
+                dynamicTest("initial start points for " + DWARF_APPRENTICE + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(DWARF_APPRENTICE).isEmpty())),
+
+                dynamicTest("initial start points contains " + KAMAEL_M_SOLDIER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(KAMAEL_M_SOLDIER))),
+                dynamicTest("initial start points for " + KAMAEL_M_SOLDIER + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(KAMAEL_M_SOLDIER).isEmpty())),
+
+                dynamicTest("initial start points contains " + KAMAEL_F_SOLDIER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialStartPoints().containsKey(KAMAEL_F_SOLDIER))),
+                dynamicTest("initial start points for " + KAMAEL_F_SOLDIER + " contains at least one point",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(KAMAEL_F_SOLDIER).isEmpty()))
+        );
     }
 
     /**
-     * Assert that {@link SettingsHolder#initialEquipments} parsed correctly
-     *
-     * @throws Exception
+     * Assume that {@link SettingsHolder#initialEquipments} parsed correctly
      */
-    @Test
-    public final void testParseInitialEquipments() throws Exception {
-        assertThat(settingsHolder.getInitialEquipments().size(), equalTo(STATS_COUNT));
+    @TestFactory
+    public final Stream<DynamicTest> testParseInitialEquipments() {
+        return Stream.of(
+                dynamicTest("at least one initial equipments has been loaded",
+                        () -> assumeFalse(settingsHolder.getInitialEquipments().isEmpty())),
 
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(HUMAN_FIGHTER), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(HUMAN_MAGICIAN), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(ELF_FIGHTER), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(ELF_MAGICIAN), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(DARKELF_FIGHTER), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(DARKELF_MAGICIAN), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(ORC_FIGHTER), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(ORC_SHAMAN), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(DWARF_APPRENTICE), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(KAMAEL_M_SOLDIER), notNullValue()));
-        assertThat(settingsHolder.getInitialEquipments(), hasEntry(equalTo(KAMAEL_F_SOLDIER), notNullValue()));
+                dynamicTest("initial equipments contains " + HUMAN_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(HUMAN_FIGHTER))),
+                dynamicTest("initial equipments for " + HUMAN_FIGHTER + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(HUMAN_FIGHTER).isEmpty())),
+
+                dynamicTest("initial equipments contains " + HUMAN_MAGICIAN + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(HUMAN_MAGICIAN))),
+                dynamicTest("initial equipments for " + HUMAN_MAGICIAN + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(HUMAN_MAGICIAN).isEmpty())),
+
+                dynamicTest("initial equipments contains " + ELF_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(ELF_FIGHTER))),
+                dynamicTest("initial equipments for " + ELF_FIGHTER + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(ELF_FIGHTER).isEmpty())),
+
+                dynamicTest("initial equipments contains " + DARKELF_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(DARKELF_FIGHTER))),
+                dynamicTest("initial equipments for " + DARKELF_FIGHTER + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(DARKELF_FIGHTER).isEmpty())),
+
+                dynamicTest("initial equipments contains " + DARKELF_MAGICIAN + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(DARKELF_MAGICIAN))),
+                dynamicTest("initial equipments for " + DARKELF_MAGICIAN + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(DARKELF_MAGICIAN).isEmpty())),
+                dynamicTest("initial equipments contains " + ORC_FIGHTER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(ORC_FIGHTER))),
+                dynamicTest("initial equipments for " + ORC_FIGHTER + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(ORC_FIGHTER).isEmpty())),
+
+                dynamicTest("initial equipments contains " + ORC_SHAMAN + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(ORC_SHAMAN))),
+                dynamicTest("initial equipments for " + ORC_SHAMAN + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(ORC_SHAMAN).isEmpty())),
+
+                dynamicTest("initial equipments contains " + DWARF_APPRENTICE + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(DWARF_APPRENTICE))),
+                dynamicTest("initial equipments for " + DWARF_APPRENTICE + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(DWARF_APPRENTICE).isEmpty())),
+
+                dynamicTest("initial equipments contains " + KAMAEL_M_SOLDIER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(KAMAEL_M_SOLDIER))),
+                dynamicTest("initial equipments for " + KAMAEL_M_SOLDIER + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(KAMAEL_M_SOLDIER).isEmpty())),
+
+                dynamicTest("initial equipments contains " + KAMAEL_F_SOLDIER + " section",
+                        () -> assumeTrue(settingsHolder.getInitialEquipments().containsKey(KAMAEL_F_SOLDIER))),
+                dynamicTest("initial equipments for " + KAMAEL_F_SOLDIER + " contains at least one equipment",
+                        () -> assumeFalse(settingsHolder.getInitialStartPoints().get(KAMAEL_F_SOLDIER).isEmpty()))
+        );
     }
 
     /**
-     * Assert that all item definition in initial equipment {@link SettingsHolder#initialEquipments}
-     * contains in itemdata.txt, loaded by {@link ItemDatasHolder}
-     *
-     * @throws Exception
-     * @see ItemDatasHolder#getItemData()
+     * Assume that all item definition in initial equipment {@link SettingsHolder#initialEquipments}, contains in itemdata
      */
-    @Test
-    public final void testInitialEquipmentExists() throws Exception {
-        for (Entry<CharacterClass, Map<String, Integer>> entry : settingsHolder.getInitialEquipments().entrySet()) {
-            assertThat(entry.getValue().size(), greaterThan(0));
-        }
-    }
+    @TestFactory
+    public final Stream<DynamicTest> testInitialEquipmentHasPositiveCount() {
+        return settingsHolder.getInitialEquipments().entrySet().stream()
+                .map(entry ->
+                        entry.getValue().entrySet().stream()
+                                .map(equipment ->
+                                        dynamicTest("initial equipment " + equipment.getKey() + " for class" + entry.getKey() + " exist in itemdata",
+                                                () -> assumeTrue(
+                                                        itemDatasHolder.getItemData().values().stream()
+                                                                .anyMatch(itemData -> itemData.getName().equals(equipment.getKey())))
+                                        )
 
-    /**
-     * Assert that all item definition in initial equipment {@link SettingsHolder#initialEquipments}, has positive count
-     *
-     * @throws Exception
-     */
-    @Test
-    public final void testInitialEquipmentHasPositiveCount() throws Exception {
-        for (final Entry<CharacterClass, Map<String, Integer>> entry : settingsHolder.getInitialEquipments().entrySet()) {
-            for (final String name : entry.getValue().keySet()) {
-                assertThat("For class " + entry.getKey() + ", equipment " + name + " exist in itemdata",
-                        itemDatasHolder.getItemData(), hasValue(hasProperty("name", equalTo(name))));
-            }
-        }
+                                )
+                ).reduce(Stream::concat).orElse(Stream.empty());
     }
 }

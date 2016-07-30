@@ -1,13 +1,14 @@
 package ru.jts_dev.gameserver.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
  * @author Java-man
  * @since 04.01.2016
  */
-@Component
+@Configuration
 public class GameServerConfig {
     @Value("${gameserver.id}")
     private byte id;
