@@ -33,7 +33,7 @@ public class GameServerInfo implements Serializable {
     public final boolean equals(final Object obj) {
         if (this == obj)
             return true;
-        if (obj == null || getClass() != obj.getClass())
+        if (obj == null || !(obj instanceof GameServerInfo))
             return false;
         final GameServerInfo gameServerInfo = (GameServerInfo) obj;
         return serverId == gameServerInfo.serverId;

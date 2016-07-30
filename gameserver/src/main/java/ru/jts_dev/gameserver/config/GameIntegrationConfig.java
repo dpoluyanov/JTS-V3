@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +21,6 @@ import org.springframework.integration.ip.tcp.TcpSendingMessageHandler;
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionFactory;
 import org.springframework.messaging.MessageChannel;
-import ru.jts_dev.common.Exceptions.ThrowingFunction;
 import ru.jts_dev.common.packets.IncomingMessageWrapper;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.packets.StaticOutgoingMessageWrapper;
@@ -42,12 +42,10 @@ import static io.netty.buffer.Unpooled.wrappedBuffer;
 @IntegrationComponentScan
 public class GameIntegrationConfig {
     private static final Logger log = LoggerFactory.getLogger(GameIntegrationConfig.class);
-
-    @Value("${gameserver.port}")
-    private int port;
-
     private final GameClientPacketHandler clientPacketHandler;
     private final Encoder encoder;
+    @Value("${gameserver.port}")
+    private int port;
 
     @Autowired
     public GameIntegrationConfig(GameClientPacketHandler clientPacketHandler, Encoder encoder) {
@@ -169,19 +167,27 @@ public class GameIntegrationConfig {
 
     /**
      * Outgoing message flow
+     * // TODO rewrite to reactive
      *
      * @return - complete message transformations flow
      */
     @Bean
-    public IntegrationFlow sendFlow() {
+    public IntegrationFlow sendFlow(@Qualifier("packetChannel") MessageChannel packetChannel,
+                                    @Qualifier("tcpOutChannel") MessageChannel tcpOutputChannel) {
         return IntegrationFlows
-                .from(packetChannel())
+                .from(packetChannel)
                 .route(OutgoingMessageWrapper.class, msg -> msg.isStatic(),
                         invoker -> invoker
                                 .subFlowMapping("true",
                                         sf -> sf.transform(StaticOutgoingMessageWrapper.class,
-                                                msg -> (ThrowingFunction<StaticOutgoingMessageWrapper, OutgoingMessageWrapper>)
-                                                        elem -> msg.clone()))
+                                                msg -> {
+                                                    try {
+                                                        return msg.clone();
+                                                    } catch (CloneNotSupportedException e) {
+                                                        // just rethrow to unchecked
+                                                        throw new RuntimeException(e);
+                                                    }
+                                                }))
                                 .subFlowMapping("false",
                                         sf -> sf.transform(OutgoingMessageWrapper.class, msg -> msg))
                 )
@@ -203,7 +209,7 @@ public class GameIntegrationConfig {
                     buf.release();
                     return data;
                 })
-                .channel(tcpOutChannel())
+                .channel(tcpOutputChannel)
                 .get();
     }
 }

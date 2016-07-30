@@ -16,14 +16,11 @@ import ru.jts_dev.gameserver.service.PlayerService;
  */
 @Opcode(0x0F)
 public final class MoveBackwardToLocation extends IncomingMessageWrapper {
-    @Autowired
-    private MovementService movementService;
-    @Autowired
-    private GameSessionService sessionService;
-    @Autowired
-    private PlayerService playerService;
+    private final MovementService movementService;
+    private final GameSessionService sessionService;
+    private final PlayerService playerService;
 
-    public static final int MAGIC_NUMBER = 20;
+    private static final int MAGIC_NUMBER = 20;
     private int targetX;
     private int targetY;
     private int targetZ;
@@ -31,6 +28,13 @@ public final class MoveBackwardToLocation extends IncomingMessageWrapper {
     private int originY;
     private int originZ;
     private int movementType;
+
+    @Autowired
+    public MoveBackwardToLocation(MovementService movementService, GameSessionService sessionService, PlayerService playerService) {
+        this.movementService = movementService;
+        this.sessionService = sessionService;
+        this.playerService = playerService;
+    }
 
     @Override
     public void prepare() {
