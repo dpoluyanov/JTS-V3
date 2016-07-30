@@ -5,8 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ContextHierarchy;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
 
 import java.util.stream.Stream;
@@ -20,7 +23,11 @@ import static ru.jts_dev.gameserver.constants.CharacterClass.*;
  * @author Camelion
  * @since 20.12.15
  */
-@SpringJUnitConfig(classes = {SettingsHolder.class, ItemDatasHolder.class})
+@ContextHierarchy({
+        @ContextConfiguration(classes = ItemDatasHolder.class),
+        @ContextConfiguration(classes = SettingsHolder.class)
+})
+@ExtendWith(SpringExtension.class)
 public class SettingsHolderTest {
     private static final int STATS_COUNT = 11;
     @Autowired

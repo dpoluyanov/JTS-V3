@@ -1,25 +1,16 @@
 package ru.jts_dev.gameserver.parser.impl;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.jts_dev.gameserver.constants.AttributeType;
-import ru.jts_dev.gameserver.constants.CrystalType;
-import ru.jts_dev.gameserver.constants.ItemTypes.ArmorType;
-import ru.jts_dev.gameserver.constants.ItemTypes.EtcItemType;
-import ru.jts_dev.gameserver.constants.ItemTypes.WeaponType;
-import ru.jts_dev.gameserver.parser.data.item.ItemData;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.jts_dev.gameserver.parser.data.item.ItemDatasHolder;
-import ru.jts_dev.gameserver.parser.data.item.SetData;
 
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
@@ -28,7 +19,8 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
  * @author Camelion
  * @since 07.01.16
  */
-@SpringJUnitConfig(classes = ItemDatasHolder.class)
+@ContextConfiguration(classes = ItemDatasHolder.class)
+@ExtendWith(SpringExtension.class)
 public class ItemDatasHolderTest {
 
     @Autowired
