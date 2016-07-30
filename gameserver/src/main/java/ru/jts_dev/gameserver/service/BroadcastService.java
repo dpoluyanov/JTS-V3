@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.ip.IpHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
-import ru.jts_dev.common.Exceptions.ThrowingFunction;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.packets.StaticOutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameSession;
