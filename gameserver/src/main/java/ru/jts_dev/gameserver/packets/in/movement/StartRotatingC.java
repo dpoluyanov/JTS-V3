@@ -11,23 +11,29 @@ import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 import ru.jts_dev.gameserver.util.RotationUtils;
 
+import javax.inject.Inject;
+
 /**
  * @author Java-man
  * @since 26.01.2016
  */
 @Opcode(0x5B)
 public class StartRotatingC extends IncomingMessageWrapper {
-    @Autowired
-    private GameSessionService sessionService;
-    @Autowired
-    private PlayerService playerService;
-    @Autowired
-    private BroadcastService broadcastService;
-    @Autowired
-    private RotationUtils rotationUtils;
+    private final GameSessionService sessionService;
+    private final PlayerService playerService;
+    private final BroadcastService broadcastService;
+    private final RotationUtils rotationUtils;
 
     private int heading;
     private int side;
+
+    @Inject
+    public StartRotatingC(GameSessionService sessionService, RotationUtils rotationUtils, BroadcastService broadcastService, PlayerService playerService) {
+        this.sessionService = sessionService;
+        this.rotationUtils = rotationUtils;
+        this.broadcastService = broadcastService;
+        this.playerService = playerService;
+    }
 
     @Override
     public void prepare() {

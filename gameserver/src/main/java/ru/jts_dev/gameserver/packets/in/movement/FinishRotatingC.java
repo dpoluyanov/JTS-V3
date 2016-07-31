@@ -10,21 +10,27 @@ import ru.jts_dev.gameserver.service.BroadcastService;
 import ru.jts_dev.gameserver.service.GameSessionService;
 import ru.jts_dev.gameserver.service.PlayerService;
 
+import javax.inject.Inject;
+
 /**
  * @author Java-man
  * @since 26.01.2016
  */
 @Opcode(0x5C)
 public class FinishRotatingC extends IncomingMessageWrapper {
-    @Autowired
-    private GameSessionService sessionService;
-    @Autowired
-    private PlayerService playerService;
-    @Autowired
-    private BroadcastService broadcastService;
+    private final GameSessionService sessionService;
+    private final PlayerService playerService;
+    private final BroadcastService broadcastService;
 
     private int degree;
     private int unknown; // TODO
+
+    @Inject
+    public FinishRotatingC(BroadcastService broadcastService, GameSessionService sessionService, PlayerService playerService) {
+        this.broadcastService = broadcastService;
+        this.sessionService = sessionService;
+        this.playerService = playerService;
+    }
 
     @Override
     public void prepare() {
