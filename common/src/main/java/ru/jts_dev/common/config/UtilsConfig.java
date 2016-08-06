@@ -3,7 +3,6 @@ package ru.jts_dev.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -28,8 +27,6 @@ public class UtilsConfig {
      * Random random = context.getBean(Random.class);
      * ...
      * </pre>
-     * <p
-     * todo fix description
      *
      * @return ThreadLocalRandom for caller thread
      */

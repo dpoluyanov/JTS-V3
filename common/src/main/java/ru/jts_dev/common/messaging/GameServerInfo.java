@@ -8,7 +8,6 @@ import java.util.Objects;
  * @author Camelion
  * @since 09.12.15
  */
-// TODO: 09.12.15 move to Spring Configuration and send from game server
 public class GameServerInfo implements Serializable {
     private static final long serialVersionUID = -4579722245610189116L;
 
@@ -33,7 +32,7 @@ public class GameServerInfo implements Serializable {
     public final boolean equals(final Object obj) {
         if (this == obj)
             return true;
-        if (obj == null || getClass() != obj.getClass())
+        if (obj == null || !(obj instanceof GameServerInfo))
             return false;
         final GameServerInfo gameServerInfo = (GameServerInfo) obj;
         return serverId == gameServerInfo.serverId;

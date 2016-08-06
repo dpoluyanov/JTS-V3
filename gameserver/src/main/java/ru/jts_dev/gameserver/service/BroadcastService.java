@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.ip.IpHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
-import ru.jts_dev.common.Exceptions.ThrowingFunction;
 import ru.jts_dev.common.packets.OutgoingMessageWrapper;
 import ru.jts_dev.common.packets.StaticOutgoingMessageWrapper;
 import ru.jts_dev.gameserver.model.GameSession;
@@ -21,8 +20,6 @@ import java.util.stream.Stream;
 public class BroadcastService {
     private static final int THRESHOLD = 25;
     private static final Logger logger = LoggerFactory.getLogger(BroadcastService.class);
-    private static final ThrowingFunction<StaticOutgoingMessageWrapper, OutgoingMessageWrapper>
-            uncheckedMessageCloneException = StaticOutgoingMessageWrapper::clone;
 
     private final GameSessionService sessionService;
     private final MessageChannel packetChannel;
@@ -45,7 +42,7 @@ public class BroadcastService {
 
     public final void send(final String connectionId, OutgoingMessageWrapper message) {
         if (message.isStatic() && message instanceof StaticOutgoingMessageWrapper) {
-            send(connectionId, uncheckedMessageCloneException.apply((StaticOutgoingMessageWrapper) message));
+            send(connectionId, message);
             logger.trace("Clone {} packet", message.getClass().getSimpleName());
             return;
         }

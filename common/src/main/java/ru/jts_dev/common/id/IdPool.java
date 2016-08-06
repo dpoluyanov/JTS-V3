@@ -1,7 +1,7 @@
 package ru.jts_dev.common.id;
 
 /**
- * Represents IdPool with fixed id range in [0 ... {@linkplain Integer#MAX_VALUE}]
+ * Represents IdPool with fixed id range in [1 ... {@linkplain Integer#MAX_VALUE}]
  * Every id pool should be created only once for one creation factory,
  * for example items, characters, etc.
  *

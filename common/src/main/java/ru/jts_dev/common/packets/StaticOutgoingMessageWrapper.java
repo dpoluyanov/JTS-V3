@@ -8,7 +8,7 @@ import org.springframework.integration.support.MutableMessageHeaders;
  * Represent immutable static packet. All subclasses of this class should be immutable too.
  * This class use {@link Object#clone()} to perform copy of it object.
  * It means, that all fields of this class (and subclasses) wil be cloned lazily
- * and must be guaranteed immutable.
+ * and must be guarantee immutable.
  *
  * @author Camelion
  * @see Object#clone()
@@ -29,7 +29,7 @@ public abstract class StaticOutgoingMessageWrapper extends OutgoingMessageWrappe
      * because this method is final, and there is no other way in which copy of this fields can be obtained.
      *
      * @return - cloned message
-     * @throws CloneNotSupportedException
+     * @throws CloneNotSupportedException - if
      * @see Object#clone()
      */
     @Override
