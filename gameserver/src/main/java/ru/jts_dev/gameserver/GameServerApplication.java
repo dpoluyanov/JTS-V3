@@ -3,7 +3,6 @@ package ru.jts_dev.gameserver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @since 09.12.15
  */
 @EnableScheduling
-@EnableCaching
 @EntityScan(basePackages = {"ru.jts_dev.common", "ru.jts_dev.gameserver"})
 @SpringBootApplication(scanBasePackages = {"ru.jts_dev.common", "ru.jts_dev.gameserver"})
 public class GameServerApplication implements ApplicationContextAware {

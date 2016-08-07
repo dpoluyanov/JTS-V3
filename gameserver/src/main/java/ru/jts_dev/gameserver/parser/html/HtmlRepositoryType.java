@@ -1,16 +1,15 @@
 package ru.jts_dev.gameserver.parser.html;
 
-import com.google.common.collect.ImmutableMap;
-import com.neovisionaries.i18n.LanguageCode;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Locale;
 
 /**
  * @author Java-man
@@ -19,31 +18,31 @@ import java.util.Map;
 public enum HtmlRepositoryType {
     ENABLE {
         @Override
-        Map<LanguageCode, Path> htmlToLoad(ResourceLoader resourceLoader, Path htmlDir) throws IOException {
-            Map<LanguageCode, Path> result = new HashMap<>();
+        Multimap<Locale, Path> htmlToLoad(ResourceLoader resourceLoader, Path htmlDir) throws IOException {
+            Multimap<Locale, Path> result = HashMultimap.create();
             try (DirectoryStream<Path> htmlDirStream = Files.newDirectoryStream(htmlDir)) {
                 htmlDirStream.forEach(dir -> {
                     Path languageDirName = dir.getName(dir.getNameCount() - 1);
-                    LanguageCode languageCode = LanguageCode.getByCode(languageDirName.toString());
-                    if (languageCode != null) {
+                    Locale locale = Locale.forLanguageTag(languageDirName.toString());
+                    if (locale != null) {
                         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
                             stream.forEach(path2 ->
-                                    result.put(languageCode, path2.getFileName()));
+                                    result.put(locale, path2.getFileName()));
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     }
                 });
             }
-            return ImmutableMap.copyOf(result);
+            return ImmutableMultimap.copyOf(result);
         }
     },
     LAZY {
         @Override
-        Map<LanguageCode, Path> htmlToLoad(ResourceLoader resourceLoader, Path htmlDir) {
-            return Collections.emptyMap();
+        Multimap<Locale, Path> htmlToLoad(ResourceLoader resourceLoader, Path htmlDir) {
+            return ImmutableMultimap.of();
         }
     };
 
-    abstract Map<LanguageCode, Path> htmlToLoad(ResourceLoader resourceLoader, Path htmlDir) throws IOException;
+    abstract Multimap<Locale, Path> htmlToLoad(ResourceLoader resourceLoader, Path htmlDir) throws IOException;
 }

@@ -5,8 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author Java-man
  * @since 04.01.2016
@@ -14,11 +12,14 @@ import javax.validation.constraints.NotNull;
 @Configuration
 @ConfigurationProperties(prefix = "gameserver.html.repository")
 public class HtmlRepositoryConfig {
-    @NotNull
     private HtmlRepositoryType type;
 
-    public HtmlRepositoryType getHtmlRepositoryType() {
+    public HtmlRepositoryType getType() {
         return type;
+    }
+
+    public void setType(HtmlRepositoryType type) {
+        this.type = type;
     }
 
     @Bean

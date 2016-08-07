@@ -1,8 +1,8 @@
 package ru.jts_dev.gameserver.parser.html;
 
+import com.google.common.collect.Multimap;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressorStatistics;
-import com.neovisionaries.i18n.LanguageCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
+import java.util.Locale;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -24,7 +24,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @since 04.01.2016
  */
 @Component
-public final class HtmlRepository {
+public class HtmlRepository {
     private final Logger logger = LoggerFactory.getLogger(HtmlRepository.class);
 
     private final HtmlRepositoryConfig config;
@@ -41,14 +41,14 @@ public final class HtmlRepository {
     }
 
     @PostConstruct
-    private void loadHtm() throws Exception {
+    private void loadHtm() throws IOException {
         htmlDir = Paths.get(resourceLoader.getResource("html").getURI());
-        Map<LanguageCode, Path> htmlToLoad = config.getHtmlRepositoryType().htmlToLoad(resourceLoader, htmlDir);
-        htmlToLoad.entrySet().forEach(entry -> getHtml(entry.getKey(), entry.getValue().toString()));
+        Multimap<Locale, Path> htmlToLoad = config.getType().htmlToLoad(resourceLoader, htmlDir);
+        htmlToLoad.entries().forEach(entry -> getHtml(entry.getKey(), entry.getValue().toString()));
     }
 
-    @Cacheable(cacheNames = "html", key = "#language.toString().concat('\').concat(#htmlName)")
-    public String getHtml(LanguageCode language, String htmlName) {
+    @Cacheable(cacheNames = "html", key = "#language.toLanguageTag().concat('\').concat(#htmlName)")
+    public String getHtml(Locale language, String htmlName) {
         String html = readHtml(language, htmlName);
         html = compressHtml(htmlCompressor, html);
 
@@ -56,15 +56,14 @@ public final class HtmlRepository {
         return html;
     }
 
-    private String readHtml(LanguageCode language, String htmlName) {
-        Path htmlPath = Paths.get(htmlDir + "\\" + language + "\\" + htmlName);
+    private String readHtml(Locale language, String htmlName) {
+        Path htmlPath = htmlDir.resolve(language.toLanguageTag()).resolve(htmlName);
         if (!Files.exists(htmlPath)) {
             throw new IllegalArgumentException("Can't find html: " + htmlPath);
         }
         try {
             byte[] content = Files.readAllBytes(htmlPath);
-            String html = new String(content, UTF_8);
-            return html;
+            return new String(content, UTF_8);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
