@@ -73,7 +73,6 @@ public class FastBitSetIdPool implements IdPool {
         FastBitSetAllocator(final int bitSetSize) {
             this.bitSetSize = bitSetSize;
             bitSet = new FastBitSet();
-            bitSet.get(bitSetSize);
         }
 
         void markFree(final int index) {

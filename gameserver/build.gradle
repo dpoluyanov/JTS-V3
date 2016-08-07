@@ -82,6 +82,8 @@ dependencies {
     //todo not needed at compile time, should be used only for tests.
     compile("org.apache.activemq:artemis-jms-server:${artemisJmsServerVersion}")
 
+    compile 'com.neovisionaries:nv-i18n:1.21'
+
     runtime('org.hsqldb:hsqldb')
     runtime('mysql:mysql-connector-java')
 
@@ -113,7 +115,6 @@ generateGrammarSource {
 }
 
 generateGrammarSource.finalizedBy copyGeneratedParser
-
 
 applicationDefaultJvmArgs = ["-server"]
 

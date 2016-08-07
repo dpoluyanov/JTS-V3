@@ -21,9 +21,10 @@
       "description": "Description for gameserver.character.creation.disabled."
     },
     {
-      "name": "htm.repository.type",
-      "type": "ru.jts_dev.gameserver.parser.htm.HtmRepositoryType",
-      "description": "Description for htm.repository.type."
+      "name": "gameserver.html.repository.type",
+      "type": "ru.jts_dev.gameserver.parser.html.HtmlRepositoryType",
+      "defaultValue": "lazy",
+      "description": "Description for gameserver.html.repository.type."
     }
   ]
 }

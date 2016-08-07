@@ -1,20 +1,23 @@
-package ru.jts_dev.gameserver.parser.htm;
+package ru.jts_dev.gameserver.parser.html;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Java-man
  * @since 04.01.2016
  */
 @Configuration
-@ConfigurationProperties(prefix = "htm.repository")
-public class HtmRepositoryConfig {
-    private HtmRepositoryType type;
+@ConfigurationProperties(prefix = "gameserver.html.repository")
+public class HtmlRepositoryConfig {
+    @NotNull
+    private HtmlRepositoryType type;
 
-    public HtmRepositoryType getHtmRepositoryType() {
+    public HtmlRepositoryType getHtmlRepositoryType() {
         return type;
     }
 
