@@ -1,3 +1,4 @@
+rootProject.name
 include 'authserver'
 include 'gameserver'
 include 'common'

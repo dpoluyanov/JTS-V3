@@ -3,7 +3,7 @@
 
 Third version of JTS Project emulator
 
-
+**Attention**! This project licensed under GNU GPL License.
 
 **Developers:**
 * Java-Man

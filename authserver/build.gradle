@@ -17,6 +17,14 @@ jar {
     version = "${version}"
 }
 
+distributions {
+    main {
+        contents {
+            from("${rootDir.absolutePath}/LICENSE.txt")
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 }
